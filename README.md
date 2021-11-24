@@ -23,11 +23,12 @@ yarn build
 ```
 
 This command generates static content into the `build` directory and can be served using any static contents hosting service.
-NOTE: If any of the tables in the root directory have been changed then run the command
+
+NOTE: If any of the tables in the root directory have been changed then run the command below in order to update the tables on the website.
+
 ```console
 node tableConverter.js
 ```
-in order to update the tables on the website.
 
 ## Deployment
 
