@@ -1,0 +1,10 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " ethaddress",
+      "type": " _String_",
+      "description": " If burning for purpose of sending over SysEthereum bridge specify the destination Ethereum address where tokens should be sent to on Ethereum"
+    }
+  }
+]

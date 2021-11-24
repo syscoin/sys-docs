@@ -1,0 +1,27 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "type": " [  _AssetIDs_ ](types/#assetids)",
+      "description": " Object containing the base asset GUID and NFT ID"
+    },
+    "children": [
+      {
+        "key": "0-0",
+        "data": {
+          "name": " baseAssetID",
+          "type": " _String_",
+          "description": " Asset GUID of the base asset"
+        }
+      },
+      {
+        "key": "0-1",
+        "data": {
+          "name": " NFTID",
+          "type": " _String_",
+          "description": " NFT ID of the asset"
+        }
+      }
+    ]
+  }
+]

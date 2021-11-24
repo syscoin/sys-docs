@@ -1,0 +1,59 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " unknownKeyVals",
+      "type": " [  _UnknownKeyValue_ ](types/#unknownkeyvalue)",
+      "description": ""
+    },
+    "children": [
+      {
+        "key": "0-0",
+        "data": {
+          "name": " key",
+          "type": " _Buffer_",
+          "description": ""
+        }
+      },
+      {
+        "key": "0-1",
+        "data": {
+          "type": " value",
+          "description": " _Buffer_"
+        }
+      }
+    ]
+  },
+  {
+    "key": "1",
+    "data": {
+      "name": " witnessUtxo",
+      "type": " [  _WitnessUTXO_ ](types/#witnessutxo)",
+      "description": ""
+    },
+    "children": [
+      {
+        "key": "1-0",
+        "data": {
+          "name": " script",
+          "type": " _Buffer_",
+          "description": ""
+        }
+      },
+      {
+        "key": "1-1",
+        "data": {
+          "type": " value",
+          "description": " _BN_"
+        }
+      }
+    ]
+  },
+  {
+    "key": "2",
+    "data": {
+      "type": " finalScriptWitness",
+      "description": " _Buffer_"
+    }
+  }
+]

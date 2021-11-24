@@ -1,0 +1,28 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " backendURL",
+      "type": " _String_",
+      "description": " Fully qualified URL for blockbook",
+      "required": " yes"
+    }
+  },
+  {
+    "key": "1",
+    "data": {
+      "name": " blocks",
+      "type": " _Number_",
+      "description": " How many blocks to estimate fee for",
+      "required": " yes"
+    }
+  },
+  {
+    "key": "2",
+    "data": {
+      "name": " options",
+      "type": " ` Object`",
+      "description": " Optional queries based on  [  https://github.com/syscoin/blockbook/blob/master/docs/api.md#get-utxo ](https://github.com/syscoin/blockbook/blob/master/docs/api.md#get-utxo)"
+    }
+  }
+]

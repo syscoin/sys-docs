@@ -1,0 +1,18 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " value",
+      "type": " _BN_",
+      "description": " The amount of the asset to send"
+    }
+  },
+  {
+    "key": "1",
+    "data": {
+      "name": " address",
+      "type": " _String_",
+      "description": " Address to send the asset to"
+    }
+  }
+]

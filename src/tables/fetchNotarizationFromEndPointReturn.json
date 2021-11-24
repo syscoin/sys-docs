@@ -1,0 +1,9 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "type": " ` Object`",
+      "description": " JSON object in response, signature on success and error on denial of notarization"
+    }
+  }
+]

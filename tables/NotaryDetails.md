@@ -1,0 +1,5 @@
+|       Key        |   Type    |                         Description                          |
+| :--------------: | :-------: | :----------------------------------------------------------: |
+|     endpoint     | *String*  | Fully qualified URL of the notary endpoint. The endpoint will be sent a POST request with the transaction hex and some other details in a JSON object and requires a signature signing the transaction following notarization protocol |
+| instanttransfers | *Boolean* | Default is 0 (false). Instant transfers by blocking double-spends from inputs. Since notarization is happening via API the API can block any double-spend attempts thereby allowing for instant transactions |
+|    hdrequired    | *Boolean* | Default is 0 (false). If HD account [*xPub*](types/#xpub) and [HD path](https://learnmeabitcoin.com/technical/derivation-paths) information is required by the notary to verify change addresses belong to the sender account |

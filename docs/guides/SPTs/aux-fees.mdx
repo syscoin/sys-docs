@@ -1,0 +1,36 @@
+# Auxiliary Fees
+
+Auxiliary Fees lets you define a custom fee structure for your token. These transaction fees are calculated according to the specified structure and paid to the designated Syscoin address in the form of the transacted Syscoin Platform Token (SPT). Standard network fees paid in SYS still apply.
+
+## Understanding auxfee_details
+
+Example auxfee_details:
+
+```text
+'{"auxfee_address": "tsys1qgklj8wcyss87q2wgr84ypfj0fxtahe60788tad", "fee_struct": [[0,0.01],[10,0.004],[250,0.002],[2500,0.0007],[25000,0.00007],[250000,0.000007]]}'
+```
+
+**`auxfee_address`**: where transaction fees will be sent.
+**`fee_struct`**: the first integer represents a range boundary pertaining to amount. The second is the fee percentage multiplier for that range. Multiple ranges can be defined in order from least to greatest boundary integer.
+
+**Calculation** is cumulative across the amount boundaries.
+
+For example, the auxiliary fee for a transaction of 251 tokens with the above fee structure would be calculated as follows:
+
+```
+(10 * 0.01) + (240 * 0.004) + (1 * 0.002) = 1.062 total tokens
+```
+
+## Implementation
+
+The auxfee_details structure can be defined within the RPC parameters of `assetnew` and `assetupdate`.
+
+Auxfee_details defined in assetnew parameter:
+
+```text
+$syscoin-cli assetnew 100 "AUXF" "auxFee Test Token" "" 8 1000000 127 "" {} '{"auxfee_address": "tsys1qgklj8wcyss87q2wgr84ypfj0fxtahe60788tad", "fee_struct": [[0,0.01],[10,0.004],[250,0.002],[2500,0.0007],[25000,0.00007],[250000,0.000007]]}'
+```
+
+> ### 📘auxfee_details structure is stored in the `auxfee` field
+>
+> and corresponds to updatecapability_flags bitmask value 32

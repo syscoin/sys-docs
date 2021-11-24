@@ -1,0 +1,74 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "type": " [  _BIP32Node_ ](types/#bip32node)",
+      "description": " BIP32 root node representing the seed"
+    },
+    "children": [
+      {
+        "key": "0-0",
+        "data": {
+          "name": " \\_\\_D",
+          "type": " _Buffer_",
+          "description": ""
+        }
+      },
+      {
+        "key": "0-1",
+        "data": {
+          "name": " \\_\\_Q",
+          "type": " _Buffer_",
+          "description": ""
+        }
+      },
+      {
+        "key": "0-2",
+        "data": {
+          "name": " chainCode",
+          "type": " _Buffer_",
+          "description": ""
+        }
+      },
+      {
+        "key": "0-3",
+        "data": {
+          "name": " network",
+          "type": " [  Network ](types/#network)",
+          "description": ""
+        }
+      },
+      {
+        "key": "0-4",
+        "data": {
+          "name": " \\_\\_DEPTH",
+          "type": " _Number_",
+          "description": ""
+        }
+      },
+      {
+        "key": "0-5",
+        "data": {
+          "name": " \\_\\_INDEX",
+          "type": " _Number_",
+          "description": ""
+        }
+      },
+      {
+        "key": "0-6",
+        "data": {
+          "name": " \\_\\_PARENT\\_FINGERPRINT",
+          "type": " _Number_",
+          "description": ""
+        }
+      },
+      {
+        "key": "0-7",
+        "data": {
+          "type": " lowR",
+          "description": " _Boolean_"
+        }
+      }
+    ]
+  }
+]

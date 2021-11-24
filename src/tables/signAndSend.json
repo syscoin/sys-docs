@@ -1,0 +1,233 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " res",
+      "type": " [  _Res_ ](types/#res)",
+      "description": " The resulting object passed in which is assigned from syscointx.createTransaction() / syscointx.createAssetTransaction()",
+      "required": " yes"
+    },
+    "children": [
+      {
+        "key": "0-0",
+        "data": {
+          "name": " txVersion",
+          "type": " _Number_",
+          "description": " Transaction version number"
+        }
+      },
+      {
+        "key": "0-1",
+        "data": {
+          "name": " inputs",
+          "type": " [  _ResInput_ ](types/#resinput) _Array_",
+          "description": " Inputs for the transaction"
+        },
+        "children": [
+          {
+            "key": "0-1-0",
+            "data": {
+              "name": " type",
+              "type": " _String_",
+              "description": ""
+            }
+          },
+          {
+            "key": "0-1-1",
+            "data": {
+              "name": " address",
+              "type": " _String_",
+              "description": " Syscoin address funds are being sent from"
+            }
+          },
+          {
+            "key": "0-1-2",
+            "data": {
+              "name": " txId",
+              "type": " _String_",
+              "description": " Transaction ID"
+            }
+          },
+          {
+            "key": "0-1-3",
+            "data": {
+              "name": " path",
+              "type": " _String_",
+              "description": ""
+            }
+          },
+          {
+            "key": "0-1-4",
+            "data": {
+              "name": " vout",
+              "type": " _Number_",
+              "description": " Output number"
+            }
+          },
+          {
+            "key": "0-1-5",
+            "data": {
+              "name": " value",
+              "type": " _BN_",
+              "description": " Value of the transaction"
+            }
+          },
+          {
+            "key": "0-1-6",
+            "data": {
+              "name": " locktime",
+              "type": " _Number_",
+              "description": " Raw locktime. Non-0 value also locktime-activates inputs"
+            }
+          },
+          {
+            "key": "0-1-7",
+            "data": {
+              "name": " assetInfo",
+              "type": " [  _AssetInfo_ ](types/#assetinfo)",
+              "description": " Information of an asset to be sent in the transaction"
+            },
+            "children": [
+              {
+                "key": "0-2-3-0",
+                "data": {
+                  "name": " assetGuid",
+                  "type": " _String_",
+                  "description": " Unique, numeric identifier of the token generated on creation"
+                }
+              },
+              {
+                "key": "0-2-3-1",
+                "data": {
+                  "name": " value",
+                  "type": " _BN_  /  _String_",
+                  "description": " Value transferred. Type will be  _BN_  if within a  [  _Res_ ](types/#res)  object,  _String_  if within a  [  _UTXO_ ](types/#utxo)  object"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "0-2",
+        "data": {
+          "name": " outputs",
+          "type": " [  _Output_ ](types/#output) _Array_",
+          "description": " Outputs for the transaction"
+        },
+        "children": [
+          {
+            "key": "0-2-0",
+            "data": {
+              "name": " address",
+              "type": " _String_",
+              "description": " Address the funds will be sent to"
+            }
+          },
+          {
+            "key": "0-2-1",
+            "data": {
+              "name": " value",
+              "type": " _BN_",
+              "description": " Value of funds to send"
+            }
+          },
+          {
+            "key": "0-2-2",
+            "data": {
+              "name": " changeIndex",
+              "type": " _Number_",
+              "description": ""
+            }
+          },
+          {
+            "key": "0-2-3",
+            "data": {
+              "name": " assetInfo",
+              "type": " [  _AssetInfo_ ](types/#assetinfo)",
+              "description": " Information of an asset sent in the transaction"
+            },
+            "children": [
+              {
+                "key": "0-2-3-0",
+                "data": {
+                  "name": " assetGuid",
+                  "type": " _String_",
+                  "description": " Unique, numeric identifier of the token generated on creation"
+                }
+              },
+              {
+                "key": "0-2-3-1",
+                "data": {
+                  "name": " value",
+                  "type": " _BN_  /  _String_",
+                  "description": " Value transferred. Type will be  _BN_  if within a  [  _Res_ ](types/#res)  object,  _String_  if within a  [  _UTXO_ ](types/#utxo)  object"
+                }
+              }
+            ]
+          },
+          {
+            "key": "0-2-4",
+            "data": {
+              "type": " script",
+              "description": " _Buffer_"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "key": "1",
+    "data": {
+      "name": " notaryAssets",
+      "type": " [  _NotaryDetails_ ](types/#notarydetails)",
+      "description": " Asset objects that are required for notarization, fetch signatures via  [  fetchNotarizationFromEndPoint() ](utils/#fetchnotarizationfromendpoint)",
+      "required": " no"
+    },
+    "children": [
+      {
+        "key": "1-0",
+        "data": {
+          "name": " endpoint",
+          "type": " _String_",
+          "description": " Fully qualified URL of the notary endpoint. The endpoint will be sent a POST request with the transaction hex and some other details in a JSON object and requires a signature signing the transaction following notarization protocol"
+        }
+      },
+      {
+        "key": "1-1",
+        "data": {
+          "name": " instanttransfers",
+          "type": " _Boolean_",
+          "description": " Default is 0 (false). Instant transfers by blocking double-spends from inputs. Since notarization is happening via API the API can block any double-spend attempts thereby allowing for instant transactions"
+        }
+      },
+      {
+        "key": "1-2",
+        "data": {
+          "name": " hdrequired",
+          "type": " _Boolean_",
+          "description": " Default is 0 (false). If HD account  [  _xPub_ ](types/#xpub)  and  [  HD path ](https://learnmeabitcoin.com/technical/derivation-paths)  information is required by the notary to verify change addresses belong to the sender account"
+        }
+      }
+    ]
+  },
+  {
+    "key": "2",
+    "data": {
+      "name": " Signer",
+      "type": " [  _Signer_ ](utils/#Signer)",
+      "description": " Signer used to sign transaction",
+      "required": " no"
+    }
+  },
+  {
+    "key": "3",
+    "data": {
+      "name": " pathIn",
+      "type": " _String_",
+      "description": " Custom HD BIP32 path useful if signing from a specific address like a multisig",
+      "required": " no"
+    }
+  }
+]

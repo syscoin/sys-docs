@@ -1,0 +1,20 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " addressIndex",
+      "type": " _Number_",
+      "description": " [  HD path ](https://learnmeabitcoin.com/technical/derivation-paths)  address index",
+      "required": " yes"
+    }
+  },
+  {
+    "key": "1",
+    "data": {
+      "name": " isChange",
+      "type": " _Boolean_",
+      "description": " [  HD path ](https://learnmeabitcoin.com/technical/derivation-paths)  change marker",
+      "required": " yes"
+    }
+  }
+]

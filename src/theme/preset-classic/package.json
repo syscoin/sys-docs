@@ -1,0 +1,65 @@
+{
+  "_from": "@docusaurus/preset-classic@2.0.0-beta.0",
+  "_id": "@docusaurus/preset-classic@2.0.0-beta.0",
+  "_inBundle": false,
+  "_integrity": "sha512-cFpR0UaAeUt5qVx1bpidhlar6tiRNITIQlxP4bOVsjbxVTZhZ/cNuIz7C+2zFPCuKIflGXdTIQOrucPmd7z51Q==",
+  "_location": "/@docusaurus/preset-classic",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "@docusaurus/preset-classic@2.0.0-beta.0",
+    "name": "@docusaurus/preset-classic",
+    "escapedName": "@docusaurus%2fpreset-classic",
+    "scope": "@docusaurus",
+    "rawSpec": "2.0.0-beta.0",
+    "saveSpec": null,
+    "fetchSpec": "2.0.0-beta.0"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/@docusaurus/preset-classic/-/preset-classic-2.0.0-beta.0.tgz",
+  "_shasum": "79eb4366e6b5eb7061370019127e40172432d770",
+  "_spec": "@docusaurus/preset-classic@2.0.0-beta.0",
+  "_where": "/home/pleo/Documents/Git_Repos/syscoin-docs/sys-docs",
+  "bugs": {
+    "url": "https://github.com/facebook/docusaurus/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "@docusaurus/core": "2.0.0-beta.0",
+    "@docusaurus/plugin-content-blog": "2.0.0-beta.0",
+    "@docusaurus/plugin-content-docs": "2.0.0-beta.0",
+    "@docusaurus/plugin-content-pages": "2.0.0-beta.0",
+    "@docusaurus/plugin-debug": "2.0.0-beta.0",
+    "@docusaurus/plugin-google-analytics": "2.0.0-beta.0",
+    "@docusaurus/plugin-google-gtag": "2.0.0-beta.0",
+    "@docusaurus/plugin-sitemap": "2.0.0-beta.0",
+    "@docusaurus/theme-classic": "2.0.0-beta.0",
+    "@docusaurus/theme-search-algolia": "2.0.0-beta.0"
+  },
+  "deprecated": false,
+  "description": "Classic preset for Docusaurus.",
+  "engines": {
+    "node": ">=12.13.0"
+  },
+  "gitHead": "b53e8f4efdd72d9a44c62c5413802c66b5e30d16",
+  "homepage": "https://github.com/facebook/docusaurus#readme",
+  "license": "MIT",
+  "main": "src/index.js",
+  "name": "@docusaurus/preset-classic",
+  "peerDependencies": {
+    "react": "^16.8.4 || ^17.0.0",
+    "react-dom": "^16.8.4 || ^17.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-preset-classic"
+  },
+  "version": "2.0.0-beta.0"
+}

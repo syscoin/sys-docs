@@ -1,0 +1,18 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " baseAssetID",
+      "type": " _String_",
+      "description": " Asset GUID of the base asset"
+    }
+  },
+  {
+    "key": "1",
+    "data": {
+      "name": " NFTID",
+      "type": " _String_",
+      "description": " NFT ID of the asset"
+    }
+  }
+]

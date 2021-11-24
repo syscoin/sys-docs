@@ -1,0 +1,11 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " assetInfo",
+      "type": " ` Object`",
+      "description": " Object containing infuraurl and ethtxid fields populated",
+      "required": " yes"
+    }
+  }
+]

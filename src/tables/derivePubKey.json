@@ -1,0 +1,11 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " keypath",
+      "type": " _String_",
+      "description": " BIP32  [  HD path ](https://learnmeabitcoin.com/technical/derivation-paths)  of the key desired based on internal seed and network",
+      "required": " yes"
+    }
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " script",
+      "type": " _Number_",
+      "description": " OP\\_RETURN script output",
+      "required": " yes"
+    }
+  },
+  {
+    "key": "1",
+    "data": {
+      "name": " memoHeader",
+      "type": " _String_",
+      "description": " Memo prefix, application specific",
+      "required": " yes"
+    }
+  }
+]

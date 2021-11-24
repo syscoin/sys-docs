@@ -1,0 +1,59 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " address",
+      "type": " _String_",
+      "description": " Address the funds will be sent to"
+    }
+  },
+  {
+    "key": "1",
+    "data": {
+      "name": " value",
+      "type": " _BN_",
+      "description": " Value of funds to send"
+    }
+  },
+  {
+    "key": "2",
+    "data": {
+      "name": " changeIndex",
+      "type": " _Number_",
+      "description": ""
+    }
+  },
+  {
+    "key": "3",
+    "data": {
+      "name": " assetInfo",
+      "type": " [  _AssetInfo_ ](types/#assetinfo)",
+      "description": " Information of an asset sent in the transaction"
+    },
+    "children": [
+      {
+        "key": "3-0",
+        "data": {
+          "name": " assetGuid",
+          "type": " _String_",
+          "description": " Unique, numeric identifier of the token generated on creation"
+        }
+      },
+      {
+        "key": "3-1",
+        "data": {
+          "name": " value",
+          "type": " _BN_  /  _String_",
+          "description": " Value transferred. Type will be  _BN_  if within a  [  _Res_ ](types/#res)  object,  _String_  if within a  [  _UTXO_ ](types/#utxo)  object"
+        }
+      }
+    ]
+  },
+  {
+    "key": "4",
+    "data": {
+      "type": " script",
+      "description": " _Buffer_"
+    }
+  }
+]

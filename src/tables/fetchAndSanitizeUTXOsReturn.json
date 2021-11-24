@@ -1,0 +1,152 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "type": " [  _SanitizedUTXOs_ ](types/#sanitizedutxos)",
+      "description": " Sanitized UTXO object array in JSON."
+    },
+    "children": [
+      {
+        "key": "0-0",
+        "data": {
+          "name": " utxos",
+          "type": " [  _SanitizedUTXO_ ](types/#sanitizedutxo) _Array_",
+          "description": ""
+        },
+        "children": [
+          {
+            "key": "0-0-0",
+            "data": {
+              "name": " type",
+              "type": " _String_",
+              "description": ""
+            }
+          },
+          {
+            "key": "0-0-1",
+            "data": {
+              "name": " address",
+              "type": " _String_",
+              "description": ""
+            }
+          },
+          {
+            "key": "0-0-2",
+            "data": {
+              "name": " txId",
+              "type": " _String_",
+              "description": ""
+            }
+          },
+          {
+            "key": "0-0-3",
+            "data": {
+              "name": " path",
+              "type": " _String_",
+              "description": ""
+            }
+          },
+          {
+            "key": "0-0-4",
+            "data": {
+              "name": " vout",
+              "type": " _Number_",
+              "description": ""
+            }
+          },
+          {
+            "key": "0-0-5",
+            "data": {
+              "name": " value",
+              "type": " _BN_",
+              "description": ""
+            }
+          },
+          {
+            "key": "0-0-6",
+            "data": {
+              "name": " locktime",
+              "type": "",
+              "description": ""
+            }
+          },
+          {
+            "key": "0-0-7",
+            "data": {
+              "type": " assetInfo",
+              "description": " [  _AssetInfo_ ](types/#assetinfo)"
+            },
+            "children": [
+              {
+                "key": "0-0-7-0",
+                "data": {
+                  "name": " assetGuid",
+                  "type": " _String_",
+                  "description": " Unique, numeric identifier of the token generated on creation"
+                }
+              },
+              {
+                "key": "0-0-7-1",
+                "data": {
+                  "name": " value",
+                  "type": " _BN_  /  _String_",
+                  "description": " Value transferred. Type will be  _BN_  if within a  [  _Res_ ](types/#res)  object,  _String_  if within a  [  _UTXO_ ](types/#utxo)  object"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "0-1",
+        "data": {
+          "name": " assets",
+          "type": " [  _SanitizedAssetDetails_ ](types/#sanitizedassetdetails) _Map_",
+          "description": " Mapped from asset GUIDs to  [  _SanitizedAssetDetails_ ](types/#sanitizedassetdetails)  objects."
+        },
+        "children": [
+          {
+            "key": "0-1-0",
+            "data": {
+              "name": " contract",
+              "type": " _Buffer_",
+              "description": " Hex buffer with the ERC20 address of the contract connected to this SPT for use in the SysEthereum bridge"
+            }
+          },
+          {
+            "key": "0-1-1",
+            "data": {
+              "name": " pubdata",
+              "type": " _Buffer_",
+              "description": " Hex buffer with the public data information of the token"
+            }
+          },
+          {
+            "key": "0-1-2",
+            "data": {
+              "name": " maxsupply",
+              "type": " _BN_",
+              "description": " Maximum supply in sats"
+            }
+          },
+          {
+            "key": "0-1-3",
+            "data": {
+              "name": " precision",
+              "type": " _Number_",
+              "description": " Number of digits of precision for the token"
+            }
+          },
+          {
+            "key": "0-1-4",
+            "data": {
+              "name": " updatecapabilityflags",
+              "type": " _Number_",
+              "description": " Update capabilities on this asset"
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

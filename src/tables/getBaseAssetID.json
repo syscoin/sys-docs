@@ -1,0 +1,11 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " assetGuid",
+      "type": " _Number_",
+      "description": " GUID of the child token/asset",
+      "required": " yes"
+    }
+  }
+]

@@ -1,0 +1,311 @@
+---
+sidebar_position: 3
+---
+
+import ShowInfoComponent from '../../../src/components/ShowInfoComponent/ShowInfoComponent';
+import * as tables from "../../../src/tables/tablesIndex";
+import { PrimeIcons } from 'primereact/api';
+
+
+# Utils
+
+
+These are the utility functions found in utils.js.
+
+
+
+### buildEthProof
+
+##### *buildEthProof( assetInfo )*
+
+Build Ethereum SPV proof using eth-proof library.
+
+<ShowInfoComponent paramTable={tables.buildEthProof} returnTable={tables.buildEthProofReturn} anchor={"#buildethproof"}/>
+
+
+---
+
+
+### createAssetID
+
+##### *createAssetID( NFTID, assetGuid )*
+
+Returns the GUID for a child asset with the given NFT ID, which would be issued from the specified base asset.
+
+<ShowInfoComponent paramTable={tables.createAssetID} returnTable={tables.createAssetIDReturn} anchor={"#createassetid"}/>
+
+
+---
+
+
+### fetchBackendAccount
+
+##### *fetchBackendAccount( backendURL, addressOrXpub, options, xpub, signer )*
+
+Fetch address or [xPub](types/#xpub) information including transactions and balance information (based on options) from backend Blockbook provider.
+
+<ShowInfoComponent paramTable={tables.fetchBackendAccount} returnTable={tables.fetchBackendAccountReturn} anchor={"#fetchbackendaccount"}/>
+
+
+---
+
+### fetchBackendAsset
+
+##### *fetchBackendAsset( backendURL, assetGuid )*
+
+Fetches asset information from the backend Blockbook provider for a specific token/asset, given by the GUID.
+
+<ShowInfoComponent paramTable={tables.fetchBackendAsset} returnTable={tables.fetchBackendAssetReturn} anchor={"#fetchbackendasset"}/>
+
+
+---
+
+
+### fetchBackendBlock
+
+##### *fetchBackendBlock( backendURL, blockhash )*
+
+Fetches the information for a block from the backend, specified by the block hash.
+
+<ShowInfoComponent paramTable={tables.fetchBackendBlock} returnTable={tables.fetchBackendBlockReturn} anchor={"#fetchbackendblock"}/>
+
+
+---
+
+
+### fetchBackendListAssets
+
+##### *fetchBackendListAssets( backendUrl, filter )*
+
+Fetches a list of assets from backend Blockbook provider via a filter
+
+<ShowInfoComponent paramTable={tables.fetchBackendListAssets} returnTable={tables.fetchBackendListAssetsReturn} anchor={"#fetchbackendlistassets"}/>
+
+
+---
+
+
+### fetchBackendRawTx
+
+##### *fetchBackendRawTx( backendURL, txid )*
+
+Fetches the information for a transaction from the backend, specified by the transaction ID (txid).
+
+<ShowInfoComponent paramTable={tables.fetchBackendRawTx} returnTable={tables.fetchBackendRawTxReturn} anchor={"#fetchbackendrawtx"}/>
+
+
+---
+
+### fetchBackendSPVProof
+
+##### *fetchBackendSPVProof( backendURL, txid )*
+
+Fetches a SPV Proof from the backend Blockbook provider. To be used to create a proof for the NEVM bridge.
+
+<ShowInfoComponent paramTable={tables.fetchBackendSPVProof} returnTable={tables.fetchBackendSPVProofReturn} anchor={"#fetchbackendspvproof"}/>
+
+
+---
+
+
+### fetchBackendUTXOS
+
+##### *fetchBackendUTXOS( backendURL, addressOrXpub, options )*
+
+Fetch the UTXOs for an address or XPUB from the backend Blockbook provider.
+
+<ShowInfoComponent paramTable={tables.fetchBackendUTXOS} returnTable={tables.fetchBackendUTXOSReturn} anchor={"#fetchbackendutxos"}/>
+
+
+---
+
+
+### fetchEstimateFee
+
+##### *fetchEstimateFee( backendURL, blocks, options )*
+
+Get estimated fee from backend.
+
+<ShowInfoComponent paramTable={tables.fetchEstimateFee} returnTable={tables.fetchEstimateFeeReturn} anchor={"#fetchestimatefee"}/>
+
+---
+
+### fetchNotarizationFromEndPoint
+
+##### *fetchNotarizationFromEndPoint( endPoint, txHex )*
+
+Fetch notarization signature via axois from an endPoint URL, see spec for more info: https://github.com/syscoin/sips/blob/master/sip-0002.mediawiki
+
+<ShowInfoComponent paramTable={tables.fetchNotarizationFromEndPoint} returnTable={tables.fetchNotarizationFromEndPointReturn} anchor={"#fetchnotarizationfromendpoint"}/>
+
+
+---
+
+
+### fetchProviderInfo
+
+##### *fetchProviderInfo( backendURL )*
+
+Fetches the provider info including blockbook and backend data.
+
+<ShowInfoComponent paramTable={tables.fetchProviderInfo} returnTable={tables.fetchProviderInfoReturn} anchor={"#fetchproviderinfo"}/>
+
+
+---
+
+### getAllocationsFromTx
+
+##### *getAllocationsFromTx( tx )*
+
+Get allocation information for an asset transaction.
+
+<ShowInfoComponent paramTable={tables.getAllocationsFromTx} returnTable={tables.getAllocationsFromTxReturn} anchor={"#getallocationsfromtx"}/>
+
+
+---
+
+
+### getAssetsRequiringNotarization
+
+##### *getAssetsRequiringNotarization( res, assets )*
+
+Get assets from the Result object assigned from syscointx.createTransaction() / syscointx.createAssetTransaction() that require notarization.
+
+<ShowInfoComponent paramTable={tables.getAssetsRequiringNotarization} returnTable={tables.getAssetsRequiringNotarizationReturn} anchor={"#getassetsrequiringnotarization"}/>
+
+
+---
+
+### getAssetIDs
+
+##### *getAssetIDs( assetGuid )*
+
+Given a certain child asset's GUID this will return the base asset's GUID as well as the child asset's NFT ID.
+
+<ShowInfoComponent paramTable={tables.getAssetIDs} returnTable={tables.getAssetIDsReturn} anchor={"#getassetids"}/>
+
+
+---
+
+
+### getBaseAssetID
+
+##### *getBaseAssetID( assetGuid )*
+
+Given a certain child asset's GUID this will return the base asset's GUID, from which the child was issued with a NFT ID.
+
+<ShowInfoComponent paramTable={tables.getBaseAssetID} returnTable={tables.getBaseAssetIDReturn} anchor={"#getbaseassetid"}/>
+
+
+---
+
+
+### getMemoFromOpReturn
+
+##### *getMemoFromOpReturn( outputs, memoHeader )*
+
+Returns the memo from an array of outputs by finding the OP_RETURN output and extracting the memo from the script, returns null if not found.
+
+<ShowInfoComponent paramTable={tables.getMemoFromOpReturn} returnTable={tables.getMemoFromOpReturnReturn} anchor={"#getmemofromopreturn"}/>
+
+
+---
+
+### getMemoFromScript
+
+##### *getMemoFromScript( script, memoHeader )*
+
+Get the memo from a script.
+
+<ShowInfoComponent paramTable={tables.getMemoFromScript} returnTable={tables.getMemoFromScriptReturn} anchor={"#getmemofromscript"}/>
+
+
+---
+
+
+### getNotarizationSignatures
+
+#####	*getNotarizationSignatures( notaryAssets, txHex )*
+
+Get notarization signatures from a notary endpoint defined in the asset object. [See spec for more info.](https://github.com/syscoin/sips/blob/master/sip-0002.mediawiki)
+
+<ShowInfoComponent paramTable={tables.getNotarizationSignatures} returnTable={tables.getNotarizationSignaturesReturn} anchor={"#getnotarizationsignatures"}/>
+
+---
+
+
+### HDSigner
+
+##### *HDSigner( mnemonic, password, isTestnet, networks, SLIP44, pubTypes )*
+
+Manage an HD wallet and accounts, connects to SyscoinJS object.
+
+<ShowInfoComponent paramTable={tables.HDSigner} anchor={"#hdsigner"}/>
+
+
+---
+
+### notarizePSBT
+
+##### *notarizePSBT( psbt, notaryAssets, rawTx )*
+
+Notarize Result object from syscointx.createTransaction() / syscointx.createAssetTransaction() if required by the assets in the inputs of the transaction
+
+<ShowInfoComponent paramTable={tables.notarizePSBT} returnTable={tables.notarizePSBTReturn} anchor={"#notarizepsbt"}/>
+
+
+---
+
+
+### sanitizeBlockbookUTXOs
+
+##### *sanitizeBlockbookUTXOs( sysFromXpubOrAddress, utxoObj, network, txOpts, assetMap, excludeZeroConf )*
+
+Sanitize back-end provider UTXO objects to be useful for this library.
+
+<ShowInfoComponent paramTable={tables.sanitizeBlockbookUTXOs} returnTable={tables.sanitizeBlockbookUTXOsReturn} anchor={"#sanitizeblockbookutxos"}/>
+
+
+---
+
+
+### sendRawTransaction
+
+##### *sendRawTransaction( backendURL, txHex, signer )*
+
+Sends a raw transaction to the backend Blockbook provider to send to the network.
+
+<ShowInfoComponent paramTable={tables.sendRawTransaction} returnTable={tables.sendRawTransactionReturn} anchor={"#sendrawtransaction"}/>
+
+
+---
+
+
+### setTransactionMemo
+
+##### *setTransactionMemo( rawHex, memoHeader, buffMemo )*
+
+Sets a transaction's memo, or returns null if not found.
+
+<ShowInfoComponent paramTable={tables.setTransactionMemo} returnTable={tables.setTransactionMemoReturn} anchor={"#settransactionmemo"}/>
+
+
+---
+
+### signWithWIF
+
+##### *signWithWIF( psbt, wif, network )*
+
+Signs a PSBT/Result object with a WIF
+
+<ShowInfoComponent paramTable={tables.signWithWIF} returnTable={tables.signWithWIFReturn} anchor={"#signwithwif"}/>
+
+---
+
+### TrezorSigner
+
+##### *TrezorSigner( password, isTestnet, networks, SLIP44, pubTypes, connectSrc, disableLazyLoad )*
+
+Manage an HD wallet and accounts using a Trezor hardware wallet.
+
+<ShowInfoComponent paramTable={tables.TrezorSigner} anchor={"#trezorsigner"}/>

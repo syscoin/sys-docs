@@ -1,0 +1,83 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " type",
+      "type": " _String_",
+      "description": ""
+    }
+  },
+  {
+    "key": "1",
+    "data": {
+      "name": " address",
+      "type": " _String_",
+      "description": ""
+    }
+  },
+  {
+    "key": "2",
+    "data": {
+      "name": " txId",
+      "type": " _String_",
+      "description": ""
+    }
+  },
+  {
+    "key": "3",
+    "data": {
+      "name": " path",
+      "type": " _String_",
+      "description": ""
+    }
+  },
+  {
+    "key": "4",
+    "data": {
+      "name": " vout",
+      "type": " _Number_",
+      "description": ""
+    }
+  },
+  {
+    "key": "5",
+    "data": {
+      "name": " value",
+      "type": " _BN_",
+      "description": ""
+    }
+  },
+  {
+    "key": "6",
+    "data": {
+      "name": " locktime",
+      "type": "",
+      "description": ""
+    }
+  },
+  {
+    "key": "7",
+    "data": {
+      "type": " assetInfo",
+      "description": " [  _AssetInfo_ ](types/#assetinfo)"
+    },
+    "children": [
+      {
+        "key": "7-0",
+        "data": {
+          "name": " assetGuid",
+          "type": " _String_",
+          "description": " Unique, numeric identifier of the token generated on creation"
+        }
+      },
+      {
+        "key": "7-1",
+        "data": {
+          "name": " value",
+          "type": " _BN_  /  _String_",
+          "description": " Value transferred. Type will be  _BN_  if within a  [  _Res_ ](types/#res)  object,  _String_  if within a  [  _UTXO_ ](types/#utxo)  object"
+        }
+      }
+    ]
+  }
+]

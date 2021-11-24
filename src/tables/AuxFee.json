@@ -1,0 +1,18 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " bound",
+      "type": " _BN_",
+      "description": " Lower bound from which the given auxiliary fee percentage begins"
+    }
+  },
+  {
+    "key": "1",
+    "data": {
+      "name": " percent",
+      "type": " _Number_",
+      "description": " Percentage fee that must be paid when a transaction&#39;s value is above the given bound (percentages are cumulative)"
+    }
+  }
+]

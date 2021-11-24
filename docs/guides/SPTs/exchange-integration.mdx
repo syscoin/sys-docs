@@ -1,0 +1,204 @@
+# Exchange Integration
+
+
+
+**This guide is a primer to help exchanges integrate Syscoin Platform Tokens (SPT's).**
+
+The Syscoin platform provides a UTXO-based token issuance system embedded in the Syscoin blockchain. Transactions of SPT's consume network fees paid in SYS and can provide token recipients an accompanying default "pass-forward" amount of SYS dust to enable them to transact the SPT without having to acquire or own SYS beforehand.
+
+An SPT has several noteworthy properties. Most important is the `asset_guid`, the deterministically-assigned unique identifier of the token on the Syscoin blockchain. Similar to Ethereum, anyone can create a token and make its symbol "AGX" but there can only ever be one official AGX token with the `asset_guid` of 367794646. Several popular SPT's and their associated identifiers can be found in the table below.
+
+| SPT Symbol | SPT Description                     | SPT Asset Guid | Website |
+| :--------- | :---------------------------------- | :------------- | :------ |
+| AGX        | AGX Silver Token                    | 367794646      |         |
+| AUX        | Official Interfix Gold backed Token | 1358717298     |         |
+| BTZC       | BeatzCoin SPT                       | 315501466      |         |
+
+There are two paths for integrating SPT assets.
+
+- Interact with a syscoin daemon (syscoind) instance directly via RPC (you can optionally use [syscoin-js](https://github.com/syscoin/syscoin-js) for this)
+- Interact with Syscoin via a Web 3.0 approach by using [syscoinjs-lib](https://github.com/syscoin/syscoinjs-lib) which interacts with a running [Syscoin Blockbook](https://github.com/syscoin/blockbook) instance or a gateway of load-balanced Blockbook instances.
+
+## Set up for Interacting with Syscoin Directly via RPC
+
+This walk-through assumes you are using the OS console.
+
+1. Ensure the following line is in your syscoin.conf (default path `~/.syscoin/syscoin.conf`)
+
+```text
+assetindex=1
+```
+
+1. Launch syscoind
+
+> ### 📘Reindexing to build local asset index
+>
+> If you previously launched syscoind without `assetindex=1` in syscoin.conf, use -reindex, e.g. `syscoind -reindex`
+
+```text
+$ syscoind
+```
+
+1. Create a wallet
+
+> ### 📘Note
+>
+> We strongly suggest creating two separate wallets, one strictly for SYS, and the other for SPT's with a smaller amount of SYS for transaction fees. This eliminates confusion and headaches related to coin control with SPT's.
+
+```text
+$ syscoin-cli createwallet "walletname"
+```
+
+From here on, all syscoin-cli calls will need to add the `-rpcwallet "walletname"` argument.
+If using http-rpc, the https url should be in the form of `http://[ip]:[port]/wallet/[walletname]`
+
+You can also launch syscoind in a way that connects with a specific wallet by using the `-wallet` argument with the path to the directory containing the wallet.dat file.
+
+## Commonly Used RPC Functions for Exchange Integration
+
+For RPC documentation, please see https://syscoincore.org/en/doc/4.2.0/
+
+You can also use use `help <command>` for a full description of the RPC and its options and arguments
+
+| Function                                           | SYS                                 | SPT                                      |
+| :------------------------------------------------- | :---------------------------------- | :--------------------------------------- |
+| Query address balances                             | `addressbalance`                    | `assetallocationbalance`                 |
+| Obtain the block height or other chain status info | `getblockchaininfo`                 | `getblockchaininfo`                      |
+| Obtain wallet transaction list                     | `listtransactions` or `listunspent` | `listtransactions` or `listunspentasset` |
+| Get transaction details                            | `gettransaction`                    | `gettransaction`                         |
+| Asset transfer                                     | `sendtoaddress`                     | `assetallocationsend`                    |
+| Asset transfer (batch)                             | `sendmany`                          | `assetallocationsendmany`                |
+
+**Query asset balances**
+`assetallocationbalance <assetGUID> "[\"<address>\"]" <minimum#ofConfirmations (optional)>`
+
+You can query the sum balance of multiple addresses by listing more than one address, e.g.:
+`assetallocationbalance <assetGUID> "[\"<address>\",\"<address>\"]" <minimum#ofConfirmations (optional)>`
+
+Output:
+"amount": SYS gas balance supplied for this asset
+"asset_amount": SPT balance
+
+```text
+$ syscoin-cli assetallocationbalance 530240372620954 "[\"tsys1qedy7ukgnj9e96axgarw79e2au98ff9g4ffh829\"]" 10
+
+{
+  "amount": 0.00001960,
+  "asset_amount": 3.55000000
+}
+```
+
+**Obtain the blockheight or other chain status info**
+
+```text
+$ syscoin-cli getblockchaininfo
+
+{
+  "chain": "test",
+  "blocks": 575809,
+  "headers": 575809,
+  "bestblockhash": "0000006727f5114eee02624b08d3f1d0f62ff7850bf85c612400ce668b174908",
+  "difficulty": 0.006962848657727248,
+  "mediantime": 1616709431,
+  "verificationprogress": 0.9999993714602142,
+  "initialblockdownload": false,
+  "chainwork": "0000000000000000000000000000000000000000000000000000064f2f44f6c8",
+  "size_on_disk": 341575106,
+  "pruned": false,
+  "geth_sync_status": "waiting to sync...",
+  "geth_total_blocks": 0,
+  "geth_current_block": 0,
+  "softforks": {
+    "bip34": {
+      "type": "buried",
+      "active": true,
+      "height": 1
+    },
+    "bip66": {
+      "type": "buried",
+      "active": true,
+      "height": 1
+    },
+    "bip65": {
+      "type": "buried",
+      "active": true,
+      "height": 1
+    },
+    "csv": {
+      "type": "buried",
+      "active": true,
+      "height": 1
+    },
+    "segwit": {
+      "type": "buried",
+      "active": true,
+      "height": 0
+    },
+    "testdummy": {
+      "type": "bip9",
+      "bip9": {
+        "status": "active",
+        "start_time": 0,
+        "timeout": 999999999999,
+        "since": 550368
+      },
+      "height": 550368,
+      "active": true
+    },
+    "taproot": {
+      "type": "bip9",
+      "bip9": {
+        "status": "active",
+        "start_time": -1,
+        "timeout": 9223372036854775807,
+        "since": 0
+      },
+      "height": 0,
+      "active": true
+    }
+  },
+  "warnings": ""
+}
+```
+
+**Obtain wallet transaction list for assets**
+`listtransactions` is general purpose. It covers all transaction types and its output is verbose.
+`listunspentasset <assetGuid> <minimum#ofConfirmations (optional)>` is more specific.
+
+```text
+$ syscoin-cli listunspentasset 530240372620954 10
+[
+  {
+    "txid": "ac74df7b065bf501db991153920db3462780c8d238ef6fc5562ee7e4b2db565d",
+    "vout": 0,
+    "address": "tsys1qqzrxzg8cmyrl8xss353zkvty5qwlfga4r9tq4r",
+    "label": "Another address",
+    "scriptPubKey": "001400866120f8d907f39a108d222b3164a01df4a3b5",
+    "amount": 0.00500000,
+    "asset_guid": "530240372620954",
+    "asset_amount": 0.00000200,
+    "confirmations": 9771,
+    "spendable": true,
+    "solvable": true,
+    "desc": "wpkh([1712892e/0'/0'/1']02aec158d644eb2744479c7a0410e30b91d6278a1091ff7a4cd7caf6c132b1b820)#u0azeyff",
+    "safe": true
+  }
+]
+```
+
+**Get transaction details**
+
+```text
+$ syscoin-cli gettransaction fa4ee19861d5f9c0aa46d20f332458e559921255cf98c0873afc2462849588ba
+```
+
+## Setup for using Blockbook API and syscoinjs-lib
+
+Syscoin Blockbook uses its own syscoind instance as the backend, and indexes the blockchain data and tracks XPUB-based account balances to serve the API.
+
+Please follow the readme in https://www.github.com/syscoin/blockbook if you want to implement your own Blockbook server instance.
+syscoinjs-lib is used to communicate with blockbook server and the documentation is located at https://www.github.com/syscoin/syscoinjs-lib
+
+Examples for using syscoinjs-lib are located at https://www.github.com/syscoin/syscoinjs-lib-examples
+
+A public Blockbook server instance for Syscoin is located at [https://sys1.bcfn.ca](https://sys1.bcfn.ca/)

@@ -1,0 +1,76 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " assetGuid",
+      "type": " _String_",
+      "description": " Unique, numeric identifier of the token generated on creation"
+    }
+  },
+  {
+    "key": "1",
+    "data": {
+      "name": " contract",
+      "type": " _String_",
+      "description": " ERC20 address of the contract connected to this SPT for use in the SysEthereum bridge"
+    }
+  },
+  {
+    "key": "2",
+    "data": {
+      "name": " symbol",
+      "type": " _String_",
+      "description": " Token symbol (in base64)"
+    }
+  },
+  {
+    "key": "3",
+    "data": {
+      "name": " pubData",
+      "type": " [  _AssetPublicData_ ](types/#publicdata)",
+      "description": " Public data information of the token"
+    },
+    "children": [
+      {
+        "key": "3-0",
+        "data": {
+          "name": " desc",
+          "type": " _String_",
+          "description": " Base64 encoded string describing the token"
+        }
+      }
+    ]
+  },
+  {
+    "key": "4",
+    "data": {
+      "name": " totalSupply",
+      "type": " _String_",
+      "description": " Total current issued supply"
+    }
+  },
+  {
+    "key": "5",
+    "data": {
+      "name": " maxSupply",
+      "type": " _String_",
+      "description": " Maximum supply in sats"
+    }
+  },
+  {
+    "key": "6",
+    "data": {
+      "name": " decimals",
+      "type": " _Number_",
+      "description": " Number of digits of precision for the token"
+    }
+  },
+  {
+    "key": "7",
+    "data": {
+      "name": " updateCapabilityFlags",
+      "type": " _Number_",
+      "description": " Update capabilities on this asset"
+    }
+  }
+]

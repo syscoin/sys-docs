@@ -1,0 +1,45 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "type": " [  _AssetOutputs_ ](types/#assetoutputs) _Map_",
+      "description": " Asset map of objects requiring notarization or null if no notarization is required"
+    },
+    "children": [
+      {
+        "key": "0-0",
+        "data": {
+          "name": " changeAddress",
+          "type": " _String_",
+          "description": " The change address where the left over amount should be sent to"
+        }
+      },
+      {
+        "key": "0-1",
+        "data": {
+          "name": " outputs",
+          "type": " [  _AssetOutput_ ](types/#assetoutput) _Array_",
+          "description": " An array of outputs containing which address to send the asset to and the value to send"
+        },
+        "children": [
+          {
+            "key": "0-1-0",
+            "data": {
+              "name": " value",
+              "type": " _BN_",
+              "description": " The amount of the asset to send"
+            }
+          },
+          {
+            "key": "0-1-1",
+            "data": {
+              "name": " address",
+              "type": " _String_",
+              "description": " Address to send the asset to"
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

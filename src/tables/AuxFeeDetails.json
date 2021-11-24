@@ -1,0 +1,36 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " auxfeekeyid",
+      "type": " _String_",
+      "description": " AuxFee KeyID, the hash160 of the address used where fees are paid out to. Should be P2WPKH"
+    }
+  },
+  {
+    "key": "1",
+    "data": {
+      "name": " auxfees",
+      "type": " [  _AuxFee_ ](types/#auxfee) _Array_",
+      "description": " Details of the auxiliary fees that must be paid for each transaction"
+    },
+    "children": [
+      {
+        "key": "1-0",
+        "data": {
+          "name": " bound",
+          "type": " _BN_",
+          "description": " Lower bound from which the given auxiliary fee percentage begins"
+        }
+      },
+      {
+        "key": "1-1",
+        "data": {
+          "name": " percent",
+          "type": " _Number_",
+          "description": " Percentage fee that must be paid when a transaction&#39;s value is above the given bound (percentages are cumulative)"
+        }
+      }
+    ]
+  }
+]

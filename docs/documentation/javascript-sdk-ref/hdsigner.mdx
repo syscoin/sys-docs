@@ -1,0 +1,221 @@
+---
+sidebar_position: 4
+---
+
+import ShowInfoComponent from '../../../src/components/ShowInfoComponent/ShowInfoComponent';
+import * as tables from '../../../src/tables/tablesIndex';
+
+
+# HDSigner
+
+These are the HDSigner exported functions, the HDSigner is used to manage and sign transactions internally using your XPUB (HD wallets). BIP44/BIP84 are supported. P2WPKH, P2WSH, P2PKH, P2SH.
+
+
+### backup
+
+##### *backup()*
+
+Encrypt to password and backup to local storage for persistence.
+
+
+---
+
+### createAccount
+
+##### *createAccount()*
+
+Create and derive a new account.
+
+
+<ShowInfoComponent returnTable={tables.createAccountReturn} anchor={"#createaccount"}/>
+
+
+---
+
+### createKeypair
+
+##### *createKeypair( addressIndex, isChange)*
+
+Derives a bitcoinjs-lib key pair based on the address index and change marker provided.
+
+<ShowInfoComponent paramTable={tables.createKeypair} returnTable={tables.createKeypairReturn} anchor={"#createkeypair"}/>
+
+
+---
+
+### deriveAccount
+
+##### *deriveAccount( index )*
+
+Derive a HD account based on the index number passed in.
+
+<ShowInfoComponent paramTable={tables.deriveAccount} returnTable={tables.deriveAccountReturn} anchor={"#deriveaccount"}/>
+
+
+---
+
+### deriveKeypair
+
+##### *deriveKeypair( keypath )*
+
+Takes an HD path and derives the key pair from it.
+
+<ShowInfoComponent paramTable={tables.deriveKeypair} returnTable={tables.deriveKeypairReturn} anchor={"#derivekeypair"}/>
+
+
+---
+
+
+
+### derivePubKey
+
+#####	*derivePubKey( keypath )*
+
+Takes an HD path, derives a key pair from it and returns the public key.
+
+<ShowInfoComponent paramTable={tables.derivePubKey} returnTable={tables.derivePubKeyReturn} anchor={"#derivepubkey"}/>
+
+
+---
+
+### getAccountXpub
+
+##### *getAccountXpub()*
+
+Gets the [xPub](types/#xpub) for the account currently in use by the [HDSigner](utils/#hdsigner), useful for public provider look-ups based on [xPub](types/#xpub) accounts.
+
+<ShowInfoComponent returnTable={tables.getAccountXpubReturn} anchor={"#getaccountxpub"}/>
+
+
+---
+
+
+### getAddressFromKeypair
+
+##### *getAddressFromKeypair( keyPair )*
+
+Takes a key pair and gives back a P2WPKH address.
+
+<ShowInfoComponent paramTable={tables.getAddressFromKeypair} returnTable={tables.getAddressFromKeypairReturn} anchor={"#getaddressfromkeypair"}/>
+
+
+---
+
+
+
+### getAddressFromPubKey
+
+##### *getAddressFromPubKey( pubKey )*
+
+Takes a public key and gives back a P2WPKH address.
+
+<ShowInfoComponent paramTable={tables.getAddressFromPubKey} returnTable={tables.getAddressFromPubKeyReturn} anchor={"#getaddressfrompubkey"}/>
+
+
+---
+
+
+### getMasterFingerprint
+
+##### *getMasterFingerprint()*
+
+Get the master seed fingerprint used for signing bitcoinjs-lib [PSBTs](https://github.com/bitcoin/bitcoin/blob/master/doc/psbt.md).
+
+<ShowInfoComponent returnTable={tables.getMasterFingerprintReturn} anchor={"#getmasterfingerprint"}/>
+
+
+---
+
+### getNewChangeAddress
+
+##### *getNewChangeAddress( skipIncrement )*
+
+Get new address for sending change to.
+
+<ShowInfoComponent paramTable={tables.getNewChangeAddress} returnTable={tables.getNewChangeAddressReturn} anchor={"#getnewchangeaddress"}/>
+
+
+---
+
+
+
+### getNewReceivingAddress
+
+##### *getNewReceivingAddress( skipIncrement )*
+
+Get new address for sending coins to.
+
+<ShowInfoComponent paramTable={tables.getNewReceivingAddress} returnTable={tables.getNewReceivingAddressReturn} anchor={"#getnewreceivingaddress"}/>
+
+
+---
+
+### getRootNode
+
+##### *getRootNode()*
+
+Returns the [HDSigner](utils/#hdsigner)'s BIP32 root node.
+
+<ShowInfoComponent returnTable={tables.getRootNodeReturn} anchor={"#getrootnode"}/>
+
+
+---
+
+
+### restore
+
+##### *restore( password )*
+
+Restore on load from local storage and decrypt data to de-serialize objects.
+
+<ShowInfoComponent paramTable={tables.restore} returnTable={tables.restoreReturn} anchor={"#restore"}/>
+
+
+---
+
+### setAccountIndex
+
+##### *setAccountIndex( accountIndex )*
+
+Set HD account based on accountIndex number passed in so HD indexes (change/receiving) will be updated accordingly to this account.
+
+<ShowInfoComponent paramTable={tables.setAccountIndex} anchor={"#setaccountindex"}/>
+
+
+---
+
+
+
+### setLatestIndexesFromXPubTokens
+
+##### *setLatestIndexesFromXPubTokens( tokens )*
+
+Sets the change and receiving indexes from [xPub](types/#xpub) tokens passed in, from a back-end provider response.
+
+<ShowInfoComponent paramTable={tables.setLatestIndexesFromXPubTokens} anchor={"#setlatestindexesfromxpubtokens"}/>
+
+
+---
+
+
+
+### sign
+
+##### *sign( res )*
+
+Create signing information based on the [HDSigner](utils/#hdsigner) (if set)
+
+<ShowInfoComponent paramTable={tables.sign} anchor={"#sign"}/>
+
+
+---
+
+
+
+### signPSBT
+
+##### *signPSBT( psbt, ownedIndexes )*
+
+Signs a [PSBT](types/#psbt) with [xPub](types/#xpub) information from the [HDSigner](utils/#hdsigner).
+
+<ShowInfoComponent paramTable={tables.signPSBT} returnTable={tables.signPSBTReturn} anchor={"#signpsbt"}/>

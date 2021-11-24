@@ -1,0 +1,49 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " messagePrefix",
+      "type": " _String_",
+      "description": ""
+    }
+  },
+  {
+    "key": "1",
+    "data": {
+      "name": " bech32",
+      "type": " _String_",
+      "description": ""
+    }
+  },
+  {
+    "key": "2",
+    "data": {
+      "name": " bip32",
+      "type": " [  _BIP32_ ](types/#bip32)",
+      "description": ""
+    }
+  },
+  {
+    "key": "3",
+    "data": {
+      "name": " pubKeyHash",
+      "type": " ` Hex`",
+      "description": ""
+    }
+  },
+  {
+    "key": "4",
+    "data": {
+      "name": " scriptHash",
+      "type": " ` Hex`",
+      "description": ""
+    }
+  },
+  {
+    "key": "5",
+    "data": {
+      "type": " wif",
+      "description": " ` Hex`"
+    }
+  }
+]

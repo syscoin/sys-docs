@@ -1,0 +1,80 @@
+/* stylelint-disable docusaurus/copyright-header */
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+@import "~primeicons/primeicons";
+
+/* You can override the default Infima variables here. */
+:root {
+  --ifm-color-primary: #058bff;
+  --ifm-color-primary-dark: #0060b4;
+  --ifm-color-primary-darker: #005baa;
+  --ifm-color-primary-darkest: #004b8c;
+  --ifm-color-primary-light: #0076dc;
+  --ifm-color-primary-lighter: #007be6;
+  --ifm-color-primary-lightest: #058bff;
+  --ifm-code-font-size: 95%;
+
+  --ifm-font-size-base: 15px;
+
+  --ifm-menu-link-padding-horizontal: 0.5rem;
+
+  --ifm-toc-padding-horizontal: 0.3rem;
+  --ifm-toc-padding-vertical: 0.25rem;
+
+  --ifm-container-width: 1480px;
+  --ifm-container-width-xl: 1600px;
+
+  --ifm-table-border-width: 0px;
+  --ifm-table-border-color: var(--ifm-color-emphasis-300);
+
+  --ifm-transition-fast: 100ms;
+  --ifm-transition-slow: 200ms;
+
+  --ifm-paragraph-margin-bottom: 15px;
+
+  --doc-sidebar-width: 225px !important;
+}
+
+article header h1 {
+  font-size: 1.7rem !important;
+}
+
+h2 {
+  font-size: 1.55rem !important;
+}
+
+h3 {
+  font-size: 1.3rem !important;
+}
+
+/* resize and make colour less white/black */
+h4 {
+  font-size: 1.3rem !important;
+}
+
+
+html[data-theme='dark'] {
+  --ifm-color-primary: #4e89e8;
+  --ifm-color-primary-dark: #003545;
+  --ifm-background-color: #020210;
+  /* any other colors you wish to overwrite */
+}
+
+.dropdown__link {
+  font-size: inherit;
+}
+
+.docusaurus-highlight-code-line {
+  background-color: rgb(72, 77, 91);
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
+}
+
+.navbar {
+  height: 3rem;
+}

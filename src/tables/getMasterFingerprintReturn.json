@@ -1,0 +1,9 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "type": " _Buffer_",
+      "description": " The BIP32 root master fingerprint."
+    }
+  }
+]

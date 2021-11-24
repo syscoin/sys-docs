@@ -1,0 +1,42 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " contract",
+      "type": " _Buffer_",
+      "description": " Hex buffer with the ERC20 address of the contract connected to this SPT for use in the SysEthereum bridge"
+    }
+  },
+  {
+    "key": "1",
+    "data": {
+      "name": " pubdata",
+      "type": " _Buffer_",
+      "description": " Hex buffer with the public data information of the token"
+    }
+  },
+  {
+    "key": "2",
+    "data": {
+      "name": " maxsupply",
+      "type": " _BN_",
+      "description": " Maximum supply in sats"
+    }
+  },
+  {
+    "key": "3",
+    "data": {
+      "name": " precision",
+      "type": " _Number_",
+      "description": " Number of digits of precision for the token"
+    }
+  },
+  {
+    "key": "4",
+    "data": {
+      "name": " updatecapabilityflags",
+      "type": " _Number_",
+      "description": " Update capabilities on this asset"
+    }
+  }
+]

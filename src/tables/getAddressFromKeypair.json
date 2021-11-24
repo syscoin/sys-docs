@@ -1,0 +1,11 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " keyPair",
+      "type": " ` Object`",
+      "description": " Bitcoinjs-lib key pair",
+      "required": " yes"
+    }
+  }
+]

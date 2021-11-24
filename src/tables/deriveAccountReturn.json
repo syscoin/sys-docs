@@ -1,0 +1,9 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "type": " _String_",
+      "description": " Private key for the account specified by the account index"
+    }
+  }
+]

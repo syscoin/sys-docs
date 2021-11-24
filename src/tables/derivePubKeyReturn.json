@@ -1,0 +1,9 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "type": " _String_",
+      "description": " A bitcoinjs-lib public key"
+    }
+  }
+]

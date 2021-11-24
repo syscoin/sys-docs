@@ -1,0 +1,9 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "type": " _Boolean_",
+      "description": " Representing if notarization was done by acquiring a witness signature from notary"
+    }
+  }
+]

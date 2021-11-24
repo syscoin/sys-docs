@@ -1,0 +1,9 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "type": " [  _Transaction_ ](types/#transaction)",
+      "description": " Returns the transaction with the memo appended to the inside of the OP\\_RETURN output, or null if not found"
+    }
+  }
+]

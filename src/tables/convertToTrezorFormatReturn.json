@@ -1,0 +1,102 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " trezorTx",
+      "type": " [  _TrezorTransaction_ ](types/#trezortransaction)",
+      "description": " A  [  PSBT ](types/#psbt)  in the format of a  [  TrezorTransaction ](types/#trezortransaction)"
+    },
+    "children": [
+      {
+        "key": "0-0",
+        "data": {
+          "name": " coin",
+          "type": " _String_",
+          "description": " Denotes the coin being used in the transaction"
+        }
+      },
+      {
+        "key": "0-1",
+        "data": {
+          "name": " version",
+          "type": " ???????",
+          "description": ""
+        }
+      },
+      {
+        "key": "0-2",
+        "data": {
+          "name": " inputs",
+          "type": " [  _PSBTInput_ ](types/#psbtinput) _Array_",
+          "description": ""
+        },
+        "children": [
+          {
+            "key": "0-2-0",
+            "data": {
+              "name": " unknownKeyVals",
+              "type": " [  _UnknownKeyValue_ ](types/#unknownkeyvalue)",
+              "description": ""
+            },
+            "children": [
+              {
+                "key": "0-2-0-0",
+                "data": {
+                  "name": " key",
+                  "type": " _Buffer_",
+                  "description": ""
+                }
+              },
+              {
+                "key": "0-2-0-1",
+                "data": {
+                  "type": " value",
+                  "description": " _Buffer_"
+                }
+              }
+            ]
+          },
+          {
+            "key": "0-2-1",
+            "data": {
+              "name": " witnessUtxo",
+              "type": " [  _WitnessUTXO_ ](types/#witnessutxo)",
+              "description": ""
+            },
+            "children": [
+              {
+                "key": "0-2-1-0",
+                "data": {
+                  "name": " script",
+                  "type": " _Buffer_",
+                  "description": ""
+                }
+              },
+              {
+                "key": "0-2-1-1",
+                "data": {
+                  "type": " value",
+                  "description": " _BN_"
+                }
+              }
+            ]
+          },
+          {
+            "key": "0-2-2",
+            "data": {
+              "type": " finalScriptWitness",
+              "description": " _Buffer_"
+            }
+          }
+        ]
+      },
+      {
+        "key": "0-3",
+        "data": {
+          "type": " outputs",
+          "description": " [  _Output_ ](types/#output) _Array_"
+        }
+      }
+    ]
+  }
+]

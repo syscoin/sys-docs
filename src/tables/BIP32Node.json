@@ -1,0 +1,65 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " \\_\\_D",
+      "type": " _Buffer_",
+      "description": ""
+    }
+  },
+  {
+    "key": "1",
+    "data": {
+      "name": " \\_\\_Q",
+      "type": " _Buffer_",
+      "description": ""
+    }
+  },
+  {
+    "key": "2",
+    "data": {
+      "name": " chainCode",
+      "type": " _Buffer_",
+      "description": ""
+    }
+  },
+  {
+    "key": "3",
+    "data": {
+      "name": " network",
+      "type": " [  Network ](types/#network)",
+      "description": ""
+    }
+  },
+  {
+    "key": "4",
+    "data": {
+      "name": " \\_\\_DEPTH",
+      "type": " _Number_",
+      "description": ""
+    }
+  },
+  {
+    "key": "5",
+    "data": {
+      "name": " \\_\\_INDEX",
+      "type": " _Number_",
+      "description": ""
+    }
+  },
+  {
+    "key": "6",
+    "data": {
+      "name": " \\_\\_PARENT\\_FINGERPRINT",
+      "type": " _Number_",
+      "description": ""
+    }
+  },
+  {
+    "key": "7",
+    "data": {
+      "type": " lowR",
+      "description": " _Boolean_"
+    }
+  }
+]

@@ -1,0 +1,9 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "type": " [  _KeyPair_ ](types/#keypair)",
+      "description": " The bitcoinjs-lib key pair derived from the address index and change marker"
+    }
+  }
+]

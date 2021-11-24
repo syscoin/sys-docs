@@ -1,0 +1,126 @@
+# Asset Index Technical Description
+
+**Introduction**
+
+Asset index is a high performance blockchain re-organization aware flag that allows users to be able to query historical information related to Syscoin Assets.
+
+The asset index was created as a way for exchanges and other services to be able to manage Syscoin assets via viewing transactional history without requiring third party tools. This index is useful for viewing information only. The current set of RPCs to create transactions for managing assets are created in a way that are not dependent on a wallet and thus are compatible with signing tools such as hardware wallets. This is a reference implementation and of course third party tools in some contexts make sense. However as a fallback we created a reference implementation for those requiring all information to be available from within Syscoin Core itself without the need for custom modifications. You do not need to enable txindex and it is pruning compatible. There are two RPCs exposed for the use of asset index.
+
+1. listassetindex - This will let you filter all assets + asset allocations via an asset GUID and/or an address. You can leave the address field empty to scan through the entire asset.
+2. listassetindexassets - Takes in an address and returns any asset GUIDs that are owned by the address as allocations.
+
+There are two configuration variables to use when dealing with an asset index. -assetindex and -blockindex. Blockindex allows once to view the block related to an asset transaction. It is re-org aware. This means that every transaction is associated with a blockhash and on a disconnect of a block the blockindex is updated to remove the blockhash associated with the disconnected transactions in the block(s) rolled back. The blockhash is output in the `listassetindex` command as the block_hash field. This makes the assetindex re-org aware by extension as one would be able to rely on the block_hash field of the returned entries to know if a transaction was confirmed or potentially not part of the longest chain on a node.
+
+You somtimes do not want to have to index all assets in Syscoin and just want to index the ones you care about and thus there are configurations for those cases you can read about below.
+
+**Use Cases**
+
+The main usecases of using such an index are as follows:
+
+Use case #1: enter an asset GUID and address and get back a list of transactions (sends/receives) related to that asset/address tuple.
+
+Use case #2: enter an address and view all assets connected to an address.
+
+Use case #3: enter an asset GUID and view all transactions (sends/receives/updates) related to an asset.
+
+**Motivation**
+
+We needed high performance to avoid large delays as transactional volume increased. The requirement for this index in the design phase was to have O(1) time complexity and <= O(N) space complexity. We solved this by using a Key-Value storage database and using a tuple of information as Key to reduce lookup complexity yet remain flexible to be able to walk through the historical information with intuition. We require the Key to have a page number to create this efficiency and thus consuming clients would work under a paged view mechanism. The default page size is 25 results per page.
+
+```text
+// Configuration Parameters (in syscoin.conf or passed into the binary when running Syscoin Core):
+
+Assetindex - true if we want to index asset history, false to skip. Default is false. Set to true if consuming client is a block explorer, asset wallet, crypto-currency exchange or any other client that needs history of assets.
+
+Assetindexguids - comma seperated list of asset guids to index, empty for all if Assetindex is true.
+
+Assetindexpagesize - if Assetindex is true set this to a page size based on how the consuming client will render results. Default is 10.
+
+Blockindex - true if you want block_hash information for every asset transaction result from listassetindex RPC
+```
+
+Note that `Assetindexpagesize` is dynamic and set upon configuration, if changed you need to reindex the blockchain from start.
+
+Database Structure:
+
+```cplusplus
+Collection for TXIDs for each allocation, Get/Set - <asset guid><address><page number> = vector<txid> (size of vector is based on page size);
+
+Current highest page number, Get/Set - <page number> = int;
+
+Collection for JSON outputs for TXID, Get/Set - <txid> = JSON output of transaction;
+
+Assets per address, Get/Set - <address> = vector<asset guid>;
+
+TXIDs of asset update/send/receive, Get/Set - <asset guid> = vector<txid>;
+// In Memory structure:
+Get/Set - Set of TXID’s (lets call it confirmedTXIDs);
+```
+
+Pseudocode for Connect Block logic:
+
+```cplusplus
+Set TXID to confirmedTXIDs;
+
+Get page number as pageNum;
+
+Get vector<txid> based on <asset guid><address><pageNum>;
+
+If vector size if >= 10 increase pageNum and create new vector;
+
+Set JSON output of transaction to vector<txid> collection of JSON outputs per TXID;
+
+Set vector<txid> based on <asset guid><address><pageNum> to TXID collection for asset allocation;
+
+Set pageNum to highest page number collection;
+```
+
+Pseudocode for Disconnect Block logic:
+
+```cplusplus
+For every transaction:
+        Remove TXID from confirmedTXIDs;
+```
+
+Pseudocode for listassetindex RPC function:
+
+```text
+/*Scan an asset/address tuple for a page of transaction. Consuming clients should page results based on page size set in configuration to the core. Will return all tx’s regardless if they were re-orged or not. A confirmed parameter will indicate if the transaction is part of the blockchain and confirmed.
+    Parameters:
+        Asset guid - asset guid number specific to each asset
+        Address - a sender or receiver address that owns an asset. If empty then assume  you want all tx’s based on asset.
+        Page number - return specific page number of transactions. 0 by default*/
+    
+If Address is empty:
+    Get vector<txid> based on <asset guid><page number>;
+Else:
+    Get vector<txid> based on <asset guid><address><page number>;
+
+For each txid in vector:
+    Get JSON output based on txid;
+    Get blockhash of txid from blockindex (if exist otherwise set to empty);
+    Add blockhash of txid to JSON output as block_hash;
+
+Return JSON output to caller
+```
+
+Pseudocode for listassetindexassets RPC function:
+
+```cplusplus
+/*Assets per Address:
+Returns all asset guids related to an address at any time in blockchain history.
+    Parameters:
+        Address - a sender or receiver address that potentially owns an asset*/
+
+Get vector<asset guid> based on <address>;
+
+Return JSON of all assets found to caller;
+```
+
+**Q&A**
+
+What does re-org protected mean?
+It means that if the blockchain tip is disconnected for whatever reason (longer chain is found) then you have to rollback transactions, we wouldn't want our asset view to incorrectly show transactions as confirmed when they have been rolled back.
+
+What does asset indexing mean?
+It means that we need a way to show all transactions related to an asset+address tuple. You need to be able to as a wallet or explorer view pertaining transactions for your asset allocation as a sender or receiver.

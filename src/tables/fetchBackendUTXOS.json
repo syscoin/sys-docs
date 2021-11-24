@@ -1,0 +1,28 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " backendURL",
+      "type": " _String_",
+      "description": " Fully qualified URL for blockbook",
+      "required": " yes"
+    }
+  },
+  {
+    "key": "1",
+    "data": {
+      "name": " addressOrXpub",
+      "type": " _String_",
+      "description": " An address or  [  _xPub_ ](types/#xpub)  to fetch UTXO&#39;s for",
+      "required": " yes"
+    }
+  },
+  {
+    "key": "2",
+    "data": {
+      "name": " options",
+      "type": " ` Object`",
+      "description": " Optional queries based on  [  https://github.com/syscoin/blockbook/blob/master/docs/api.md#get-utxo ](https://github.com/syscoin/blockbook/blob/master/docs/api.md#get-utxo)"
+    }
+  }
+]

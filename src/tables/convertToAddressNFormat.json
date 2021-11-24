@@ -1,0 +1,11 @@
+[
+  {
+    "key": "1",
+    "data": {
+      "name": " path",
+      "type": " _String_",
+      "description": " Required derivation path",
+      "required": " yes"
+    }
+  }
+]

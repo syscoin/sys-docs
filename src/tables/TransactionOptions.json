@@ -1,0 +1,34 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " rbf",
+      "type": " _Boolean_",
+      "description": " Replace-by-fee, enables a token to use the high-speed Z-DAG protocol. Should be false for SYS transactions"
+    }
+  },
+  {
+    "key": "1",
+    "data": {
+      "name": " memo",
+      "type": " _String_",
+      "description": " Text message/Memo to be included with the transaction"
+    }
+  },
+  {
+    "key": "2",
+    "data": {
+      "name": " memoHeader",
+      "type": " _String_",
+      "description": " Header of the memo"
+    }
+  },
+  {
+    "key": "3",
+    "data": {
+      "name": " assetWhiteList",
+      "type": " _Map_",
+      "description": " Allows UTXOs to be added from assets in the whitelist or the asset being sent"
+    }
+  }
+]

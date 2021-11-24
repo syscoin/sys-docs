@@ -1,0 +1,5 @@
+|             Param              |   Type   |                         Description                          | Required |
+| :----------------------------: | :------: | :----------------------------------------------------------: | :------: |
+|     Signer      | [*Signer*](types/#Signer) | If letting Syscoin manage [*xPub*](types/#xpub) keys you would want to use an [Signer](utils/#Signer). With [Signer](utils/#Signer) assigned, signing will happen automatically when creating raw transactions | no |
+|          blockbookURL          | *String* | A back-end blockbook URL that will provide UTXO and required information to sign. User can always provide their own list of UTXOs in the same format as blockbook using <a href="utils/#sanitizeblockbookutxos">utils.sanitizeBlockbookUTXOs()</a> to sanitize the UTXO data to acceptable internal format | no |
+| network | [*Network*](types/#network) | The blockchain network and bip32 settings. The utils file has some examples including Bitcoin and Syscoin, it will default to Syscoin. | no |

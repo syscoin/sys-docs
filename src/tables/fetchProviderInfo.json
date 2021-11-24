@@ -1,0 +1,11 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " backendURL",
+      "type": " _String_",
+      "description": " Fully qualified URL for blockbook",
+      "required": " yes"
+    }
+  }
+]

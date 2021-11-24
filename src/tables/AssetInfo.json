@@ -1,0 +1,18 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " assetGuid",
+      "type": " _String_",
+      "description": " Unique, numeric identifier of the token generated on creation"
+    }
+  },
+  {
+    "key": "1",
+    "data": {
+      "name": " value",
+      "type": " _BN_  /  _String_",
+      "description": " Value transferred. Type will be  _BN_  if within a  [  _Res_ ](types/#res)  object,  _String_  if within a  [  _UTXO_ ](types/#utxo)  object"
+    }
+  }
+]

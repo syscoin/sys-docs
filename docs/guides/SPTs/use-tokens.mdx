@@ -1,0 +1,171 @@
+# Use Syscoin 4.2 Tokens
+
+
+
+Syscoin 4.2 introduced changes to the process of using tokens.
+
+## Before Trading a Syscoin Asset/Token
+
+**Obtain the correct Asset GUID.**
+
+An asset has several noteworthy properties. The most important is `asset_guid` which is the unique identifier of the token. For example, the asset_guid of the official testnet SYSX token is 1965866356. Anyone can create a token and name it "SYSX" but there will only be one SYSX with `asset_guid` of 1965866356. We can inspect the asset information using `assetinfo`. We will be using this asset as an example for the rest of the guide.
+
+```text
+$ syscoin-cli assetinfo 1965866356
+{
+  "asset_guid": 1965866356,
+  "symbol": "SYSX",
+  "public_value": {
+    "desc": "Official Testnet SYSX SPT"
+  },
+  "contract": "",
+  "notary_address": "",
+  "total_supply": 1009467.75000000,
+  "max_supply": 888000000.00000000,
+  "updatecapability_flags": 127,
+  "precision": 8
+}
+```
+
+## Querying Syscoin Assets
+
+Use `assetallocationbalance` to check an asset balance. This function allows you to see the balance of an asset across your entire wallet by default or for specific addresses.
+
+**To check the asset balance of the wallet, use:**
+`assetallocationbalance <assetGUID>`
+
+```text
+$ syscoin-cli assetallocationbalance 1965866356
+
+{
+  "amount": 0.00000980,
+  "asset_amount": 19.00000000
+}
+```
+
+**To check the asset balance of specific addresses, use:**
+`assetallocationbalance <assetGUID> "[\"<address>\",\"<address>\"]"`
+
+```text
+$ syscoin-cli assetallocationbalance 1965866356 "[\"tsys1qedy7ukgnj9e96axgarw79e2au98ff9g4ffh829\",\"tsys1qecwhh7lckpamavny534xcgrq4z9nm4ckajj9gm\"]"
+
+{
+  "amount": 0.00001960,
+  "asset_amount": 3.55000000
+}
+```
+
+## Sending Syscoin Assets
+
+The process commonly thought of as "sending" is called asset allocation. A quantity of a token can be allocated to one or more addresses. The Syscoin token platform uses the UTXO model like Bitcoin. This means asset allocations are inputs of an asset sent to an address which can then output them to another address. Most asset owners and exchanges work with asset allocations rather than the asset specification itself.
+
+**Use `assetallocationsend` to allocate a quantity of a token to a single recipient address. This command will sign and broadcast the transaction to the network and return the transaction ID.**
+
+> ### 📘Asset Input Selection
+>
+> Asset inputs are selected automatically when using `assetallocationsend` with the Syscoin QT wallet. If you want direct control over asset input selection you can use tools such as the [syscoinjs-lib](https://github.com/syscoin/syscoinjs-lib) SDK or the syscoin-tx binary to build your transaction.
+
+```text
+assetallocationsend asset_guid "address" amount ( replaceable )
+
+Send an asset allocation you own to another address.
+
+Arguments:
+1. asset_guid     (numeric, required) The asset guid
+2. address        (string, required) The address to send the allocation to
+3. amount         (numeric or string, required) Amount of asset to send
+4. sys_amount     (numeric or string) Amount of syscoin to send
+5. replaceable    (boolean, optional, default=wallet default) Allow this transaction to be replaced by a transaction with higher fees via BIP 125. ZDAG is only possible if RBF is disabled.
+
+Result:
+{                    (json object)
+  "txid" : "hex"     (string) The transaction id
+}
+
+Examples:
+> syscoin-cli assetallocationsend "asset_guid" "address" "amount" "sys_amount" "false"
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "assetallocationsend", "params": ["asset_guid", "address", "amount", "sys_amount", "false"]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+`assetallocationsend <assetGUID> <receivingAddress> <assetAmount> <sysAmount> <replaceable (boolean)>`
+Set argument `replaceable` to `false` in order to use Z-DAG.
+
+Allocate an asset to a single address:
+
+```text
+$ syscoin-cli assetallocationsend 1965866356 "tsys1qecwhh7lckpamavny534xcgrq4z9nm4ckajj9gm" 2 0.0000098 false
+
+{
+  "txid": "93cce1d891e4ce5bfc30131ab15faf356000772c1abd92dc47698abaeb022588",
+  "assetallocations_sent_count": 1,
+  "assetallocations_sent": [
+    {
+      "asset_guid": 1965866356,
+      "amount": 2.00000000,
+      "sys_amount": 0.00000980
+    }
+  ]
+}
+```
+
+**Use `assetallocationsendmany` to allocate quantities of tokens to multiple addresses all within a single transaction. This command allows you to separately specify the asset and the quantity to be allocated to each individual recipient address, as well as the amount of SYS to send them for gas to be used in the future. This command will sign and broadcast the transaction to the network and return the transaction ID.**
+
+**The maximum number of recipients in a single asset transaction is 250.*
+
+```text
+assetallocationsendmany [assetallocationsend object]... ( replaceable "comment" conf_target "estimate_mode" )
+
+Send an asset allocation you own to another address. Maximum recipients is 250.
+
+Arguments:
+1. amounts                        (json array, required) Array of assetallocationsend objects
+     [
+       {                          (json object) The assetallocationsend object
+         "asset_guid": n,         (numeric, required) Asset guid
+         "address": "str",        (string, required) Address to transfer to
+         "amount": amount,        (numeric or string, required) Amount of asset to send
+         "sys_amount": amount,    (numeric or string) Amount of Syscoin to send
+       },
+       ...
+     ]
+2. replaceable                    (boolean, optional, default=wallet default) Allow this transaction to be replaced by a transaction with higher fees via BIP 125. ZDAG is only possible if RBF is disabled.
+3. comment                        (string, optional) A comment
+4. conf_target                    (numeric, optional, default=wallet default) Confirmation target (in blocks)
+5. estimate_mode                  (string, optional, default=UNSET) The fee estimate mode, must be one of:
+                                  "UNSET"
+                                  "ECONOMICAL"
+                                  "CONSERVATIVE"
+
+Result:
+{                    (json object)
+  "txid" : "hex"     (string) The transaction id
+}
+
+Examples:
+> syscoin-cli assetallocationsendmany '[{"asset_guid":1045909988,"address":"sysaddress1","amount":100},{"asset_guid":1045909988,"address":"sysaddress2","amount":200}]' "false"
+> syscoin-cli assetallocationsendmany "[{\"asset_guid\":1045909988,\"address\":\"sysaddress1\",\"amount\":100},{\"asset_guid\":1045909988,\"address\":\"sysaddress2\",\"amount\":200}]" "true"
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "assetallocationsendmany", "params": ['[{"asset_guid":1045909988,"address":"sysaddress1","amount":100},{"asset_guid":1045909988,"address":"sysaddress2","amount":200}]',"false"]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "assetallocationsendmany", "params": ["[{\"asset_guid\":1045909988,\"address\":\"sysaddress1\",\"amount\":100},{\"asset_guid\":1045909988,\"address\":\"sysaddress2\",\"amount\":200}]","true"]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "assetallocationsendmany", "params": ["[{\"asset_guid\":1045909988,\"address\":\"sysaddress1\",\"amount\":100},{\"asset_guid\":1045909988,\"address\":\"sysaddress2\",\"amount\":200}]","true"]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+assetallocationsendmany '[{"asset_guid": <assetGUID>, "address": <recipientAddress>,"amount": <amount>, "sys_amount": <amount>},{"asset_guid": <assetGUID>, "address": <recipientAddress>,"amount": <amount>, "sys_amount": <amount>}]' <replaceable (boolean)>
+```
+
+Set argument `replaceable` to `false` in order to use Z-DAG.
+
+Allocate one or more assets to multiple addresses:
+
+```text
+$ syscoin-cli assetallocationsendmany '[{"asset_guid": 1965866356,"address":"tsys1qecwhh7lckpamavny534xcgrq4z9nm4ckajj9gm","amount":1.55,"sys_amount":0.0000098},{"asset_guid":1965866356,"address":"tsys1ql8h9gknschcwqmehz4hhaykdn6wju8cemj9met","amount":2.75, "sys_amount":0.0000098}]' false
+
+{
+  "txid": "d6964154f1b11954f86b74953d24e2c79efe6266f9a6e954fdce8d3861b62de2",
+  "assetallocations_sent_count": 1,
+  "assetallocations_sent": [
+    {
+      "asset_guid": 1965866356,
+      "amount": 4.30000000,
+      "sys_amount": 0.00001960
+    }
+  ]
+}
+```

@@ -1,0 +1,484 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " assetGuid",
+      "type": " _String_",
+      "description": " Asset GUID to update",
+      "required": " yes"
+    }
+  },
+  {
+    "key": "1",
+    "data": {
+      "name": " assetOpts",
+      "type": " [  _AssetOptions_ ](types/#assetoptions)",
+      "description": " Asset details",
+      "required": " yes"
+    },
+    "children": [
+      {
+        "key": "1-0",
+        "data": {
+          "name": " precision",
+          "type": " _Number_",
+          "description": " Digits precision for this asset. Range is 0 to 8"
+        }
+      },
+      {
+        "key": "1-1",
+        "data": {
+          "name": " symbol",
+          "type": " _String_",
+          "description": " Symbol up to 8 characters in length in ASCII"
+        }
+      },
+      {
+        "key": "1-2",
+        "data": {
+          "name": " maxsupply",
+          "type": " _BN_",
+          "description": " Maximum satoshis for supply. Range is 1 to 1 quintillion (10^18)"
+        }
+      },
+      {
+        "key": "1-3",
+        "data": {
+          "name": " description",
+          "type": " _String_",
+          "description": " Description in ASCII describing token. The description will be encoded via JSON in the pubdata field for the asset and will be in the &#39;desc&#39; field of the JSON object"
+        }
+      },
+      {
+        "key": "1-4",
+        "data": {
+          "name": " contract",
+          "type": " _String_",
+          "description": " ERC20 address of the contract connected to this SPT for use in the SysEthereum bridge"
+        }
+      },
+      {
+        "key": "1-5",
+        "data": {
+          "name": " updatecapabilityflags",
+          "type": " _Number_",
+          "description": " Defaults to 127 or ALL capabilities. Update capabilities on this asset. Read more  [  _here_ ](types/#updatecapabilityflags)"
+        }
+      },
+      {
+        "key": "1-6",
+        "data": {
+          "name": " notarykeyid",
+          "type": " _String_",
+          "description": " Notary KeyID, the hash160 of the address used for notarization. Should be P2WPKH"
+        }
+      },
+      {
+        "key": "1-7",
+        "data": {
+          "name": " notarydetails",
+          "type": " [  _NotaryDetails_ ](types/#notarydetails)",
+          "description": " Details related to the notarization of transactions using this asset"
+        },
+        "children": [
+          {
+            "key": "1-7-0",
+            "data": {
+              "name": " endpoint",
+              "type": " _String_",
+              "description": " Fully qualified URL of the notary endpoint. The endpoint will be sent a POST request with the transaction hex and some other details in a JSON object and requires a signature signing the transaction following notarization protocol"
+            }
+          },
+          {
+            "key": "1-7-1",
+            "data": {
+              "name": " instanttransfers",
+              "type": " _Boolean_",
+              "description": " Default is 0 (false). Instant transfers by blocking double-spends from inputs. Since notarization is happening via API the API can block any double-spend attempts thereby allowing for instant transactions"
+            }
+          },
+          {
+            "key": "1-7-2",
+            "data": {
+              "name": " hdrequired",
+              "type": " _Boolean_",
+              "description": " Default is 0 (false). If HD account  [  _xPub_ ](types/#xpub)  and  [  HD path ](https://learnmeabitcoin.com/technical/derivation-paths)  information is required by the notary to verify change addresses belong to the sender account"
+            }
+          }
+        ]
+      },
+      {
+        "key": "1-8",
+        "data": {
+          "name": " auxFeeDetails",
+          "type": " [  _AuxFeeDetails_ ](types/#auxfeedetails)",
+          "description": " Enforce auxiliary fees to every transaction on this asset"
+        },
+        "children": [
+          {
+            "key": "1-8-0",
+            "data": {
+              "name": " auxfeekeyid",
+              "type": " _String_",
+              "description": " AuxFee KeyID, the hash160 of the address used where fees are paid out to. Should be P2WPKH"
+            }
+          },
+          {
+            "key": "1-8-1",
+            "data": {
+              "name": " auxfees",
+              "type": " [  _AuxFee_ ](types/#auxfee) _Array_",
+              "description": " Details of the auxiliary fees that must be paid for each transaction"
+            },
+            "children": [
+              {
+                "key": "1-8-1-0",
+                "data": {
+                  "name": " bound",
+                  "type": " _BN_",
+                  "description": " Lower bound from which the given auxiliary fee percentage begins"
+                }
+              },
+              {
+                "key": "1-8-1-1",
+                "data": {
+                  "name": " percent",
+                  "type": " _Number_",
+                  "description": " Percentage fee that must be paid when a transaction&#39;s value is above the given bound (percentages are cumulative)"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "key": "2",
+    "data": {
+      "name": " txOpts",
+      "type": " [  _TransactionOptions_ ](types/#transactionoptions)",
+      "description": " Transaction options",
+      "required": " no"
+    },
+    "children": [
+      {
+        "key": "2-0",
+        "data": {
+          "name": " rbf",
+          "type": " _Boolean_",
+          "description": " Replace-by-fee, enables a token to use the high-speed Z-DAG protocol. Should be false for SYS transactions"
+        }
+      },
+      {
+        "key": "2-1",
+        "data": {
+          "name": " memo",
+          "type": " _String_",
+          "description": " Text message/Memo to be included with the transaction"
+        }
+      },
+      {
+        "key": "2-2",
+        "data": {
+          "name": " memoHeader",
+          "type": " _String_",
+          "description": " Header of the memo"
+        }
+      },
+      {
+        "key": "2-3",
+        "data": {
+          "name": " assetWhiteList",
+          "type": " _Map_",
+          "description": " Allows UTXOs to be added from assets in the whitelist or the asset being sent"
+        }
+      }
+    ]
+  },
+  {
+    "key": "3",
+    "data": {
+      "name": " assetMap",
+      "type": " [  _AssetOutputs_ ](types/#assetoutputs) _Map_",
+      "description": " Mapping of asset GUIDs to their desired outputs",
+      "required": " yes"
+    },
+    "children": [
+      {
+        "key": "3-0",
+        "data": {
+          "name": " changeAddress",
+          "type": " _String_",
+          "description": " The change address where the left over amount should be sent to"
+        }
+      },
+      {
+        "key": "3-1",
+        "data": {
+          "name": " outputs",
+          "type": " [  _AssetOutput_ ](types/#assetoutput) _Array_",
+          "description": " An array of outputs containing which address to send the asset to and the value to send"
+        },
+        "children": [
+          {
+            "key": "3-1-0",
+            "data": {
+              "name": " value",
+              "type": " _BN_",
+              "description": " The amount of the asset to send"
+            }
+          },
+          {
+            "key": "3-1-1",
+            "data": {
+              "name": " address",
+              "type": " _String_",
+              "description": " Address to send the asset to"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "key": "4",
+    "data": {
+      "name": " sysChangeAddress",
+      "type": " _String_",
+      "description": " Change address if defined is where Syscoin only change outputs are sent to. If not defined and  [  Signer ](utils/#Signer)  is defined then a new change address will be automatically created using the next available change address index in the  [  HD path ](https://learnmeabitcoin.com/technical/derivation-paths)",
+      "required": " no"
+    }
+  },
+  {
+    "key": "5",
+    "data": {
+      "name": " sysReceivingAddress",
+      "type": " _String_",
+      "description": " Address which will hold the new asset. If not defined and  [  Signer ](utils/#Signer)  is defined then a new receiving address will be automatically created using the next available receiving address index in the  [  HD path ](https://learnmeabitcoin.com/technical/derivation-paths)",
+      "required": " no"
+    }
+  },
+  {
+    "key": "6",
+    "data": {
+      "name": " feeRate",
+      "type": " _BN_",
+      "description": " Defaults to 10 satoshi per byte. How many satoshi per byte the network fee should be paid out as",
+      "required": " no"
+    }
+  },
+  {
+    "key": "7",
+    "data": {
+      "name": " sysFromXpubOrAddress",
+      "type": " _String_",
+      "description": " If wanting to fund from a specific  [  _xPub_ ](types/#xpub)  or address this field should be set",
+      "required": " no"
+    }
+  },
+  {
+    "key": "8",
+    "data": {
+      "name": " utxos",
+      "type": " [  _UTXOs_ ](types/#utxos)",
+      "description": " Pass in specific UTXOs to fund a transaction, should be sanitized using  [  utils.sanitizeBlockbookUTXOs() ](utils/#sanitizeblockbookutxos)",
+      "required": " no"
+    },
+    "children": [
+      {
+        "key": "8-0",
+        "data": {
+          "name": " utxos",
+          "type": " [  _UTXO_ ](types/#utxo) _Array_",
+          "description": " Inputs/outputs of the transaction"
+        },
+        "children": [
+          {
+            "key": "8-0-0",
+            "data": {
+              "name": " txid",
+              "type": " _String_",
+              "description": " Transaction ID"
+            }
+          },
+          {
+            "key": "8-0-1",
+            "data": {
+              "name": " vout",
+              "type": " _Number_",
+              "description": " Output number"
+            }
+          },
+          {
+            "key": "8-0-2",
+            "data": {
+              "name": " value",
+              "type": " _String_",
+              "description": " Value being transferred"
+            }
+          },
+          {
+            "key": "8-0-3",
+            "data": {
+              "name": " height",
+              "type": " _Number_",
+              "description": " Block height"
+            }
+          },
+          {
+            "key": "8-0-4",
+            "data": {
+              "name": " confirmations",
+              "type": " _Number_",
+              "description": " Number of confirmations"
+            }
+          },
+          {
+            "key": "8-0-5",
+            "data": {
+              "name": " address",
+              "type": " _String_",
+              "description": " Address the funds are being/have been sent to"
+            }
+          },
+          {
+            "key": "8-0-6",
+            "data": {
+              "name": " path",
+              "type": " _String_",
+              "description": ""
+            }
+          },
+          {
+            "key": "8-0-7",
+            "data": {
+              "name": " assetInfo",
+              "type": " [  _AssetInfo_ ](types/#assetinfo)",
+              "description": " Information on an asset included in the UTXO"
+            },
+            "children": [
+              {
+                "key": "8-0-7-0",
+                "data": {
+                  "name": " assetGuid",
+                  "type": " _String_",
+                  "description": " Unique, numeric identifier of the token generated on creation"
+                }
+              },
+              {
+                "key": "8-0-7-1",
+                "data": {
+                  "name": " value",
+                  "type": " _BN_  /  _String_",
+                  "description": " Value transferred. Type will be  _BN_  if within a  [  _Res_ ](types/#res)  object,  _String_  if within a  [  _UTXO_ ](types/#utxo)  object"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "8-1",
+        "data": {
+          "name": " assets",
+          "type": " [  _AssetDetails_ ](types/#assetdetails) _Array_",
+          "description": " Details of any assets involved in the transaction"
+        },
+        "children": [
+          {
+            "key": "8-1-0",
+            "data": {
+              "name": " assetGuid",
+              "type": " _String_",
+              "description": " Unique, numeric identifier of the token generated on creation"
+            }
+          },
+          {
+            "key": "8-1-1",
+            "data": {
+              "name": " contract",
+              "type": " _String_",
+              "description": " ERC20 address of the contract connected to this SPT for use in the SysEthereum bridge"
+            }
+          },
+          {
+            "key": "8-1-2",
+            "data": {
+              "name": " symbol",
+              "type": " _String_",
+              "description": " Token symbol (in base64)"
+            }
+          },
+          {
+            "key": "8-1-3",
+            "data": {
+              "name": " pubData",
+              "type": " [  _AssetPublicData_ ](types/#publicdata)",
+              "description": " Public data information of the token"
+            },
+            "children": [
+              {
+                "key": "8-1-3-0",
+                "data": {
+                  "name": " desc",
+                  "type": " _String_",
+                  "description": " Base64 encoded string describing the token"
+                }
+              }
+            ]
+          },
+          {
+            "key": "8-1-4",
+            "data": {
+              "name": " totalSupply",
+              "type": " _String_",
+              "description": " Total current issued supply"
+            }
+          },
+          {
+            "key": "8-1-5",
+            "data": {
+              "name": " maxSupply",
+              "type": " _String_",
+              "description": " Maximum supply in sats"
+            }
+          },
+          {
+            "key": "8-1-6",
+            "data": {
+              "name": " decimals",
+              "type": " _Number_",
+              "description": " Number of digits of precision for the token"
+            }
+          },
+          {
+            "key": "8-1-7",
+            "data": {
+              "name": " updateCapabilityFlags",
+              "type": " _Number_",
+              "description": " Update capabilities on this asset"
+            }
+          }
+        ]
+      },
+      {
+        "key": "8-2",
+        "data": {
+          "name": " addressOrXpub",
+          "type": " _String_",
+          "description": " An address or  [  _xPub_ ](types/#xpub)  to fetch UTXOs for"
+        }
+      }
+    ]
+  },
+  {
+    "key": "9",
+    "data": {
+      "name": " redeemOrWitnessScript",
+      "type": " _String_",
+      "description": " Redeem script for P2SH and witnessScript for P2WSH spending conditions",
+      "required": " no"
+    }
+  }
+]

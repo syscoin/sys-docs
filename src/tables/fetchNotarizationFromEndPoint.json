@@ -1,0 +1,20 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " endPoint",
+      "type": " _String_",
+      "description": " Fully qualified URL which will take transaction information and respond with a signature or error on denial",
+      "required": " yes"
+    }
+  },
+  {
+    "key": "1",
+    "data": {
+      "name": " txHex",
+      "type": " _String_",
+      "description": " Raw transaction hex",
+      "required": " yes"
+    }
+  }
+]

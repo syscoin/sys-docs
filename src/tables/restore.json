@@ -1,0 +1,11 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " password",
+      "type": " _String_",
+      "description": " Decryption password to unlock seed phrase",
+      "required": " yes"
+    }
+  }
+]

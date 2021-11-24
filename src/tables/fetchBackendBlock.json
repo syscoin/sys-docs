@@ -1,0 +1,20 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " backendURL",
+      "type": " _String_",
+      "description": " Fully qualified URL for blockbook",
+      "required": " yes"
+    }
+  },
+  {
+    "key": "1",
+    "data": {
+      "name": " blockhash",
+      "type": " _String_",
+      "description": " Block hash of the block information to fetch",
+      "required": " yes"
+    }
+  }
+]

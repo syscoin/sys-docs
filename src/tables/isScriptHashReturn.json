@@ -1,0 +1,9 @@
+[
+  {
+    "key": "1",
+    "data": {
+      "type": " _Boolean_",
+      "description": " True if given Syscoin address is a script hash, false if not"
+    }
+  }
+]

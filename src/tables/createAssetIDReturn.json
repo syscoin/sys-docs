@@ -1,0 +1,9 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "type": " _Number_",
+      "description": " Returns the GUID for a child asset with the given NFT ID"
+    }
+  }
+]

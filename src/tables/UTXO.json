@@ -1,0 +1,84 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " txid",
+      "type": " _String_",
+      "description": " Transaction ID"
+    }
+  },
+  {
+    "key": "1",
+    "data": {
+      "name": " vout",
+      "type": " _Number_",
+      "description": " Output number"
+    }
+  },
+  {
+    "key": "2",
+    "data": {
+      "name": " value",
+      "type": " _String_",
+      "description": " Value being transferred"
+    }
+  },
+  {
+    "key": "3",
+    "data": {
+      "name": " height",
+      "type": " _Number_",
+      "description": " Block height"
+    }
+  },
+  {
+    "key": "4",
+    "data": {
+      "name": " confirmations",
+      "type": " _Number_",
+      "description": " Number of confirmations"
+    }
+  },
+  {
+    "key": "5",
+    "data": {
+      "name": " address",
+      "type": " _String_",
+      "description": " Address the funds are being/have been sent to"
+    }
+  },
+  {
+    "key": "6",
+    "data": {
+      "name": " path",
+      "type": " _String_",
+      "description": ""
+    }
+  },
+  {
+    "key": "7",
+    "data": {
+      "name": " assetInfo",
+      "type": " [  _AssetInfo_ ](types/#assetinfo)",
+      "description": " Information on an asset included in the UTXO"
+    },
+    "children": [
+      {
+        "key": "7-0",
+        "data": {
+          "name": " assetGuid",
+          "type": " _String_",
+          "description": " Unique, numeric identifier of the token generated on creation"
+        }
+      },
+      {
+        "key": "7-1",
+        "data": {
+          "name": " value",
+          "type": " _BN_  /  _String_",
+          "description": " Value transferred. Type will be  _BN_  if within a  [  _Res_ ](types/#res)  object,  _String_  if within a  [  _UTXO_ ](types/#utxo)  object"
+        }
+      }
+    ]
+  }
+]

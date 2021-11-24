@@ -1,0 +1,20 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " backendURL",
+      "type": " _String_",
+      "description": " Fully qualified URL for blockbook",
+      "required": " yes"
+    }
+  },
+  {
+    "key": "1",
+    "data": {
+      "name": " txid",
+      "type": " _String_",
+      "description": " Transaction ID of the transaction to fetch",
+      "required": " yes"
+    }
+  }
+]

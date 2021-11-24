@@ -1,0 +1,74 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " 0",
+      "type": "",
+      "description": " No flags enabled"
+    }
+  },
+  {
+    "key": "1",
+    "data": {
+      "name": " 1",
+      "type": "",
+      "description": " Ability to update public data field"
+    }
+  },
+  {
+    "key": "2",
+    "data": {
+      "name": " 2",
+      "type": "",
+      "description": " Ability to update smart contract field"
+    }
+  },
+  {
+    "key": "3",
+    "data": {
+      "name": " 4",
+      "type": "",
+      "description": " Ability to issue or distribute supply via  [  assetsend ](#assetSend)"
+    }
+  },
+  {
+    "key": "4",
+    "data": {
+      "name": " 8",
+      "type": "",
+      "description": " Ability to update notary address"
+    }
+  },
+  {
+    "key": "5",
+    "data": {
+      "name": " 16",
+      "type": "",
+      "description": " Ability to update notary details"
+    }
+  },
+  {
+    "key": "6",
+    "data": {
+      "name": " 32",
+      "type": "",
+      "description": " Ability to update aux fees"
+    }
+  },
+  {
+    "key": "7",
+    "data": {
+      "name": " 64",
+      "type": "",
+      "description": " Ability to update capability flags"
+    }
+  },
+  {
+    "key": "8",
+    "data": {
+      "name": " 127",
+      "type": "",
+      "description": " All flags enabled"
+    }
+  }
+]

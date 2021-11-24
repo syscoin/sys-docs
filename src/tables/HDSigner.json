@@ -1,0 +1,172 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " mnemonic",
+      "type": " _String_",
+      "description": " 12 word, Bip32 seed phrase",
+      "required": " yes"
+    }
+  },
+  {
+    "key": "1",
+    "data": {
+      "name": " password",
+      "type": " _String_",
+      "description": " Encryption password for local storage on web clients",
+      "required": " no"
+    }
+  },
+  {
+    "key": "2",
+    "data": {
+      "name": " isTestnet",
+      "type": " _Boolean_",
+      "description": " If using testnet set this to true",
+      "required": " no"
+    }
+  },
+  {
+    "key": "3",
+    "data": {
+      "name": " networks",
+      "type": " [  _Networks_ ](types/#networks)",
+      "description": " Defaults to Syscoin network. Bitcoinjs-lib network settings for coin being used",
+      "required": " no"
+    },
+    "children": [
+      {
+        "key": "3-0",
+        "data": {
+          "name": " mainnet",
+          "type": " [  _Network_ ](types/#network)",
+          "description": " [  Network ](#network)  object to be used for mainnet"
+        },
+        "children": [
+          {
+            "key": "3-1-0",
+            "data": {
+              "name": " messagePrefix",
+              "type": " _String_",
+              "description": ""
+            }
+          },
+          {
+            "key": "3-1-1",
+            "data": {
+              "name": " bech32",
+              "type": " _String_",
+              "description": ""
+            }
+          },
+          {
+            "key": "3-1-2",
+            "data": {
+              "name": " bip32",
+              "type": " [  _BIP32_ ](types/#bip32)",
+              "description": ""
+            }
+          },
+          {
+            "key": "3-1-3",
+            "data": {
+              "name": " pubKeyHash",
+              "type": " ` Hex`",
+              "description": ""
+            }
+          },
+          {
+            "key": "3-1-4",
+            "data": {
+              "name": " scriptHash",
+              "type": " ` Hex`",
+              "description": ""
+            }
+          },
+          {
+            "key": "3-1-5",
+            "data": {
+              "type": " wif",
+              "description": " ` Hex`"
+            }
+          }
+        ]
+      },
+      {
+        "key": "3-1",
+        "data": {
+          "name": " testnet",
+          "type": " [  _Network_ ](types/#network)",
+          "description": " [  Network ](#network)  object to be used for testnet"
+        },
+        "children": [
+          {
+            "key": "3-1-0",
+            "data": {
+              "name": " messagePrefix",
+              "type": " _String_",
+              "description": ""
+            }
+          },
+          {
+            "key": "3-1-1",
+            "data": {
+              "name": " bech32",
+              "type": " _String_",
+              "description": ""
+            }
+          },
+          {
+            "key": "3-1-2",
+            "data": {
+              "name": " bip32",
+              "type": " [  _BIP32_ ](types/#bip32)",
+              "description": ""
+            }
+          },
+          {
+            "key": "3-1-3",
+            "data": {
+              "name": " pubKeyHash",
+              "type": " ` Hex`",
+              "description": ""
+            }
+          },
+          {
+            "key": "3-1-4",
+            "data": {
+              "name": " scriptHash",
+              "type": " ` Hex`",
+              "description": ""
+            }
+          },
+          {
+            "key": "3-1-5",
+            "data": {
+              "type": " wif",
+              "description": " ` Hex`"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "key": "4",
+    "data": {
+      "name": " SLIP44",
+      "type": " _Number_",
+      "description": " SLIP44 value for the coin, see:  [  SLIP44 Values ](https://github.com/satoshilabs/slips/blob/master/slip-0044.md)",
+      "required": " no"
+    }
+  },
+  {
+    "key": "5",
+    "data": {
+      "name": " pubTypes",
+      "type": " _String_",
+      "description": " Defaults to Syscoin ZPub/VPub types. Specific ZPub for BIP84 and VPub for testnet",
+      "required": " no"
+    }
+  }
+]

@@ -1,0 +1,82 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " ethtxid",
+      "type": " _String_",
+      "description": " The transaction that calls freezeBurnERC20() on ERC20Manager contract"
+    }
+  },
+  {
+    "key": "1",
+    "data": {
+      "name": " web3url",
+      "type": " _String_",
+      "description": " If using eth-proof fully qualified Web3 HTTP-RPC URL that eth-proof needs to obtain the transaction proof and receipt proof information needed by Syscoin to validate the mint"
+    }
+  },
+  {
+    "key": "2",
+    "data": {
+      "name": " blocknumber",
+      "type": " _Buffer_",
+      "description": " If ethtxid/web3url not provided. Block number of transaction including freezeBurnERC20() call"
+    }
+  },
+  {
+    "key": "3",
+    "data": {
+      "name": " txvalue",
+      "type": " _Buffer_",
+      "description": " If ethtxid/web3url not provided. Buffer value of the transaction hex encoded in RLP format"
+    }
+  },
+  {
+    "key": "4",
+    "data": {
+      "name": " txroot",
+      "type": " _Buffer_",
+      "description": " If ethtxid/web3url not provided. Buffer value of the transaction merkle root encoded in RLP format"
+    }
+  },
+  {
+    "key": "5",
+    "data": {
+      "name": " txparentnodes",
+      "type": " _Buffer_",
+      "description": " If ethtxid/web3url not provided. Buffer value of the transaction merkle proof encoded in RLP format"
+    }
+  },
+  {
+    "key": "6",
+    "data": {
+      "name": " txpath",
+      "type": " _Buffer_",
+      "description": " If ethtxid/web3url not provided. Buffer value of the merkle path for the transaction and receipt proof"
+    }
+  },
+  {
+    "key": "7",
+    "data": {
+      "name": " receiptvalue",
+      "type": " _Buffer_",
+      "description": " If ethtxid/web3url not provided. Buffer value of the transaction receipt hex encoded in RLP format"
+    }
+  },
+  {
+    "key": "8",
+    "data": {
+      "name": " receiptroot",
+      "type": " _Buffer_",
+      "description": " If ethtxid/web3url not provided. Buffer value of the receipt merkle root encoded in RLP format"
+    }
+  },
+  {
+    "key": "9",
+    "data": {
+      "name": " receiptparentnodes",
+      "type": " _Buffer_",
+      "description": " If ethtxid/web3url not provided. Buffer value of the receipt merkle proof encoded in RLP format"
+    }
+  }
+]

@@ -1,0 +1,200 @@
+---
+sidebar_position: 3
+---
+
+
+import ShowInfoComponent from '../../../src/components/ShowInfoComponent/ShowInfoComponent';
+import * as tables from '../../../src/tables/tablesIndex';
+import * as examples from '../../../src/examples-code/examplesIndex';
+import { PrimeIcons } from 'primereact/api';
+import NpmIcon from '../../../src/images/npm-square-red-1.svg';
+
+# Syscoinjs-lib
+
+
+<p>
+<a href="https://github.com/syscoin/syscoinjs-lib">
+  <i className="pi pi-github" style={{'fontSize': '2em'}}></i>
+</a>
+
+<a href="https://www.npmjs.com/package/syscoinjs-lib">
+  <NpmIcon width="2rem" height="2rem" />
+</a>
+</p>
+
+A Javascript library for utilising Syscoin blockchain operations in node.js and browsers.
+
+This documentation is currently a WIP. Please let us know if you notice any typos or have any ideas for improvement.
+
+---
+
+### assetAllocationBurn
+
+##### *assetAllocationBurn( assetOpts, txOpts, assetMap, sysChangeAddress, feeRate, sysFromXpubOrAddress, utxos, redeemOrWitnessScript )*
+
+Burn an asset allocation for the purpose of provably burning. Could be used to create proof-of-burn for SysNEVM bridge by specifying the NEVM address as the destination in assetOpts.
+
+<ShowInfoComponent paramTable={tables.assetAllocationBurn} returnTable={tables.assetAllocationBurnReturn} examples={[examples.assetBurnToEth, examples.assetBurnToSys]} anchor={"#assetallocationburn"}/>
+
+---
+
+
+### assetAllocationMint
+
+##### *assetAllocationMint( assetOpts, txOpts, assetMap, sysChangeAddress, feeRate, sysFromXpubOrAddress, utxos, redeemOrWitnessScript )*
+
+Mint a new asset using proof-of-lock on NEVM chain as a proof to mint tokens on Syscoin.
+
+
+<ShowInfoComponent paramTable={tables.assetAllocationMint} returnTable={tables.assetAllocationMintReturn} examples={[examples.assetMintToSys, examples.assetMintToSys2]} anchor={"#assetallocationmint"}/>
+
+
+---
+
+
+
+### assetAllocationSend
+
+##### *assetAllocationSend( txOpts, assetMap, sysChangeAddress, feeRate, sysFromXpubOrAddress, utxos, redeemOrWitnessScript )*
+
+Send an asset allocation to other users. Once the assetSend() function has been used to issue a token to an address this function is then used to send the tokens.
+
+<ShowInfoComponent paramTable={tables.assetAllocationSend} returnTable={tables.assetAllocationSendReturn} examples={[examples.transferAsset, examples.transferAssetFundedByAddress, examples.transferAssetFundedByMultiHDSigners, examples.transferAssetFundedByMultisig, examples.transferAssetFundedByXpub, examples.transferAssetWithMemo]} anchor={"#assetallocationsend"}/>
+
+
+---
+
+
+
+### assetNew
+
+##### *assetNew( assetOpts, txOpts, sysChangeAddress, sysReceivingAddress, feeRate, sysFromXpubOrAddress, utxos, redeemOrWitnessScript )*
+
+Create new Syscoin Platform Token (SPT).
+
+<ShowInfoComponent paramTable={tables.assetNew} returnTable={tables.assetNewReturn} examples={[examples.newAsset]} anchor={"#assetnew"}/>
+
+
+---
+
+
+### assetSend
+
+##### *assetSend( txOpts, assetMap, sysChangeAddress, feeRate, sysFromXpubOrAddress, utxos, redeemOrWitnessScript )*
+
+Issue supply by sending it from asset to an address holding an allocation of the asset.
+
+<ShowInfoComponent paramTable={tables.assetSend} returnTable={tables.assetSendReturn} examples={[examples.issueAsset, examples.issueAssetNFT, examples.issueAssetNFT2]} anchor={"#assetsend"}/>
+
+
+---
+
+
+
+### assetUpdate
+
+##### *assetUpdate( assetGuid, assetOpts, txOpts, assetMap, sysChangeAddress, sysReceivingAddress, feeRate, sysFromXpubOrAddress, utxos, redeemOrWitnessScript )*
+
+Update an existing Syscoin Platform Token (SPT).
+
+<ShowInfoComponent paramTable={tables.assetUpdate} returnTable={tables.assetUpdateReturn} examples={[examples.updateAsset, examples.updateAssetAuxFees, examples.updateAssetNotary]} anchor={"#assetupdate"}/>
+
+
+---
+
+
+### createPSBTFromRes
+##### *createPSBTFromRes( res, redeemOrWitnessScript )*
+
+Crafts a PSBT from a res object. Detects witness/non-witness UTXOs and sets appropriate data required for bitcoinjs-lib to sign properly.
+
+<ShowInfoComponent paramTable={tables.createPSBTFromRes} returnTable={tables.createPSBTFromResReturn} anchor={"#createpsbtfromres"}/>
+
+
+---
+
+
+### createTransaction
+##### *createTransaction( txOpts, changeAddress, outputsArr, feeRate, fromXpubOrAddress, utxos, redeemOrWitnessScript )*
+
+This function is used to send Syscoin or Bitcoin or like coins.
+
+<ShowInfoComponent paramTable={tables.createTransaction} returnTable={tables.createTransactionReturn} examples={[examples.sendSys, examples.sendSysMemo]} anchor={"#createtransaction"}/>
+
+
+---
+
+
+
+### fetchAndSanitizeUTXOs
+
+##### *fetchAndSanitizeUTXOs( utxos, fromXpubOrAddress, txOpts, assetMap, excludeZeroConf )*
+
+Fetch UTXO's for an address or [xPub](types/#xpub) from back-end Blockbook provider and sanitize them for use by upstream libraries.
+
+<ShowInfoComponent paramTable={tables.fetchAndSanitizeUTXOs} returnTable={tables.fetchAndSanitizeUTXOsReturn} anchor={"#fetchandsanitizeutxos"}/>
+
+
+---
+
+
+### signAndSend
+
+##### *signAndSend( res, notaryAssets )*
+
+Signs and Notarizes if necessary and sends a transaction to the network using [Signer](utils/#Signer).
+
+<ShowInfoComponent paramTable={tables.signAndSend} returnTable={tables.signAndSendReturn} anchor={"#signandsend"}/>
+
+
+---
+
+
+
+### signAndSendWithSigner
+
+##### *signAndSendWithSigner( res, Signer, notaryAssets )*
+
+Signs and Notarizes if necessary and sends a transaction to the network using [Signer](utils/#Signer).
+
+<ShowInfoComponent paramTable={tables.signAndSendWithSigner} returnTable={tables.signAndSendWithSignerReturn} anchor={"#signandsendwithSigner"}/>
+
+
+---
+
+
+
+### signAndSendWithWIF
+
+##### *signAndSendWithWIF( res, wif, notaryAssets )*
+
+Signs and Notarizes if necessary and sends a transaction to the network using [Signer](utils/#Signer).
+
+<ShowInfoComponent paramTable={tables.signAndSendWithWIF} returnTable={tables.signAndSendWithWIFReturn} examples={[examples.sendSysMemo]} anchor={"#signandsendwithwif"}/>
+
+
+---
+
+
+
+### Syscoin
+
+##### *Syscoin( Signer, blockbookURL, network )*
+
+Constructor.
+
+Top level object used by consuming libraries to craft Syscoin/Bitcoin transactions. For Syscoin SPT support is provided.
+
+<ShowInfoComponent paramTable={tables.Syscoin} anchor={"#syscoin"}/>
+
+
+---
+
+
+### syscoinBurnToAssetAllocation
+
+##### *syscoinBurnToAssetAllocation( txOpts, assetMap, sysChangeAddress, feeRate, sysFromXpubOrAddress, utxos, redeemOrWitnessScript )*
+
+Burn Syscoin to mint SYSX.
+
+<ShowInfoComponent paramTable={tables.syscoinBurnToAssetAllocation} returnTable={tables.syscoinBurnToAssetAllocationReturn} examples={[examples.sysBurnToAsset]} anchor={"#syscoinburntoassetallocation"}/>

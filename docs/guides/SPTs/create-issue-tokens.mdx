@@ -1,0 +1,327 @@
+# Create/Issue Tokens
+
+
+
+This guide helps you create and issue a Syscoin Platform Token (SPT) using Syscoin Core 4.2
+
+> ### 📘NOTE
+>
+> You should use a separate walk-through if you are creating a Bridge-enabled token that correlates with an existing Ethereum ERC-20. [HOWTO: Provision the Bridge for your ERC-20](https://syscoin.readme.io/docs/erc-20-to-spt-guide)
+
+> ### 🚧Changes to the Syscoin Token Platform since Syscoin Core 3
+>
+> - Non-Fungible Tokens (NFT), both fractional and non-fractional, are now supported
+> - All tokens are now UTXO-based (like Bitcoin) for greater efficiency instead of Account-based (like Ethereum)
+> - Tokens can now be used with Syscoin Bridge when Agent nodes are active
+> - Token creation fee is 1 SYS instead of 500 SYS
+> - New option: notary_address, notary_details ([learn more](notary-business-rulesets))
+> - New option: auxfee_details ([learn more](aux-fees))
+> - New option: contract ([learn more](bridge-erc20-spt))
+> - `asset_guid` is the unique identifier of a token
+> - Tokens are now address-only. On-chain aliases have been removed for greater scalability.
+> - P2PWKH and P2WSH are the current supported witness programs. Future witness programs may be included in Bitcoin Core and Syscoin Core enhancements to extend functionality.
+
+## 1. Ensure your wallet has over 1 SYS to fund asset creation and other operations
+
+The token creation fee is currently 1 SYS. You'll also need extra to serve as a gas fund for the token, and for future transactions such as updating your token spec.
+
+If you need to send 1 or more SYS to your wallet, wait until your transaction has at least one confirmation, then proceed.
+
+## 2. Define and create your token
+
+We will now define then create the SPT using the `assetnew` command. This command will sign and broadcast the transaction to the network, and return the transaction ID.
+
+In this example we will create a very basic SPT without using the `contract`, `aux_fees` and `notary` options.
+
+```text
+$ syscoin-cli help assetnew
+
+assetnew funding_amount "symbol" "description" "contract" precision max_supply ( updatecapability_flags "notary_address" {"endpoint":"str","instant_transfers":bool,"hd_required":bool} {"auxfee_address":"str","fee_struct":[,,...]} )
+
+Create a new asset
+
+Arguments:
+1. funding_amount                    (numeric or string, required) Fund resulting UTXO owning the asset by this much SYS for gas.
+2. symbol                            (string, required) Asset symbol (1-8 characters)
+3. description                       (string, required) Public description of the token.
+4. contract                          (string, required) Ethereum token contract for SyscoinX bridge. Must be in hex and not include the '0x' format tag. For example contract '0xb060ddb93707d2bc2f8bcc39451a5a28852f8d1d' should be set as 'b060ddb93707d2bc2f8bcc39451a5a28852f8d1d'. Leave empty for no smart contract bridge.
+5. precision                         (numeric, required) Precision of balances. Must be between 0 and 8. The lower it is the higher possible max_supply is available since the supply is represented as a 64 bit integer. With a precision of 8 the max supply is 10 billion.
+6. max_supply                        (numeric or string, required) Maximum supply of this asset. Depends on the precision value that is set, the lower the precision the higher max_supply can be.
+7. updatecapability_flags            (numeric) Ability to update certain fields. Must be decimal value which is a bitmask for certain rights to update. The bitmask 1 represents the ability to update public data field, 2 for updating the smart contract field, 4 for updating supply, 8 for updating notary address, 16 for updating notary details, 32 for updating auxfee details, 64 for ability to update the capability flags (this field). 127 for all. 0 for none (not updatable).
+8. notary_address                    (string) Notary address
+9. notary_details                    (json object) Notary details structure (if notary_address is set)
+     {
+       "endpoint": "str",            (string, required) Notary API endpoint (if applicable)
+       "instant_transfers": bool,    (boolean, required) Enforced double-spend prevention on Notary for Instant Transfers
+       "hd_required": bool,          (boolean, required) If Notary requires HD Wallet approval (for sender approval specifically applicable to change address schemes), usually in the form of account XPUB or Verifiable Credential of account XPUB using DID
+     }
+10. auxfee_details                   (json object) Auxiliary fee structure (may be enforced if notary is set)
+     {
+       "auxfee_address": "str",      (string, required) AuxFee address
+       "fee_struct": [               (json array, required) Auxiliary fee structure
+         ,                           (numeric or string, required) Bound (in amount) for for the fee level based on total transaction amount
+         ,                           (numeric, required) The percentage in %% to share with the operator. The value must be
+                                     between 0.00(0%%) and 0.65535(65.535%%).
+         ...
+       ],
+     }
+
+Result:
+{                      (json object)
+  "txid" : "hex",      (string) The transaction id
+  "asset_guid" : n     (numeric) The unique identifier of the new asset
+}
+
+Examples:
+> syscoin-cli assetnew 1 "CAT" "publicvalue" "contractaddr" 8 1000 127 "notary_address" {} {}
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "assetnew", "params": [1, "CAT", "publicvalue", "contractaddr", 8, 1000, 127, "notary_address", {}, {}]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+> ### 📘aux_fees
+>
+> The aux_fees parameter is used to specify a custom fee structure for your token. [Learn about aux_fees and how to use them](https://syscoin.readme.io/docs/auxiliary-fees-aux_fees).
+
+Summary of `assetnew` arguments:
+
+```
+assetnew <gasFundAmount> "<tokenSymbol>" "<tokenDescription>" "<contractERC20>" <precision> <maxSupply> <updateCapabilityFlags> "<notaryAddress>" {<notaryDetailsJSON>} {<auxFeesJSON>}
+```
+
+**A standard fungible token** looks as follows:
+
+```text
+$ syscoin-cli assetnew 100 "MYASSET" "This is my asset, a very good asset" "" 8 10000 127 "" {} {}
+
+{
+  "txid": "67bbbeb8635bf6894c460bfda4cda0ced2a69e3e9ebe01dd9bba54e878d043ad",
+  "asset_guid": 3942786440
+}
+```
+
+**A non-fractional (indivisible), non-fungible token** can be created as follows with precision set to zero and max supply 1.0:
+
+```text
+$ syscoin-cli assetnew 100 "ANDYSELF" "Self-Portrait, Andy Warhol, Original (1963)" "" 0 1.0 127 "" {} {}
+```
+
+**A fractional (divisible) non-fungible token** is created when a token is issued via `assetsend` with a NFTID specified. See section 4b(i) below.
+
+Record the assigned asset GUID for future use.
+
+Wait for this transaction to receive at least one confirmation, then proceed.
+
+## 3. Check the token specification
+
+Review your token specification as it exists on the Syscoin blockchain by executing this command: `assetinfo <assetGUID>`
+
+It should look similar to this and reflect the attributes you have most recently set:
+
+```text
+$ syscoin-cli assetinfo 3942786440
+
+{
+  "asset_guid": 3942786440,
+  "symbol": "MYASSET",
+  "public_value": {
+    "desc": "This is my asset, a very good asset"
+  },
+  "contract": "",
+  "notary_address": "",
+  "total_supply": 0.00000000,
+  "max_supply": 10000.00000000,
+  "updatecapability_flags": 127,
+  "precision": 8
+}
+```
+
+The total supply will remain "0" until you use `assetsend` to issue some of the tokens.
+
+> ### 📘A note on issuance: The difference between `assetsend` and `assetallocationsend`
+>
+> `assetsend` is not for sending existing tokens from one address to another (asset allocation), it is strictly for issuance of tokens by the owner of the token specification.
+>
+> Token users can learn how to perform basic asset allocations with `assetallocationsend` [here](https://syscoin.readme.io/v4.2.0/docs/using-syscoin-42-tokens).
+
+## 4. Issue Fungible Tokens
+
+This step covers how to issue a quantity of fungible tokens into circulation.
+
+`assetsend` will issue and allocate a designated quantity of tokens to an address. It also signs and broadcasts the transaction to the network, and returns the transaction ID.
+
+```text
+$ help assetsend
+
+assetsend asset_guid "address" amount ( sys_amount NFTID )
+
+Send an asset you own to another address.
+
+Arguments:
+1. asset_guid    (numeric, required) The asset guid.
+2. address       (string, required) The address to send the asset to (creates an asset allocation).
+3. amount        (numeric or string, required) Amount of asset to send.
+4. sys_amount    (numeric or string) Amount of syscoin to send.
+5. NFTID         (numeric) Optional NFT ID to send
+
+Result:
+{                    (json object)
+  "txid" : "hex"     (string) The transaction id
+}
+
+Examples:
+> syscoin-cli assetsend "asset_guid" "address" "amount" "sys_amount" "NFTID"
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "assetsend", "params": ["asset_guid", "address", "amount",  "sys_amount", "NFTID"]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+Summary of `assetsend` arguments:
+
+```
+assetsend <assetGUID> "<recipientAddress>" <assetAmount> <sysAmount> <NFTID>
+```
+
+In this simple example we will not specify an NFTID - leave this blank. The issuance is handled as fungible when NFTID **is not** used. We will include a small amount of SYS for gas.
+
+Our command for issuing a fungible portion of 425 tokens is as follows:
+
+```text
+$ syscoin-cli assetsend 3942786440 "tsys1q7mn0aymk3cwv0uf3udegn68l3u5equz0x02jev" 425 0.0000098
+
+{
+  "txid": "fcdb5d1793cc40c7f266e3f8fd8f8b74ffdf8f8f1e9c5e8b2c1c3aea9e36a4e9",
+  "assets_issued_count": 1,
+  "assets_issued": [
+    {
+      "asset_guid": 3942786440,
+      "amount": 425.00000000,
+      "sys_amount": 0.00000980
+    }
+  ]
+}
+```
+
+## 4b. Issue Non-Fungible Tokens
+
+This step covers how to issue and transfer a non-fungible token to its first owner. **To issue fungible tokens, go to subsection 4a.**
+
+Syscoin 4.2 enables issuers to **optionally** assign a unique identifier to an issuance, which effectively makes it an NFT. Using `assetsend` with NFTID will issue and allocate a non-fungible token to an address. It also signs and broadcasts the transaction to the network, and returns the transaction ID.
+
+Further, **Divisible and Non-Divisible NFTs can be issued.** This article covers how to do both.
+
+> ### 📘NFT Data
+>
+> The issuer-assigned ID of an NFT is stored on the Syscoin blockchain (NFTID). Beyond the unique identifier, storage of any detailed-oriented data associated with the asset is the responsibility of the issuer, and isn't stored on the Syscoin blockchain. This is part of what keeps the Syscoin blockchain and its NFT functionality efficient and scalable.
+>
+> The issuer-assigned NFTID is a 4 byte unsigned integer with a max value of 4294967295. Syscoin Core also assigns a unique identifier of the same byte-length and type to ensure global uniqueness on the blockchain. The total footprint of an NFT is only 8 bytes greater than a standard fungible token.
+
+## 4b(i). How to Issue and Transfer a Fractional (Divisible) Non-Fungible Token
+
+In this example we will work with a testnet asset representing an inventory of up to 1,000 serialized 100oz gold bars, 6 of which have already been issued to owners.
+
+```text
+$ syscoin-cli assetinfo 2433418946
+
+{
+  "asset_guid": 2433418946,
+  "symbol": "AU100",
+  "public_value": {
+    "desc": "XYZ Vaulting Co. - 100oz AU bar - Royal Canadian Mint - Serialized"
+  },
+  "contract": "",
+  "notary_address": "",
+  "total_supply": 6.000000,
+  "max_supply": 1000.000000,
+  "updatecapability_flags": 127,
+  "precision": 6
+}
+```
+
+**1.** issue another entire bar (1 new token) and identify it with the serial number stamped on the physical asset by the Royal Canadian Mint (13077), and send to a designated recipient address - in this case an address for which you hold the key. Send a small amount of SYS for gas to be used in the future, too.
+
+```text
+$ syscoin-cli assetsend 2433418946 "tsys1qs5wd5gftn22dtf7d00gvfkhjvdkdvlufpk86wj" 1 0.0000098 13077
+
+{
+  "txid": "4946da4260cb5b8eed4f6be95673fd2aa48d349df2ed81921faed04eef4fb01b",
+  "assets_issued_count": 1,
+  "assets_issued": [
+    {
+      "asset_guid": 56167720748738,
+      "base_asset_guid": 2433418946,
+      "NFTID": 13077,
+      "amount": 1.00000000,
+      "sys_amount": 0.00000980
+    }
+  ]
+}
+```
+
+**2.** Transfer 12.7251% ownership of the bar (56167720748738) to another address by using `assetallocationsend`. We will also send the address a small amount of SYS for gas to be used in the future. We'll make the transaction use Z-DAG by specifying to be `false`.
+
+```text
+$ syscoin-cli assetallocationsend 56167720748738 tsys1qcycfg3uhw4x706nvqtaz0e6lu74zwsc2qvy4vs 0.127251 0.0000098 false
+
+{
+  "txid": "737abcbfa2d42e2188966343b169442c8067c82d133a39d27ad56015076376cf",
+  "assetallocations_sent_count": 1,
+  "assetallocations_sent": [
+    {
+      "asset_guid": 56167720748738,
+      "base_asset_guid": 2433418946,
+      "NFTID": 13077,
+      "amount": 0.12725100,
+      "sys_amount": 0.00000980
+    }
+  ]
+}
+```
+
+## 4b(ii). How to Issue and Transfer a Non-Fractional Non-Fungible Token
+
+In this example we will start with a testnet asset representing the inventory of an art vault.
+
+```text
+$ syscoin-cli assetinfo 389115219
+
+{
+  "asset_guid": 389115219,
+  "symbol": "VAULT9",
+  "public_value": {
+    "desc": "Fitzstephen Co. Art Vault #9"
+  },
+  "contract": "",
+  "notary_address": "",
+  "total_supply": 0.00000000,
+  "max_supply": 288.0,
+  "updatecapability_flags": 127,
+  "precision": 0
+}
+```
+
+**This asset was defined with a precision of 0 and a max supply of 288, because there are 288 art pieces held in the vault, and ownership of each of these will be transferred to one owner as a non-divisible token representing the entirety of the piece**
+
+> ### 📘Note
+>
+> You can also create an asset with precision 0 and max supply 1, effectively making the primary asset itself a non-divisble NFT. However, it's often more intuitive to issue multiple unique non-divisible tokens from a single parent asset (the inventory). This is more cost effective as you pay the asset creation fee only once (1 SYS) and are able to issue a quantity of unique child NFT's up to the max supply of the parent asset, only paying the comparatively small fee associated with `assetsend` for each new NFT.
+>
+> Children assets inherit the attributes of the parent and are unique only by their NFTID and deterministic child assetGUID. If you want each NFT you issue to use a different Notary API, on-chain description, etc, you would use `assetnew` and pay the asset creation fee for each of them.
+
+Issue one of the art pieces into the new owner's possession with `assetsend` in the amount of 1 token, and assign the NFTID (your own numeric identifier representing the art piece), in this case 14, your inventory number for Andy Warhol's original Self Portrait. We'll also send the new owner a small amount of SYS for gas to be used in the future (0.000098).
+
+```text
+$ syscoin-cli assetsend 389115219 "tsys1qktelej8knjvc5nfpka2evnwyfsw6ltqnhd9k2f" 1.0 0.0000098 14
+
+{
+  "txid": "4ef2b4f0a807f2542567cc79201ddf8b22aadb0156ac54313cd0e186ef210296",
+  "assets_issued_count": 1,
+  "assets_issued": [
+    {
+      "asset_guid": 4684082515,
+      "base_asset_guid": 389115219,
+      "NFTID": 14,
+      "amount": 1.0,
+      "sys_amount": 0.00000980
+    }
+  ]
+}
+```
+
+The new owner can now transfer ownership using `assetallocationsend` with <asset_guid> 4684082515

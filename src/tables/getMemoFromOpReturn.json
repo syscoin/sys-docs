@@ -1,0 +1,19 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " outputs",
+      "type": " _Array_",
+      "description": " Transaction output array",
+      "required": " yes"
+    }
+  },
+  {
+    "key": "1",
+    "data": {
+      "name": " memoHeader",
+      "type": " _String_",
+      "description": " Memo prefix, application specific. If not passed in just return the raw opreturn script if found."
+    }
+  }
+]

@@ -1,0 +1,29 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " rawHex",
+      "type": " _String_",
+      "description": " Raw transaction hex",
+      "required": " yes"
+    }
+  },
+  {
+    "key": "1",
+    "data": {
+      "name": " memoHeader",
+      "type": " _String_",
+      "description": " Memo prefix, application specific",
+      "required": " yes"
+    }
+  },
+  {
+    "key": "2",
+    "data": {
+      "name": " buffMemo",
+      "type": " _Buffer_",
+      "description": " Buffer memo to put into the transaction",
+      "required": " yes"
+    }
+  }
+]

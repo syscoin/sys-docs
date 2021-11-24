@@ -1,0 +1,11 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " pubKey",
+      "type": " _String_",
+      "description": " Bitcoinjs-lib public key",
+      "required": " yes"
+    }
+  }
+]

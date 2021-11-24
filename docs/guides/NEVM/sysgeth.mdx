@@ -1,0 +1,59 @@
+# Syscoin Geth (sysgeth)
+
+
+
+When running Syscoin Core (syscoind or syscoini-qt), a copy of sysgeth will first be downloaded to the Syscoin data directory and then ran as Syscoin Core starts up. Therefore, it is easy to launch a sysgeth in console mode to directly interact with NEVM. Sysgeth (github.com/syscoin/go-ethereum) is custom version of geth (github.com/ethereum/go-ethereum) built to enable NEVM on Syscoin blockchain.
+
+## Sysgeth Argument
+
+Since sysgeth is launched on startup, for all argument supported by geth, we can pass them through syscoin's argument. This can be done by appending `--gethcommandline=` in the syscoind command line directly or prefix them with `gethcommandline=` in syscoin.conf.
+
+Example of command line call for syscoind
+
+```text
+syscoind --testnet=1 --zmqpubnevm=tcp://127.0.0.1:1111 --gethcommandline=--http --gethcommandline=--http.addr=localhost --gethcommandline=--http.port=8101 --gethcommandline=--http.api=admin,debug,eth,miner,net,personal,txpool,web3
+```
+
+Example of a syscoin.conf is as below
+
+```text
+testnet=1
+daemon=1
+zmqpubnevm=tcp://127.0.0.1:1111
+[test]
+gethcommandline=--http
+gethcommandline=--http.addr=localhost
+gethcommandline=--http.port=8101
+gethcommandline=--http.api=admin,debug,eth,miner,net,personal,txpool,web3
+gethcommandline=--http.corsdomain="chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn"
+gethcommandline=--allow-insecure-unlock
+#gethcommandline=--mine
+#gethcommandline=--miner.etherbase=0xe600696eb0555c93f2c391a1406726cee239091d
+#gethcommandline=--light.serve=25
+gethcommandline=--bootnodes=enode://828d6a26e0ea4c51ad7bc2bd8d4a4b6ec719a0ac14a086f62017941fa26359832b287d2039e57e50f66909d7d1b3cd27073f057ac552c5cdd7a584d4b04f5c4a@18.118.194.233:30303
+```
+
+If all the argument are in the `syscoin.conf` file then syscoind can be ran directly without any argument, eg. `syscoind`
+
+> ### 📘zmqpubnevm
+>
+> zmqpubnevm is not required as it is enabled by default
+> If you don't want to run sysgeth nevm, you can disable it by setting zmqpubnevm to empty.
+> `zmqpubnevm=""`
+
+## Connecting to Sysgeth
+
+With the above configuration, we can then connect using sysgeth to start up the javascript console.
+First, we need to locate the sysgeth binary, which is located in the Syscoin data directory by default.
+On Linux box, that would be under `~/.syscoin/`
+
+Then, we can simply run the binary and attach it to the running sysgeth using `attach` on the .ipc
+
+```text
+cd ~/.syscoin
+./sysgeth attach ~/.syscoin/testnet3/geth/geth.ipc
+```
+
+> ### 📘Note
+>
+> The location of sysgeth is by default in the base directory of the syscoin datadir, where as the geth.ipc file will be in either [syscoin datadir]/geth/geth.ipc or [syscoin datadir]/testnet3/geth/geth.ipc depending on whether you're running mainnet or testnet

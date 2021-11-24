@@ -1,0 +1,11 @@
+[
+  {
+    "key": "0",
+    "data": {
+      "name": " tx",
+      "type": " [  _Transaction_ ](types/#transaction)",
+      "description": " Bitcoinjs transaction",
+      "required": " yes"
+    }
+  }
+]

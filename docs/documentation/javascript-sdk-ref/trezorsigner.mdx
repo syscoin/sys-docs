@@ -1,0 +1,159 @@
+---
+sidebar_position: 5
+---
+
+import ShowInfoComponent from '../../../src/components/ShowInfoComponent/ShowInfoComponent';
+import * as tables from '../../../src/tables/tablesIndex';
+
+
+# TrezorSigner
+
+These are the TrezorSigner exported functions, TrezorSigner is used to manage and sign transactions using a Trezor hardware wallet. BIP44/BIP84 are supported. P2WPKH, P2WSH, P2PKH, P2SH.
+
+
+### backup
+
+##### *backup()*
+
+Encrypt to password and backup to local storage for persistence.
+
+
+---
+
+### convertToTrezorFormat
+
+##### *convertToTrezorFormat()*
+
+Converts a Syscoin PSBT to Trezor format.
+
+<ShowInfoComponent paramTable={tables.convertToTrezorFormat} returnTable={tables.convertToTrezorFormatReturn} anchor={"#converttotrezorformat"}/>
+
+
+---
+
+### createAccount
+
+##### *createAccount()*
+
+Create and derive a new account.
+
+<ShowInfoComponent returnTable={tables.createAccountReturn} anchor={"#createaccount"}/>
+
+
+---
+
+
+### deriveAccount
+
+##### *deriveAccount( index )*
+
+Derive a HD account based on the index number passed in.
+
+<ShowInfoComponent paramTable={tables.deriveAccount} returnTable={tables.deriveAccountReturn} anchor={"#deriveaccount"}/>
+
+---
+
+### getAccountNode
+
+##### *getAccountNode()*
+
+Returns the [TrezorSigner](utils/#trezorsigner)'s BIP32 root node.
+
+<ShowInfoComponent returnTable={tables.getRootNodeReturn} anchor={"#getrootnode"}/>
+
+
+---
+
+### getAccountXpub
+
+##### *getAccountXpub()*
+
+Gets the [xPub](types/#xpub) for the account currently in use by the [TrezorSigner](utils/#trezorsigner), useful for public provider look-ups based on [xPub](types/#xpub) accounts.
+
+<ShowInfoComponent returnTable={tables.getAccountXpubReturn} anchor={"#getaccountxpub"}/>
+
+
+---
+
+
+### getAddressFromPubKey
+
+##### *getAddressFromPubKey( pubKey )*
+
+Takes a public key and gives back a P2WPKH address.
+
+<ShowInfoComponent paramTable={tables.getAddressFromPubKey} returnTable={tables.getAddressFromPubKeyReturn} anchor={"#getaddressfrompubkey"}/>
+
+
+---
+
+
+### getNewChangeAddress
+
+##### *getNewChangeAddress( skipIncrement )*
+
+Get new address for sending change to.
+
+<ShowInfoComponent paramTable={tables.getNewChangeAddress} returnTable={tables.getNewChangeAddressReturn} anchor={"#getnewchangeaddress"}/>
+
+
+---
+
+
+
+### getNewReceivingAddress
+
+##### *getNewReceivingAddress( skipIncrement )*
+
+Get new address for sending coins to.
+
+<ShowInfoComponent paramTable={tables.getNewReceivingAddress} returnTable={tables.getNewReceivingAddressReturn} anchor={"#getnewreceivingaddress"}/>
+
+
+---
+
+
+### restore
+
+##### *restore( password )*
+
+Restore on load from local storage and decrypt data to de-serialize objects.
+
+<ShowInfoComponent paramTable={tables.restore} returnTable={tables.restoreReturn} anchor={"#restore"}/>
+
+
+---
+
+### setAccountIndex
+
+##### *setAccountIndex( accountIndex )*
+
+Set HD account based on accountIndex number passed in so HD indexes (change/receiving) will be updated accordingly to this account.
+
+<ShowInfoComponent paramTable={tables.setAccountIndex} anchor={"#setaccountindex"}/>
+
+
+---
+
+
+
+### setLatestIndexesFromXPubTokens
+
+##### *setLatestIndexesFromXPubTokens( tokens )*
+
+Sets the change and receiving indexes from [xPub](types/#xpub) tokens passed in, from a back-end provider response.
+
+<ShowInfoComponent paramTable={tables.setLatestIndexesFromXPubTokens} anchor={"#setlatestindexesfromxpubtokens"}/>
+
+
+---
+
+
+
+### sign
+
+##### *sign( res )*
+
+Create signing information based on the [TrezorSigner](utils/#trezorsigner) (if set)
+
+<ShowInfoComponent paramTable={tables.sign} anchor={"#sign"}/>

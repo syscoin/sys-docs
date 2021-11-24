@@ -1,0 +1,64 @@
+---
+sidebar_position: 9
+---
+
+# Z-DAG
+
+
+
+[Z-DAG White Paper](https://syscoin.org/zdag_syscoin_whitepaper.pdf) (note this paper does not reflect all the optimizations that came after)
+
+
+
+**Syscoin's Z-DAG is a blockchain throughput scalability solution** that adds very little complexity. It solves problems endemic across the industry, not by altering mission-critical fundamentals or reinventing the wheel, but through proper tooling and facilitation across the network to maximize the utility of battle-tested Bitcoin code.
+
+
+
+**Z-DAG is based on Satoshi’s “snack machine” concept.** It was invented by Syscoin Lead Core Developer Jag Sidhu to actualize peer-to-peer electronic cash and extend means-of-exchange to tokenized assets. It utilizes mempool awareness and fast relay topology across a network of independently operating full nodes (2k+ at present), all of which validate first, then trust. A high degree of probabilistic security is enabled by fast propagation across time-sorting mempools. This global mempool is made interactive and useful to the recipient through tooling that provides mempool status awareness.
+
+
+
+**The probabilistic security provided by Z-DAG represents a guarantee that a transaction is not double-spent**, and will be accepted into a block and settled on-chain. The probability increases rapidly across time, to 99.9999% assurance within 10 seconds.
+
+
+
+**This enables a much more efficient fee market than bidding for a block.** A typical Z-DAG transaction costs 0.0000582 SYS (see: https://syscoin.org/fees for a live fee comparison), and provides secure high-throughput service even if blocks are full. This is technically a layer-1 solution because the mempool resides within the blockchain security domain and **all valid transactions that use Z-DAG settle on-chain through bitcoin-core-compliant consensus**.
+
+
+
+### How is it useful?
+
+**Syscoin’s implementation is particularly useful for microtransactions with tokens** such as buying groceries with [Binance USD](https://www.binance.com/en/blog/421499824684900781/Binance-Blockchain-Foundry-Work-Together-for-Wider-BUSD-Access), [Tether](https://tether.to/), [Lode's AGX or AUX](https://lode.one/), or simple value transfer of any token (this includes ERC-20s that use our [bridge](https://bridge.syscoin.org/) that is permissionless and trust-minimized). Z-DAG Protocol is utilized exclusively by the Syscoin token layer; all projects that tokenize on Syscoin benefit from this.
+
+
+
+**Z-DAG allows merchants or application developers to define their ideal speed/security trade-off** particular to their use case, for example depending on the value involved. A merchant receiving payment for coffee might choose to wait only a few seconds before considering the payment safe against double-spends and redeemable. A cart full of groceries? Maybe 5 to 10 seconds. On the other hand, a nation-state settling a cross-border trade debt might wait for what they consider a sufficient number of confirmations (60 sec block target) on Syscoin's bitcoin-core-compliant and merge-mined blockchain.
+
+
+
+**Z-DAG is more ideal for payments than other scaling approaches** that try to change the court-of-record (blockchain) consensus to force it to function as a payments service, ultimately tampering with proven security and creating severe trade-offs that are global. 
+
+**Industry-proven decentralized consensus is valuable to enterprises**. Our solution leaves the base layer intact. Syscoin Core is “religiously” maintained to remain bitcoin-core-compliant and up-to-date in a timely fashion (sometimes involving multiple commits in a single day), with 90%+ code coverage. 
+
+
+
+### Throughput Performance
+
+[**Whiteblock Inc**](https://whiteblock.io/)**, a third-party auditor, provided performance benchmarks of Z-DAG within realistic network conditions**, using hosts with standard Syscoin masternode hardware specs. Whiteblock is well-known for its benchmark service and Genesis platform, particularly among the Ethereum community. The results for Z-DAG can be summarized as follows. 
+
+![img](https://syscoin.org/thumbs/1044x/files//whiteblockcasestudy.png)
+
+- **Parameters:** network latency, quantity of nodes, quantity of assets.
+- **Average throughput: 8k - 15k** TPS depending on a range of latency
+- **Burst throughput: 61k TPS** (this rate can be sustained as long as the mempool is not full and latency conditions are conducive)
+- **Zero-latency control group: 145K TPS** (how most projects measure their TPS)
+
+**These represent some of the most positive throughput statistics in the industry** for a decentralized ledger network. We plan to perform even more thorough testing once sufficient optimizations have been introduced. Substantial resources would be required to even approach pushing Z-DAG to its limit on the live mainnet.
+
+Whiteblock's report on Z-DAG is public: [Full Report](https://www.whiteblock.io/wp-content/uploads/2019/07/ZDAG-Analysis.pdf), [Summary Report](https://whiteblock.io/wp-content/uploads/2019/12/ZDAG-Case-Study.pdf)
+
+### Scaling to Global Population Demand
+
+**The Syscoin Team understands Z-DAG itself does not solve scalability for global population demand -** the semi-absurd notion of 7 billion people transacting. Rather, we see it as an absolutely critical component to achieve this. The other component needed is multi-asset payment channels that use Z-DAG as a resilience fallback. One of the biggest problems with payment channels today is that when they aren't available (for any reason, e.g. lack of channel liquidity) the transactions roll directly to blockchain settlement. That destroys convenience and cost-savings, making payment channels non-viable as a decentralized payments solution compared to existing rails like centralized credit card networks.
+
+**Z-DAG fills this significant gap** by providing a performant decentralized fallback with a reasonable and predictable fee-market. Syscoin and some academic partners like [TU Delft](https://www.tudelft.nl/) are currently involved in R&D toward secure multi-asset payment channels - a technology which the industry has not yet achieved. We will combine this with Z-DAG.
