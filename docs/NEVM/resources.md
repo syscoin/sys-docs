@@ -1,6 +1,5 @@
 ---
 sidebar_position: 1
-slug: /
 ---
 
 # Developer Resources
@@ -33,11 +32,21 @@ This is an in-browser IDE that enables the writing, deploying and testing of sma
 
 
 
-## Documentation
+## Documentation & Libraries
 
 **Solidity Documentation**
 
 This is the programming language used to write smart contracts on EVM-based blockchains. [Find out more here.](https://docs.soliditylang.org/)
+
+
+
+**Web3.js Documentation**
+
+[Web3.js](https://web3js.readthedocs.io/en/v1.5.2/) is one of the foremost Javascript libraries used for creating browser dApps for EVM-compatible chains.
+
+**Ethers.js Documentation**
+
+[Ethers.js](https://github.com/ethers-io/ethers.js/) is a Javascript library that is similar to Web3.js that has gained a lot of popularity with dApp developers.
 
 
 
@@ -51,7 +60,7 @@ As Syscoin is primarily focused on the adoption of zkRollups, and using the Sysc
 
 - **[Aztec](https://aztec.network/)** - an open-source, layer 2 network that utilizes zkSNARK proofs, PLONK technology and the Noir programming language.
 
-  
+
 
 - ## Communities
 

@@ -21,6 +21,11 @@ module.exports = {
       },
       items: [
         {
+          href: 'docs',
+          label: "Docs",
+          position: 'left',
+        },
+        {
           href: 'https://github.com/syscoin',
           label: 'GitHub',
           position: 'right',
@@ -35,7 +40,7 @@ module.exports = {
           items: [
             {
               label: 'JS SDK Reference',
-              to: '/documentation/javascript-sdk-ref/syscoinjs',
+              to: 'docs/documentation/javascript-sdk-ref/syscoinjs',
             },
           ],
         },
@@ -44,7 +49,7 @@ module.exports = {
           items: [
             {
               label: 'Discord',
-              href: 'https://discord.gg/KP9Qx6H823',
+              href: 'https://discord.gg/syscoin',
             },
             {
               label: 'Twitter',
@@ -57,7 +62,7 @@ module.exports = {
           items: [
             {
               label: 'GitHub',
-              href: 'https://github.com/facebook/docusaurus',
+              href: 'https://github.com/syscoin',
             },
           ],
         },
@@ -81,7 +86,6 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         docs: {
-          routeBasePath: '/',
           sidebarPath: require.resolve('./sidebars.js'),
         },
         theme: {
