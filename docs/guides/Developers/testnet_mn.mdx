@@ -1,0 +1,371 @@
+# Testnet Masternode Setup Guide
+
+
+
+Please enable coin control and show masternode tab from the options.
+
+### Note: If using an Operator to host your node you now need to follow their instructions. The following applies to self hosted nodes.
+
+## SET UP VPS
+
+### Log onto your Server using Putty as Root.
+
+```
+**All text in boxes are commands and need to be typed (Copy/Paste into Putty followed by Enter.**
+```
+
+**Install Nano (Text editor)**
+
+```
+sudo apt-get update
+sudo apt-get install nano
+```
+
+**Manual Install**
+
+```
+Open ports/enable firewalls etc.apt install ufw python virtualenv git unzip pv -y
+ufw allow ssh/tcp 
+ufw limit ssh/tcp 
+ufw allow 18369/tcp 
+ufw allow 30303/tcp 
+ufw logging on 
+ufw enable
+```
+
+Install Swap file if you have only 4gb Memory
+
+```
+fallocate -l 4G /swapfile
+chmod 600 /swapfile
+mkswap /swapfile
+swapon /swapfile
+nano /etc/fstab
+```
+
+Add the following line at the end of the file, then press **Ctrl + X** to close the editor, then **Y** and **Enter** save the file.
+
+```
+/swapfile none swap sw 0 0
+```
+
+**Install Syscoin Binaries :**
+
+```
+wget https://github.com/syscoin/syscoin/releases/download/v4.3.0rc2/syscoin-4.3.0rc2-x86_64-linux-gnu.tar.gz
+tar xf syscoin-4.3.0rc2-x86_64-linux-gnu.tar.gz
+sudo install -m 0755 -o root -g root -t /usr/local/bin syscoin-4.3.0rc2/bin/*
+rm -r syscoin-4.3.0rc2
+mkdir ~/.syscoin
+```
+
+We need to create the config file
+
+```
+nano ~/.syscoin/syscoin.conf
+```
+
+Paste in the following:
+
+```
+testnet=1
+[test]
+rpcuser=user
+rpcpassword=password
+listen=1
+daemon=1
+server=1
+assetindex=1
+port=18369
+rpcport=18370
+rpcallowip=127.0.0.1
+addnode=54.190.239.153
+addnode=52.40.171.92
+```
+
+Press **Ctrl + X** to close the editor and **Y** and **Enter** save the file
+
+**Run Syscoin Core**
+
+```
+syscoind
+```
+
+## Check Blocks
+
+```
+syscoin-cli getblockchaininfo
+```
+
+**Install Sentinel**
+
+```
+sudo apt-get update
+sudo apt-get -y install git python3 virtualenv   ## note this says python3
+git clone https://github.com/syscoin/sentinel.git
+cd sentinel
+git checkout dev-4.x
+virtualenv -p $(which python3) ./venv
+./venv/bin/pip install -r requirements.txt
+```
+
+We now need to edit the sentinel config file
+
+```
+nano sentinel.conf
+```
+
+1. If there is a # In front of syscoin_conf= then remove it and change it to syscoin_conf=/root/.syscoin/syscoin.conf
+2. Put a # next to network=mainnet and remove the # next to network=testnet to enable testnet version of sentinel.
+
+Save
+
+Should look like this
+
+![img](../../../images/sentinel_setup.png)
+
+Finish Sentinel setup
+
+Create a crontab entry to wake sentinel every 5 minutes.
+
+```
+crontab -e
+```
+
+Please wait and select Nano as the option if this is the first time you have done this and add this line to the end of the file, including * * * * *
+
+\* * * * * cd /root/sentinel && ./venv/bin/python bin/sentinel.py 2>&1 >> sentinel-cron.log
+
+To Start Syscoind automatically on boot you can add this line.
+
+//Thanks to Locutus
+
+@reboot /usr/local/bin/syscoind -daemon >/dev/null 2>&1
+
+Save
+
+**SETUP THE MASTERNODE.**
+
+Return to QT
+
+### Note if using an existing address with seniority you will have to manually ‘lock’ the collateral until after you have registered the MN.
+
+Note the masternode.config file is no longer used.
+
+**More than one masternode can not share the same collateral address, ownerKeyAddress or votingKeyAddress and payout address cannot be the same as owner or voting addresses.**
+
+Create a new address for collateral this does not need to be a legacy address anymore, or use an existing seniority address. This address can also be in an offline wallet that has signing capabilities.
+
+```
+getnewaddress mn1
+```
+
+Send exactly 100,000 tsys to this address
+
+## Identify the funding transaction
+
+Click **Window> Console** and enter the following command:
+
+Note some commands now require an underscore
+
+```
+masternode_outputs
+```
+
+This should return a string of characters similar to the following:
+
+```
+{
+  "3304a4920f20e1e5cd1f34e5396556ded1e603296f7c5dd66c7ec4fe63cb008d": "0"
+}
+```
+
+The first long string is your `collateralHash`, while the last number is the `collateralIndex`.
+
+## Generate a BLS key pair
+
+A public/secret BLS key pair is required to operate a masternode. The secret key is specified on the masternode itself, and allows it to be included in the deterministic masternode list once a provider registration transaction with the corresponding public key has been created.
+
+If you are using a hosting service, they may provide you with their public key, and you can skip this step. If you are hosting your own masternode or have agreed to provide your host with the BLS secret key, generate a BLS public/secret keypair in the Console and entering the following command:
+
+```
+bls_generate{
+  "secret": "1a8f477d2b02650b7d159efe315940f05252334eb292376309386cc99b0c4ec7",
+  "public": "05afc5f75d0a215951677703e41a108a67f2efb31110e392d988dbd4f9e8446a3336d59de1ff886ec0d3c65c822af2de"
+}
+```
+
+**These keys are NOT stored by the wallet and must be kept secure, similar to the value provided in the past by the** `masternode genkey` **command.**
+
+## Add the secret key to your masternode configuration
+
+The public key will be used in following steps. The secret key must be entered in the `syscoin.conf` file on the masternode. This allows the masternode to watch the blockchain for relevant Pro*Tx transactions, and will cause it to start serving as a masternode when the signed ProRegTx is broadcast by the owner (final step below). Log in to your masternode using `ssh` or PuTTY and edit the configuration file as follows:
+
+```
+nano ~/.syscoin/syscoin.conf
+```
+
+The editor appears with the existing configuration. Add this line in the file, replacing the key with your BLS secret key generated above (excluding “ ”) and also add your VPS external address
+
+```
+masternodeblsprivkey=1a8f477d2b02650b7d159efe315940f05252334eb292376309386cc99b0c4ec7
+externalip=123.123.123.123
+```
+
+Press enter to make sure there is a blank line at the end of the file, then press **Ctrl + X** to close the editor and **Y** and **Enter** save the file. Note that providing a `masternodeblsprivkey` enables masternode mode, which will automatically force the `txindex=1`, `peerbloomfilters=1`, and `prune=0` settings necessary to provide masternode service. We now need to restart the masternode for this change to take effect. Enter the following commands, waiting a few seconds in between to give Syscoin time to shut down making sure you are in the root directory:
+
+```
+syscoin-cli stop
+sleep 5
+syscoind
+```
+
+We will now prepare the transaction used to register the masternode on the network.
+
+## Prepare a ProRegTx transaction
+
+A pair of BLS keys for the operator were already generated above, and the secret key was entered on the masternode. The public key is used in this transaction as the `operatorPubKey`.
+
+First, we need to get a new, unused address from the wallet to serve as the **owner key address** (`ownerKeyAddr`). This is not the same as the collateral address holding 100000 Sys. This address must be different for each MN. Generate a new address as follows:
+
+```
+getnewaddress mn1-ownertsys1q9aejtrvkrlnqsfeqanr5zh2wh676mvmekj4hj0
+```
+
+This address can also be used as the **voting key address** (`votingKeyAddr`). Alternatively, you can specify an address provided to you by your chosen voting delegate, or simply generate a new voting key address as follows:
+
+```
+getnewaddress mn1-votingtsys1q9aejtrvkrlnqsfeqanr5zhrttg8g8g
+```
+
+Then either generate or choose an existing address to receive the **owner’s masternode payouts** (`payoutAddress`). This address cannot be the same as your owner or voting address, it is also possible to use an address external to the wallet:
+
+```
+getnewaddress payoutstsys1quuu4ach5npjp3vpmaezzctc9r33405p39khz67
+```
+
+You can also optionally generate and fund another address as the **transaction fee source** (`feeSourceAddress`). If you selected an external payout address, you must specify a fee source address.
+
+Either the payout address or fee source address must have enough balance to pay the transaction fee, or the `register_prepare` transaction will fail.
+
+The private keys to the owner and fee source addresses must exist in the wallet submitting the transaction to the network. If your wallet is protected by a password, it must now be unlocked to perform the following commands. Unlock your wallet for 5 minutes:
+
+```
+walletpassphrase yourSecretPassword 300
+```
+
+**To see a list of common errors for the registration process click** [**https://bittyjohn1954.medium.com/syscoin-4-2-masternode-error-codes-df0b80828f5f**](https://bittyjohn1954.medium.com/syscoin-4-2-masternode-error-codes-df0b80828f5f)
+
+**You can use the registration helper blow but will need tto edit the first command generate to change the port to 18369**
+
+[Syscoin MasternodesSysnode.info provides Syscoin Masternode Operators the tools to maximise the most from their Masternodes!syshub-dev.web.app](https://syshub-dev.web.app/masternodes/masternode-registration)
+
+**Manually**
+
+We will now prepare an unsigned ProRegTx special transaction using the `protx_register_prepare` command. This command has the following syntax:
+
+```
+protx_register_prepare collateralHash collateralIndex ipAndPort ownerKeyAddr
+  operatorPubKey votingKeyAddr operatorReward payoutAddress (feeSourceAddress)
+```
+
+Open a text editor such as notepad ++to prepare this command. Replace each argument to the command as follows:
+
+- `collateralHash`: The txid of the 100000 Syscoin collateral funding transaction
+- `collateralIndex`: The output index of the 100000 Syscoin funding transaction
+- `ipAndPort`: Masternode IP address and port, in the format `x.x.x.x:yyyy`
+- `ownerKeyAddr`: The Syscoin address generated above for the owner address
+- `operatorPubKey`: The BLS public key generated above (or provided by your hosting service)
+- `votingKeyAddr`: The Syscoin address generated above, or the address of a delegate, used for proposal voting
+- `operatorReward`: The percentage of the block reward allocated to the operator as payment, 0 for no reward.
+- `payoutAddress`: A Syscoin address to receive the owner’s masternode rewards
+- `feeSourceAddress`: An (optional) address used to fund ProTx fee. `payoutAddress` will be used if not specified.
+
+Note that the operator is responsible for [specifying their own reward](https://docs.dash.org/en/stable/masternodes/maintenance.html#dip3-update-service) address in a separate `update_service` transaction if you specify a non-zero `operatorReward`. The owner of the masternode collateral does not specify the operator’s payout address.
+
+Either the `feeSourceAddress` or `payoutAddress` must hold a small balance since a standard transaction fee is involved.
+
+Example (remove line breaks if copying):
+
+```
+Note in this example I will use the same address for owner and voting and i will have sent a small amount of tSys to the payoutAddress for fees as i am not using feeSourceAddress.(Remember to lock your collateral if using a seniority address)protx_register_prepare
+  3304a4920f20e1e5cd1f4e5396556ded1e603296f7c5dd66c7ec4fe63cb008d
+  0
+  161.97.140.65:18369
+  tsys1q9aejtrvkrlnqsfeqanr5zh2wh676mvmekj4hj0
+  05afc5f75d0a215951677703e41a108a67f2efb31110e392d988dbd4f9e8446a3336d59de1ff886ec0d3c65c822af2de
+  tsys1q9aejtrvkrlnqsfeqanr5zh2wh676mvmekj4hj0
+  0
+  tsys1quuu4ach5npjp3vpmaezzctc9r33405p39khz67
+```
+
+Output:
+
+```
+{
+  "tx": "5000000000010163dc2d9a36a7a620386a23002ab6b8a2aba0956e7e047b73a6cf27d9d51571e80100000000feffffff020000000000000000d16a4cce0100000000008d00cb63fec47e6cd65d7c6f2903e6d1de566539e5341fcde5e1200f92a404330000000000000000000000000000ffffa1618f4447c12f73258d961fe6082720ecc7415d4ebebdadb37905afc5f75d0a215951677703e41a108a67f2efb31110e392d988dbd4f9e8446a3336d59de1ff886ec0d3c65c822af2de2f73258d961fe6082720ecc7415d4ebebdadb3790000160014e7395ee2f4986418b03bee442c2f051c6357d0318e95079d496ed43baba5101dab0ab5ace776ac1b0b7fcba7711a2504c9ea36610074c89a3b00000000160014279a7a94c83130b3eee07f2c66b2faa94b6cfe990247304402201f1e01ab33d4f388386ca5df94818674cf4b1909806c3a92ffc11ded88d84dfb02206d289cca1fbd19bc5154c85ec4f1eb3748f77071d863ae4f6aa18f56807f76e801210298a88bd8293e4d0248eb89f276cb54c26b3686ea4e17df155a22bfed2426862800000000",
+  "collateralAddress": "TB59KQk6WsMaJxkc8UB3hudjtGMqfeQWSG",
+  "signMessage": "tsys1quuu4ach5npjp3vpmaezzctc9r33405p39khz67|0|tsys1q9aejtrvkrlnqsfeqanr5zh2wh676mvmekj4hj0|tsys1q9aejtrvkrlnqsfeqanr5zh2wh676mvmekj4hj0|00def144051468bdb1a855f01bf9f022091c4c0ebc745d1ecc28ac418c9af2e0"
+}
+```
+
+Next we will use the `collateralAddress` and `signMessage` fields to sign the transaction, and the output of the `tx` field to submit the transaction.
+
+## Sign the ProRegTx transaction
+
+We will now sign the content of the `signMessage` (returned above) field using the public key for the collateral address as specified in `collateralAddress`. The wallet used to sign must hold the private key to the collateral address and note that no internet connection is required for this step, meaning that the wallet can remain disconnected from the internet in cold storage to sign the message. The command takes the following syntax:
+
+```
+signmessagebech32 collateralAddress signMessage
+```
+
+Example: (excluding “ ”)
+
+```
+signmessagebech32 TB59KQk6WsMaJxkc8UB3hudjtGMqfeQWSG tsys1quuu4ach5npjp3vpmaezzctc9r33405p39khz67|0|tsys1q9aejtrvkrlnqsfeqanr5zh2wh676mvmekj4hj0|tsys1q9aejtrvkrlnqsfeqanr5zh2wh676mvmekj4hj0|00def144051468bdb1a855f01bf9f022091c4c0ebc745d1ecc28ac418c9af2e0
+```
+
+Output:
+
+```
+IGj1ORdk3yv/uAMKG+DZrBA/GTHX4dW8zn/rmMfGzOzCIaxqmyUbNveYtnqh9wLVECENMjyuyeR2VmB3ccNlRLw=
+```
+
+## Submit the signed message
+
+We will now submit the ProRegTx special transaction to the blockchain to register the masternode. This command must be sent from the wallet holding a balance on either the `feeSourceAddress` or `payoutAddress`, since a standard transaction fee is involved. The command takes the following syntax:
+
+```
+protx_register_submit tx sig
+```
+
+Where:
+
+- `tx`: The serialized transaction previously returned in the `tx` output field from the `protx_register_prepare` command
+- `sig`: The message returned from the `signmessagebech32` command
+
+Example: (excluding “ ”)
+
+```
+protx_register_submit 5000000000010163dc2d9a36a7a620386a23002ab6b8a2aba0956e7e047b73a6cf27d9d51571e80100000000feffffff020000000000000000d16a4cce0100000000008d00cb63fec47e6cd65d7c6f2903e6d1de566539e5341fcde5e1200f92a404330000000000000000000000000000ffffa1618f4447c12f73258d961fe6082720ecc7415d4ebebdadb37905afc5f75d0a215951677703e41a108a67f2efb31110e392d988dbd4f9e8446a3336d59de1ff886ec0d3c65c822af2de2f73258d961fe6082720ecc7415d4ebebdadb3790000160014e7395ee2f4986418b03bee442c2f051c6357d0318e95079d496ed43baba5101dab0ab5ace776ac1b0b7fcba7711a2504c9ea36610074c89a3b00000000160014279a7a94c83130b3eee07f2c66b2faa94b6cfe990247304402201f1e01ab33d4f388386ca5df94818674cf4b1909806c3a92ffc11ded88d84dfb02206d289cca1fbd19bc5154c85ec4f1eb3748f77071d863ae4f6aa18f56807f76e801210298a88bd8293e4d0248eb89f276cb54c26b3686ea4e17df155a22bfed2426862800000000 IGj1ORdk3yv/uAMKG+DZrBA/GTHX4dW8zn/rmMfGzOzCIaxqmyUbNveYtnqh9wLVECENMjyuyeR2VmB3ccNlRLw=
+```
+
+Output:
+
+```
+285fba6277586401f8efaf55d4eef7acfa6d690a30c0db7f213a0bb2c6194bd1
+```
+
+Your masternode is now registered and will appear on the Deterministic Masternode List after the transaction is mined to a block. You can view this list on the **Masternodes** tab in QT, or in the console using the command `protx_list valid`, where the txid of the final `protx_register_submit` transaction identifies your masternode.
+
+At this point you can go back to your terminal window and monitor your masternode by entering
+
+```
+syscoin-cli masternode_status
+```
+
+![img](../../../images/mn_status.png)
+
+This information can also be seen by double clicking your masternode in QT
+
+Congratulations! Your masternode is now running.

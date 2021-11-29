@@ -1,0 +1,106 @@
+# Deploying Smart Contracts with Truffle
+
+
+
+This is a guide to creating and deploying smart contracts with Truffle while running Syscoin node.
+
+
+
+Please ensure you have [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) installed on your system before beginning the guide.
+
+This guide assumes that you are already running a Syscoin node.
+
+
+
+## 1. Install Truffle and create a project
+
+To install Truffle use the following command:
+
+```
+npm install truffle -g
+```
+
+Make a new directory where you wish to create your project then `cd` into it and run the command below:
+
+```
+truffle init
+```
+
+This will initialize your project.
+
+## 2. Create a new contract
+
+Create a new file in the `contracts` directory called `HelloNEVM.sol`.
+
+Paste the following code into the `HelloNEVM.sol` file.
+
+```
+pragma solidity ^0.8.10;
+
+contract HelloNEVM {
+    function sayHello() public pure returns(string) {
+        return(“Hello NEVM!”);
+    }
+}
+```
+
+
+
+## 3. Configure the network used by Truffle
+
+In `truffle-config.js` in the `networks:{}` section, add the following:
+
+```js
+live: {
+    host: "127.0.0.1",
+    port: 8369,
+    network_id: "*"
+},
+test: {
+    host: "127.0.0.1",
+    port: 18369,
+    network_id: "*"
+}
+```
+
+Depending on whether you are running a mainnet or testnet node you would use `live` or `development` respectively.
+
+## 4. Deploy the contract
+
+In the `migrations` folder create a JavaScript file named `2_deploy_contracts.js` for deploying the contract.
+
+Paste the following code into the file.
+
+```js
+var HelloNEVM = artifacts.require(“HelloNEVM”);
+module.exports = function(deployer) {
+    deployer.deploy(HelloNEVM, “hello”);
+    // Additional contracts can be deployed here
+};
+```
+
+Once this has been done then you can then deploy the contract (use `live` if you want to deploy on mainnet rather than testnet).
+
+```
+truffle deploy --network test
+```
+
+You will then receive the following output showing that the contracts has been successfully deployed.
+
+```
+Compiling your contracts...
+===========================
+> Compiling ./contracts/HelloNEVM.sol
+> Compiling ./contracts/Migrations.sol
+> Compilation warnings encountered:
+
+    Warning: SPDX license identifier not provided in source file. Before publishing, consider adding a comment containing "SPDX-License-Identifier: <SPDX-License>" to each source file. Use "SPDX-License-Identifier: UNLICENSED" for non-open-source code. Please see https://spdx.org for more information.
+--> project:/contracts/HelloNEVM.sol
+
+
+> Artifacts written to /home/nevm/Desktop/truffle/build/contracts
+> Compiled successfully using:
+   - solc: 0.8.10+commit.fc410830.Emscripten.clang
+
+```
+

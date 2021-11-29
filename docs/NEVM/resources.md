@@ -14,7 +14,7 @@ This page contains resources that will help facilitate developers building on Sy
 
 **Truffle Suite**:
 
-- **[Truffle](https://www.trufflesuite.com/truffle)**- A world class development environment, testing framework and asset pipeline for blockchains using the Ethereum Virtual Machine (EVM), aiming to make life as a developer easier.
+- **[Truffle](https://www.trufflesuite.com/truffle)** - A world class development environment, testing framework and asset pipeline for blockchains using the Ethereum Virtual Machine (EVM), aiming to make life as a developer easier.
 - **[Ganache](https://www.trufflesuite.com/ganache)** - A personal blockchain for Ethereum development you can use to deploy contracts, develop your applications, and run tests. It is available as both a desktop application as well as a command-line tool (formerly known as the TestRPC). Ganache is available for Windows, Mac, and Linux.
 - **[Drizzle](https://www.trufflesuite.com/drizzle)** - A collection of front-end libraries that make writing dapp front-ends easier and more predictable. The core of Drizzle is based on a Redux store, so you have access to the spectacular development tools around Redux. We take care of synchronizing your contract data, transaction data and more.
 
@@ -22,13 +22,13 @@ This page contains resources that will help facilitate developers building on Sy
 
 **Hardhat**
 
-A more recently released development environment that has similarities to Truffle, it provides the ability to compile, deploy, test and debug solidity smart contracts. [Find out more here.](https://hardhat.org/)
+[Hardhat](https://hardhat.org/) is a more recently released development environment that has similarities to Truffle, it provides the ability to compile, deploy, test and debug solidity smart contracts.
 
 
 
 **Remix IDE**
 
-This is an in-browser IDE that enables the writing, deploying and testing of smart contracts. It gives developers the ability to connect to any network they like through the use of browser extensions like MetaMask. [Find out more here.](https://remix.ethereum.org/)
+[Remix](https://remix.ethereum.org/) is an in-browser IDE that enables the writing, deploying and testing of smart contracts. It gives developers the ability to connect to any network they like through the use of browser extensions like MetaMask.
 
 
 
@@ -36,9 +36,7 @@ This is an in-browser IDE that enables the writing, deploying and testing of sma
 
 **Solidity Documentation**
 
-This is the programming language used to write smart contracts on EVM-based blockchains. [Find out more here.](https://docs.soliditylang.org/)
-
-
+[Solidity](https://docs.soliditylang.org/) is the programming language used to write smart contracts on EVM-based blockchains.
 
 **Web3.js Documentation**
 
@@ -47,6 +45,18 @@ This is the programming language used to write smart contracts on EVM-based bloc
 **Ethers.js Documentation**
 
 [Ethers.js](https://github.com/ethers-io/ethers.js/) is a Javascript library that is similar to Web3.js that has gained a lot of popularity with dApp developers.
+
+
+
+## Courses, Guides & Tutorials
+
+**CryptoZombies**
+
+The most popular course for how to create smart contracts, [CryptoZombies](https://cryptozombies.io/) has taught over 415,672 students how to code in Solidity and create dApps.
+
+**Create and Deploy Smart Contracts using Remix**
+
+Follow the guide [here](https://remix-ide.readthedocs.io/en/latest/create_deploy.html). To change your network to NEVM in MetaMask follow the guide [here](/guides/nevm/metamask).
 
 
 
