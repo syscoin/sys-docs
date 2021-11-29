@@ -2,15 +2,19 @@
 
 
 
-This is a guide to creating and deploying smart contracts with Truffle while running Syscoin node.
+This is a guide to creating and deploying smart contracts with Truffle on the Syscoin Tanenbaum Testnet.
 
+*NOTE: Syscoin is designed to be a settlement layer for zkRollups and other L2s/execution layers, as such it has a 2.5 minute block time for the optimal settlement security, it is advised to create dApps using zkRollups rather than using the Syscoin blockchain itself for executing smart contracts. You can find zkRollup resources [here](../../NEVM/resources/#zkrollups).*
 
+This guide assumes that you have already:
 
-Please ensure you have [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) installed on your system before beginning the guide.
+- Installed [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) on your system 
 
-This guide assumes that you are already running a Syscoin node.
+- Imported the [Tanenbaum Testnet network into MetaMask](../NEVM/metamask)
 
+- Requested funds from the [Tanenbaum faucet](/tsys)
 
+  
 
 ## 1. Install Truffle and create a project
 
@@ -26,7 +30,11 @@ Make a new directory where you wish to create your project then `cd` into it and
 truffle init
 ```
 
-This will initialize your project.
+Then enter this command install support for HD wallet providers:
+
+```
+npm install @truffle/hdwallet-provider -s
+```
 
 ## 2. Create a new contract
 
@@ -38,8 +46,8 @@ Paste the following code into the `HelloNEVM.sol` file.
 pragma solidity ^0.8.10;
 
 contract HelloNEVM {
-    function sayHello() public pure returns(string) {
-        return(“Hello NEVM!”);
+    function sayHello() public pure returns(string memory) {
+        return('Hello NEVM!');
     }
 }
 ```
@@ -53,17 +61,35 @@ In `truffle-config.js` in the `networks:{}` section, add the following:
 ```js
 live: {
     host: "127.0.0.1",
-    port: 8369,
+    port: 8545,
     network_id: "*"
 },
 test: {
     host: "127.0.0.1",
-    port: 18369,
+    port: 7545,
     network_id: "*"
+},
+mainnet: {
+    provider: function() {
+        return new HDWalletProvider(mnemonic, "https://rpc.syscoin.org")
+    },
+    websocket: true,        // Enable EventEmitter interface for web3 (default: false)
+    network_id: 57,
+    gas: 8000000      // gas should be no higher than 8m   
+}
+tanenbaum: {
+    provider: function() {
+        return new HDWalletProvider(mnemonic, "https://rpc.tanenbaum.io/")
+    },
+    websocket: true,        // Enable EventEmitter interface for web3 (default: false)
+    network_id: 5700,
+    gas: 8000000      // gas should be no higher than 8m
 }
 ```
 
-Depending on whether you are running a mainnet or testnet node you would use `live` or `development` respectively.
+Then either create a new file in the same directory called `.secret	` and store your mnemonic from MetaMask in there and uncomment the line in `truffle-config.js` where `mnemonic` is initialized, or you can simply create the `mnemonic` variable and type your mnemonic as a string literal in the `truffle-config.js` file.
+
+If you had a node running and were interacting with geth directly, rather than using MetaMask, depending on whether you were running a mainnet or testnet node you would use `live` or `test` respectively.
 
 ## 4. Deploy the contract
 
@@ -72,20 +98,20 @@ In the `migrations` folder create a JavaScript file named `2_deploy_contracts.js
 Paste the following code into the file.
 
 ```js
-var HelloNEVM = artifacts.require(“HelloNEVM”);
+var HelloNEVM = artifacts.require('HelloNEVM');
 module.exports = function(deployer) {
-    deployer.deploy(HelloNEVM, “hello”);
+    deployer.deploy(HelloNEVM, 'hello');
     // Additional contracts can be deployed here
 };
 ```
 
-Once this has been done then you can then deploy the contract (use `live` if you want to deploy on mainnet rather than testnet).
+Once this has been done then you can then deploy the contract (use `mainnet` if you want to deploy on mainnet rather than the Tanenbaum testnet).
 
 ```
-truffle deploy --network test
+truffle deploy --network tanenbaum
 ```
 
-You will then receive the following output showing that the contracts has been successfully deployed.
+You will then receive something similar to the following output showing that the contracts have been successfully deployed.
 
 ```
 Compiling your contracts...
@@ -102,5 +128,68 @@ Compiling your contracts...
 > Compiled successfully using:
    - solc: 0.8.10+commit.fc410830.Emscripten.clang
 
+
+
+Starting migrations...
+======================
+> Network name:    'tanenbaum'
+> Network id:      5700
+> Block gas limit: 8000000 (0x7a1200)
+
+
+1_initial_migration.js
+======================
+
+   Deploying 'Migrations'
+   ----------------------
+   > transaction hash:    0xb47d5c5615574d924c993b8950f12790b3bc5c80057a5a277c62970fd12b27b1
+   > Blocks: 2            Seconds: 57
+   > contract address:    0xbcB2F470C038bB1C46D37b1d83B583637f4E6Fa7
+   > block number:        35173
+   > block timestamp:     1638216695
+   > account:             0x747825653574060c4AdA31c028cfCb81E1C6C9a4
+   > balance:             2.494746334985289738
+   > gas used:            250154 (0x3d12a)
+   > gas price:           2.500000007 gwei
+   > value sent:          0 ETH
+   > total cost:          0.000625385001751078 ETH
+
+
+   > Saving migration to chain.
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:     0.000625385001751078 ETH
+
+
+2_deploy_contracts.js
+=====================
+
+   Deploying 'HelloNEVM'
+   ---------------------
+   > transaction hash:    0xa552bbf6dea81da9f6bb89d4195b238f672cf76064cb3649665fbeb99676aecd
+   > Blocks: 1            Seconds: 37
+   > contract address:    0x2ad52f0832Edd1169bB2234A9C931E0C95c892be
+   > block number:        35178
+   > block timestamp:     1638216962
+   > account:             0x747825653574060c4AdA31c028cfCb81E1C6C9a4
+   > balance:             2.494293884984022878
+   > gas used:            135067 (0x20f9b)
+   > gas price:           2.500000007 gwei
+   > value sent:          0 ETH
+   > total cost:          0.000337667500945469 ETH
+
+
+   > Saving migration to chain.
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:     0.000337667500945469 ETH
+
+
+Summary
+=======
+> Total deployments:   2
+> Final cost:          0.000963052502696547 ETH
+
 ```
 
+Congratulations! Your contracts have been deployed.
