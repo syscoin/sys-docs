@@ -10,9 +10,9 @@ This guide assumes that you have already:
 
 - Installed [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) on your system 
 
-- Imported the [Tanenbaum Testnet network into MetaMask](../NEVM/metamask)
+- Imported the [Tanenbaum Testnet (or Mainnet) network into MetaMask](../NEVM/metamask)
 
-- Requested funds from the [Tanenbaum faucet](/tsys)
+- Requested gas from either the [Tanenbaum faucet or Mainnet faucet](/tsys)
 
   
 
@@ -30,7 +30,7 @@ Make a new directory where you wish to create your project then `cd` into it and
 truffle init
 ```
 
-Then enter this command install support for HD wallet providers:
+Then enter this command to install support for HD wallet providers:
 
 ```
 npm install @truffle/hdwallet-provider -s
@@ -59,16 +59,6 @@ contract HelloNEVM {
 In `truffle-config.js` in the `networks:{}` section, add the following:
 
 ```js
-live: {
-    host: "127.0.0.1",
-    port: 8545,
-    network_id: "*"
-},
-test: {
-    host: "127.0.0.1",
-    port: 7545,
-    network_id: "*"
-},
 mainnet: {
     provider: function() {
         return new HDWalletProvider(mnemonic, "https://rpc.syscoin.org")
@@ -87,9 +77,7 @@ tanenbaum: {
 }
 ```
 
-Then either create a new file in the same directory called `.secret	` and store your mnemonic from MetaMask in there and uncomment the line in `truffle-config.js` where `mnemonic` is initialized, or you can simply create the `mnemonic` variable and type your mnemonic as a string literal in the `truffle-config.js` file.
-
-If you had a node running and were interacting with geth directly, rather than using MetaMask, depending on whether you were running a mainnet or testnet node you would use `live` or `test` respectively.
+Then create a new file in the same directory called `.secret	` and store your mnemonic from MetaMask in there and uncomment the line in `truffle-config.js` where `mnemonic` is initialized. Don't forget to add an entry in `.gitignore` for the `.secret` file.
 
 ## 4. Deploy the contract
 
@@ -100,7 +88,7 @@ Paste the following code into the file.
 ```js
 var HelloNEVM = artifacts.require('HelloNEVM');
 module.exports = function(deployer) {
-    deployer.deploy(HelloNEVM, 'hello');
+    deployer.deploy(HelloNEVM, 'Hello NEVM!');
     // Additional contracts can be deployed here
 };
 ```
@@ -192,4 +180,19 @@ Summary
 
 ```
 
-Congratulations! Your contracts have been deployed.
+Congratulations! Your contracts have been deployed and in the `Deploying 'HelloNEVM'` section you can see the contract's address, which is worth saving if you wish to interact with it at a later date.
+
+## 5. Interact with the smart contract
+
+`cd` to the root of your project directory then use this command to use Truffle on the Tanenbaum network (as specified in the `truffle-config.js`)
+
+```
+truffle console --network tanenbaum
+```
+
+You can then call the `sayHello()` function with the following input:
+
+```
+HelloNEVM.deployed().then(function(instance){return instance.sayHello()});
+```
+
