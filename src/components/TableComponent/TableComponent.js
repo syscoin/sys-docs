@@ -26,12 +26,13 @@ class TableComponent extends Component {
 
     getParamElement(param) {
       let paramName = `**\`${param.data.name}\`**`;
+
       let requiredStr = ""
       if (param.data.required === " yes") {
         requiredStr = `Required`;
       }
 
-      if (this.state.tableType === 'param' || this.state.tableType === 'type' || this.state.tableType === 'return') {
+      if (this.state.tableType === 'param' || this.state.tableType === 'type' || this.state.tableType === 'return' && param.data.name) {
         return (
           <li class="li-param">
             <div class="flex short">

@@ -56,7 +56,11 @@ The most popular course for how to create smart contracts, [CryptoZombies](https
 
 **Create and Deploy Smart Contracts using Remix**
 
-Follow the guide [here](https://remix-ide.readthedocs.io/en/latest/create_deploy.html). To change your network to NEVM in MetaMask follow the guide [here](/guides/nevm/metamask).
+Follow the guide [here](https://remix-ide.readthedocs.io/en/latest/create_deploy.html). To change your network to NEVM in MetaMask follow the guide [here](../guides/nevm/metamask).
+
+**Create and Deploy Smart Contracts using Truffle**
+
+Follow the guide [here](../guides/developers/truffle).
 
 
 
@@ -67,15 +71,15 @@ As Syscoin is primarily focused on the adoption of zkRollups, and using the Sysc
 - **[StarkWare](https://starkware.co/)** - a layer 2 network that uses zkSTARK proofs and the Cairo programming language.
   - You can find a large number of StarkNet (StarkWare's main zkRollup solution) resources [here](https://github.com/gakonst/awesome-starknet).
 - **[zkSync](https://zksync.io/)** - an open-source scaling and privacy engine, which uses zkSNARK proofs.
-- **[Aztec](https://aztec.network/)** - an open-source, layer 2 network that utilizes zkSNARK proofs, PLONK technology and the Noir programming language.
+- **[Aztec](https://aztec.network/)** - an open-source, layer 2 network that utilizes zkSNARK proofs, PLONK technology and the Noir programming language. Aztec is largely focused on private payments solutions.
 
 
 
-- ## Communities
+## Communities
 
 **CryptoDevs Discord**
 
-This is a Discord server that is centred around cryptocurrency development and is a great place to find like-minded developers who are also into developing or learning about web3. [Join the server here.](https://discord.com/invite/5W5tVb3)
+This is a Discord server that is centred around blockchain development and is a great place to find like-minded developers who are also interested in developing for or learning about blockchain and dApp development. [Join the server here.](https://discord.com/invite/5W5tVb3)
 
 **ZkRollup-related Discords**
 
