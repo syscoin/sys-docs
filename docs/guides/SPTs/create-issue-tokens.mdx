@@ -2,21 +2,18 @@
 
 
 
-This guide helps you create and issue a Syscoin Platform Token (SPT) using Syscoin Core 4.2
-
-> ### 📘NOTE
->
-> You should use a separate walk-through if you are creating a Bridge-enabled token that correlates with an existing Ethereum ERC-20. [HOWTO: Provision the Bridge for your ERC-20](https://syscoin.readme.io/docs/erc-20-to-spt-guide)
+This guide helps you create and issue a Syscoin Platform Token (SPT) using Syscoin Core 4.3.
 
 > ### 🚧Changes to the Syscoin Token Platform since Syscoin Core 3
 >
+
 > - Non-Fungible Tokens (NFT), both fractional and non-fractional, are now supported
-> - All tokens are now UTXO-based (like Bitcoin) for greater efficiency instead of Account-based (like Ethereum)
+>- All tokens are now UTXO-based (like Bitcoin) for greater efficiency instead of Account-based (like Ethereum)
 > - Tokens can now be used with Syscoin Bridge when Agent nodes are active
 > - Token creation fee is 1 SYS instead of 500 SYS
 > - New option: notary_address, notary_details ([learn more](notary-business-rulesets))
 > - New option: auxfee_details ([learn more](aux-fees))
-> - New option: contract ([learn more](bridge-erc20-spt))
+> - New option: contract (the contract of the token on the NEVM chain)
 > - `asset_guid` is the unique identifier of a token
 > - Tokens are now address-only. On-chain aliases have been removed for greater scalability.
 > - P2PWKH and P2WSH are the current supported witness programs. Future witness programs may be included in Bitcoin Core and Syscoin Core enhancements to extend functionality.
@@ -79,7 +76,7 @@ Examples:
 
 > ### 📘aux_fees
 >
-> The aux_fees parameter is used to specify a custom fee structure for your token. [Learn about aux_fees and how to use them](https://syscoin.readme.io/docs/auxiliary-fees-aux_fees).
+> The aux_fees parameter is used to specify a custom fee structure for your token. [Learn about aux_fees and how to use them](aux-fees).
 
 Summary of `assetnew` arguments:
 
@@ -140,7 +137,7 @@ The total supply will remain "0" until you use `assetsend` to issue some of the 
 >
 > `assetsend` is not for sending existing tokens from one address to another (asset allocation), it is strictly for issuance of tokens by the owner of the token specification.
 >
-> Token users can learn how to perform basic asset allocations with `assetallocationsend` [here](https://syscoin.readme.io/v4.2.0/docs/using-syscoin-42-tokens).
+> Token users can learn how to perform basic asset allocations with `assetallocationsend` [here](use-tokens).
 
 ## 4. Issue Fungible Tokens
 
@@ -325,3 +322,4 @@ $ syscoin-cli assetsend 389115219 "tsys1qktelej8knjvc5nfpka2evnwyfsw6ltqnhd9k2f"
 ```
 
 The new owner can now transfer ownership using `assetallocationsend` with <asset_guid> 4684082515
+
