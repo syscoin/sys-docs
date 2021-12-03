@@ -4,11 +4,11 @@ const path = require('path');
 module.exports = {
   title: 'Syscoin Docs',
   tagline: 'Documentation for the buidlers!',
-  url: 'https://your-docusaurus-test-site.com',
+  url: 'https://Syscoin.github.io/sys-docs/',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
-  favicon: 'img/logo.svg',
+  favicon: 'img/sys-logo.svg',
   organizationName: 'Syscoin', // Usually your GitHub org/user name.
   projectName: 'sys-docs', // Usually your repo name.
   themeConfig: {
