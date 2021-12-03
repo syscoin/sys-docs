@@ -20,12 +20,12 @@ const FeatureList = [
   },
   {
     title: 'User Guides',
-    Png: 'static/img/connect-01.png',
+    Png: 'img/connect-01.png',
     link: 'docs/guides/overview',
   },
   {
     title: 'Get SYS',
-    Png: 'static/img/exchanges-01.png',
+    Png: 'img/exchanges-01.png',
     link: 'docs/dev-resources/tsys',
   },
 ];
