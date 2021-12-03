@@ -5,27 +5,27 @@ import styles from './HomepageFeatures.module.css';
 const FeatureList = [
   {
     title: 'Developer Documentation',
-    Png: '../../static/img/getSys-01.png',
+    Png: 'img/getSys-01.png',
     link: 'docs/dev-resources/nevm/resources',
   },
   {
     title: 'Deploy a NEVM Smart Contract',
-    Png: '../../static/img/feature-function-01.png',
+    Png: 'img/feature-function-01.png',
     link: 'docs/dev-resources/nevm/guides-and-tuts',
   },
   {
     title: 'What is Syscoin?',
-    Png: '../../static/img/feature-security-01.png',
+    Png: 'img/feature-security-01.png',
     link: 'docs/intro/syscoin-what',
   },
   {
     title: 'User Guides',
-    Png: '../../static/img/connect-01.png',
+    Png: 'static/img/connect-01.png',
     link: 'docs/guides/overview',
   },
   {
     title: 'Get SYS',
-    Png: '../../static/img/exchanges-01.png',
+    Png: 'static/img/exchanges-01.png',
     link: 'docs/dev-resources/tsys',
   },
 ];
