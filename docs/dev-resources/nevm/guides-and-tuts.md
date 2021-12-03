@@ -1,0 +1,18 @@
+# Courses, Guides & Tutorials
+
+Below are some courses, guides and tutorials that will either give you a simple and gentle introduction to getting started with the tooling for creating and deploying smart contracts, or they will take you on the full journey towards dApp development.
+
+
+
+**CryptoZombies**
+
+The most popular course for how to create smart contracts, [CryptoZombies](https://cryptozombies.io/) has taught over 415,672 students how to code in Solidity and create dApps.
+
+**Create and Deploy Smart Contracts using Remix**
+
+Follow the guide [here](https://remix-ide.readthedocs.io/en/latest/create_deploy.html). To change your network to NEVM in MetaMask follow the guide [here](../../guides/nevm/metamask).
+
+**Create and Deploy Smart Contracts using Truffle**
+
+Follow the guide [here](truffle).
+

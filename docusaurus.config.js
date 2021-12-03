@@ -40,7 +40,7 @@ module.exports = {
           items: [
             {
               label: 'JS SDK Reference',
-              to: 'docs/documentation/javascript-sdk-ref/syscoinjs',
+              to: 'docs/dev-resources/documentation/javascript-sdk-ref/syscoinjs',
             },
           ],
         },
