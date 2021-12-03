@@ -1,6 +1,5 @@
 .features {
   display: flex;
-  padding: 2rem 0;
   width: 100%;
   align-items: center;
 }
@@ -16,17 +15,22 @@
   text-align: center;
   word-wrap: break-word;
   background-color: #121212;
-  height: 19rem;
+  height: 20rem;
 }
 
 .featureButton{
   border-width: 0px;
   border-style: none;
-  background-color: transparent;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  cursor: pointer;
 }
 
 .box {
-  padding: 0.5rem;
   width: 12rem;
   height: 20rem;
 }

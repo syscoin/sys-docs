@@ -32,16 +32,16 @@ const FeatureList = [
 
 function Feature({Png, title, description, link}) {
   return (
-    <a href={link}>
-      <button className={styles.featureButton}>
+
+    <a href={link} className={styles.featureButton}>
         <div className={clsx(styles.box)}>
             <div className={clsx('col col--2'), styles.feature}>
               <img className={styles.featurePng} alt={title} src={Png} />
               <h3>{title}</h3>
             </div>
         </div>
-      </button>
     </a>
+
   );
 }
 
