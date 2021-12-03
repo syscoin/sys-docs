@@ -17,7 +17,7 @@ module.exports = {
       title: 'Syscoin Docs',
       logo: {
         alt: 'Syscoin Logo',
-        src: 'img/logo.svg',
+        src: 'img/sys-logo.svg',
       },
       items: [
         {

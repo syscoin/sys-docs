@@ -1,11 +1,32 @@
 .features {
   display: flex;
-  align-items: center;
   padding: 2rem 0;
   width: 100%;
+  align-items: center;
 }
 
-.featureSvg {
-  height: 200px;
-  width: 200px;
+.featurePng {
+  height: 12rem;
+  width: 12rem;
+}
+
+.feature {
+  padding-top: 2rem;
+  align-items: center;
+  text-align: center;
+  word-wrap: break-word;
+  background-color: #121212;
+  height: 19rem;
+}
+
+.featureButton{
+  border-width: 0px;
+  border-style: none;
+  background-color: transparent;
+}
+
+.box {
+  padding: 0.5rem;
+  width: 12rem;
+  height: 20rem;
 }

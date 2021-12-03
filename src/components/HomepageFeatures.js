@@ -4,48 +4,44 @@ import styles from './HomepageFeatures.module.css';
 
 const FeatureList = [
   {
-    title: 'Easy to Use',
-    Svg: require('../../static/img/undraw_docusaurus_mountain.svg').default,
-    description: (
-      <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
-      </>
-    ),
+    title: 'Developer Documentation',
+    Png: '../../static/img/getSys-01.png',
+    link: 'docs/dev-resources/nevm/resources',
   },
   {
-    title: 'Focus on What Matters',
-    Svg: require('../../static/img/undraw_docusaurus_tree.svg').default,
-    description: (
-      <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
-      </>
-    ),
+    title: 'Deploy a NEVM Smart Contract',
+    Png: '../../static/img/feature-function-01.png',
+    link: 'docs/dev-resources/nevm/guides-and-tuts',
   },
   {
-    title: 'Powered by React',
-    Svg: require('../../static/img/undraw_docusaurus_react.svg').default,
-    description: (
-      <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
-      </>
-    ),
+    title: 'What is Syscoin?',
+    Png: '../../static/img/feature-security-01.png',
+    link: 'docs/intro/syscoin-what',
+  },
+  {
+    title: 'User Guides',
+    Png: '../../static/img/connect-01.png',
+    link: 'docs/guides/overview',
+  },
+  {
+    title: 'Get SYS',
+    Png: '../../static/img/exchanges-01.png',
+    link: 'docs/dev-resources/tsys',
   },
 ];
 
-function Feature({Svg, title, description}) {
+function Feature({Png, title, description, link}) {
   return (
-    <div className={clsx('col col--4')}>
-      <div className="text--center">
-        <Svg className={styles.featureSvg} alt={title} />
-      </div>
-      <div className="text--center padding-horiz--md">
-        <h3>{title}</h3>
-        <p>{description}</p>
-      </div>
-    </div>
+    <a href={link}>
+      <button className={styles.featureButton}>
+        <div className={clsx(styles.box)}>
+            <div className={clsx('col col--2'), styles.feature}>
+              <img className={styles.featurePng} alt={title} src={Png} />
+              <h3>{title}</h3>
+            </div>
+        </div>
+      </button>
+    </a>
   );
 }
 
