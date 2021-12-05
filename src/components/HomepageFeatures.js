@@ -39,10 +39,10 @@ function Feature({png, title, description, link, color}) {
 
   return (
     <div className={clsx(styles.box)}>
-      <a href={link} class="button" className={styles.featureButton}>
+      <a href={link} className={styles.featureButton}>
         <div className={clsx('col col--2'), styles.feature} style={{background: color}}>
           <img className={styles.featurePng} alt={title} src={png} />
-          <h3 className={styles.featureText}>{title}</h3>
+          <h3>{title}</h3>
         </div>
       </a>
     </div>

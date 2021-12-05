@@ -16,6 +16,7 @@
   word-wrap: break-word;
   background-color: #121212;
   height: 20rem;
+  width: 11rem;
 }
 
 .featureButton {
@@ -29,16 +30,11 @@
   margin: 4px 5px;
   cursor: pointer;
   background-color: transparent;
+  word-wrap: break-word;
 }
 
 a:hover {
   text-decoration: none;
-}
-
-.featureText {
-  text-decoration: none;
-  background-color: transparent;
-  cursor: pointer;
   color: black;
 }
 
