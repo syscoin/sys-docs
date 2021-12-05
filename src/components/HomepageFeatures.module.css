@@ -1,7 +1,7 @@
 .features {
   display: flex;
   width: 100%;
-  align-items: center;
+  justify-content: center;
 }
 
 .featurePng {
@@ -22,12 +22,14 @@
   border-width: 0px;
   border-style: none;
   border: none;
-  color: white;
+  color: black;
+  align-items: center;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  margin: 4px 2px;
+  margin: 4px 5px;
   cursor: pointer;
+  background-color: transparent;
 }
 
 .box {

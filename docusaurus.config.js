@@ -21,11 +21,6 @@ module.exports = {
       },
       items: [
         {
-          href: 'docs',
-          label: "Docs",
-          position: 'left',
-        },
-        {
           href: 'https://github.com/syscoin',
           label: 'GitHub',
           position: 'right',

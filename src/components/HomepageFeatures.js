@@ -5,43 +5,47 @@ import styles from './HomepageFeatures.module.css';
 const FeatureList = [
   {
     title: 'Developer Documentation',
-    Png: 'img/getSys-01.png',
+    png: 'img/getSys-01.png',
     link: 'docs/dev-resources/nevm/resources',
+    color: '#DCEAFF',
   },
   {
     title: 'Deploy a NEVM Smart Contract',
-    Png: 'img/feature-function-01.png',
+    png: 'img/feature-function-01.png',
     link: 'docs/dev-resources/nevm/guides-and-tuts',
+    color: '#DDEBF6',
   },
   {
     title: 'What is Syscoin?',
-    Png: 'img/feature-security-01.png',
+    png: 'img/feature-security-01.png',
     link: 'docs/intro/syscoin-what',
+    color: '#CFE8EB',
   },
   {
     title: 'User Guides',
-    Png: 'img/connect-01.png',
+    png: 'img/connect-01.png',
     link: 'docs/guides/overview',
+    color: '#EBE8CF',
   },
   {
     title: 'Get SYS',
-    Png: 'img/exchanges-01.png',
+    png: 'img/exchanges-01.png',
     link: 'docs/dev-resources/tsys',
+    color: '#EBD2CF',
   },
 ];
 
-function Feature({Png, title, description, link}) {
+function Feature({png, title, description, link, color}) {
+
   return (
-
-    <a href={link} className={styles.featureButton}>
-        <div className={clsx(styles.box)}>
-            <div className={clsx('col col--2'), styles.feature}>
-              <img className={styles.featurePng} alt={title} src={Png} />
-              <h3>{title}</h3>
-            </div>
+    <div className={clsx(styles.box)}>
+      <a href={link} class="button" className={styles.featureButton}>
+        <div className={clsx('col col--2'), styles.feature} style={{background: color}}>
+          <img className={styles.featurePng} alt={title} src={png} />
+          <h3 className={styles.featureButton}>{title}</h3>
         </div>
-    </a>
-
+      </a>
+    </div>
   );
 }
 
@@ -49,7 +53,7 @@ export default function HomepageFeatures() {
   return (
     <section className={styles.features}>
       <div className="container">
-        <div className="row">
+        <div className="row" className={styles.features}>
           {FeatureList.map((props, idx) => (
             <Feature key={idx} {...props} />
           ))}
