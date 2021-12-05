@@ -18,18 +18,28 @@
   height: 20rem;
 }
 
-.featureButton{
+.featureButton {
   border-width: 0px;
   border-style: none;
   border: none;
   color: black;
   align-items: center;
   text-align: center;
-  text-decoration: none;
   display: inline-block;
   margin: 4px 5px;
   cursor: pointer;
   background-color: transparent;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.featureText {
+  text-decoration: none;
+  background-color: transparent;
+  cursor: pointer;
+  color: black;
 }
 
 .box {
