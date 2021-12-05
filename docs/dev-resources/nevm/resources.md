@@ -10,15 +10,14 @@ This page contains resources that will help facilitate developers building on Sy
 
 
 
-### [Documentation and Libraries](docs-and-libs)
+- [Documentation and Libraries](docs-and-libs)
+- [Courses, Guides and Tutorials](guides-and-tuts)
 
-### [Courses, Guides and Tutorials](guides-and-tuts)
+- [Tooling](tooling)
 
-### [Tooling](tooling)
+- [ZK-Rollups](zk-rollups)
 
-### [ZK-Rollups](zk-rollups)
-
-### [Developer Communities](communities)
+- [Developer Communities](communities)
 
 
 
