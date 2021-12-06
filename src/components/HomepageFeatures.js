@@ -5,7 +5,7 @@ import styles from './HomepageFeatures.module.css';
 const FeatureList = [
   {
     title: 'Developer Documentation',
-    png: 'img/getSys-01.png',
+    png: 'img/getSys-02.png',
     link: 'docs/dev-resources/nevm/resources',
     color: '#DCEAFF',
   },
@@ -23,13 +23,13 @@ const FeatureList = [
   },
   {
     title: 'User Guides',
-    png: 'img/connect-01.png',
+    png: 'img/connect-02.png',
     link: 'docs/guides/overview',
     color: '#EBE8CF',
   },
   {
     title: 'Get SYS',
-    png: 'img/exchanges-01.png',
+    png: 'img/exchanges-02.png',
     link: 'docs/dev-resources/tsys',
     color: '#EBD2CF',
   },
