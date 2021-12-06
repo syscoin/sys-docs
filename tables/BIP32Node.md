@@ -3,7 +3,7 @@
 |         __D          |         *Buffer*          |             |
 |         __Q          |         *Buffer*          |             |
 |      chainCode       |         *Buffer*          |             |
-|       network        | [Network](types/#network) |             |
+|       network        | [Network](/docs/dev-resources/documentation/javascript-sdk-ref/types#network) |             |
 |       __DEPTH        |         *Number*          |             |
 |       __INDEX        |         *Number*          |             |
 | __PARENT_FINGERPRINT |         *Number*          |             |

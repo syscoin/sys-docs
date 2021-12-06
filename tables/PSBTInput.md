@@ -1,5 +1,5 @@
 |        Key         |      Type      | Description |
 | :----------------: | :------------: | :---------: |
-|   unknownKeyVals   | [*UnknownKeyValue*](types/#unknownkeyvalue) |             |
-|    witnessUtxo     |    [*WitnessUTXO*](types/#witnessutxo)    |             |
+|   unknownKeyVals   | [*UnknownKeyValue*](/docs/dev-resources/documentation/javascript-sdk-ref/types#unknownkeyvalue) |             |
+|    witnessUtxo     |    [*WitnessUTXO*](/docs/dev-resources/documentation/javascript-sdk-ref/types#witnessutxo)    |             |
 | finalScriptWitness |    *Buffer*    |             |

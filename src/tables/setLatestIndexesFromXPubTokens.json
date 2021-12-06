@@ -4,7 +4,7 @@
     "data": {
       "name": " tokens",
       "type": " _Array_",
-      "description": " [  _xPub_ ](types/#xpub)  tokens from the provider response to  [  _xPub_ ](types/#xpub)  account details",
+      "description": " [  _xPub_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#xpub)  tokens from the provider response to  [  _xPub_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#xpub)  account details",
       "required": " yes"
     }
   }

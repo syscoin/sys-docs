@@ -19,7 +19,7 @@
     "key": "2",
     "data": {
       "name": " bip32",
-      "type": " [  _BIP32_ ](types/#bip32)",
+      "type": " [  _BIP32_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#bip32)",
       "description": ""
     }
   },

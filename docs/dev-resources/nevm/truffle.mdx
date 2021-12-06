@@ -8,13 +8,13 @@ This is a guide to creating and deploying smart contracts with Truffle on the Sy
 
 This guide assumes that you have already:
 
-- Installed [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) on your system 
+- Installed [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) on your system
 
-- Imported the [Tanenbaum Testnet (or Mainnet) network into MetaMask](../../guides/nevm/metamask)
+- Imported the [Tanenbaum Testnet (or Mainnet) network into MetaMask](/docs/guides/nevm/metamask)
 
-- Requested gas from either the [Tanenbaum faucet or Mainnet faucet](../tsys)
+- Requested gas from either the [Tanenbaum faucet or Mainnet faucet](/docs/dev-resources/tsys)
 
-  
+
 
 ## 1. Install Truffle and create a project
 
@@ -65,7 +65,7 @@ mainnet: {
     },
     websocket: true,        // Enable EventEmitter interface for web3 (default: false)
     network_id: 57,
-    gas: 8000000      // gas should be no higher than 8m   
+    gas: 8000000      // gas should be no higher than 8m
 }
 tanenbaum: {
     provider: function() {
@@ -195,4 +195,3 @@ You can then call the `sayHello()` function with the following input:
 ```
 HelloNEVM.deployed().then(function(instance){return instance.sayHello()});
 ```
-

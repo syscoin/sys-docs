@@ -3,7 +3,7 @@
     "key": "0",
     "data": {
       "name": " mainnet",
-      "type": " [  _Network_ ](types/#network)",
+      "type": " [  _Network_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#network)",
       "description": " [  Network ](#network)  object to be used for mainnet"
     },
     "children": [
@@ -27,7 +27,7 @@
         "key": "1-2",
         "data": {
           "name": " bip32",
-          "type": " [  _BIP32_ ](types/#bip32)",
+          "type": " [  _BIP32_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#bip32)",
           "description": ""
         }
       },
@@ -60,7 +60,7 @@
     "key": "1",
     "data": {
       "name": " testnet",
-      "type": " [  _Network_ ](types/#network)",
+      "type": " [  _Network_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#network)",
       "description": " [  Network ](#network)  object to be used for testnet"
     },
     "children": [
@@ -84,7 +84,7 @@
         "key": "1-2",
         "data": {
           "name": " bip32",
-          "type": " [  _BIP32_ ](types/#bip32)",
+          "type": " [  _BIP32_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#bip32)",
           "description": ""
         }
       },

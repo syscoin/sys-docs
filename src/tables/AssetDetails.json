@@ -27,7 +27,7 @@
     "key": "3",
     "data": {
       "name": " pubData",
-      "type": " [  _AssetPublicData_ ](types/#publicdata)",
+      "type": " [  _AssetPublicData_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#publicdata)",
       "description": " Public data information of the token"
     },
     "children": [

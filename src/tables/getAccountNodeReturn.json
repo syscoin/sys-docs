@@ -2,7 +2,7 @@
   {
     "key": "0",
     "data": {
-      "type": " [  _BIP32Node_ ](types/#bip32node)",
+      "type": " [  _BIP32Node_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#bip32node)",
       "description": " BIP32 root node representing the seed"
     },
     "children": [
@@ -34,7 +34,7 @@
         "key": "0-3",
         "data": {
           "name": " network",
-          "type": " [  Network ](types/#network)",
+          "type": " [  Network ](/docs/dev-resources/documentation/javascript-sdk-ref/types#network)",
           "description": ""
         }
       },

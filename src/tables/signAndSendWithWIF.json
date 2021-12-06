@@ -3,7 +3,7 @@
     "key": "0",
     "data": {
       "name": " res",
-      "type": " [  _Res_ ](types/#res)",
+      "type": " [  _Res_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#res)",
       "description": " The resulting object passed in which is assigned from syscointx.createTransaction() / syscointx.createAssetTransaction()",
       "required": " yes"
     },
@@ -20,7 +20,7 @@
         "key": "0-1",
         "data": {
           "name": " inputs",
-          "type": " [  _ResInput_ ](types/#resinput) _Array_",
+          "type": " [  _ResInput_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#resinput) _Array_",
           "description": " Inputs for the transaction"
         },
         "children": [
@@ -84,7 +84,7 @@
             "key": "0-1-7",
             "data": {
               "name": " assetInfo",
-              "type": " [  _AssetInfo_ ](types/#assetinfo)",
+              "type": " [  _AssetInfo_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#assetinfo)",
               "description": " Information of an asset to be sent in the transaction"
             },
             "children": [
@@ -101,7 +101,7 @@
                 "data": {
                   "name": " value",
                   "type": " _BN_  /  _String_",
-                  "description": " Value transferred. Type will be  _BN_  if within a  [  _Res_ ](types/#res)  object,  _String_  if within a  [  _UTXO_ ](types/#utxo)  object"
+                  "description": " Value transferred. Type will be  _BN_  if within a  [  _Res_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#res)  object,  _String_  if within a  [  _UTXO_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#utxo)  object"
                 }
               }
             ]
@@ -112,7 +112,7 @@
         "key": "0-2",
         "data": {
           "name": " outputs",
-          "type": " [  _Output_ ](types/#output) _Array_",
+          "type": " [  _Output_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#output) _Array_",
           "description": " Outputs for the transaction"
         },
         "children": [
@@ -144,7 +144,7 @@
             "key": "0-2-3",
             "data": {
               "name": " assetInfo",
-              "type": " [  _AssetInfo_ ](types/#assetinfo)",
+              "type": " [  _AssetInfo_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#assetinfo)",
               "description": " Information of an asset sent in the transaction"
             },
             "children": [
@@ -161,7 +161,7 @@
                 "data": {
                   "name": " value",
                   "type": " _BN_  /  _String_",
-                  "description": " Value transferred. Type will be  _BN_  if within a  [  _Res_ ](types/#res)  object,  _String_  if within a  [  _UTXO_ ](types/#utxo)  object"
+                  "description": " Value transferred. Type will be  _BN_  if within a  [  _Res_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#res)  object,  _String_  if within a  [  _UTXO_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#utxo)  object"
                 }
               }
             ]
@@ -190,8 +190,8 @@
     "key": "2",
     "data": {
       "name": " notaryAssets",
-      "type": " [  _NotaryDetails_ ](types/#notarydetails)",
-      "description": " Asset objects that are required for notarization, fetch signatures via  [  fetchNotarizationFromEndPoint() ](utils/#fetchnotarizationfromendpoint)",
+      "type": " [  _NotaryDetails_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#notarydetails)",
+      "description": " Asset objects that are required for notarization, fetch signatures via  [  fetchNotarizationFromEndPoint() ](/docs/dev-resources/documentation/javascript-sdk-ref/utils#fetchnotarizationfromendpoint)",
       "required": " no"
     },
     "children": [
@@ -216,7 +216,7 @@
         "data": {
           "name": " hdrequired",
           "type": " _Boolean_",
-          "description": " Default is 0 (false). If HD account  [  _xPub_ ](types/#xpub)  and  [  HD path ](https://learnmeabitcoin.com/technical/derivation-paths)  information is required by the notary to verify change addresses belong to the sender account"
+          "description": " Default is 0 (false). If HD account  [  _xPub_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#xpub)  and  [  HD path ](https://learnmeabitcoin.com/technical/derivation-paths)  information is required by the notary to verify change addresses belong to the sender account"
         }
       }
     ]

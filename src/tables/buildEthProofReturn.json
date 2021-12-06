@@ -2,7 +2,7 @@
   {
     "key": "0",
     "data": {
-      "type": " [  _SPVProof_ ](types/#spvproof)",
+      "type": " [  _SPVProof_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#spvproof)",
       "description": " SPV proof object"
     }
   }

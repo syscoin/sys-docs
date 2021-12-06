@@ -27,7 +27,7 @@
     "key": "3",
     "data": {
       "name": " network",
-      "type": " [  Network ](types/#network)",
+      "type": " [  Network ](/docs/dev-resources/documentation/javascript-sdk-ref/types#network)",
       "description": ""
     }
   },

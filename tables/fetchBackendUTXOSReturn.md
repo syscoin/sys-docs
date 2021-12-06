@@ -1,3 +1,3 @@
 |   Type   |    Description    |
 | :------: | :---------------: |
-| [*UTXOs*](types/#utxos) | UTXO object array |
+| [*UTXOs*](/docs/dev-resources/documentation/javascript-sdk-ref/types#utxos) | UTXO object array |

@@ -3,7 +3,7 @@
     "key": "0",
     "data": {
       "name": " notaryAssets",
-      "type": " [  _NotaryDetails_ ](types/#notarydetails)",
+      "type": " [  _NotaryDetails_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#notarydetails)",
       "description": " Asset objects that require notarization, fetch signatures via fetchNotarizationFromEndPoint()",
       "required": " yes"
     },
@@ -29,7 +29,7 @@
         "data": {
           "name": " hdrequired",
           "type": " _Boolean_",
-          "description": " Default is 0 (false). If HD account  [  _xPub_ ](types/#xpub)  and  [  HD path ](https://learnmeabitcoin.com/technical/derivation-paths)  information is required by the notary to verify change addresses belong to the sender account"
+          "description": " Default is 0 (false). If HD account  [  _xPub_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#xpub)  and  [  HD path ](https://learnmeabitcoin.com/technical/derivation-paths)  information is required by the notary to verify change addresses belong to the sender account"
         }
       }
     ]

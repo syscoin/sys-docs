@@ -2,7 +2,7 @@
   {
     "key": "0",
     "data": {
-      "type": " [  _KeyPair_ ](types/#keypair)",
+      "type": " [  _KeyPair_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#keypair)",
       "description": " A bitcoinjs-lib key pair"
     }
   }

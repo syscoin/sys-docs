@@ -13,7 +13,7 @@
     "data": {
       "name": " addressOrXpub",
       "type": " _String_",
-      "description": " An address or  [  _xPub_ ](types/#xpub)  to fetch UTXOs for",
+      "description": " An address or  [  _xPub_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#xpub)  to fetch UTXOs for",
       "required": " yes"
     }
   },
@@ -31,7 +31,7 @@
     "data": {
       "name": " xpub",
       "type": " _Boolean_",
-      "description": " If addressOrXpub is an  [  _xPub_ ](types/#xpub)  set to true",
+      "description": " If addressOrXpub is an  [  _xPub_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#xpub)  set to true",
       "required": ""
     }
   },
@@ -39,8 +39,8 @@
     "key": "4",
     "data": {
       "name": " Signer",
-      "type": " [  _Signer_ ](types/#Signer)",
-      "description": " [  _Signer_ ](types/#Signer)  object if you wish to update change/receiving indexes from backend provider (and XPUB token information is provided in response)"
+      "type": " [  _Signer_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#Signer)",
+      "description": " [  _Signer_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#Signer)  object if you wish to update change/receiving indexes from backend provider (and XPUB token information is provided in response)"
     }
   }
 ]

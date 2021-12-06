@@ -2,7 +2,7 @@
   {
     "key": "0",
     "data": {
-      "type": " [  _AssetIDs_ ](types/#assetids)",
+      "type": " [  _AssetIDs_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#assetids)",
       "description": " Object containing the base asset GUID and NFT ID"
     },
     "children": [

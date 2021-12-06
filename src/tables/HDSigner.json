@@ -30,7 +30,7 @@
     "key": "3",
     "data": {
       "name": " networks",
-      "type": " [  _Networks_ ](types/#networks)",
+      "type": " [  _Networks_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#networks)",
       "description": " Defaults to Syscoin network. Bitcoinjs-lib network settings for coin being used",
       "required": " no"
     },
@@ -39,7 +39,7 @@
         "key": "3-0",
         "data": {
           "name": " mainnet",
-          "type": " [  _Network_ ](types/#network)",
+          "type": " [  _Network_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#network)",
           "description": " [  Network ](#network)  object to be used for mainnet"
         },
         "children": [
@@ -63,7 +63,7 @@
             "key": "3-1-2",
             "data": {
               "name": " bip32",
-              "type": " [  _BIP32_ ](types/#bip32)",
+              "type": " [  _BIP32_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#bip32)",
               "description": ""
             }
           },
@@ -96,7 +96,7 @@
         "key": "3-1",
         "data": {
           "name": " testnet",
-          "type": " [  _Network_ ](types/#network)",
+          "type": " [  _Network_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#network)",
           "description": " [  Network ](#network)  object to be used for testnet"
         },
         "children": [
@@ -120,7 +120,7 @@
             "key": "3-1-2",
             "data": {
               "name": " bip32",
-              "type": " [  _BIP32_ ](types/#bip32)",
+              "type": " [  _BIP32_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#bip32)",
               "description": ""
             }
           },

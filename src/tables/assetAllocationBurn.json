@@ -3,7 +3,7 @@
     "key": "0",
     "data": {
       "name": " assetOpts",
-      "type": " [  _AssetOptionsBurn_ ](types/#assetoptionsBurn)",
+      "type": " [  _AssetOptionsBurn_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#assetoptionsBurn)",
       "description": " Asset details",
       "required": " no"
     },
@@ -22,7 +22,7 @@
     "key": "1",
     "data": {
       "name": " txOpts",
-      "type": " [  _TransactionOptions_ ](types/#transactionoptions)",
+      "type": " [  _TransactionOptions_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#transactionoptions)",
       "description": " Transaction options",
       "required": " no"
     },
@@ -65,7 +65,7 @@
     "key": "2",
     "data": {
       "name": " assetMap",
-      "type": " [  _AssetOutputs_ ](types/#assetoutputs) _Map_",
+      "type": " [  _AssetOutputs_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#assetoutputs) _Map_",
       "description": " Mapping of asset GUIDs to their desired outputs",
       "required": " yes"
     },
@@ -82,7 +82,7 @@
         "key": "2-1",
         "data": {
           "name": " outputs",
-          "type": " [  _AssetOutput_ ](types/#assetoutput) _Array_",
+          "type": " [  _AssetOutput_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#assetoutput) _Array_",
           "description": " An array of outputs containing which address to send the asset to and the value to send"
         },
         "children": [
@@ -111,7 +111,7 @@
     "data": {
       "name": " sysChangeAddress",
       "type": " _String_",
-      "description": " Change address if defined is where Syscoin only change outputs are sent to. If not defined and  [  Signer ](utils/#Signer)  is defined then a new change address will be automatically created using the next available change address index in the  [  HD path ](https://learnmeabitcoin.com/technical/derivation-paths)",
+      "description": " Change address if defined is where Syscoin only change outputs are sent to. If not defined and  [  Signer ](/docs/dev-resources/documentation/javascript-sdk-ref/utils#Signer)  is defined then a new change address will be automatically created using the next available change address index in the  [  HD path ](https://learnmeabitcoin.com/technical/derivation-paths)",
       "required": " no"
     }
   },
@@ -129,7 +129,7 @@
     "data": {
       "name": " sysFromXpubOrAddress",
       "type": " _String_",
-      "description": " If wanting to fund from a specific  [  _xPub_ ](types/#xpub)  or address this field should be set",
+      "description": " If wanting to fund from a specific  [  _xPub_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#xpub)  or address this field should be set",
       "required": " no"
     }
   },
@@ -137,8 +137,8 @@
     "key": "6",
     "data": {
       "name": " utxos",
-      "type": " [  _UTXOs_ ](types/#utxos)",
-      "description": " Pass in specific UTXOs to fund a transaction, should be sanitized using  [  utils.sanitizeBlockbookUTXOs() ](utils/#sanitizeblockbookutxos)",
+      "type": " [  _UTXOs_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#utxos)",
+      "description": " Pass in specific UTXOs to fund a transaction, should be sanitized using  [  utils.sanitizeBlockbookUTXOs() ](/docs/dev-resources/documentation/javascript-sdk-ref/utils#sanitizeblockbookutxos)",
       "required": " no"
     },
     "children": [
@@ -146,7 +146,7 @@
         "key": "6-0",
         "data": {
           "name": " utxos",
-          "type": " [  _UTXO_ ](types/#utxo) _Array_",
+          "type": " [  _UTXO_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#utxo) _Array_",
           "description": " Inputs/outputs of the transaction"
         },
         "children": [
@@ -210,7 +210,7 @@
             "key": "6-0-7",
             "data": {
               "name": " assetInfo",
-              "type": " [  _AssetInfo_ ](types/#assetinfo)",
+              "type": " [  _AssetInfo_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#assetinfo)",
               "description": " Information on an asset included in the UTXO"
             },
             "children": [
@@ -227,7 +227,7 @@
                 "data": {
                   "name": " value",
                   "type": " _BN_  /  _String_",
-                  "description": " Value transferred. Type will be  _BN_  if within a  [  _Res_ ](types/#res)  object,  _String_  if within a  [  _UTXO_ ](types/#utxo)  object"
+                  "description": " Value transferred. Type will be  _BN_  if within a  [  _Res_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#res)  object,  _String_  if within a  [  _UTXO_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#utxo)  object"
                 }
               }
             ]
@@ -238,7 +238,7 @@
         "key": "6-1",
         "data": {
           "name": " assets",
-          "type": " [  _AssetDetails_ ](types/#assetdetails) _Array_",
+          "type": " [  _AssetDetails_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#assetdetails) _Array_",
           "description": " Details of any assets involved in the transaction"
         },
         "children": [
@@ -270,7 +270,7 @@
             "key": "6-1-3",
             "data": {
               "name": " pubData",
-              "type": " [  _AssetPublicData_ ](types/#publicdata)",
+              "type": " [  _AssetPublicData_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#publicdata)",
               "description": " Public data information of the token"
             },
             "children": [
@@ -323,7 +323,7 @@
         "data": {
           "name": " addressOrXpub",
           "type": " _String_",
-          "description": " An address or  [  _xPub_ ](types/#xpub)  to fetch UTXOs for"
+          "description": " An address or  [  _xPub_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#xpub)  to fetch UTXOs for"
         }
       }
     ]

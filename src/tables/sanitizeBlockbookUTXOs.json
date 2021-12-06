@@ -4,7 +4,7 @@
     "data": {
       "name": " sysFromXpubOrAddress",
       "type": " _String_",
-      "description": " The  [  _xPub_ ](types/#xpub)  or address to fetch UTXOs for",
+      "description": " The  [  _xPub_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#xpub)  or address to fetch UTXOs for",
       "required": " yes"
     }
   },
@@ -12,7 +12,7 @@
     "key": "1",
     "data": {
       "name": " utxoObject",
-      "type": " [  _UTXOs_ ](types/#utxos)",
+      "type": " [  _UTXOs_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#utxos)",
       "description": " Back-end provider UTXO JSON object to be sanitized",
       "required": " yes"
     },
@@ -21,7 +21,7 @@
         "key": "1-0",
         "data": {
           "name": " utxos",
-          "type": " [  _UTXO_ ](types/#utxo) _Array_",
+          "type": " [  _UTXO_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#utxo) _Array_",
           "description": " Inputs/outputs of the transaction"
         },
         "children": [
@@ -85,7 +85,7 @@
             "key": "1-0-7",
             "data": {
               "name": " assetInfo",
-              "type": " [  _AssetInfo_ ](types/#assetinfo)",
+              "type": " [  _AssetInfo_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#assetinfo)",
               "description": " Information on an asset included in the UTXO"
             },
             "children": [
@@ -102,7 +102,7 @@
                 "data": {
                   "name": " value",
                   "type": " _BN_  /  _String_",
-                  "description": " Value transferred. Type will be  _BN_  if within a  [  _Res_ ](types/#res)  object,  _String_  if within a  [  _UTXO_ ](types/#utxo)  object"
+                  "description": " Value transferred. Type will be  _BN_  if within a  [  _Res_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#res)  object,  _String_  if within a  [  _UTXO_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#utxo)  object"
                 }
               }
             ]
@@ -113,7 +113,7 @@
         "key": "1-1",
         "data": {
           "name": " assets",
-          "type": " [  _AssetDetails_ ](types/#assetdetails) _Array_",
+          "type": " [  _AssetDetails_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#assetdetails) _Array_",
           "description": " Details of any assets involved in the transaction"
         },
         "children": [
@@ -145,7 +145,7 @@
             "key": "1-1-3",
             "data": {
               "name": " pubData",
-              "type": " [  _AssetPublicData_ ](types/#publicdata)",
+              "type": " [  _AssetPublicData_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#publicdata)",
               "description": " Public data information of the token"
             },
             "children": [
@@ -198,7 +198,7 @@
         "data": {
           "name": " addressOrXpub",
           "type": " _String_",
-          "description": " An address or  [  _xPub_ ](types/#xpub)  to fetch UTXOs for"
+          "description": " An address or  [  _xPub_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#xpub)  to fetch UTXOs for"
         }
       }
     ]
@@ -207,7 +207,7 @@
     "key": "2",
     "data": {
       "name": " network",
-      "type": " [  _Network_ ](types/#network)",
+      "type": " [  _Network_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#network)",
       "description": " Defaults to Syscoin Mainnet. Network to be used to create address for notary and auxfee payout address if those features exist for the asset",
       "required": " no"
     },
@@ -232,7 +232,7 @@
         "key": "2-2",
         "data": {
           "name": " bip32",
-          "type": " [  _BIP32_ ](types/#bip32)",
+          "type": " [  _BIP32_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#bip32)",
           "description": ""
         }
       },
@@ -265,7 +265,7 @@
     "key": "3",
     "data": {
       "name": " txOpts",
-      "type": " [  _TransactionOptions_ ](types/#transactionoptions)",
+      "type": " [  _TransactionOptions_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#transactionoptions)",
       "description": " If this is passed in we use assetWhiteList field of options to skip over (if assetWhiteList is null) UTXOs if they use notarization for an asset that is not a part of assetMap",
       "required": " no"
     },
@@ -308,7 +308,7 @@
     "key": "4",
     "data": {
       "name": " assetMap",
-      "type": " [  _AssetOutputs_ ](types/#assetoutputs) _Map_",
+      "type": " [  _AssetOutputs_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#assetoutputs) _Map_",
       "description": " Destination outputs for a transaction requiring UTXO sanitizing, used in assetWhiteList, check described above",
       "required": " no"
     },
@@ -325,7 +325,7 @@
         "key": "4-1",
         "data": {
           "name": " outputs",
-          "type": " [  _AssetOutput_ ](types/#assetoutput) _Array_",
+          "type": " [  _AssetOutput_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#assetoutput) _Array_",
           "description": " An array of outputs containing which address to send the asset to and the value to send"
         },
         "children": [

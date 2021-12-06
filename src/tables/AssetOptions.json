@@ -44,7 +44,7 @@
     "data": {
       "name": " updatecapabilityflags",
       "type": " _Number_",
-      "description": " Defaults to 127 or ALL capabilities. Update capabilities on this asset. Read more  [  _here_ ](types/#updatecapabilityflags)"
+      "description": " Defaults to 127 or ALL capabilities. Update capabilities on this asset. Read more  [  _here_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#updatecapabilityflags)"
     }
   },
   {
@@ -59,7 +59,7 @@
     "key": "7",
     "data": {
       "name": " notarydetails",
-      "type": " [  _NotaryDetails_ ](types/#notarydetails)",
+      "type": " [  _NotaryDetails_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#notarydetails)",
       "description": " Details related to the notarization of transactions using this asset"
     },
     "children": [
@@ -84,7 +84,7 @@
         "data": {
           "name": " hdrequired",
           "type": " _Boolean_",
-          "description": " Default is 0 (false). If HD account  [  _xPub_ ](types/#xpub)  and  [  HD path ](https://learnmeabitcoin.com/technical/derivation-paths)  information is required by the notary to verify change addresses belong to the sender account"
+          "description": " Default is 0 (false). If HD account  [  _xPub_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#xpub)  and  [  HD path ](https://learnmeabitcoin.com/technical/derivation-paths)  information is required by the notary to verify change addresses belong to the sender account"
         }
       }
     ]
@@ -93,7 +93,7 @@
     "key": "8",
     "data": {
       "name": " auxFeeDetails",
-      "type": " [  _AuxFeeDetails_ ](types/#auxfeedetails)",
+      "type": " [  _AuxFeeDetails_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#auxfeedetails)",
       "description": " Enforce auxiliary fees to every transaction on this asset"
     },
     "children": [
@@ -109,7 +109,7 @@
         "key": "8-1",
         "data": {
           "name": " auxfees",
-          "type": " [  _AuxFee_ ](types/#auxfee) _Array_",
+          "type": " [  _AuxFee_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#auxfee) _Array_",
           "description": " Details of the auxiliary fees that must be paid for each transaction"
         },
         "children": [

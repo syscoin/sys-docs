@@ -21,7 +21,7 @@
     "key": "2",
     "data": {
       "name": " Signer",
-      "type": " [  _Signer_ ](types/#Signer)",
+      "type": " [  _Signer_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#Signer)",
       "description": " Signer object if you wish to update change/receiving indexes from backend provider through  [  fetchBackendAccount() ](#fetchbackendaccount)"
     }
   }

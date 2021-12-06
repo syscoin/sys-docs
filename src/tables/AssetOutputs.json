@@ -11,7 +11,7 @@
     "key": "1",
     "data": {
       "name": " outputs",
-      "type": " [  _AssetOutput_ ](types/#assetoutput) _Array_",
+      "type": " [  _AssetOutput_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#assetoutput) _Array_",
       "description": " An array of outputs containing which address to send the asset to and the value to send"
     },
     "children": [

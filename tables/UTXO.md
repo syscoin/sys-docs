@@ -7,5 +7,5 @@
 | confirmations |            *Number*             |            Number of confirmations            |
 |    address    |            *String*             | Address the funds are being/have been sent to |
 |     path      |            *String*             |                                               |
-|   assetInfo   | [*AssetInfo*](types/#assetinfo) | Information on an asset included in the UTXO  |
+|   assetInfo   | [*AssetInfo*](/docs/dev-resources/documentation/javascript-sdk-ref/types#assetinfo) | Information on an asset included in the UTXO  |
 

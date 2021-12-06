@@ -59,7 +59,7 @@
     "key": "7",
     "data": {
       "name": " assetInfo",
-      "type": " [  _AssetInfo_ ](types/#assetinfo)",
+      "type": " [  _AssetInfo_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#assetinfo)",
       "description": " Information of an asset to be sent in the transaction"
     },
     "children": [
@@ -76,7 +76,7 @@
         "data": {
           "name": " value",
           "type": " _BN_  /  _String_",
-          "description": " Value transferred. Type will be  _BN_  if within a  [  _Res_ ](types/#res)  object,  _String_  if within a  [  _UTXO_ ](types/#utxo)  object"
+          "description": " Value transferred. Type will be  _BN_  if within a  [  _Res_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#res)  object,  _String_  if within a  [  _UTXO_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#utxo)  object"
         }
       }
     ]

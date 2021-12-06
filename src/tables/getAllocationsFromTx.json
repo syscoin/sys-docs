@@ -3,7 +3,7 @@
     "key": "0",
     "data": {
       "name": " tx",
-      "type": " [  _Transaction_ ](types/#transaction)",
+      "type": " [  _Transaction_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#transaction)",
       "description": " Bitcoinjs transaction",
       "required": " yes"
     }

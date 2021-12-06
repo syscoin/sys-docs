@@ -3,8 +3,8 @@
     "key": "0",
     "data": {
       "name": " trezorTx",
-      "type": " [  _TrezorTransaction_ ](types/#trezortransaction)",
-      "description": " A  [  PSBT ](types/#psbt)  in the format of a  [  TrezorTransaction ](types/#trezortransaction)"
+      "type": " [  _TrezorTransaction_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#trezortransaction)",
+      "description": " A  [  PSBT ](/docs/dev-resources/documentation/javascript-sdk-ref/types#psbt)  in the format of a  [  TrezorTransaction ](/docs/dev-resources/documentation/javascript-sdk-ref/types#trezortransaction)"
     },
     "children": [
       {
@@ -27,7 +27,7 @@
         "key": "0-2",
         "data": {
           "name": " inputs",
-          "type": " [  _PSBTInput_ ](types/#psbtinput) _Array_",
+          "type": " [  _PSBTInput_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#psbtinput) _Array_",
           "description": ""
         },
         "children": [
@@ -35,7 +35,7 @@
             "key": "0-2-0",
             "data": {
               "name": " unknownKeyVals",
-              "type": " [  _UnknownKeyValue_ ](types/#unknownkeyvalue)",
+              "type": " [  _UnknownKeyValue_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#unknownkeyvalue)",
               "description": ""
             },
             "children": [
@@ -60,7 +60,7 @@
             "key": "0-2-1",
             "data": {
               "name": " witnessUtxo",
-              "type": " [  _WitnessUTXO_ ](types/#witnessutxo)",
+              "type": " [  _WitnessUTXO_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#witnessutxo)",
               "description": ""
             },
             "children": [
@@ -94,7 +94,7 @@
         "key": "0-3",
         "data": {
           "type": " outputs",
-          "description": " [  _Output_ ](types/#output) _Array_"
+          "description": " [  _Output_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#output) _Array_"
         }
       }
     ]

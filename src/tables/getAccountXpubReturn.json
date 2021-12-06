@@ -3,7 +3,7 @@
     "key": "0",
     "data": {
       "type": " _String_",
-      "description": " An  [  _xPub_ ](types/#xpub)  in hex format"
+      "description": " An  [  _xPub_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#xpub)  in hex format"
     }
   }
 ]

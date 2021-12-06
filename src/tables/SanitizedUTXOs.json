@@ -3,7 +3,7 @@
     "key": "0",
     "data": {
       "name": " utxos",
-      "type": " [  _SanitizedUTXO_ ](types/#sanitizedutxo) _Array_",
+      "type": " [  _SanitizedUTXO_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#sanitizedutxo) _Array_",
       "description": ""
     },
     "children": [
@@ -67,7 +67,7 @@
         "key": "0-7",
         "data": {
           "type": " assetInfo",
-          "description": " [  _AssetInfo_ ](types/#assetinfo)"
+          "description": " [  _AssetInfo_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#assetinfo)"
         },
         "children": [
           {
@@ -83,7 +83,7 @@
             "data": {
               "name": " value",
               "type": " _BN_  /  _String_",
-              "description": " Value transferred. Type will be  _BN_  if within a  [  _Res_ ](types/#res)  object,  _String_  if within a  [  _UTXO_ ](types/#utxo)  object"
+              "description": " Value transferred. Type will be  _BN_  if within a  [  _Res_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#res)  object,  _String_  if within a  [  _UTXO_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#utxo)  object"
             }
           }
         ]
@@ -94,8 +94,8 @@
     "key": "1",
     "data": {
       "name": " assets",
-      "type": " [  _SanitizedAssetDetails_ ](types/#sanitizedassetdetails) _Map_",
-      "description": " Mapped from asset GUIDs to  [  _SanitizedAssetDetails_ ](types/#sanitizedassetdetails)  objects."
+      "type": " [  _SanitizedAssetDetails_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#sanitizedassetdetails) _Map_",
+      "description": " Mapped from asset GUIDs to  [  _SanitizedAssetDetails_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#sanitizedassetdetails)  objects."
     },
     "children": [
       {

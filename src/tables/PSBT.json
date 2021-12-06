@@ -3,7 +3,7 @@
     "key": "0",
     "data": {
       "name": " inputs",
-      "type": " [  _PSBTInput_ ](types/#psbtinput) _Array_",
+      "type": " [  _PSBTInput_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#psbtinput) _Array_",
       "description": " Inputs for the transaction"
     },
     "children": [
@@ -11,7 +11,7 @@
         "key": "0-0",
         "data": {
           "name": " unknownKeyVals",
-          "type": " [  _UnknownKeyValue_ ](types/#unknownkeyvalue)",
+          "type": " [  _UnknownKeyValue_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#unknownkeyvalue)",
           "description": ""
         },
         "children": [
@@ -36,7 +36,7 @@
         "key": "0-1",
         "data": {
           "name": " witnessUtxo",
-          "type": " [  _WitnessUTXO_ ](types/#witnessutxo)",
+          "type": " [  _WitnessUTXO_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#witnessutxo)",
           "description": ""
         },
         "children": [
@@ -70,7 +70,7 @@
     "key": "1",
     "data": {
       "name": " outputs",
-      "type": " [  _Output_ ](types/#output) _Array_",
+      "type": " [  _Output_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#output) _Array_",
       "description": " Outputs for the transaction"
     },
     "children": [
@@ -102,7 +102,7 @@
         "key": "1-3",
         "data": {
           "name": " assetInfo",
-          "type": " [  _AssetInfo_ ](types/#assetinfo)",
+          "type": " [  _AssetInfo_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#assetinfo)",
           "description": " Information of an asset sent in the transaction"
         },
         "children": [
@@ -119,7 +119,7 @@
             "data": {
               "name": " value",
               "type": " _BN_  /  _String_",
-              "description": " Value transferred. Type will be  _BN_  if within a  [  _Res_ ](types/#res)  object,  _String_  if within a  [  _UTXO_ ](types/#utxo)  object"
+              "description": " Value transferred. Type will be  _BN_  if within a  [  _Res_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#res)  object,  _String_  if within a  [  _UTXO_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#utxo)  object"
             }
           }
         ]

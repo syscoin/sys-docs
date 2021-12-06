@@ -3,7 +3,7 @@
     "key": "0",
     "data": {
       "name": " unknownKeyVals",
-      "type": " [  _UnknownKeyValue_ ](types/#unknownkeyvalue)",
+      "type": " [  _UnknownKeyValue_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#unknownkeyvalue)",
       "description": ""
     },
     "children": [
@@ -28,7 +28,7 @@
     "key": "1",
     "data": {
       "name": " witnessUtxo",
-      "type": " [  _WitnessUTXO_ ](types/#witnessutxo)",
+      "type": " [  _WitnessUTXO_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#witnessutxo)",
       "description": ""
     },
     "children": [

@@ -13,7 +13,7 @@
     "data": {
       "name": " addressOrXpub",
       "type": " _String_",
-      "description": " An address or  [  _xPub_ ](types/#xpub)  to fetch UTXO&#39;s for",
+      "description": " An address or  [  _xPub_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#xpub)  to fetch UTXO&#39;s for",
       "required": " yes"
     }
   },

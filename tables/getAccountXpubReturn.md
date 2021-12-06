@@ -1,3 +1,3 @@
 |   Type   |                         Description                          |
 | :------: | :----------------------------------------------------------: |
-| *String* | An [*xPub*](types/#xpub) in hex format |
+| *String* | An [*xPub*](/docs/dev-resources/documentation/javascript-sdk-ref/types#xpub) in hex format |

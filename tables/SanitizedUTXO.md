@@ -7,4 +7,4 @@
 |   vout    |            *Number*             |             |
 |   value   |              *BN*               |             |
 | locktime  |                                 |             |
-| assetInfo | [*AssetInfo*](types/#assetinfo) |             |
+| assetInfo | [*AssetInfo*](/docs/dev-resources/documentation/javascript-sdk-ref/types#assetinfo) |             |

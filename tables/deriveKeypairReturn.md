@@ -1,3 +1,3 @@
 |   Type   |       Description        |
 | :------: | :----------------------: |
-| [*KeyPair*](types/#keypair) | A bitcoinjs-lib key pair |
+| [*KeyPair*](/docs/dev-resources/documentation/javascript-sdk-ref/types#keypair) | A bitcoinjs-lib key pair |

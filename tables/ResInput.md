@@ -7,5 +7,5 @@
 |   vout    |            *Number*             |                      Output number                       |
 |   value   |              *BN*               |                 Value of the transaction                 |
 | locktime  |            *Number*             | Raw locktime. Non-0 value also locktime-activates inputs |
-| assetInfo | [*AssetInfo*](types/#assetinfo) |  Information of an asset to be sent in the transaction   |
+| assetInfo | [*AssetInfo*](/docs/dev-resources/documentation/javascript-sdk-ref/types#assetinfo) |  Information of an asset to be sent in the transaction   |
 

@@ -5,7 +5,7 @@
 |       maxsupply       |   *BN*   | Maximum satoshis for supply. Range is 1 to 1 quintillion (10^18) |
 |      description      | *String* | Description in ASCII describing token. The description will be encoded via JSON in the pubdata field for the asset and will be in the 'desc' field of the JSON object |
 |       contract        | *String* | ERC20 address of the contract connected to this SPT for use in the SysEthereum bridge |
-| updatecapabilityflags | *Number* | Defaults to 127 or ALL capabilities. Update capabilities on this asset. Read more [*here*](types/#updatecapabilityflags) |
+| updatecapabilityflags | *Number* | Defaults to 127 or ALL capabilities. Update capabilities on this asset. Read more [*here*](/docs/dev-resources/documentation/javascript-sdk-ref/types#updatecapabilityflags) |
 |      notarykeyid      | *String* | Notary KeyID, the hash160 of the address used for notarization. Should be P2WPKH |
-|     notarydetails     | [*NotaryDetails*](types/#notarydetails) | Details related to the notarization of transactions using this asset |
-|     auxFeeDetails     | [*AuxFeeDetails*](types/#auxfeedetails) |  Enforce auxiliary fees to every transaction on this asset   |
+|     notarydetails     | [*NotaryDetails*](/docs/dev-resources/documentation/javascript-sdk-ref/types#notarydetails) | Details related to the notarization of transactions using this asset |
+|     auxFeeDetails     | [*AuxFeeDetails*](/docs/dev-resources/documentation/javascript-sdk-ref/types#auxfeedetails) |  Enforce auxiliary fees to every transaction on this asset   |

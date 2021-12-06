@@ -11,7 +11,7 @@
     "key": "1",
     "data": {
       "name": " auxfees",
-      "type": " [  _AuxFee_ ](types/#auxfee) _Array_",
+      "type": " [  _AuxFee_ ](/docs/dev-resources/documentation/javascript-sdk-ref/types#auxfee) _Array_",
       "description": " Details of the auxiliary fees that must be paid for each transaction"
     },
     "children": [
