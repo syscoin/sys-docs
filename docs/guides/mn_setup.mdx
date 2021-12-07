@@ -1,6 +1,6 @@
 # Masternode Setup Guide
 
-## EACH MASTERNODE MUST HAVE THE FOLLOWING
+### EACH MASTERNODE MUST HAVE THE FOLLOWING
 
 **1. A brand new VPS to install**
 **2. A Seperate BLS Key per node.**
@@ -8,7 +8,7 @@
 
 **You can not use the same BLS Key or Owner, Voting Keys for multiple nodes!**
 
-## Below are the minimum requirements for your VPS. Please do not try to compile without the minimum. You must install on a fresh new VPS.
+### Below are the minimum requirements for your VPS. Please do not try to compile without the minimum. You must install on a fresh new VPS.
 
 - 64-bit CPU — 2 Cores (4 preferred)
 - 4gb RAM (real) minimum (8gb RAM preferred)
@@ -21,35 +21,35 @@
 
 ## Video Walkthrough
 
-[Masternode Install Guide 88](https://www.youtube.com/watch?v=pOwcFMP92hY)
+[Masternode Install Guide](https://www.youtube.com/watch?v=pOwcFMP92hY)
 
 ## VPS Providers
 
 There are many VPS service providers that offer and exceed the hardware requirements, as such it is recommended that you shop around and do your own homework on various potential providers. Note the following is a list of just some examples and should not be interpreted as recommendations or endorsement.
 
-- [UK2.net 15](https://uk2.net/)
-- [IONOS.co.uk 2](https://ionos.co.uk/)
-- [InterServer.net 3](https://interserver.net/)
-- [OVH.co.uk 2](https://ovh.co.uk/)
-- [KimSufi.com 2](https://kimsufi.com/)
-- [mVPS.net 4](https://mvps.net/)
-- [VPS-Mart.com 5](https://vps-mart.com/)
-- [Hostinger.com 4](https://hostinger.com/)
-- [BudgetVM.com 4](https://budgetvm.com/)
-- [Virtono.com 4](https://virtono.com/)
-- [LeaseWeb.com 3](https://leaseweb.com/)
-- [HomeAtCloud.com 5](https://homeatcloud.com/)
-- [IdeaStack.com 6](https://ideastack.com/)
-- [SSDNodes.com 7](https://ssdnodes.com/)
-- [SimplyHosting.com 3](https://simplyhosting.com/)
-- [RAMNode.com 6](https://ramnode.com/)
-- [Time4VPS.com 7](https://time4vps.com/)
+- [UK2.net](https://uk2.net/)
+- [IONOS.co.uk](https://ionos.co.uk/)
+- [InterServer.net](https://interserver.net/)
+- [OVH.co.uk](https://ovh.co.uk/)
+- [KimSufi.com](https://kimsufi.com/)
+- [mVPS.net](https://mvps.net/)
+- [VPS-Mart.com](https://vps-mart.com/)
+- [Hostinger.com](https://hostinger.com/)
+- [BudgetVM.com](https://budgetvm.com/)
+- [Virtono.com](https://virtono.com/)
+- [LeaseWeb.com](https://leaseweb.com/)
+- [HomeAtCloud.com](https://homeatcloud.com/)
+- [IdeaStack.com](https://ideastack.com/)
+- [SSDNodes.com](https://ssdnodes.com/)
+- [SimplyHosting.com](https://simplyhosting.com/)
+- [RAMNode.com](https://ramnode.com/)
+- [Time4VPS.com](https://time4vps.com/)
 
 ## MASTERNODE HELP
 
-[Syscoin Discord 14](https://discord.gg/RkK2AXD): If you require more help, jump into the Syscoin Discord and our community will be more than happy to help you out!
+[Syscoin Discord](https://discord.gg/RkK2AXD): If you require more help, jump into the Syscoin Discord and our community will be more than happy to help you out!
 
-[Sysnode.info 12](https://sysnode.info/): This website has an array of tools such as Masternode Stats, Monitoring and keeping up to date with current news with Syscoin.
+[Sysnode.info](https://sysnode.info/): This website has an array of tools such as Masternode Stats, Monitoring and keeping up to date with current news with Syscoin.
 
 ## Prepare QT and Send 100k Syscoin
 
@@ -107,7 +107,7 @@ Finally we are ready to work on your server. Connect to your VPS as root via SSH
 bash <(curl -sL https://raw.githubusercontent.com/Syscoin/Masternode-install-script/master/script.sh)
 ```
 
-> **Please also check the latest releases - if it is not 4.3.0, you will need to enter in the latest release tag for for Syscoin Core Github Branch. So if the latest release is 4.3.1, you would enter 4.3.1 and then press enter. You can check that here; [Releases · syscoin/syscoin · GitHub 11](https://github.com/syscoin/syscoin/releases)**
+> **Please also check the latest releases - if it is not 4.3.0, you will need to enter in the latest release tag for for Syscoin Core Github Branch. So if the latest release is 4.3.1, you would enter 4.3.1 and then press enter. You can check that here; [Releases · syscoin/syscoin · GitHub](https://github.com/syscoin/syscoin/releases)**
 
 Default values are found in brackets and pressing enter will selected the [default] value. For entries with a [Y/n] the capital letter is the default. Enter [Y] to choose “yes” or [N] to choose “no”. Likely the only value you will need to enter is the latest release tag and Masternode BLS Secret key.
 
@@ -175,7 +175,7 @@ This command has the following syntax:
 protx_register_prepare collateralHash collateralIndex ipAndPort ownerKeyAddr operatorPubKey votingKeyAddr operatorReward payoutAddress (feeSourceAddress)
 ```
 
-Open a text editor such as notepad ++ to prepare this command or head to [SysHub Masternode Registration 44](https://syshub-dev.web.app/masternodes/masternode-registration).
+Open a text editor such as notepad ++ to prepare this command or head to [SysHub Masternode Registration](https://syshub-dev.web.app/masternodes/masternode-registration).
 
 Replace each argument to the command as follows:
 
