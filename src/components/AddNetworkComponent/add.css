@@ -1,0 +1,34 @@
+
+.addButton {
+    margin: 0;
+    display: inline-block;
+    width: auto;
+    clear: none;
+    margin-right: 20px;
+    padding: 7px 15px;
+    color: white;
+    text-decoration: none;
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    -webkit-box-align: start;
+    -webkit-align-items: flex-start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    border-radius: 80px;
+    background-color: #153fab;
+    -webkit-transition: background-color 350ms ease, -webkit-transform 350ms ease;
+    transition: background-color 350ms ease, -webkit-transform 350ms ease;
+    transition: background-color 350ms ease, transform 350ms ease;
+    transition: background-color 350ms ease, transform 350ms ease, -webkit-transform 350ms ease;
+    font-family: Roboto, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-align: center;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+.addButton:hover {
+    background-color: #003f7e;
+    color: #fff; }

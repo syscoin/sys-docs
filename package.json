@@ -21,6 +21,7 @@
     "@react-css/grid": "^1.4.6",
     "@svgr/webpack": "^5.5.0",
     "clsx": "^1.1.1",
+    "ethers": "^5.5.2",
     "file-loader": "^6.2.0",
     "fs-extra": "^10.0.0",
     "klipse": "^7.10.6",
@@ -37,9 +38,7 @@
     "react-tabs": "^3.2.2",
     "react-transition-group": "^4.4.2",
     "remark": "^13.0.0",
-    "remark-loader": "^4.0.0",
-    "url-loader": "^4.1.1",
-    "web3": "^1.6.1"
+    "remark-loader": "^4.0.0"
   },
   "browserslist": {
     "production": [
