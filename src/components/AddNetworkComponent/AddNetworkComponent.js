@@ -18,7 +18,9 @@ class AddNetworkComponent extends Component {
   }
 
   componentDidMount() {
-    this.setState({address: window.ethereum.selectedAddress});
+    if (window.ethereum) {
+      this.setState({address: window.ethereum.selectedAddress});
+    }
   }
 
   async connectWallet() {
