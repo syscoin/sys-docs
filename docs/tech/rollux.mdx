@@ -1,0 +1,82 @@
+
+# Rollux
+
+Rollux is a suite of rollup-based Layer 2 solutions designed to enable EVM users with near-instant low-cost transfers, executions, and contract deployments. Designed to utilize Syscoin's settlement layer, Rollux solutions provide the lowest cost, highest throughput and most proven Layer 1 security among rollup solutions.  Rollups just work better on Syscoin, and for clear reasons.
+
+As a suite, Rollux is set to encompass both Optimistic and ZK (zero-knowledge) based approaches, enabling users and projects to choose a network or solution that fits them best. Where appropriate and as tech evolves, Syscoin can hybridize between these in the future.
+
+Check out **[The Ultimate Guide to Rollups](https://jsidhu.medium.com/the-ultimate-guide-to-rollups-f8c075571770)** for an technical overview of rollups the differences between Optimistic and ZK rollups.
+
+## Rollux Optimistic Rollups
+
+### OPv1
+
+OPv1 is Syscoin's first rollup network in the Rollux suite. It is based upon Optimism v1 and will follow Optimism into the upcoming Bedrock upgrade.
+
+**[Connect to Rollux OPv1](/docs/guides/rollux/metamask)**
+
+## Rollux ZK Rollups
+
+**Coming soon**
+
+
+## How does Syscoin help rollups work optimally?
+
+Rollups are the first technology to viably help scale decentralized EVM computation to massive user demand. Rollups are also key to achieving a near-optimal scenario in the blockchain trilemma. Syscoin asserts such a scenario can only be achieved by supporting rollups with a holistically modular Layer 1.
+
+Syscoin is designed with this in mind. All near-instant activity on Rollux inherits the full security of Syscoin’s L1 in the background approximately every 2.5 minutes, including Finality.
+
+Here are a few areas where Syscoin shines for rollups.
+
+### Bitcoin Merge-Mined PoW
+Syscoin is merge-mined by Bitcoin's own network of miners and inherits a significant portion of Bitcoin's hashrate (currently ~30%) without imposing any additional energy costs on miners and while incentivizing them with SYS. Syscoin asserts that Layer 1 security is fulfilled better by PoW than PoS for multiple reasons.
+
+- Resilient to quantum stealth attacks
+- Consensus resilient to more black swan risks (fiat hyper-inflation, internet censorship)
+- Decentralized finality achievable without fault concerns
+- Better survivability against irrationality
+
+However, Syscoin does not mirror Bitcoin's economics and consensus rules. Syscoin's economy is utility-focused and based upon EIP-1559. We source Bitcoin’s network for the hardness it provides. 
+
+### Finality that is Fast and Resilient
+Syscoin’s finality is sourced from a multi-quorum consisting of 4 groups of 400 masternodes (1,600) which are randomly selected among the entirety of the network (currently ~2,500 MNs). Each quorum is reformed every few hours. 3 out of 4 quorums must agree on a block in order to establish a chainlock (finality).
+
+This mechanism provides a high probability of finality. In the rare event that finality cannot be achieved on a block, the network falls back to the longest chain rule of Nakamoto consensus - a seamless and non-breaking event.
+
+|             |Time to finality after block|Blocktime   |Resilience absent finality        |Mechanism     |
+| :-----------|----------------------------|------------|----------------------------------|--------------|
+|**Syscoin**  |10-15 seconds               |2.5 minutes |Nakamoto longest chain rule       |PoW + Quorums |
+|**Ethereum** |~14 minutes (~3 epochs)     |10 seconds  |None. No finality = breaking event|PoS + Casper  |
+
+
+Syscoin’s finality provides effective resistance to 51%, malicious MEV, and selfish-mining attacks, while retaining PoW. Attackers must accomplish two expensive and challenging tasks: 1) Control greater than 50% of the hash power supplied to Syscoin, plus 2) Control over 60% of all Syscoin masternodes.
+
+### Efficient Data Availability at Layer 1 with PoDA
+Data availability is required to exist within the security domain of Layer 1 in order for rollups to properly serve critical financial applications, and secure users’ ability to exit to L1. Syscoin’s L1 DA solution is called PoDA (Proof of Data Availability). Syscoin’s PoDA differs from Ethereum’s danksharding in how data is stored, presented, pruned, and how fees are calculated. PoDA is able to utilize an existing fee market while Ethereum requires the addition of new complexities.
+
+PoDA’s design considers proving and archiving as separate concerns. With PoDA, the succinct proof of data is stored on Layer 1, while an assumption is made that at least one honest party in the world will archive the raw data within a 6-hour window of time - similar to the honesty assumption made when syncing a Bitcoin node (at least one honest node). If desired, the raw data itself can be secured by Syscoin’s L1 network by reposting the data every 6 hours.
+
+Validium (fully offchain DA) is also available as an alternative to PoDA for less-critical applications where the focus might be on even lower cost and higher throughput by trading-off Layer 1 data security.
+
+
+
+
+Find out more about how Syscoin provides **[the most ideal L1 settlement for L2 solutions](https://jsidhu.medium.com/why-syscoin-is-the-ideal-layer-1-3ff690a7ef5f)**.
+
+
+## FAQ
+
+### Rollux OPv1
+
+**Q.“What is the L2 blocktime of Rollux OPv1?”**
+A. There is no practical blocktime. Blocks are produced on demand. Turn-around time to confirmation is extremely short. Typically a Metamask wallet will receive a confirmation message 3 to 8 seconds after a transfer or execution is submitted. Even then, some of that time is taken up by RPC and network latency in general. Actual confirmation is typically near-instant.
+ 
+**Q. “At what frequency does the L2 settle bundled transactions on L1? What is the threshold?”**
+A. OPv1 will only settle on the L1 if there are items which have settled on the L2 which have not yet been settled on L1. The frequency/rate of settlement to L1 is the average blocktime of the L1 which is normally 2.5 minutes. 
+ 
+**Q. “The last block showing on the Rollux explorer was [X] time ago. What gives?”**
+A. That simply means no one has submitted new transactions to the testnet since the last block. Blocks on Rollux OPv1 are produced on demand. See answer to question “What is the blocktime of Rollux OPv1?”.
+ 
+**Q. “Why do most blocks on the OPv1 public testnet have only one transaction?”**
+A. In each case, this is an artifact of either the nature of the transaction itself (e.g. creating a smart contract with a larger data footprint that consumes the block allowance), or of transaction volume not meeting the threshold required to group multiple into a single block. 
+
