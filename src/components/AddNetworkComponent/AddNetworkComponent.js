@@ -54,7 +54,7 @@ class AddNetworkComponent extends Component {
     const OPv1_testnet = {
       chainId: '0x' + (2814).toString(16),
       chainName: 'Rollux OPv1 Testnet',
-      iconUrls: ['https://syscoin.org/images/rollux-blue-flat-logo.svg'],
+      iconUrls: ['https://syscoin.org/images/Rollux-Logo-Blue@4x.png'],
       nativeCurrency: {
         name: 'Rollux Syscoin',
         symbol: 'rSYS',
