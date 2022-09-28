@@ -18,6 +18,7 @@ module.exports = {
       logo: {
         alt: 'Syscoin Logo',
         src: 'img/sys-logo.svg',
+        href: 'https://docs.syscoin.org/docs/intro/syscoin-what/'
       },
       items: [
         {
