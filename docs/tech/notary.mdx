@@ -1,6 +1,120 @@
 
 # Notary and Business Rulesets
 
-Syscoin enables notary and business rulesets through a unique feature on the base blockchain (not the [NEVM](/docs/tech/nevm) chain). This feature enables token creators to notarize transactions before they are accepted by the network. This means that when a user tries to send a token that has notarization enabled, the token creator will be sent information regarding the transaction and they can then, through software on their own systems, decide whether to sign it or not. If they sign it then the transaction will go through as normal, if not then the transaction will not be accepted to the network.
+On Syscoin's native UTXO chain, an asset issuer can opt to introduce a permissioned layer in the form of a notary for their specific token, such that simple value transfers of that asset must meet rules defined by the issuer in order to be notarized and allowed to settle on-chain. With a Notary endpoint, any allocation of the asset must pass the endpoint's checks to be granted the notary's signature and be accepted into a block.
 
-Essentially this feature allows token creators to abide by regulatory laws in varying jurisdictions depending on where the users are located. For example, before allowing a user to buy the token they would have to go through a KYC process first, the token creator then knows where the user is located and what regulations should be applicable to them. Once this information is known the token creator can then decide whether the user's transactions are valid or not. This could be utilized, for example, by companies wishing to have their stocks secured on an open and decentralized blockchain while still maintaining regulatory compliance.
+## Regulatory Compliance at Scale
+
+This feature is particularly useful for stablecoin redemption, ensuring asset transactions are compliant with regulations prior to receiving approval. It enables asset issuers to attain pre-compliance on a public blockchain without requiring a third-party to take custody of the asset, while providing for issuers to adapt their rulesets to ever-changing industry regulations.
+
+## General Purpose
+
+This feature can also be tied to any set of business rules the token issuer wishes to trigger and/or enforce. This can also be used to add an optional trust-based security domain for expedited service.
+
+You can read more about the design and philosophy behind this capability in [SIP-0002](https://github.com/syscoin/sips/blob/master/sip-0002.mediawiki).
+
+## How to Implement
+
+Note: The example below uses Syscoin Core RPCs. In the future, many Syscoin-specific RPCs in Syscoin Core (e.g. those for asset management like `assetnew`) will become deprecated in favor of [syscoinjs-lib](https://github.com/syscoin/syscoinjs-lib) and [syscointx-js](https://github.com/syscoin/syscointx-js). We encourage our community to learn those newer, more useful tools for creating/managing assets. 
+
+To begin, let's look at an asset notary example within a Syscoin Core console.
+
+<!--DOCUSAURUS_CODE_TABS-->
+<!--HTML-->
+```
+> syscoin-cli assetinfo 1815902629
+
+{
+  "asset_guid": "1815902629",
+  "symbol": "FANCY",
+  "public_value": {
+    "desc": "NFT with auxfees and notary"
+  },
+  "contract": "",
+  "notary_address": "tsys1qzy52g933vjc66kw9rnwk2mz25rnymv29q0dr8q",
+  "notary_details": {
+    "endpoint": "https://111.111.111.111:8081/notarize",
+    "instant_transfers": 1,
+    "hd_required": 0
+  },
+  "auxfee": {
+    "auxfee_address": "tsys1qzy52g933vjc66kw9rnwk2mz25rnymv29q0dr8q",
+    "fee_struct": [
+      {
+        "bound": 0.00000000,
+        "percentage": 0.01
+      },
+      {
+        "bound": 10.00000000,
+        "percentage": 0.004
+      },
+      {
+        "bound": 250.00000000,
+        "percentage": 0.002
+      },
+      {
+        "bound": 2500.00000000,
+        "percentage": 0.0007
+      },
+      {
+        "bound": 25000.00000000,
+        "percentage": 6e-05
+      },
+      {
+        "bound": 250000.00000000,
+        "percentage": 0
+      }
+    ]
+  },
+  "total_supply": 10.00000000,
+  "max_supply": 9999.00000000,
+  "updatecapability_flags": 127,
+  "precision": 8
+}
+```
+
+
+### Relevant Fields
+**notary_address (string)**
+Public key of the endpoint's notary signer. Typically an address chosen by the issuer for which the Notary holds the private key. If specified, the private key associated with this address must sign any transaction of this asset in order for the network to accept it into a block.
+
+**notary_details.endpoint (string)**
+API endpoint URL.
+
+When a client executes assetallocationsend, an HTTP POST is sent to the endpoint specified here and the client awaits a response. Response timeout is 15 seconds.
+
+The client's POST provides the endpoint a raw transaction hex which the notary then decodes, parses, then logically processes.
+
+The endpoint URL can point to any application or script of any language that can receive and process POST requests and provide an appropriate JSON response. The endpoint must return details of a successfully notarized (signed) transaction broadcasted to the network or the client's request is considered failed or rejected.
+
+Endpoint programs can interact with Syscoin by making RPC calls directly to a Syscoin Core instance (see syscoin-js), or through a Web3 approach by using a combination of syscoinjs-lib and Syscoin Blockbook.
+
+A rudimentary example of a notary endpoint is available [here](https://github.com/syscoin/notary-endpoint/).
+
+**notary_details.instant_transfers (boolean)**
+This flag indicates whether the notary is offering a guarantee of extra security in prevention of double spends. Recipients can instantly redeem/spend notarized inputs if they fully trust the notary's security.
+
+This security path theoretically can provide payment service even faster than Z-DAG's decentralized relay and is based on an optional trust trade-off.
+
+Endpoints can ensure protection against double spends by tracking spend requests of an input and responding to them based on the existence (or lack) of prior spend attempts.
+
+If 0, the notary is not guaranteeing any supplementary security measures and transactors of the asset should rely exclusively upon Z-DAG and/or Syscoin Core consensus.
+
+**notary_details.hd_required (boolean)**
+This flag indicates the notary requires HD wallet approval (for sender approval specifically applicable to change address schemes), usually in the form of the account XPUB or verifiable credential of the account XPUB using decentralized identity
+
+### How to Activate Notary
+
+An issuer can enable Notary on an asset by setting parameters in assetnew (upon asset creation), or assetupdate (updating the asset spec, if the asset's current update_capabilityflags value permits this).
+
+Enable Notary via `assetnew`
+```
+> syscoin-cli assetnew 100 "ECASH" "Non-custodial KYC/AML-enabled Electronic Cash" "" 8 888000000 127 "tsys1qzy52g933vjc66kw9rnwk2mz25rnymv29q0dr8q" "{\"endpoint\":\"https://111.111.111.111:8081/notarize\", \"instant_transfers\": 0, \"hd_required\": 1}" {}
+```
+
+Enable Notary via `assetupdate`
+```
+> syscoin-cli assetupdate 1020176632 "Non-custodial KYC/AML-enabled Electronic Cash" "" 127 "tsys1qzy52g933vjc66kw9rnwk2mz25rnymv29q0dr8q" "{\"endpoint\":\"https://111.111.111.111:8081/notarize\", \"instant_transfers\": 0, \"hd_required\": 1}" {}
+```
+<!--END_DOCUSAURUS_CODE_TABS-->
+

@@ -21,11 +21,11 @@ NEVM stands for Network-Enhanced Virtual Machine, this is what powers Syscoin's 
 
 ## Is Syscoin Proof of Work (PoW) or Proof of Stake (PoS)?
 
-Syscoin is Proof of Work and is merged-mined with Bitcoin, meaning that Bitcoin miners who also decide to mine Syscoin don't have to expend any extra energy to mine the Syscoin blockchain; the energy that goes into mining Bitcoin can be used to mine Syscoin at no extra cost.
+Syscoin is Proof of Work and is merged-mined with Bitcoin, meaning that Bitcoin miners who also decide to mine Syscoin don't have to expend any extra energy to mine the Syscoin blockchain; the energy that goes into mining Bitcoin can be used to mine Syscoin at no extra cost. On top of this Proof of Work model, Syscoin provides a network of masternodes that provide additive security in the form of multi-quorums that generate chainlocks as an efficient and effective source of decentralized finality. Syscoin's network of masternodes is on the decentralized side of the spectrum with typically well over two-thousand masternodes being independently owned and operated at any time. In this sense, Syscoin could be considered a hybrid of Proof of Work and Proof of Service.
 
 ## What is Syscoin's max supply?
 
-With the release of NEVM Syscoin now no longer has a maximum supply, as [EIP-1559](https://eips.ethereum.org/EIPS/eip-1559) has been adopted any gas fees from smart contracts will be burned.
+SYS coinomics are very similar to Ethereum's [EIP-1559](https://eips.ethereum.org/EIPS/eip-1559). With the release of NEVM, Syscoin Protocol balances inflation/deflation dynamically and no longer has a maximum supply. Any gas fees spent on smart contracts are burned. The purpose is to provide an ideal utility-focused economy for a global user base, now and into the future.
 
 ## How do I transfer SYS to the NEVM chain for using smart contracts?
 
@@ -33,7 +33,7 @@ To transfer your SYS from the base chain to the NEVM chain you can use the [Brid
 
 ## What is Syscoin's block time?
 
-Syscoin's block time is 2.5 minutes, this is slow in comparison to other smart chains but has been set at this duration to ensure the highest security of the chain. The [ChainLock](/docs/tech/chainlocks) technology Syscoin uses to further secure its blockchain, beyond the Bitcoin merged-mining, works optimally at this block time, and as Syscoin aims to be a secure settlement layer for [zkRollups](https://cryptobriefing.com/zk-rollups-path-scaling-ethereum/) developers are expected to be running dApps not on the main chain but on zkRollups. As such, users will only experience the 2.5 minute block time when transferring on the main chain and will have near-instant transactions while transacting or using DeFi on zkRollups.
+Syscoin's Layer-1 block time is 2.5 minutes. Syscoin's Layer-2 blocktime is near-instant. This serves several purposes. For one, this disincentivizes direct use of the L1 by end users who actually belong on L2. Additionally, it is a sufficient window of time to ensure a very high probability of achieving a multi-quorum chainlock. Syscoin uses [chainlocks](/docs/tech/chainlocks) to further secure its blockchain with finality in addition to Bitcoin merge-mining. Syscoin's L1 is designed to serve as a secure settlement layer for Optimistic Rollups and ZK-Rollups where the vast majority of dApps are destined to operate. As such, end users will never experience the 2.5 minute block time while using rollups. Their blockchain interactions, whether DeFi, GameFi or other uses, will be near-instant and extremely low cost while being secured by Syscoin's L1 in the background.
 
 ## How secure is Syscoin?
 
