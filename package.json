@@ -21,6 +21,7 @@
     "@react-css/grid": "^1.4.6",
     "@svgr/webpack": "^5.5.0",
     "clsx": "^1.1.1",
+    "docusaurus": "^1.14.7",
     "ethers": "^5.5.2",
     "file-loader": "^6.2.0",
     "fs-extra": "^10.0.0",

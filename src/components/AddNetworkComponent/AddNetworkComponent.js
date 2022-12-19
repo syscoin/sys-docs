@@ -81,6 +81,7 @@ class AddNetworkComponent extends Component {
             method: 'wallet_addEthereumChain',
             params: [testnet, this.state.selectedAddress]
           }
+          break;
           case 'Rollux OPv1 Testnet':
             req = {
               method: 'wallet_addEthereumChain',
