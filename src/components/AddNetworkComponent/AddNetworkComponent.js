@@ -34,7 +34,7 @@ class AddNetworkComponent extends Component {
         symbol: 'SYS',
         decimals: 18,
       },
-      rpcUrls: ['https://rpc.syscoin.org/', 'wss://rpc.syscoin.org/wss'],
+      rpcUrls: ['https://rpc.ankr.com/syscoin', 'wss://rpc.syscoin.org/wss'],
       blockExplorerUrls: ['https://explorer.syscoin.org']
     }
 
