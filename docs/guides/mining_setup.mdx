@@ -1,6 +1,10 @@
+---
+sidebar_position: 6
+---
+
 # Merged-Mining Setup Guide
 
-**Authors: Fernando Paredes aka @DevelCuy (Devcoin Core Developer, Syscoin contributor) and Bradley Stephenson of Syscoin Foundation** 
+**Authors: Fernando Paredes aka @DevelCuy (Devcoin Core Developer, Syscoin contributor) and Bradley Stephenson of Syscoin Foundation**
 
 ## What is [Merged-Mining](/docs/tech/merged-mining)
 
@@ -80,7 +84,7 @@ Finding a Bitcoin or Syscoin block is harder when mining solo (on your own). Usi
 
 This is useful for pools or solo miners that wish to setup merge-mining Syscoin for the first time, or simply to help you understand the raw process. If you are a miner that wishes to participate in a pool that already mines Syscoin, go to section [Cloud Mining].
 
-Here is a step-by-step example of the low-level merged-mining process. We recommend that you create a script or use an application that automates this. 
+Here is a step-by-step example of the low-level merged-mining process. We recommend that you create a script or use an application that automates this.
 
 
 (1) **Get new block parameters**
@@ -145,7 +149,7 @@ Code at [auxpow.h](https://github.com/syscoin/syscoin/blob/v4.3.0/src/auxpow.h) 
 You can also take a look at [src/tests/auxpow_tests.cpp](https://github.com/syscoin/syscoin/blob/v4.3.0/src/tests/auxpow_tests.cpp). Take a look at [test/functional/auxpow_mining.py](https://github.com/syscoin/syscoin/blob/v4.3.0/test/functional/auxpow_mining.py) for example code that constructs and mines (with regtest difficulty) an AuxPoW block.
 
 
-*NOTE: The commands above can be reproduced quickly by running syscoind in regtest mode. For testnet and mainnet it is required to fully sync the Syscoin node.* 
+*NOTE: The commands above can be reproduced quickly by running syscoind in regtest mode. For testnet and mainnet it is required to fully sync the Syscoin node.*
 
 ### Recommended Parameters for **syscoin.conf**
 
@@ -238,5 +242,3 @@ Enter the “[Earnings](https://www.mining-dutch.nl/index.php?page=earnings)” 
 ### Other Cloud mining providers
 
 Some entry-level providers like MMR allow short term and low hash power rentals for about US$5.00. [NiceHash](https://www.nicehash.com/) rentals start at about US$100.00 at the time of writing. We highly recommend you to perform your own due-diligence and market research.
-
- 
