@@ -27,15 +27,15 @@ To understand why Syscoin is the perfect choice for developers, one must first u
 
 These will be expanded on below.
 
-#### Execution Layer
+### Execution Layer
 
 The execution layer in the new blockchain paradigm is where all the day-to-day transactions take place. Using a DEX to swap tokens? Buying NFTs on a marketplace? Whatever you can think of, most of these smart contracts will be operating on the execution layer. These Layer 2 scaling solutions can be optimistic or ZK-based rollups, or perhaps hybridized rollups in the future. Layer 1 blockchains, i.e. Syscoin NEVM or Ethereum, cannot scale on their own without trading-off some security and/or decentralization. This is why execution belongs a separate Layer 2 focused on scalability, enabling the Layer 1 to serve its best purposes - secure decentralized settlement and data availability.
 
-#### Settlement Layer
+### Settlement Layer
 
-The settlement layer is the layer that secures the ecosystem, as such it should be highly secure such as through being [merge-mined](/docs/tech/merged-mining) with Bitcoin. Highly scalable rollups operating as the execution layer for Syscoin will, at regular intervals, post proofs of the transactions that took place on them to the [NEVM](/docs/tech/nevm) blockchain in order to securely and immutably store what has taken place within the rollup.
+The settlement layer is the layer that secures the ecosystem, as such it should be highly secure such as through being [merge-mined](/docs/tech/merged-mining) with Bitcoin. Highly scalable rollups operating as the execution layer for Syscoin will, at regular intervals, post proofs of the transactions that took place on them to the [NEVM](/docs/tech/nevm) blockchain in order to securely and immutably store what has taken place within the rollups.
 
-#### Data Availability
+### Data Availability
 
 Data availability is required to exist within the security domain of Layer 1 in order for rollups to properly serve critical financial applications, and secure users’ ability to exit to L1. Syscoin’s L1 DA solution is called PoDA (Proof of Data Availability). Syscoin’s PoDA differs from Ethereum’s danksharding in how data is stored, presented, pruned, and how fees are calculated. PoDA is able to utilize an existing fee market while Ethereum requires the addition of new complexities.
 
@@ -45,13 +45,13 @@ Validium (fully offchain DA) is also available as an alternative to PoDA for les
 
 
 
-#### So why use Syscoin?
+## So why use Syscoin?
 
 As detailed above, with rollups operating on top of Syscoin, service is highly scalable. With Validium and fractal scaling, even greater scale can be achieved. As such the scalability aspect is very much covered. Scalability doesn't just mean high transaction per second volume though, it also takes into consideration the cost of transactions. Transactions on Syscoin will be cheap even at high throughput, as such if a project was considering which chain to operate their rollups on top of and wanted to have low gas fees for regularly posting proofs to the blockchain, Syscoin will be cheaper than other EVM-based chains.
 
 Next is decentralization, Syscoin has around 2500 active masternodes operating on its network, with its popularity increasing as it becomes a more well-known smart chain it's likely that this number will increase for the rewards hosting a masternode provides. This means that Syscoin is not just scalable but also decentralized.
 
-Lastly is security. Due to being merge-mined with Bitcoin Syscoin currently has around 30% of the hashpower that goes into mining Bitcoin. This is a large amount of security already and the Syscoin team is now looking to onboard more Bitcoin miners as it aims to become one of the most secure settlement layers. Not content with just this though, Syscoin also utilizes [*Multi-quorum Chainlocks*](/docs/tech/chainlocks) technology that practically eliminates the risk of attacks like 51%, selfish mining, and MEV, making it even more secure.
+Lastly is security. Due to being merge-mined with Bitcoin Syscoin currently has around 30% of the hashpower that goes into mining Bitcoin. This is a large amount of security already and the Syscoin team is now looking to onboard more Bitcoin miners as it aims to become one of the most secure settlement layers. Not content with just this though, Syscoin also utilizes [*Multi-quorum Chainlocks*](/docs/tech/chainlocks) technology that practically eliminates the risk of attacks like 51%, selfish mining, and Miner Extractable Value, making it even more secure.
 
 To conclude, Syscoin is not only designed to be scalable and decentralized, it is also highly secure and cost-effective to build on.
 
