@@ -8,10 +8,11 @@ import AddNetworkComponent from '../src/components/AddNetworkComponent/AddNetwor
 
 You can add Syscoin to MetaMask using the table below. If this fails for any reason then please follow the guide [here](/docs/guides/nevm/metamask). Welcome to Syscoin!
 
-| Network                   |                                                      |
-| :------------------------ | ---------------------------------------------------- |
-| Syscoin Mainnet           | <AddNetworkComponent network={'Mainnet'}/>           |
-| Syscoin Tanenbaum Testnet | <AddNetworkComponent network={'Tanenbaum Testnet'}/> |
+| Network             |                                                        |
+| :------------------ | ------------------------------------------------------ |
+| Syscoin Mainnet     | <AddNetworkComponent network={'Mainnet'}/>             |
+| Tanenbaum Testnet   | <AddNetworkComponent network={'Tanenbaum Testnet'}/>   |
+| Rollux OPv1 Testnet | <AddNetworkComponent network={'Rollux OPv1 Testnet'}/> |
 
 
 
@@ -33,11 +34,11 @@ To transfer your SYS from the base chain to the NEVM chain you can use the [Brid
 
 ## What is Syscoin's block time?
 
-Syscoin's Layer-1 block time is 2.5 minutes. Syscoin's Layer-2 blocktime is near-instant. This serves several purposes. For one, this disincentivizes direct use of the L1 by end users who actually belong on L2. Additionally, it is a sufficient window of time to ensure a very high probability of achieving a multi-quorum chainlock. Syscoin uses [chainlocks](/docs/tech/chainlocks) to further secure its blockchain with finality in addition to Bitcoin merge-mining. Syscoin's L1 is designed to serve as a secure settlement layer for Optimistic Rollups and ZK-Rollups where the vast majority of dApps are destined to operate. As such, end users will never experience the 2.5 minute block time while using rollups. Their blockchain interactions, whether DeFi, GameFi or other uses, will be near-instant and extremely low cost while being secured by Syscoin's L1 in the background.
+Syscoin's Layer-1 block time is 2.5 minutes. Syscoin's Layer-2 blocktime is near-instant. This serves several purposes. For one, this disincentivizes direct use of the L1 by end users who actually belong on L2. Additionally, it is a sufficient window of time to ensure a very high probability of achieving a multi-quorum chainlock. Syscoin uses [chainlocks](/docs/tech/chainlocks) to further secure its blockchain with finality in addition to Bitcoin [merge-mining](/docs/tech/merged-mining). Syscoin's L1 is designed to serve as a secure settlement layer for Optimistic Rollups and ZK-Rollups where the vast majority of dApps are destined to operate. As such, end users will never experience the 2.5 minute block time while using rollups. Their blockchain interactions, whether DeFi, GameFi or other uses, will be near-instant and extremely low cost while being secured by Syscoin's L1 in the background.
 
 ## How secure is Syscoin?
 
-Syscoin is merged-mined with Bitcoin, what this means is that the miners mining Bitcoin can mine Syscoin at the same time, with no extra power required. At time of writing Syscoin has around 20% of Bitcoin's hashrate (mining power). The Syscoin hashrate can be seen [here](https://www.coinwarz.com/mining/syscoin/hashrate-chart). We are looking to onboard more miners for even more security. Besides having 20%~ of Bitcoin's hashrate Syscoin also has [ChainLocks](/docs/tech/chainlocks), which help to secure the chain even further by preventing [selfish mining](https://www.investopedia.com/terms/s/selfish-mining.asp).
+Syscoin is [merged-mined](/docs/tech/merged-mining) with Bitcoin, what this means is that the miners mining Bitcoin can mine Syscoin at the same time, with no extra power required. At time of writing Syscoin has around 25% of Bitcoin's hashrate (mining power). The Syscoin hashrate can be seen [here](https://minerstat.com/coin/SYS/network-hashrate). We are looking to onboard more miners for even more security. Besides having 25%~ of Bitcoin's hashrate Syscoin also has [ChainLocks](/docs/tech/chainlocks), which help to secure the chain even further by preventing [selfish mining](https://www.investopedia.com/terms/s/selfish-mining.asp).
 
 
 
