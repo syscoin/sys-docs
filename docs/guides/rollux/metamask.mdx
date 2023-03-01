@@ -5,9 +5,9 @@ import AddNetworkComponent from '../../../src/components/AddNetworkComponent/Add
 
 You can add the Syscoin Rollux networks to MetaMask using the table below. Welcome to Rollux!
 
-| Network                   |                                                      |
-| :------------------------ | ---------------------------------------------------- |
-| Rollux OPv1 Testnet       | <AddNetworkComponent network={'Rollux OPv1 Testnet'}/>           |
+| Network                                    |                                                      |
+| :----------------------------------------- | ---------------------------------------------------- |
+| Rollux Testnet                             | <AddNetworkComponent network={'Rollux Optimistic Testnet'}/>           |
 
 ------
 
@@ -49,42 +49,42 @@ Enter the Syscoin Rollux settings as follows:
 
 
 
-### Rollux OPv1 Testnet Details
+### Rollux Testnet Details
 
-The testnet uses test Rollux SYS (rSYS), which has no value and is used for testing code before deploying it on mainnet. There is no need to add this network if you don't want to test anything.
+The testnet uses test SYS (TSYS), which has no value and is used for testing code before deploying it on mainnet. There is no need to add this network if you don't want to test anything.
 
-- **Network Name:** Rollux OPv1 Testnet
-- **New RPC URL:** [https://testnet.rollux.com:2814](https://testnet.rollux.com:2814/)
-- **Chain ID:** 2814
-- **Currency Symbol:** rSYS
-- **Block Explorer URL:** [https://explorer.testnet.rollux.com](https://explorer.testnet.rollux.co/)
+- **Network Name:** Rollux Testnet
+- **RPC URL:** [https://rpc-tanenbaum.rollux.com](https://rpc-tanenbaum.rollux.com)
+- **Chain ID:** 57000
+- **Currency Symbol:** TSYS
+- **Block Explorer URL:** [https://rollux.tanenbaum.io/](https://rollux.tanenbaum.io/)
 
 
 
 Once this information has been entered click **Save**.
 
-You have now connected to Rollux OPv1 Testnet with your Metamask Wallet!
+You have now connected to the Syscoin Rollux Testnet with your Metamask Wallet!
 
-> **Transactions on Rollux OPv1 Testnet require Test RSYS which is used for gas.**
+> **Transactions on the Rollux testnet require TSYS (Test SYS) which is used for gas.**
 
 
-### How to get RSYS
+### How to get TSYS and/or bridge TSYS to Rollux
 
-Test RSYS can be acquired by bridging TSYS (test SYS) to the Rollux network. Get some TSYS from the following faucet in order to use the bridge:
+TSYS (test SYS) can be bridged to the Rollux network. If you do not own any TSYS, first you will need to get some from the following faucet in order to use the bridge:
 
 - https://faucet.tanenbaum.io/
 
 (if you need more TSYS than the faucet provides, please reach-out to your Syscoin contact(s) or ask in Discord)
 
-Now you need to bridge your TSYS to Rollux where it will show up as RSYS at your same address.
+Now you need to send your TSYS to Rollux where it will show up at the same address.
 
-To do this, you need to switch to the Syscoin Tanenbaum Testnet network in MetaMask.
+To do this, switch to the Syscoin Tanenbaum Testnet network in MetaMask.
 
-> **If you need to add the Syscoin Tanenbaum Testnet to MetaMask, [go here](https://docs.syscoin.org/docs/guides/nevm/metamask/) for instructions**
+> **If you need to add the Syscoin Tanenbaum Testnet (L1) to MetaMask, [go here](https://docs.syscoin.org/docs/guides/nevm/metamask/) for instructions**
 
 Simply send TSYS to the following smart contract address on Tanenbaum:
-**0x35141FB96fbC6A8F9D5D239b5a6256F056634672**
+**0x6aa4fEb8078661d0fce3E41C0D783f369B42Ae06**
  
-As soon as your transfer receives a confirmation on Tanenbaum, your RSYS will arrive at your same address on the Rollux network.
+Once your transfer receives a confirmation on Tanenbaum, your TSYS will be on Rollux at your same address. 
 
-Now switch your network to Rollux OPv1 Testnet in MetaMask to see your RSYS balance and begin using the network.
+Now switch your network to Rollux in MetaMask to see your TSYS balance and begin using the network.

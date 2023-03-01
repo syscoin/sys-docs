@@ -1,7 +1,7 @@
 
 # Rollux
 
-Rollux is a suite of rollup-based Layer 2 solutions designed to enable EVM users with near-instant low-cost transfers, executions, and contract deployments. Designed to utilize Syscoin's [settlement layer](/docs/intro/syscoin-what#settlement-layer), Rollux solutions provide the lowest cost, highest throughput and most proven Layer 1 security among rollup solutions.  Rollups just work better on Syscoin, and for clear reasons.
+Rollux is a suite of rollup-based Layer 2 solutions designed to enable EVM users with near-instant low-cost transfers, executions, and contract deployments. Rollux utilizes Syscoin's Layer 1 for best-of-breed secure decentralized [settlement](/docs/intro/syscoin-what#settlement-layer) and Syscoin PoDA for Layer 1 data availability, offering more efficiency, lower costs and higher throughput than other L1 DA alternatives.  Rollups just work better on Syscoin. The reasons why are available in **["Revealing the Method in the Madness"](https://syscoin.org/news/revealing-the-method-in-the-madness)**.
 
 As a suite, Rollux is set to encompass both Optimistic and ZK (zero-knowledge) based approaches, enabling users and projects to choose a network or solution that fits them best. Where appropriate and as tech evolves, Syscoin can hybridize between these in the future.
 
@@ -9,11 +9,9 @@ Check out **[The Ultimate Guide to Rollups](https://jsidhu.medium.com/the-ultima
 
 ## Rollux Optimistic Rollups
 
-### OPv1
+Syscoin's first Rollux implementation is based upon Optimism Bedrock and utilizes Syscoin PoDA for Layer 1 data availability.
 
-OPv1 is Syscoin's first rollup network in the Rollux suite. It is based upon Optimism v1 and will follow Optimism into the upcoming Bedrock upgrade.
-
-**[Connect to Rollux OPv1](/docs/guides/rollux/metamask)**
+**[Connect to Rollux Testnet](/docs/guides/rollux/metamask)**
 
 ## Rollux ZK Rollups
 
@@ -22,14 +20,14 @@ OPv1 is Syscoin's first rollup network in the Rollux suite. It is based upon Opt
 
 ## How does Syscoin help rollups work optimally?
 
-Rollups are the first technology to viably help scale decentralized EVM computation to massive user demand. Rollups are also key to achieving a near-optimal scenario in the blockchain trilemma. Syscoin asserts such a scenario can only be achieved by supporting rollups with a holistically modular Layer 1.
+Rollups are the first technology to viably help scale decentralized EVM computation to massive user demand. Rollups are also key to achieving a near-optimal scenario in the blockchain trilemma. Syscoin asserts such a near-optimal scenario can only be achieved by supporting rollups with a holistically modular Layer 1 that offers proven security and decentralization.
 
-Syscoin is designed with this in mind. All near-instant activity on Rollux inherits the full security of Syscoin’s L1 in the background approximately every 2.5 minutes, including finality.
+Syscoin is designed with this in mind. All near-instant activity on Rollux inherits the full security of Syscoin’s L1 in the background, including finality.
 
 Here are a few areas where Syscoin shines for rollups.
 
 ### Bitcoin Merge-Mined PoW
-Syscoin is [merge-mined](/docs/tech/merged-mining) by Bitcoin's own network of miners and inherits a significant portion of Bitcoin's hashrate (currently ~30%) without imposing any additional energy costs on miners and while incentivizing them with SYS. Syscoin asserts that Layer 1 security is fulfilled better by PoW than PoS for multiple reasons.
+Syscoin is [merge-mined](/docs/tech/merged-mining) by Bitcoin's own network of miners and inherits a significant portion of Bitcoin's hashrate (recently 20-30%) without imposing additional energy costs on miners and while incentivizing them with SYS. Syscoin asserts that Layer 1 security is fulfilled better by PoW than PoS for multiple reasons.
 
 - Resilient to quantum stealth attacks
 - Consensus resilient to more black swan risks (fiat hyper-inflation, internet censorship)
@@ -38,7 +36,7 @@ Syscoin is [merge-mined](/docs/tech/merged-mining) by Bitcoin's own network of m
 
 However, Syscoin does not mirror Bitcoin's economics and consensus rules. Syscoin's economy is utility-focused and based upon [EIP-1559](https://eips.ethereum.org/EIPS/eip-1559). We source Bitcoin’s network for the hardness it provides. 
 
-### Finality that is Fast and Resilient
+### Finality that is Fast, Decentralized and Fault Tolerant
 Syscoin’s finality is sourced from a multi-quorum consisting of 4 groups of 400 masternodes (1,600) which are randomly selected among the entirety of the network (currently ~2,500 MNs). Each quorum is reformed every few hours. 3 out of 4 quorums must agree on a block in order to establish a [chainlock](/docs/tech/chainlocks) (finality).
 
 This mechanism provides a high probability of finality. In the rare event that finality cannot be achieved on a block, the network falls back to the longest chain rule of Nakamoto consensus - a seamless and non-breaking event.
@@ -48,6 +46,8 @@ This mechanism provides a high probability of finality. In the rare event that f
 |**Syscoin**  |10-15 seconds               |2.5 minutes |Nakamoto longest chain rule       |PoW + Quorums |
 |**Ethereum** |~14 minutes (~3 epochs)     |10 seconds  |None. No finality = breaking event|PoS + Casper  |
 
+
+While the Syscoin network currently provides finality on every block, this goes beyond what is projected to be necessary. Every five blocks is more efficient (every 12.5 minutes based on average blocktime). This would provide sufficient security with lower possibility of faults. This timing will be implemented in the next Syscoin Core upgrade (v4.4). In the future, if it is determined that more frequent finality has become more ideal, the network can shift to that mode of operation.   
 
 Syscoin’s finality provides effective resistance to 51%, malicious MEV, and selfish-mining attacks, while retaining PoW. Attackers must accomplish two expensive and challenging tasks: 1) Control greater than 50% of the hash power supplied to Syscoin, plus 2) Control over 60% of all Syscoin masternodes.
 
@@ -66,17 +66,21 @@ Find out more about how Syscoin provides **[the most ideal L1 settlement for L2 
 
 ## FAQ
 
-### Rollux OPv1
+**Q."Does Syscoin Rollux have a gas token?"** 
 
-**Q.“What is the L2 blocktime of Rollux OPv1?”**
-A. There is no practical blocktime. Blocks are produced on demand. Turn-around time to confirmation is extremely short. Typically a Metamask wallet will receive a confirmation message 3 to 8 seconds after a transfer or execution is submitted. Even then, some of that time is taken up by RPC and network latency in general. Actual confirmation is typically near-instant.
+A. No. It uses the native coin of Syscoin (SYS, or TSYS in the case of testnet) for gas.
 
-**Q. “At what frequency does the L2 settle bundled transactions on L1? What is the threshold?”**
-A. OPv1 will only settle on the L1 if there are items which have settled on the L2 which have not yet been settled on L1. The frequency/rate of settlement to L1 is the average blocktime of the L1 which is normally 2.5 minutes. 
 
-**Q. “The last block showing on the Rollux explorer was [X] time ago. What gives?”**
-A. That simply means no one has submitted new transactions to the testnet since the last block. Blocks on Rollux OPv1 are produced on demand. See answer to question “What is the blocktime of Rollux OPv1?”.
+**Q."How do I move some TSYS to the Rollux testnet?"** 
 
-**Q. “Why do most blocks on the OPv1 public testnet have only one transaction?”**
-A. In each case, this is an artifact of either the nature of the transaction itself (e.g. creating a smart contract with a larger data footprint that consumes the block allowance), or of transaction volume not meeting the threshold required to group multiple into a single block. 
+A. A bridge contract is available. You simply send TSYS to a contract address on the Tanenbaum L1, then it arrives at your address on Rollux. **[Refer to instructions](/docs/guides/rollux/metamask#how-to-get-tsys-andor-bridge-tsys-to-rollux)**.
 
+
+**Q.“What is the blocktime of the Rollux optimistic rollup?”** 
+
+A. 2 seconds
+
+
+**Q. “At what frequency does the L2 settle bundled transactions on L1? What is the threshold?”** 
+
+A. Every 35-40 minutes on average. The L2 will only make an L1 commitment if there is at least one new transaction on the L2 which has not yet been settled on L1.
