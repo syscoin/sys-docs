@@ -13,6 +13,19 @@ Syscoin's first Rollux implementation is based upon Optimism Bedrock and utilize
 
 **[Connect to Rollux Testnet](/docs/guides/rollux/metamask)**
 
+|             Gas Cost Sampling of Rollux optimistic testnet                                              |
+| :--------------------------------------------|----------------------------------------------------------|
+|Deployment of Uniswap-based factory contract  |0.009492385026578678 SYS                                  |
+|Deployment of PSYS token contract             |0.008709672524387083 SYS                                  |
+|Simple token mint                             |0.000083988000503928 SYS                                  |
+|Simple token value transfer                   |0.000251126001004504 SYS                                  |
+|Simple SYS (native coin) value transfer       |0.000031500000168000 SYS                                  |
+
+|             Estimated Throughput                                                                        |
+| :------------------------------|------------------------------------------------------------------------|
+|Contract calls                  |1000-3000 Tp/s                                                           |
+|Transfers                       |3000-7000 Tp/s                                                           |
+
 ## Rollux ZK Rollups
 
 **Coming soon**
@@ -24,7 +37,7 @@ Rollups are the first technology to viably help scale decentralized EVM computat
 
 Syscoin is designed with this in mind. All near-instant activity on Rollux inherits the full security of Syscoin’s L1 in the background, including finality.
 
-Here are a few areas where Syscoin shines for rollups.
+Here are some ways Syscoin shines for rollups.
 
 ### Bitcoin Merge-Mined PoW
 Syscoin is [merge-mined](/docs/tech/merged-mining) by Bitcoin's own network of miners and inherits a significant portion of Bitcoin's hashrate (recently 20-30%) without imposing additional energy costs on miners and while incentivizing them with SYS. Syscoin asserts that Layer 1 security is fulfilled better by PoW than PoS for multiple reasons.
@@ -43,11 +56,11 @@ This mechanism provides a high probability of finality. In the rare event that f
 
 |             |Time to finality after block|Blocktime   |Resilience absent finality        |Mechanism     |
 | :-----------|----------------------------|------------|----------------------------------|--------------|
-|**Syscoin**  |10-15 seconds               |2.5 minutes |Nakamoto longest chain rule       |PoW + Quorums |
+|**Syscoin**  |~12.5 minutes               |2.5 minutes |Nakamoto longest chain rule       |PoW + Quorums |
 |**Ethereum** |~14 minutes (~3 epochs)     |10 seconds  |None. No finality = breaking event|PoS + Casper  |
 
 
-While the Syscoin network currently provides finality on every block, this goes beyond what is projected to be necessary. Every five blocks is more efficient (every 12.5 minutes based on average blocktime). This would provide sufficient security with lower possibility of faults. This timing will be implemented in the next Syscoin Core upgrade (v4.4). In the future, if it is determined that more frequent finality has become more ideal, the network can shift to that mode of operation.   
+Every five blocks (total of 12.5 minutes based on average blocktime), a chainlock checkpoints the chain.
 
 Syscoin’s finality provides effective resistance to 51%, malicious MEV, and selfish-mining attacks, while retaining PoW. Attackers must accomplish two expensive and challenging tasks: 1) Control greater than 50% of the hash power supplied to Syscoin, plus 2) Control over 60% of all Syscoin masternodes.
 
@@ -66,12 +79,12 @@ Find out more about how Syscoin provides **[the most ideal L1 settlement for L2 
 
 ## FAQ
 
-**Q."Does Syscoin Rollux have a gas token?"** 
+**Q."Does Syscoin Rollux require a separate gas token?"** 
 
-A. No. It uses the native coin of Syscoin (SYS, or TSYS in the case of testnet) for gas.
+A. No. It uses the native coin of Syscoin for gas - SYS, or TSYS in the case of testnet.
 
 
-**Q."How do I move some TSYS to the Rollux testnet?"** 
+**Q."How do I get TSYS and/or move TSYS to the Rollux testnet?"** 
 
 A. A bridge contract is available. You simply send TSYS to a contract address on the Tanenbaum L1, then it arrives at your address on Rollux. **[Refer to instructions](/docs/guides/rollux/metamask#how-to-get-tsys-andor-bridge-tsys-to-rollux)**.
 
@@ -81,6 +94,6 @@ A. A bridge contract is available. You simply send TSYS to a contract address on
 A. 2 seconds
 
 
-**Q. “At what frequency does the L2 settle bundled transactions on L1? What is the threshold?”** 
+**Q. “At what frequency does the L2 settle bundled transactions on L1? What is the threshold that triggers settlement?”** 
 
-A. Every 35-40 minutes on average. The L2 will only make an L1 commitment if there is at least one new transaction on the L2 which has not yet been settled on L1.
+A. The timing of settlement depends on network activity. The batch of transactions must add up to at least 120kb in order to be committed to the settlement layer. At a minimal rate of traffic (one transaction every two minutes), settlement would occur every 45-60 minutes on average. More activity on the rollup brings faster settlement, to a max rate of once every 2.5 minutes.
