@@ -7,10 +7,10 @@ You can add the Syscoin Rollux networks to MetaMask using the table below. Welco
 
 | Network                                    |                                                      |
 | :----------------------------------------- | ---------------------------------------------------- |
-| Rollux Testnet                             | <AddNetworkComponent network={'Rollux Optimistic Testnet'}/>           |
+| Syscoin Rollux Testnet                             | <AddNetworkComponent network={'Rollux Optimistic Testnet'}/>           |
 
 Once you're connected
-1. **[Get some TSYS](/docs/guides/rollux/metamask#how-to-get-tsys-andor-bridge-tsys-to-rollux)** (test SYS) on Rollux
+1. **[Get some TSYS](/docs/guides/rollux/metamask#how-to-get-tsys)** (test SYS) on Rollux or bridge L1 TSYS to Rollux
 2. Try **[Pegasys DEX](https://rollux.pegasys.finance)** on the Rollux testnet!
 ------
 
@@ -56,10 +56,10 @@ Enter the Syscoin Rollux settings as follows:
 The testnet uses test SYS (TSYS), which has no value and is used for testing code before deploying it on mainnet. There is no need to add this network if you don't want to test anything.
 
 - **Network Name:** Rollux Testnet
-- **RPC URL:** [https://rpc-tanenbaum.rollux.com](https://rpc-tanenbaum.rollux.com)
+- **RPC:** [https://rpc-tanenbaum.rollux.com](https://rpc-tanenbaum.rollux.com)
 - **Chain ID:** 57000
 - **Currency Symbol:** TSYS
-- **Block Explorer URL:** [https://rollux.tanenbaum.io/](https://rollux.tanenbaum.io/)
+- **Block Explorer:** [https://rollux.tanenbaum.io/](https://rollux.tanenbaum.io/)
 
 
 
@@ -70,23 +70,28 @@ You have now connected to the Syscoin Rollux Testnet with your Metamask Wallet!
 > **Transactions on the Rollux testnet require TSYS (Test SYS) which is used for gas.**
 
 
-### How to get TSYS and/or bridge TSYS to Rollux
+### How to get TSYS
 
-TSYS (test SYS) can be bridged to the Rollux network. If you do not own any TSYS, first you will need to get some from the following faucet in order to use the bridge:
+If you do not own any TSYS, you have a couple of options.
 
-- https://faucet.tanenbaum.io/
+1. Use the **[Tanenbaum Authenticated Faucet](https://faucet.tanenbaum.io/)** which provides TSYS on the Tanenbaum (testnet) L1, then use the Rollux Portal (described further down) to transfer it to Rollux.  
 
-(if you need more TSYS than the faucet provides, please reach-out to your Syscoin contact(s) or ask in Discord)
+2. Request some Rollux TSYS in the official Syscoin Discord. This TSYS already exists on Rollux, making things even easier for you. Just jump in and say “Please send me some Rollux TestSYS.”, and provide your Rollux address. Someone will respond shortly.
 
-Now you need to send your TSYS to Rollux where it will show up at the same address.
 
-To do this, switch to the Syscoin Tanenbaum Testnet network in MetaMask.
+### Rollux Portal (bridge dapp)
 
-> **If you need to add the Syscoin Tanenbaum Testnet (L1) to MetaMask, [go here](https://docs.syscoin.org/docs/guides/nevm/metamask/) for instructions**
+Makes it easy to transfer assets from the NEVM Tanenbaum L1 to Rollux. This is a native lock/mint bridge.  
+To use it, go to **[https://bridge-testnet.syscoin.org/](https://bridge-testnet.syscoin.org/)** and click button `Rollux Portal`.
 
-Simply send TSYS to the following smart contract address on Tanenbaum:
-**0x6aa4fEb8078661d0fce3E41C0D783f369B42Ae06**
- 
-Once your transfer receives a confirmation on Tanenbaum, your TSYS will be on Rollux at your same address. 
 
-Now switch your network to Rollux in MetaMask to see your TSYS balance and begin using the network.
+### Manual Bridge
+
+You can manually transfer TestSYS (TSYS) from NEVM Tanenbaum L1 to Rollux where it arrives at the same address. To do this, switch to the Syscoin Tanenbaum Testnet network in MetaMask.
+
+> **If you need to add the Syscoin Tanenbaum Testnet (L1) to MetaMask, [go here](https://docs.syscoin.org/docs/guides/nevm/metamask/)**
+
+To use the bridge manually, simply send TSYS to the following contract on the Tanenbaum L1 testnet:
+**0x61200B9fcBB421aFD0Bb5A732fe48ec98482E39C**
+
+The TSYS will arrive at your same address on the Rollux network as soon as your L1 transaction is confirmed. Now switch your network to Rollux in MetaMask to see your TSYS balance and begin using the Rollux network.

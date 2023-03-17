@@ -22,16 +22,6 @@ Syscoin's first Rollux implementation is based upon Optimism Bedrock and utilize
 |Value transfer (native coin)                  |0.00004 SYS              |0.00010 ETH               |
 
 
-|             Estimated Throughput                                                                        |
-| :------------------------------|------------------------------------------------------------------------|
-|Contract calls                  |1000-3000 Tp/s                                                           |
-|Transfers                       |3000-7000 Tp/s                                                           |
-
-## Rollux ZK Rollups
-
-**Coming soon**
-
-
 ## How does Syscoin help rollups work optimally?
 
 Rollups are the first technology to viably help scale EVM computation to massive user demand. Rollups are also key to achieving a near-optimal scenario in the blockchain trilemma. Syscoin asserts such a near-optimal scenario can only be achieved by supporting rollups with a holistically modular Layer 1 that offers proven security and decentralization.
@@ -50,7 +40,7 @@ Syscoin is [merge-mined](/docs/tech/merged-mining) by Bitcoin's own network of m
 
 However, Syscoin does not mirror Bitcoin's economics and consensus rules. Syscoin's economy is utility-focused and based upon [EIP-1559](https://eips.ethereum.org/EIPS/eip-1559). We source Bitcoin’s network for the hardness it provides. 
 
-### Finality that is Fast, Decentralized and Fault Tolerant
+### Finality that is Decentralized and Fault Tolerant
 Syscoin’s finality is sourced from a multi-quorum consisting of 4 groups of 400 masternodes (1,600) which are randomly selected among the entirety of the network (currently ~2,500 MNs). Each quorum is reformed every few hours. 3 out of 4 quorums must agree on a block in order to establish a [chainlock](/docs/tech/chainlocks) (finality).
 
 This mechanism provides a high probability of finality. In the rare event that finality cannot be achieved on a block, the network falls back to the longest chain rule of Nakamoto consensus - a seamless and non-breaking event.
@@ -63,7 +53,7 @@ This mechanism provides a high probability of finality. In the rare event that f
 
 Every five blocks (total of 12.5 minutes based on average blocktime), a chainlock checkpoints the chain.
 
-Syscoin’s finality provides effective resistance to 51%, malicious MEV, and selfish-mining attacks, while retaining PoW. Attackers must accomplish two expensive and challenging tasks: 1) Control greater than 50% of the hash power supplied to Syscoin, plus 2) Control over 60% of all Syscoin masternodes.
+Syscoin’s finality provides effective resistance to 51%, malicious long-range MEV, and selfish mining attacks, while retaining PoW as the underlying consensus mechanism. Attackers must accomplish two expensive and challenging tasks to achieve a successful 51% attack: 1) Control greater than 50% of Bitcoin's hash power supplied to Syscoin, plus 2) Control a super-majority of Syscoin masternodes.
 
 ### Efficient Data Availability at Layer 1 with PoDA
 Data availability is required to exist within the security domain of Layer 1 in order for rollups to properly serve critical financial applications, and secure users’ ability to exit to L1. Syscoin’s L1 DA solution is called PoDA (Proof of Data Availability). Syscoin’s PoDA differs from Ethereum’s danksharding in how data is stored, presented, pruned, and how fees are calculated. PoDA is able to utilize an existing fee market while Ethereum requires the addition of new complexities.
@@ -80,21 +70,31 @@ Find out more about how Syscoin provides **[the most ideal L1 settlement for L2 
 
 ## FAQ
 
-**Q."Does Syscoin Rollux require a separate gas token?"** 
-
+**Q."Does Syscoin Rollux require a separate gas token?"**   
 A. No. It uses the native coin of Syscoin for gas - SYS, or TSYS in the case of testnet.
 
 
-**Q."How do I get TSYS and/or move TSYS to the Rollux testnet?"** 
+**Q."How do I get TSYS and/or move TSYS to the Rollux testnet?"**   
+A. A bridge contract is available. You simply send TSYS to a contract address on the Tanenbaum L1, then it arrives at your address on Rollux. **[Refer to instructions](/docs/guides/rollux/metamask#how-to-get-tsys)**.
 
-A. A bridge contract is available. You simply send TSYS to a contract address on the Tanenbaum L1, then it arrives at your address on Rollux. **[Refer to instructions](/docs/guides/rollux/metamask#how-to-get-tsys-andor-bridge-tsys-to-rollux)**.
 
-
-**Q.“What is the blocktime of the Rollux optimistic rollup?”** 
-
+**Q.“What is the blocktime of the Rollux optimistic rollup?”**  
 A. 2 seconds
 
 
-**Q. “At what frequency does the L2 settle bundled transactions on L1? What is the threshold that triggers settlement?”** 
+**Q. “At what frequency does the L2 settle bundled transactions on L1? What is the threshold that triggers settlement?”**   
+A. The timing of settlement depends on the volume of network activity.  
+Either of the following conditions can trigger settlement to L1:  
 
-A. The timing of settlement depends on network activity. The batch of transactions must add up to at least 120kb in order to be committed to the settlement layer. At a minimal rate of traffic (one transaction every two minutes), settlement would occur every 45-60 minutes on average. More activity on the rollup brings faster settlement, to a max rate of once every 2.5 minutes.
+   - The data footprint of the batch of transactions on L2 amounts to at least 2MB  
+   - At least 24 new blocks have been created on the L1 since the last L2 settlement  
+    
+More activity on the rollup brings faster settlement, to a max rate of once every L1 block.
+
+
+**Q. "How do I set up a Rollux P2P replica node?"**  
+A. **[Guide](https://github.com/sidhujag/optimism/blob/develop/ops-bedrock/P2P.md)** is available. Based on Optimism Bedrock requirements, the recommended hardware is a minimum of 16GB RAM and at least 100GB of free SSD space. In order to be accepted by the network you will need a P2P key, Peer IDs and their IPs. Reach out to Syscoin Foundation for this information.
+
+
+**Q. "What RPC/WSS Methods/Subscriptions are available?**  
+A. Same as Optimism Bedrock (Until we have completed our own Rollux doc portal, refer to: **https://community.optimism.io/docs/developers/build/json-rpc/#**)

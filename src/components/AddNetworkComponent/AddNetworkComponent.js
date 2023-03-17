@@ -27,7 +27,7 @@ class AddNetworkComponent extends Component {
 
     const mainnet = {
       chainId: '0x' + (57).toString(16),
-      chainName: 'Syscoin Mainnet',
+      chainName: 'Syscoin',
       iconUrls: ['https://syscoin.org/images/syscoin-blue-flat-logo.svg'],
       nativeCurrency: {
         name: 'Syscoin',
@@ -40,7 +40,7 @@ class AddNetworkComponent extends Component {
 
     const testnet = {
       chainId: '0x' + (5700).toString(16),
-      chainName: 'Syscoin Tanenbaum Testnet',
+      chainName: 'Syscoin Tanenbaum',
       iconUrls: ['https://syscoin.org/images/syscoin-blue-flat-logo.svg'],
       nativeCurrency: {
         name: 'Testnet Syscoin',
@@ -54,7 +54,7 @@ class AddNetworkComponent extends Component {
     const rollux_optimistic_testnet = {
       chainId: '0x' + (57000).toString(16),
       chainName: 'Rollux Testnet',
-      iconUrls: ['file:///home/monocyte/Pictures/Rollux-Logo-Blue@4x.png'],
+      iconUrls: [''],
       nativeCurrency: {
         name: 'Testnet Syscoin',
         symbol: 'TSYS',

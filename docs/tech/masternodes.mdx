@@ -1,19 +1,23 @@
 # Masternodes
 
-Syscoin masternodes are essentially full nodes that are incentivized to stay online and operate 24/7. With 2500~ active masternodes, not only do these nodes increase the decentralization of Syscoin they also provide services to the blockchain. Currently, masternodes provide two services, the first is [ChainLocks](/docs/tech/chainlocks) that increase the security of the chain, over and above the security of typical Proof-of-Work blockchains, and the second is enabling the blazing-fast [Z-DAG payment protocol](/docs/tech/z-dag).
+Syscoin masternodes are essentially full nodes that are incentivized to keep resources online and operate 24/7. These nodes increase the decentralization of Syscoin, contribute computing resources, and enable the operator to perform specific services for the network. The primary service they provided is [Finality](/docs/tech/finality), which increases the security of the chain beyond that of typical Proof-of-Work blockchains.
 
-Hosting a masternode requires 100,000 syscoin as collateral and while the masternode is active it will be paid regularly for its service. When exactly the masternode is paid is decided by when it goes online, it is added to the end of the queue of masternodes waiting to be paid each block and then will maintain that position in the queue as long as it is live.
+Owning a Syscoin masternode and providing this service to earn income requires you to hold 100,000 SYS as collateral. While the masternode is active it will be paid regularly for its service. The beginning of payments is determined by when the masternode goes online. The (deterministic) qualification period following a masternode activation typically lasts around a week depending on how many masternodes are currently on the network. A newly activated masternode is added to queue of those waiting to be paid each block and this position will be kept as long as it is live. Fewer masternodes on the network translates to more frequent payments. With 2500~ online, a masternode receives income roughly once every three days.
 
-The base amount of sys paid to a masternode is 58.62 sys. There are two further seniority levels for when the 100,000 syscoin transaction was sent as collateral as can be seen below.
+The base income payment to a masternode is 55.70 SYS as of March 2023. There are two further seniority levels based on when the 100,000 SYS collateral transaction was settled, as can be seen below.
 
+
+**Payouts as of March 2023**
 
 
 | Seniority Level |   Payout   |
 | :-------------: | :--------: |
-|      Basic      | 58.62 sys  |
-|     1 year      | 79.15 sys  |
-|    2.5 years    | 117.25 sys |
+|      Basic      | 55.70 sys  |
+|     1 year      | 75.19 sys  |
+|    2.5 years    | 111.40 sys |
 
-There is also a 5% reduction in these fees each year, which will stop at a minimum of 5.275 sys per payout for basic-seniority level nodes, and 10.55 sys for full-seniority nodes.
+There is a 5% reduction in these payouts each year. This reduction will cease in the distant future at a minimum of 5.275 sys per payout for basic-seniority level nodes, and 10.55 sys for full-seniority nodes. This floor, combined with SYS EIP-1559 coinomics, serves to keep masternodes incentivized indefinitely into the future.
 
-If you already have 100,000 syscoin and are interested in setting up a masternode check out [this guide](../guides/mn_setup).
+If you have 100,000 SYS and are interested in setting up a new masternode, use this [setup guide](../guides/mn_setup).
+
+If you already have a masternode and are looking to upgrade Syscoin Core to the current latest version (4.4), use this [upgrade guide](https://syscoin.medium.com/masternode-mandatory-upgrade-to-syscoin-4-4-56c9421f9ca2). 
