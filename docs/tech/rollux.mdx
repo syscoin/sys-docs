@@ -56,13 +56,25 @@ Every five blocks (total of 12.5 minutes based on average blocktime), a chainloc
 Syscoin’s finality provides effective resistance to 51%, malicious long-range MEV, and selfish mining attacks, while retaining PoW as the underlying consensus mechanism. Attackers must accomplish two expensive and challenging tasks to achieve a successful 51% attack: 1) Control greater than 50% of Bitcoin's hash power supplied to Syscoin, plus 2) Control a super-majority of Syscoin masternodes.
 
 ### Efficient Data Availability at Layer 1 with PoDA
-Data availability is required to exist within the security domain of Layer 1 in order for rollups to properly serve critical financial applications, and secure users’ ability to exit to L1. Syscoin’s L1 DA solution is called PoDA (Proof of Data Availability). Syscoin’s PoDA differs from Ethereum’s danksharding in how data is stored, presented, pruned, and how fees are calculated. PoDA is able to utilize an existing fee market while Ethereum requires the addition of new complexities.
+Data availability is required to exist within the security domain of Layer 1 in order for rollups to properly serve critical financial applications by securing users’ ability to exit to L1. Syscoin’s L1 DA solution is called PoDA (Proof of Data Availability). Syscoin’s PoDA differs from Ethereum’s danksharding in how data is stored, presented, pruned, and how fees are calculated. PoDA has characteristics that make it a valuable alternative to Ethereum’s work-in-progress data availability solution, Proto-Danksharding.
+
+PoDA’s advantages can be summarized as:
+
+- Cheaper transactions
+- No data sharding required
+- Greater data throughput with efficient Keccak data blobs
+- Secured by Bitcoin’s own PoW plus Syscoin's finality
+- More resilient to network-based outages/censorship
+- Simpler data fee market based on Syscoin’s UTXO fee market
+- Nakamoto Assumption: Only one honest node is needed to guarantee data
 
 PoDA’s design considers proving and archiving as separate concerns. With PoDA, the succinct proof of data is stored on Layer 1, while an assumption is made that at least one honest party in the world will archive the raw data within a 6-hour window of time - similar to the honesty assumption made when syncing a Bitcoin node (at least one honest node). If desired, the raw data itself can be secured by Syscoin’s L1 network by reposting the data every 6 hours.
 
-Validium (fully offchain DA) is also available as an alternative to PoDA for less-critical applications where the focus might be on even lower cost and higher throughput by trading-off Layer 1 data security.
+Validium (fully offchain DA) is also available as an alternative to PoDA for less-critical applications where the focus might be on even lower cost and higher throughput by trading-off Layer 1 data security. However, in the case of Syscoin PoDA, Layer 1 data security is quite affordable and PoDA nodes can store raw data offchain if they wish while still gaining the security of onchain state and proving.
 
+**[PoDA documentation](/docs/tech/poda)**   
 
+-----
 
 
 Find out more about how Syscoin provides **[the most ideal L1 settlement for L2 solutions](https://jsidhu.medium.com/why-syscoin-is-the-ideal-layer-1-3ff690a7ef5f)**.
@@ -98,3 +110,21 @@ A. **[Guide](https://github.com/sidhujag/optimism/blob/develop/ops-bedrock/P2P.m
 
 **Q. "What RPC/WSS Methods/Subscriptions are available?**  
 A. Same as Optimism Bedrock (Until we have completed our own Rollux doc portal, refer to: **https://community.optimism.io/docs/developers/build/json-rpc/#**)
+
+**Q. Can you provide sample transactions of Rollux settling a batch on Syscoin NEVM and using PoDA on Syscoin Native (UTXO), and further info?**  
+A. Yes. These are testnet transactions.  
+NEVM: **https://tanenbaum.io/tx/0xbdb2618d09e47789f0318900d9cacc904d96369bee2baf44400721ef8b245d8e**  
+PoDA: **https://blockbook-dev.elint.services/tx/bae30de7850c370c77eb3590f631070d95c1a175323771fac5ab867fb1342136**  
+  
+Note: The Blockbook explorer does not currently parse the PoDA hash, but it is visible in the raw transaction data as scriptPubKey.asm: “OP_RETURN 20**7f262f3352669030f480dd881bc6b3fad68abfcffe81d8e98c7f3e88871ed3a4**”
+
+
+**Q. How can I see/retrieve the full raw data blobs the L1 receives from the L2?**  
+A. The hash of the raw data blob is always stored on-chain for the purpose of proving data integrity, as seen above in OP_RETURN. As for the full raw data blobs, they are available within the native chain’s mempool for a period of six hours before being pruned. During this window of time, archiving services can access and store the raw data. The data can be retrieved a couple of ways:  
+  
+- Syscoin Core RPCs: `listnevmblobdata`, `getnevmblobdata`
+- syscointx-js
+
+
+**Q. Are there any established processes for archiving Rollux raw data committed to PoDA?**  
+A. Yes. Syscoin Sentinel provides a PoDA client and server that enables a Cloudflare R2 archive process to be activated relatively easily. This means any Syscoin Core node can provide data archive service that rollup solutions like Rollux can use. Refer to: **https://github.com/syscoin/sentinel/blob/master/README.md**
