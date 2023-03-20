@@ -27,7 +27,7 @@ class AddNetworkComponent extends Component {
 
     const mainnet = {
       chainId: '0x' + (57).toString(16),
-      chainName: 'Syscoin Mainnet',
+      chainName: 'Syscoin',
       iconUrls: ['https://syscoin.org/images/syscoin-blue-flat-logo.svg'],
       nativeCurrency: {
         name: 'Syscoin',
@@ -40,28 +40,28 @@ class AddNetworkComponent extends Component {
 
     const testnet = {
       chainId: '0x' + (5700).toString(16),
-      chainName: 'Syscoin Tanenbaum Testnet',
+      chainName: 'Syscoin Tanenbaum',
       iconUrls: ['https://syscoin.org/images/syscoin-blue-flat-logo.svg'],
       nativeCurrency: {
-        name: 'Test Syscoin',
-        symbol: 'tSYS',
+        name: 'Testnet Syscoin',
+        symbol: 'TSYS',
         decimals: 18,
       },
       rpcUrls: ['https://rpc.tanenbaum.io/'],
       blockExplorerUrls: ['https://tanenbaum.io/']
     }
 
-    const OPv1_testnet = {
-      chainId: '0x' + (2814).toString(16),
-      chainName: 'Rollux OPv1 Testnet',
-      iconUrls: ['https://syscoin.org/images/Rollux-Logo-Blue@4x.png'],
+    const rollux_optimistic_testnet = {
+      chainId: '0x' + (57000).toString(16),
+      chainName: 'Rollux Testnet',
+      iconUrls: [''],
       nativeCurrency: {
-        name: 'Rollux Syscoin',
-        symbol: 'rSYS',
+        name: 'Testnet Syscoin',
+        symbol: 'TSYS',
         decimals: 18,
       },
-      rpcUrls: ['https://testnet.rollux.com:2814/'],
-      blockExplorerUrls: ['https://explorer.testnet.rollux.com/']
+      rpcUrls: ['https://rpc-tanenbaum.rollux.com'],
+      blockExplorerUrls: ['https://rollux.tanenbaum.io/']
     }
 
     if (window.ethereum) {
@@ -82,10 +82,10 @@ class AddNetworkComponent extends Component {
             params: [testnet, this.state.selectedAddress]
           }
           break;
-          case 'Rollux OPv1 Testnet':
+        case 'Rollux Optimistic Testnet':
             req = {
               method: 'wallet_addEthereumChain',
-              params: [OPv1_testnet, this.state.selectedAddress]
+              params: [rollux_optimistic_testnet, this.state.selectedAddress]
             }
         default:
           break;

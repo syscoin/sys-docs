@@ -1,0 +1,40 @@
+#PoDA (Data Availability on Layer 1)    
+
+Data availability is required to exist within the security domain of Layer 1 in order for rollups to properly serve critical financial applications by securing users’ ability to exit to L1. Syscoin’s L1 DA solution is called PoDA (Proof of Data Availability). Syscoin’s PoDA differs from Ethereum’s danksharding in how data is stored, presented, pruned, and how fees are calculated. PoDA has characteristics that make it a valuable alternative to Ethereum’s work-in-progress data availability solution, Proto-Danksharding.
+
+PoDA’s advantages can be summarized as:
+
+- Cheaper transactions
+- No data sharding required
+- Greater data throughput with efficient Keccak data blobs
+- Secured by Bitcoin’s own PoW plus Syscoin's finality
+- More resilient to network-based outages/censorship
+- Simpler data fee market based on Syscoin’s UTXO fee market
+- Nakamoto Assumption: Only one honest node is needed to guarantee data
+
+PoDA’s design considers proving and archiving as separate concerns. With PoDA, the succinct proof of data is stored on Layer 1, while an assumption is made that at least one honest party in the world will archive the raw data within a 6-hour window of time - similar to the honesty assumption made when syncing a Bitcoin node (at least one honest node). If desired, the raw data itself can be secured by Syscoin’s L1 network by reposting the data every 6 hours.
+
+Validium (fully offchain DA) is also available as an alternative to PoDA for less-critical applications where the focus might be on even lower cost and higher throughput by trading-off Layer 1 data security. However, in the case of Syscoin PoDA, Layer 1 data security is quite affordable and PoDA nodes can store raw data offchain if they wish while still gaining the security of onchain state and proving.
+
+## Sample PoDA transaction
+
+This PoDA transaction was submitted by Rollux L2 to the Syscoin Native (UTXO) testnet.    
+**https://blockbook-dev.elint.services/tx/bae30de7850c370c77eb3590f631070d95c1a175323771fac5ab867fb1342136**  
+
+Note: The Blockbook explorer does not currently parse the PoDA hash, but it is visible in the raw transaction data as scriptPubKey.asm: “OP_RETURN 20**7f262f3352669030f480dd881bc6b3fad68abfcffe81d8e98c7f3e88871ed3a4**”
+
+The hash of the raw data blob is always stored on-chain for the purpose of proving data integrity, as seen above in the sample's OP_RETURN.
+
+## How to access raw data blobs
+
+Full raw data blobs are available within the native chain’s mempool for a period of six hours before being pruned. During this window of time, archiving services can access and store the raw data. While in the mempool, the data can be viewed a couple of different ways:  
+
+- **[Syscoin Core](https://github.com/syscoin/syscoin/releases/latest)** (>= v4.4) RPCs: `listnevmblobdata`, `getnevmblobdata`
+- **[syscointx-js](https://github.com/syscoin/syscointx-js)**
+
+## How to run a PoDA archiving node  
+
+Syscoin **[Sentinel](https://github.com/syscoin/sentinel)** includes a PoDA archive client/server.  
+This is relatively easy to set up. Refer to the **[instructions](https://github.com/syscoin/sentinel#poda)** on GitHub.
+
+

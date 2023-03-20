@@ -1,6 +1,13 @@
 # Notary and Business Rulesets
 
+:::info
+**UPDATE:** The Syscoin Core RPCs used in the example below, and other SPT-oriented RPCs, have been deprecated and removed as of Syscoin Core 4.4.  
+Now **[syscoinjs-lib](https://github.com/syscoin/syscoinjs-lib)** and **[syscointx-js](https://github.com/syscoin/syscointx-js)** are used to create/manage digital assets, auxfees, and notaries on the UTXO chain.
 
+Examples are available at **[https://github.com/syscoin/syscoinjs-lib-examples](https://github.com/syscoin/syscoinjs-lib-examples)**.
+
+For a complete list of these deprecated RPCs, review the **[Syscoin Core 4.4 release notes](https://github.com/syscoin/syscoin/blob/master/doc/release-notes/release-notes-4.4.0.md)**.
+:::
 
 You can require that allocations of your asset meet rules you define in order to be notarized and allowed to settle on-chain. With a Notary endpoint, any allocation of the asset must pass the endpoint's checks to be granted a notary signature and be accepted into a block.
 

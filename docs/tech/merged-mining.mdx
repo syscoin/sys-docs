@@ -1,5 +1,13 @@
-# Merged-Mining
+# Merged Mining
 
-Merged-mining, also known as Auxiliary Proof-of-Work, is a means by which Proof-of-Work blockchain miners can mine multiple blockchains at the same time. In Syscoin's example, around 20% of the hashpower mining Bitcoin is also used to mine Syscoin at no extra cost. As a nice analogy, it could be seen as someone (the miner) entering the lottery again and again in order to win (mine a block and be rewarded for it), with merged-mining the miner can submit the same lottery numbers to two different lotteries (blockchains). This means that they can increase their profits without having to spend extra energy towards mining the second chain, and the second chain that is being mined benefits from the increased security provided by the miners.
+Also known as Auxiliary Proof-of-Work or simply AuxPoW, merged mining enables you to mine multiple blockchains at the same time without spending additional energy on mining. It is carbon-neutral as it re-uses the proof from work already performed. It could be seen as someone (the miner) entering a lottery of sorts. With merged-mining the miner can submit the same lottery ticket and numbers to different lotteries (merge-mined blockchains), increasing their rewards.
 
-With Proof-of-Work blockchains, there is the risk of 51% attacks. These are attacks where malicious miners can mine using more hashpower than honest miners, at which point the malicious miners can re-organize the blockchain and commit double-spends (spending the same money twice). Merged-mining is a very beneficial way to mitigate against the risk of 51% attack, especially when the parent blockchain is Bitcoin with the massive amount of hashpower that goes into mining it. On top of this Syscoin also utilizes [ChainLock technology](/docs/tech/chainlocks) to practically eliminate the possibility of 51% attacks enacted by malicious miners.
+Merged mining was first presented by Satoshi Nakamoto in 2010, and was subsequently introduced to Bitcoin Core. It can be considered a Bitcoin primitive. See Bitcoin's [Merged Mining Specification](https://en.bitcoin.it/wiki/Merged_mining_specification).
+
+From our perspective, it will be proven over time to be a critical component for incentivizing a robust and decentralized Bitcoin network as BTC block rewards will continue to diminish. Without merged-mining, revenue from mining Bitcoin would eventually be limited to Bitcoin’s flat network fees.
+
+Furthermore, merged mining enables Bitcoin’s hashrate to be extensible and support blockchains that offer important utility beyond the scope and best-purpose of the Bitcoin protocol itself.
+
+Note: Blockchains that naively use merge-mined settlement are subject to the same vectors of PoW in general. A solution now exists to solve those challenges, and it comes in the form of a hybrid consensus system that provides decentralized Finality on top of merged-mining. Such a solution is present in Syscoin. Dig into Syscoin's [Finality](/docs/tech/finality).
+
+For more information or to set up your miner(s) to merge-mine Syscoin, refer to the [Merged Mining Setup Guide](http://localhost:3000/docs/guides/mining_setup).
