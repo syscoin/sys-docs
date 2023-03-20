@@ -14,7 +14,7 @@ Notable features of Syscoin include:
 - [*NEVM*](/docs/tech/nevm) - the Network-Enhanced Virtual Machine that powers smart contracts on Syscoin.
 - [*Rollux*](/docs/tech/rollux) - a Layer 2 suite of Optimistic and ZK-based rollups to scale NEVM smart contracts.
 - [*Z-DAG*](/docs/tech/z-dag) - an instant settlement protocol with probabilistic security used to enable blisteringly fast UTXO transfers of stablecoins or other SPT assets.
-- [*Masternodes*](/docs/tech/masternodes) - incentivized full nodes which collectively provide [*Multi-quorum Chainlocks*](/docs/tech/chainlocks) as additive security and finality on top of Nakamoto consensus. Owners of these collateralized nodes receive rewards for the services they provide to the network.
+- [*Masternodes*](/docs/tech/masternodes) - incentivized full nodes collectively provide [finality](/docs/tech/finality) through multi-quorum chainlocks as additive security and finality on top of Nakamoto consensus. Owners of these collateralized nodes receive rewards for the services they provide to the network.
 - [*Notary rulesets*](/docs/tech/notary) - in a nutshell these allow [*Syscoin Platform Token (SPT)*](/docs/tech/tokens) creators to apply their own rulesets on transfers of their SPT and then accept or deny the transfers by signing or not signing the transactions. These off-chain rulesets enable SPT asset managers to maintain compliance even when regulations or business rules change.
 
 ## Modular Design
@@ -51,7 +51,7 @@ As detailed above, with rollups operating on top of Syscoin, service is highly s
 
 Next is decentralization, Syscoin has around 2500 active masternodes operating on its network, with its popularity increasing as it becomes a more well-known smart chain it's likely that this number will increase for the rewards hosting a masternode provides. This means that Syscoin is not just scalable but also decentralized.
 
-Lastly is security. Due to being merge-mined with Bitcoin Syscoin currently has around 30% of the hashpower that goes into mining Bitcoin. This is a large amount of security already and the Syscoin team is now looking to onboard more Bitcoin miners as it aims to become one of the most secure settlement layers. Not content with just this though, Syscoin also utilizes [*Multi-quorum Chainlocks*](/docs/tech/chainlocks) technology that practically eliminates the risk of attacks like 51%, selfish mining, and Miner Extractable Value, making it even more secure.
+Lastly is security. Due to being merge-mined with Bitcoin Syscoin currently has around 30% of the hashpower that goes into mining Bitcoin. This is a large amount of security already and the Syscoin team is now looking to onboard more Bitcoin miners as it aims to become one of the most secure settlement layers. Not content with just this though, Syscoin also utilizes multi-quorum chainlocks for [finality](/docs/tech/finality), practically eliminating the risk of attacks like 51%, selfish mining, and long-range MEV attacks, making it even more secure.
 
 To conclude, Syscoin is not only designed to be scalable and decentralized, it is also highly secure and cost-effective to build on.
 
