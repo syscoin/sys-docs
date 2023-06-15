@@ -4,7 +4,7 @@ const path = require('path');
 module.exports = {
   title: 'Syscoin Docs',
   tagline: 'Documentation for the buidlers!',
-  url: 'https://Syscoin.github.io/sys-docs/',
+  url: 'https://Syscoin.github.io/sys-docs',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
