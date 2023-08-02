@@ -109,3 +109,7 @@ dist
 .tern-port
 
 !/lib/node-html-markdown/*
+
+.yarn/
+yarn.lock
+.pnp.*
