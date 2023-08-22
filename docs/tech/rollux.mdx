@@ -14,12 +14,13 @@ Syscoin's first Rollux implementation is based upon Optimism Bedrock and utilize
 **[Connect to Rollux Testnet](/docs/guides/rollux/metamask)**
 
 
+| Gas Cost Samples (rounded)                   | Rollux on Syscoin       |
+| :--------------------------------------------|-------------------------|
+|Approve spend (ERC-20)                        |0.00007 SYS              |
+|Value transfer (ERC-20)                       |0.00025 SYS              |
+|Value transfer (native coin)                  |0.00004 SYS              |
 
-| Gas Cost Samples (rounded)                   | Rollux on Syscoin       | Optimism on Ethereum     |
-| :--------------------------------------------|-------------------------|--------------------------|
-|Approve spend (ERC-20)                        |0.00007 SYS              |0.00017 ETH               |
-|Value transfer (ERC-20)                       |0.00025 SYS              |0.00046 ETH               |
-|Value transfer (native coin)                  |0.00004 SYS              |0.00010 ETH               |
+The cost of securing L2 activity with L1 is incredibly low with Rollux on Syscoin, to the tune of less than 1 US cent per hour. In contrast, Optimism pays around 1 ETH per hour on Ethereum to provide their users with L1 security.
 
 
 ## How does Syscoin help rollups work optimally?
@@ -79,15 +80,22 @@ Validium (fully offchain DA) is also available as an alternative to PoDA for les
 
 Find out more about how Syscoin provides **[the most ideal L1 settlement for L2 solutions](https://jsidhu.medium.com/why-syscoin-is-the-ideal-layer-1-3ff690a7ef5f)**.
 
-
 ## FAQ
+
+**Q. "How do I connect to Rollux?" or "How do I start using Rollux?"**  
+A. Refer to the Rollux guide for **[getting started](https://sys-labs.github.io/community-hub/docs/help/start-using-rollux-mainnet/)**.
 
 **Q."Does Syscoin Rollux require a separate gas token?"**   
 A. No. It uses the native coin of Syscoin for gas - SYS, or TSYS in the case of testnet.
 
-
-**Q."How do I get TSYS and/or move TSYS to the Rollux testnet?"**   
-A. A bridge contract is available. You simply send TSYS to a contract address on the Tanenbaum L1, then it arrives at your address on Rollux. **[Refer to instructions](/docs/guides/rollux/metamask#how-to-get-tsys)**.
+**Q."How can I get some SYS on Rollux?"**  
+A. There are a few ways:  
+1.  Use a centralized exchange. Use Rollux's guide for [further instructions](https://sys-labs.github.io/community-hub/docs/help/start-using-rollux-mainnet/#step-3-fund-your-wallet-with-sys).
+2.  To get a small amount of SYS to cover a gas fee, you can use a [Rollux SYS faucet](https://sys-labs.github.io/community-hub/docs/useful-tools/faucets/). This is helpful if you wish to get SYS from the Pegasys DEX, as some SYS is required to cover the tiny network fee for swapping.
+3.  Use the [Pegasys](https://app.pegasys.fi) DEX on Rollux.  
+  
+**Q."How do I move SYS or TSYS between Syscoin NEVM and Rollux?"**   
+A. Use [Rollux Portal](https://bridge.rollux.com), the canonical bridge of Rollux. [Refer to instructions](https://sys-labs.github.io/community-hub/docs/help/using-rollux-portal/).
 
 
 **Q.“What is the blocktime of the Rollux optimistic rollup?”**  
@@ -105,18 +113,19 @@ More activity on the rollup brings faster settlement, to a max rate of once ever
 
 
 **Q. "How do I set up a Rollux P2P replica node?"**  
-A. **[Guide](https://github.com/sidhujag/optimism/blob/develop/ops-bedrock/P2P.md)** is available. Based on Optimism Bedrock requirements, the recommended hardware is a minimum of 16GB RAM and at least 100GB of free SSD space. In order to be accepted by the network you will need a P2P key, Peer IDs and their IPs. Reach out to Syscoin Foundation for this information.
+A. Refer to our replica node setup **[guide](https://sys-labs.github.io/community-hub/docs/developers/build/run-a-node/)**.
 
 
 **Q. "What RPC/WSS Methods/Subscriptions are available?**  
-A. Same as Optimism Bedrock (Until we have completed our own Rollux doc portal, refer to: **https://community.optimism.io/docs/developers/build/json-rpc/#**)
+A. Refer to our **[RPC documentation](https://sys-labs.github.io/community-hub/docs/developers/build/json-rpc/)**.
 
 **Q. Can you provide sample transactions of Rollux settling a batch on Syscoin NEVM and using PoDA on Syscoin Native (UTXO), and further info?**  
 A. Yes. These are testnet transactions.  
-NEVM: **https://tanenbaum.io/tx/0xbdb2618d09e47789f0318900d9cacc904d96369bee2baf44400721ef8b245d8e**  
-PoDA: **https://blockbook-dev.elint.services/tx/bae30de7850c370c77eb3590f631070d95c1a175323771fac5ab867fb1342136**  
+NEVM: **<https://tanenbaum.io/tx/0xbdb2618d09e47789f0318900d9cacc904d96369bee2baf44400721ef8b245d8e>**  
+PoDA: **<https://blockbook-dev.elint.services/tx/bae30de7850c370c77eb3590f631070d95c1a175323771fac5ab867fb1342136>**  
   
-Note: The Blockbook explorer does not currently parse the PoDA hash, but it is visible in the raw transaction data as scriptPubKey.asm: “OP_RETURN 20**7f262f3352669030f480dd881bc6b3fad68abfcffe81d8e98c7f3e88871ed3a4**”
+Note: The Blockbook explorer does not currently parse the PoDA hash, but it is visible in the raw transaction data as scriptPubKey.asm: `OP_RETURN 207f262f3352669030f480dd881bc6b3fad68abfcffe81d8e98c7f3e88871ed3a4`
+
 
 
 **Q. How can I see/retrieve the full raw data blobs the L1 receives from the L2?**  
@@ -127,4 +136,4 @@ A. The hash of the raw data blob is always stored on-chain for the purpose of pr
 
 
 **Q. Are there any established processes for archiving Rollux raw data committed to PoDA?**  
-A. Yes. Syscoin Sentinel provides a PoDA client and server that enables a Cloudflare R2 archive process to be activated relatively easily. This means any Syscoin Core node can provide data archive service that rollup solutions like Rollux can use. Refer to: **https://github.com/syscoin/sentinel/blob/master/README.md**
+A. Yes. Syscoin Sentinel provides a PoDA client and server that enables a Cloudflare R2 archive process to be activated relatively easily. This means any Syscoin Core node can provide data archive service that rollup solutions like Rollux can use. Refer to: **<https://github.com/syscoin/sentinel/blob/master/README.md>**

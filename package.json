@@ -39,7 +39,8 @@
     "react-tabs": "^3.2.2",
     "react-transition-group": "^4.4.2",
     "remark": "^13.0.0",
-    "remark-loader": "^4.0.0"
+    "remark-loader": "^4.0.0",
+    "url-loader": "^4.1.1"
   },
   "browserslist": {
     "production": [
