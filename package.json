@@ -40,6 +40,7 @@
     "react-transition-group": "^4.4.2",
     "remark": "^13.0.0",
     "remark-loader": "^4.0.0",
+    "url": "^0.11.3",
     "url-loader": "^4.1.1"
   },
   "browserslist": {
@@ -53,5 +54,21 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "description": "This website is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator.",
+  "main": "babel.config.js",
+  "directories": {
+    "doc": "docs",
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/syscoin/sys-docs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/syscoin/sys-docs/issues"
+  },
+  "homepage": "https://github.com/syscoin/sys-docs#readme"
 }

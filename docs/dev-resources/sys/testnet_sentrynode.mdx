@@ -1,8 +1,8 @@
-# Testnet Masternode Setup Guide
+# Testnet Sentry Node Setup Guide
 
 
 
-Please enable coin control and show masternode tab from the options.
+Please enable coin control and show Sentry Node tab from the options.
 
 ### Note: If using an Operator to host your node you now need to follow their instructions. The following applies to self hosted nodes.
 
@@ -144,7 +144,7 @@ To Start Syscoind automatically on boot you can add this line.
 
 Save
 
-**SETUP THE MASTERNODE.**
+**SETUP THE SENTRY NODE.**
 
 Return to QT
 
@@ -152,7 +152,7 @@ Return to QT
 
 Note the masternode.config file is no longer used.
 
-**More than one masternode can not share the same collateral address, ownerKeyAddress or votingKeyAddress and payout address cannot be the same as owner or voting addresses.**
+**More than one Sentry Node can not share the same collateral address, ownerKeyAddress or votingKeyAddress and payout address cannot be the same as owner or voting addresses.**
 
 Create a new address for collateral this does not need to be a legacy address anymore, or use an existing seniority address. This address can also be in an offline wallet that has signing capabilities.
 
@@ -184,7 +184,7 @@ The first long string is your `collateralHash`, while the last number is the `co
 
 ## Generate a BLS key pair
 
-A public/secret BLS key pair is required to operate a masternode. The secret key is specified on the masternode itself, and allows it to be included in the deterministic masternode list once a provider registration transaction with the corresponding public key has been created.
+A public/secret BLS key pair is required to operate a Sentry Node. The secret key is specified on the Sentry Node itself, and allows it to be included in the deterministic Sentry Node list once a provider registration transaction with the corresponding public key has been created.
 
 If you are using a hosting service, they may provide you with their public key, and you can skip this step. If you are hosting your own masternode or have agreed to provide your host with the BLS secret key, generate a BLS public/secret keypair in the Console and entering the following command:
 
@@ -197,9 +197,9 @@ bls_generate{
 
 **These keys are NOT stored by the wallet and must be kept secure, similar to the value provided in the past by the** `masternode genkey` **command.**
 
-## Add the secret key to your masternode configuration
+## Add the secret key to your Sentry Node configuration
 
-The public key will be used in following steps. The secret key must be entered in the `syscoin.conf` file on the masternode. This allows the masternode to watch the blockchain for relevant Pro*Tx transactions, and will cause it to start serving as a masternode when the signed ProRegTx is broadcast by the owner (final step below). Log in to your masternode using `ssh` or PuTTY and edit the configuration file as follows:
+The public key will be used in following steps. The secret key must be entered in the `syscoin.conf` file on the Sentry Node. This allows the Sentry Node to watch the blockchain for relevant Pro*Tx transactions, and will cause it to start serving as a Sentry Node when the signed ProRegTx is broadcast by the owner (final step below). Log in to your Sentry Node using `ssh` or PuTTY and edit the configuration file as follows:
 
 ```
 nano ~/.syscoin/syscoin.conf
@@ -212,7 +212,7 @@ masternodeblsprivkey=1a8f477d2b02650b7d159efe315940f05252334eb292376309386cc99b0
 externalip=123.123.123.123
 ```
 
-Press enter to make sure there is a blank line at the end of the file, then press **Ctrl + X** to close the editor and **Y** and **Enter** save the file. Note that providing a `masternodeblsprivkey` enables masternode mode, which will automatically force the `txindex=1`, `peerbloomfilters=1`, and `prune=0` settings necessary to provide masternode service. We now need to restart the masternode for this change to take effect. Enter the following commands, waiting a few seconds in between to give Syscoin time to shut down making sure you are in the root directory:
+Press enter to make sure there is a blank line at the end of the file, then press **Ctrl + X** to close the editor and **Y** and **Enter** save the file. Note that providing a `masternodeblsprivkey` enables Sentry Node mode, which will automatically force the `txindex=1`, `peerbloomfilters=1`, and `prune=0` settings necessary to provide Sentry Node service. We now need to restart the Sentry Node for this change to take effect. Enter the following commands, waiting a few seconds in between to give Syscoin time to shut down making sure you are in the root directory:
 
 ```
 syscoin-cli stop
@@ -220,11 +220,11 @@ sleep 5
 syscoind
 ```
 
-We will now prepare the transaction used to register the masternode on the network.
+We will now prepare the transaction used to register the Sentry Node on the network.
 
 ## Prepare a ProRegTx transaction
 
-A pair of BLS keys for the operator were already generated above, and the secret key was entered on the masternode. The public key is used in this transaction as the `operatorPubKey`.
+A pair of BLS keys for the operator were already generated above, and the secret key was entered on the Sentry Node. The public key is used in this transaction as the `operatorPubKey`.
 
 First, we need to get a new, unused address from the wallet to serve as the **owner key address** (`ownerKeyAddr`). This is not the same as the collateral address holding 100000 Sys. This address must be different for each MN. Generate a new address as follows:
 
@@ -238,7 +238,7 @@ This address can also be used as the **voting key address** (`votingKeyAddr`). A
 getnewaddress mn1-votingtsys1q9aejtrvkrlnqsfeqanr5zhrttg8g8g
 ```
 
-Then either generate or choose an existing address to receive the **owner’s masternode payouts** (`payoutAddress`). This address cannot be the same as your owner or voting address, it is also possible to use an address external to the wallet:
+Then either generate or choose an existing address to receive the **owner’s Sentry Node payouts** (`payoutAddress`). This address cannot be the same as your owner or voting address, it is also possible to use an address external to the wallet:
 
 ```
 getnewaddress payoutstsys1quuu4ach5npjp3vpmaezzctc9r33405p39khz67
@@ -258,7 +258,7 @@ walletpassphrase yourSecretPassword 300
 
 **You can use the registration helper blow but will need tto edit the first command generate to change the port to 18369**
 
-[Syscoin MasternodesSysnode.info provides Syscoin Masternode Operators the tools to maximise the most from their Masternodes!syshub-dev.web.app](https://syshub-dev.web.app/masternodes/masternode-registration)
+[Sysnode.info](https://sysnode.info) provides Sentry Node Operators with information and tools, including tools that make it easier to participate in governance.
 
 **Manually**
 
@@ -273,15 +273,15 @@ Open a text editor such as notepad ++to prepare this command. Replace each argum
 
 - `collateralHash`: The txid of the 100000 Syscoin collateral funding transaction
 - `collateralIndex`: The output index of the 100000 Syscoin funding transaction
-- `ipAndPort`: Masternode IP address and port, in the format `x.x.x.x:yyyy`
+- `ipAndPort`: Sentry Node IP address and port, in the format `x.x.x.x:yyyy`
 - `ownerKeyAddr`: The Syscoin address generated above for the owner address
 - `operatorPubKey`: The BLS public key generated above (or provided by your hosting service)
 - `votingKeyAddr`: The Syscoin address generated above, or the address of a delegate, used for proposal voting
 - `operatorReward`: The percentage of the block reward allocated to the operator as payment, 0 for no reward.
-- `payoutAddress`: A Syscoin address to receive the owner’s masternode rewards
+- `payoutAddress`: A Syscoin address to receive the owner’s Sentry Node rewards
 - `feeSourceAddress`: An (optional) address used to fund ProTx fee. `payoutAddress` will be used if not specified.
 
-Note that the operator is responsible for [specifying their own reward](https://docs.dash.org/en/stable/masternodes/maintenance.html#dip3-update-service) address in a separate `update_service` transaction if you specify a non-zero `operatorReward`. The owner of the masternode collateral does not specify the operator’s payout address.
+Note that the operator is responsible for [specifying their own reward](https://docs.dash.org/en/stable/masternodes/maintenance.html#dip3-update-service) address in a separate `update_service` transaction if you specify a non-zero `operatorReward`. The owner of the Sentry Node collateral does not specify the operator’s payout address.
 
 Either the `feeSourceAddress` or `payoutAddress` must hold a small balance since a standard transaction fee is involved.
 
@@ -333,7 +333,7 @@ IGj1ORdk3yv/uAMKG+DZrBA/GTHX4dW8zn/rmMfGzOzCIaxqmyUbNveYtnqh9wLVECENMjyuyeR2VmB3
 
 ## Submit the signed message
 
-We will now submit the ProRegTx special transaction to the blockchain to register the masternode. This command must be sent from the wallet holding a balance on either the `feeSourceAddress` or `payoutAddress`, since a standard transaction fee is involved. The command takes the following syntax:
+We will now submit the ProRegTx special transaction to the blockchain to register the Sentry Node. This command must be sent from the wallet holding a balance on either the `feeSourceAddress` or `payoutAddress`, since a standard transaction fee is involved. The command takes the following syntax:
 
 ```
 protx_register_submit tx sig
@@ -356,9 +356,9 @@ Output:
 285fba6277586401f8efaf55d4eef7acfa6d690a30c0db7f213a0bb2c6194bd1
 ```
 
-Your masternode is now registered and will appear on the Deterministic Masternode List after the transaction is mined to a block. You can view this list on the **Masternodes** tab in QT, or in the console using the command `protx_list valid`, where the txid of the final `protx_register_submit` transaction identifies your masternode.
+Your Sentry Node is now registered and will appear on the Deterministic Sentry Node List after the transaction is mined to a block. You can view this list on the **Masternodes** tab in QT, or in the console using the command `protx_list valid`, where the txid of the final `protx_register_submit` transaction identifies your Sentry Node.
 
-At this point you can go back to your terminal window and monitor your masternode by entering
+At this point you can go back to your terminal window and monitor your Sentry Node by entering
 
 ```
 syscoin-cli masternode_status
@@ -366,6 +366,6 @@ syscoin-cli masternode_status
 
 ![img](../../../images/mn_status.png)
 
-This information can also be seen by double clicking your masternode in QT
+This information can also be seen by double clicking your Sentry Node in QT
 
-Congratulations! Your masternode is now running.
+Congratulations! Your Sentry Node is now running.

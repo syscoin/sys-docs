@@ -1,0 +1,23 @@
+# Sentry Nodes
+
+Syscoin Sentry Nodes are regular full nodes for the most part. Sentry Nodes differ from regular full nodes in a couple of ways. First, they are incentivized with SYS block rewards to operate 24/7. Second, Sentry Nodes participate in multi-quorums that use BLS signatures to provide additive [Finality](/docs/tech/finality) on top of Bitcoin's Nakamoto consensus, which increases the security of the chain beyond that of typical Proof-of-Work blockchains. Merged mining becomes a secure source of hashpower when combined with this additive finality. Furthermore, providing a proper data availability protocol requires finality in order to safely prune data from the mempool with proper guarantees. Bitcoin's lack of finality is the reason it cannot provide data availability services directly on its mainchain. As you can tell, Syscoin and its Sentry Nodes are quite important to Bitcoin's ecosystem.
+
+Owning a Syscoin Sentry Node and providing this service to earn income requires you to hold 100,000 SYS as collateral. While the Sentry Node is active it will be paid regularly for its service. The beginning of payments is determined by when the Sentry Node goes online. The (deterministic) qualification period following a Sentry Node activation typically lasts around a week depending on how many Sentry Nodes are currently on the network. A newly activated Sentry Node is added to queue of those waiting to be paid each block and this position will be kept as long as it is live. Fewer Sentry Nodes on the network translates to more frequent payments. With 2500~ online, a Sentry Node receives income roughly once every three days.
+
+The base income payment to a Sentry Node is 55.70 SYS as of March 2023. There are two further seniority levels based on when the 100,000 SYS collateral transaction was settled, as can be seen below.
+
+
+**Payouts as of January 2024**
+
+
+| Seniority Level |   Block Payout   |
+| :-------------: | :--------: |
+|      Basic      | 52.91 sys  |
+|     1 year      | 71.43 sys  |
+|    2.5 years    | 105.83 sys |
+
+There is a 5% reduction in these payouts each year. This reduction will cease in the distant future at a minimum of 5.275 sys per payout for basic-seniority level nodes, and 10.55 sys for full-seniority nodes. This floor, combined with SYS EIP-1559 coinomics, serves to keep Sentry Nodes incentivized indefinitely into the future.
+
+If you have 100,000 SYS and are interested in setting up a new Sentry Node, use this [setup guide](/docs/guides/mn_setup).
+
+If you already have a Sentry Node and are looking to upgrade Syscoin Core to the current latest version (4.4), use this [upgrade guide](https://syscoin.medium.com/masternode-mandatory-upgrade-to-syscoin-4-4-56c9421f9ca2). 
