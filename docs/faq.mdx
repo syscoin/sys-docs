@@ -10,11 +10,11 @@ You can add Syscoin to MetaMask using the table below. If this fails for any rea
 
 | Network             |                                                        |
 | :------------------ | ------------------------------------------------------ |
-| Syscoin NEVM Mainnet     | <AddNetworkComponent network={'Mainnet'}/>             |
-| Syscoin NEVM Tanenbaum (Testnet)   | <AddNetworkComponent network={'Tanenbaum Testnet'}/>   |
-|       |       |
 | Rollux L2 Mainnet | <AddNetworkComponent network={'Rollux Optimistic Mainnet'}/> |
 | Rollux L2 Testnet | <AddNetworkComponent network={'Rollux Optimistic Testnet'}/> |
+|       |       |
+| Syscoin NEVM Mainnet     | <AddNetworkComponent network={'Mainnet'}/>             |
+| Syscoin NEVM Tanenbaum (Testnet)   | <AddNetworkComponent network={'Tanenbaum Testnet'}/>   |
 
 Learn about [Syscoin Rollux](/docs/tech/rollux).
 
@@ -22,7 +22,7 @@ Learn about [Syscoin Rollux](/docs/tech/rollux).
 
 ## What is NEVM?
 
-NEVM stands for Network-Enhanced Virtual Machine, this is what powers Syscoin's execution layer and enables Rollups to be built on top of the Syscoin blockchain. It is a version of [Ethereum's EVM](https://ethereum.org/en/developers/docs/evm/) but modified to operate in tandem with the Syscoin main chain. NEVM is primarily serves as background infrastructure providing decentralized security to Rollups. Most end-users and applications should utilize the Rollups (such as Rollux) which NEVM supports rather than use NEVM directly, due to its nature as supportive infrastructure. You can read more about NEVM [here](/docs/tech/nevm).
+NEVM stands for Network-Enhanced Virtual Machine. NEVM is an infrastructure-focused EVM chain that enables EVM Rollups (such as Rollux) to be built on top of the Syscoin/Bitcoin stack. It is a version of [Ethereum's EVM](https://ethereum.org/en/developers/docs/evm/) but modified to operate in tandem with the Syscoin main chain in order to tie-in with data availability, finality, and Bitcoin merged mining. NEVM is background infrastructure that ties Rollups to the security of Syscoin and ultimately Bitcoin. For optimal user experience, end-users and applications are encouraged to utilize the Rollups which NEVM supports rather than use NEVM directly, due to its nature as supportive infrastructure. You can read more about NEVM [here](/docs/tech/nevm).
 
 ## Is Syscoin Proof of Work (PoW) or Proof of Stake (PoS)?
 

@@ -2,11 +2,7 @@
 
 Thanks to Syscoin's code base being around 90% in-line with Bitcoin's (and kept closely up-to-date), Syscoin can utilize even the most recent technologies that have been developed on Bitcoin. This applies to the Syscoin native chain, rather than the [NEVM](/docs/tech/nevm) chain. You can read about two of these technologies below.
 
-## Lightning Network
-
-Lightning Network (LN) is an off-chain layer 2 technology that operates as a transaction layer on top of the Bitcoin blockchain. It was created in order to improve the scalability of Bitcoin without affecting its security and decentralization. LN enables cheaper and faster transactions, this is by creating payment channels between individuals that eventually form a web of interconnected channels where users can transact with each other with minimal fees. When a user enters or exits a channel is the only time they must pay a transaction cost directly to the miners of the blockchain, otherwise they pay extremely low fees for using LN. As mentioned above, this technology is able to be utilized by projects building on Syscoin as well.
-
-## Taproot
+## Taproot/Schnorr
 
 Taproot is an upgrade to Bitcoin that brought several new features: Taproot, Tapscript and Schnorr signatures. The upgrade benefits Bitcoin in a number of ways. It improves Bitcoin's scripting language to make upgrades simpler. It also reduces the size of data required to be stored on-chain and through this lowers the transaction costs for users. It also improves the privacy of transactions. As this upgrade benefits Bitcoin, due to Syscoin maintaining around 90% of the codebase of Bitcoin these benefits are also brought to Syscoin on its base chain (not the [NEVM](nevm) chain).
 
