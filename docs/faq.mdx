@@ -12,7 +12,9 @@ You can add Syscoin to MetaMask using the table below. If this fails for any rea
 | :------------------ | ------------------------------------------------------ |
 | Syscoin NEVM Mainnet     | <AddNetworkComponent network={'Mainnet'}/>             |
 | Syscoin NEVM Tanenbaum (Testnet)   | <AddNetworkComponent network={'Tanenbaum Testnet'}/>   |
-| Syscoin Rollux Testnet | <AddNetworkComponent network={'Rollux Optimistic Testnet'}/> |
+|       |       |
+| Rollux L2 Mainnet | <AddNetworkComponent network={'Rollux Optimistic Mainnet'}/> |
+| Rollux L2 Testnet | <AddNetworkComponent network={'Rollux Optimistic Testnet'}/> |
 
 Learn about [Syscoin Rollux](/docs/tech/rollux).
 
@@ -20,7 +22,7 @@ Learn about [Syscoin Rollux](/docs/tech/rollux).
 
 ## What is NEVM?
 
-NEVM stands for Network-Enhanced Virtual Machine, this is what powers Syscoin's smart contract layer and enables dApps to be built on top of the Syscoin blockchain. It is a version of [Ethereum's EVM](https://ethereum.org/en/developers/docs/evm/) but modified to operate in tandem with the Syscoin main chain. You can read more about NEVM [here](/docs/tech/nevm).
+NEVM stands for Network-Enhanced Virtual Machine, this is what powers Syscoin's execution layer and enables Rollups to be built on top of the Syscoin blockchain. It is a version of [Ethereum's EVM](https://ethereum.org/en/developers/docs/evm/) but modified to operate in tandem with the Syscoin main chain. NEVM is primarily serves as background infrastructure providing decentralized security to Rollups. Most end-users and applications should utilize the Rollups (such as Rollux) which NEVM supports rather than use NEVM directly, due to its nature as supportive infrastructure. You can read more about NEVM [here](/docs/tech/nevm).
 
 ## Is Syscoin Proof of Work (PoW) or Proof of Stake (PoS)?
 
@@ -28,7 +30,7 @@ Syscoin is Proof of Work and is merged-mined with Bitcoin, meaning that Bitcoin 
 
 ## What is Syscoin's max supply?
 
-SYS coinomics are very similar to Ethereum's [EIP-1559](https://eips.ethereum.org/EIPS/eip-1559). With the release of NEVM, Syscoin Protocol balances inflation/deflation dynamically and no longer has a maximum supply. Any gas fees spent on smart contracts are burned. The purpose is to provide an ideal utility-focused economy for a global user base, now and into the future.
+SYS coinomics are very similar to Ethereum's [EIP-1559](https://eips.ethereum.org/EIPS/eip-1559). With the release of NEVM, Syscoin Protocol balances inflation/deflation dynamically and no longer has a maximum supply. Gas fees are burned and/or used to further subsidize miners, depending how a transaction is configured. The purpose is to provide an ideal utility-focused economy for a global user base, now and into the future.
 
 ## How do I transfer SYS to the NEVM chain for using smart contracts?
 
@@ -36,14 +38,17 @@ To transfer your SYS from the base chain to the NEVM chain you can use the [Brid
 
 ## What is Syscoin's block time?
 
-Syscoin's Layer-1 block time is 2.5 minutes. Syscoin's Layer-2 blocktime is near-instant. This serves several purposes. For one, this disincentivizes direct use of the L1 by end users who actually belong on L2. Additionally, it is a sufficient window of time to ensure a very high probability of achieving a multi-quorum chainlock. Syscoin uses [chainlocks](/docs/tech/finality) to further secure its blockchain with finality in addition to Bitcoin [merge-mining](/docs/tech/merged-mining). Syscoin's L1 is designed to serve as a secure settlement layer for Optimistic Rollups and ZK-Rollups where the vast majority of dApps are destined to operate. As such, end users will never experience the 2.5 minute block time while using rollups. Their blockchain interactions, whether DeFi, GameFi or other uses, will be near-instant and extremely low cost while being secured by Syscoin's L1 in the background.
+Syscoin's L1 block time is 2.5 minutes. Syscoin's Rollux L2 blocktime is nearly instant. This serves several purposes. For one, this disincentivizes direct use of the L1 by end users who actually belong on L2. Additionally, it is a sufficient window of time to ensure a very high probability of achieving a multi-quorum chainlock. Syscoin uses [chainlocks](/docs/tech/finality) to further secure its blockchain with finality in addition to Bitcoin [merge-mining](/docs/tech/merged-mining). Syscoin's L1 is designed to serve as a secure settlement layer for Optimistic Rollups and ZK-Rollups where the vast majority of dApps are destined to operate. As such, end users will never experience the 2.5 minute block time while using rollups. Their blockchain interactions, whether DeFi, GameFi or other uses, will be near-instant and extremely low cost while being secured by Syscoin's L1 in the background.
 
 ## How secure is Syscoin?
 
-Syscoin is [merged-mined](/docs/tech/merged-mining) with Bitcoin, what this means is that the miners mining Bitcoin can mine Syscoin at the same time, with no extra power required. At time of writing Syscoin has around 25% of Bitcoin's hashrate (mining power). The Syscoin hashrate can be seen [here](https://minerstat.com/coin/SYS/network-hashrate). We are looking to onboard more miners for even more security. Besides having 25%~ of Bitcoin's hashrate Syscoin also has [chainlocks](/docs/tech/finality), which help to secure the chain even further by preventing [selfish mining](https://www.investopedia.com/terms/s/selfish-mining.asp).
+Syscoin combines its multi-quorum [finality](/docs/tech/finality) (at high Nakamoto coefficient) with [Bitcoin merged mining](/docs/tech/merged-mining), creating a PoW model that is highly resistant to 51% attacks and selfish mining, no matter how many Bitcoin miners participate or how much hashrate they contribute. At time of writing Syscoin inherits between 50 and 60 percent of Bitcoin's own hashrate, with several larger Bitcoin pools applying hash receipts to Syscoin. The Syscoin hashrate can be seen [here](https://minerstat.com/coin/SYS/network-hashrate). In essence, Syscoin adds an additional layer of decentralized security on top of Bitcoin's own mining network. Uniquely, the additive finality is designed in such a way that Bitcoin's Proof-of-Work is kept at the base of the stack rather than resolving everything to Proof-of-Stake.
 
+Compromising the security of the Syscoin network would require accomplishing both of these very expensive tasks:  1.) Obtain over 50% of all Bitcoin miners' total hashrate being applied to Syscoin, 2.) Obtain supermajority ownership of Syscoin Sentry Nodes for any chance to game randomized multi-quorums (4 quorums, each with 400 Sentry Nodes in randomized rotation).  Each Sentry Node requires 100k SYS collateral.  SYS has been in circulation since 2014 and is highly distributed.  At time of writing the quantity of Sentry Nodes is around 2,700.
 
+This method finally makes merged mining a secure source of hashrate.  Even if a merge-miner obtains over 50% of the total hashrate applied, the expense and effort to game the multi-quorums makes the proposition of a majority attack unreasonable. The reverse can also be said.  If one managed to gain control of a supermajority of Sentry Nodes, they would also need over 50% of the total hashrate in order to dominate. 
 
+We are always looking to onboard more Bitcoin mining pools to help their communities take advantage of our modular ecosystem, and provide them with Bitcoin-secured DeFi!
 ## Where can I buy Syscoin?
 
 [Here](https://www.coingecko.com/en/coins/syscoin#markets) is a list of some exchanges where you can buy Syscoin.

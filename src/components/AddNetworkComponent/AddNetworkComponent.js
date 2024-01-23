@@ -61,7 +61,20 @@ class AddNetworkComponent extends Component {
         decimals: 18,
       },
       rpcUrls: ['https://rpc-tanenbaum.rollux.com'],
-      blockExplorerUrls: ['https://rollux.tanenbaum.io/']
+      blockExplorerUrls: ['https://rollux.tanenbaum.io']
+    }
+
+    const rollux_optimistic_mainnet = {
+      chainId: '0x' + (570).toString(16),
+      chainName: 'Rollux Mainnet',
+      iconUrls: [''],
+      nativeCurrency: {
+        name: 'Syscoin',
+        symbol: 'SYS',
+        decimals: 18,
+      },
+      rpcUrls: ['https://rpc.rollux.com', 'wss://rpc.rollux.com/wss'],
+      blockExplorerUrls: ['https://explorer.rollux.com']
     }
 
     if (window.ethereum) {
@@ -87,6 +100,12 @@ class AddNetworkComponent extends Component {
               method: 'wallet_addEthereumChain',
               params: [rollux_optimistic_testnet, this.state.selectedAddress]
             }
+            break;
+          case 'Rollux Optimistic Mainnet':
+              req = {
+                method: 'wallet_addEthereumChain',
+                params: [rollux_optimistic_mainnet, this.state.selectedAddress]
+              }
         default:
           break;
       }
