@@ -29,7 +29,7 @@ The hash of the raw data blob is always stored on-chain as seen above in the sam
 
 **Syscoin Core (>=v4.4) provides an RPC interface that enables use of the PoDA protocol**
 
-Once submitted, full raw data blobs are available within the native chain’s mempool for a period of six hours of finality before being pruned.  As long as the blob is in the mempool, archiving services can access and store it.  In the event that sufficient finality is absent, PoDA will retain blobs in the mempool until aforementioned finality threshold is met.  This helps ensure published data is given proper guarantees to solve fisherman's dilemma even during adverse network conditions. 
+Once submitted, the version hash is stored onchain in the next available block, while full raw data blobs are available within the native chain’s cache for a period of six hours of finality before being pruned.  As long as the blob is cached, archiving services can access and store it.  In the event that sufficient finality is absent, PoDA will retain blobs in the cache until aforementioned finality threshold is met.  This helps ensure published data is given proper guarantees to solve fisherman's dilemma even during adverse network conditions. 
 
   
 ### `syscoincreatenevmblob`
@@ -83,7 +83,7 @@ Examples:
 
 ### `listnevmblobdata`
 
-Retrieve a list of blobs from the UTXO mempool.
+Retrieve a list of blobs from the UTXO cache.
 
 ```text
 listnevmblobdata ( count from {"getdata":bool} )
@@ -115,7 +115,7 @@ Examples:
 
 ### `getnevmblobdata`:
 
-Retrieve a specific blob from the mempool by versionHash or txId
+Retrieve a specific blob from the cache by version hash or transaction id
 
 ```text
 getnevmblobdata "versionhash_or_txid" ( getdata )
