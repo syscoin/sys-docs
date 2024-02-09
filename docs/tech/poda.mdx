@@ -12,7 +12,7 @@ PoDA’s advantages can be summarized as:
 - Simpler data fee market based on Syscoin’s UTXO fee market
 - Nakamoto Assumption: Only one honest node is needed to guarantee data
 
-PoDA’s design considers proving and archiving as separate concerns. With PoDA, the succinct proof of data is stored on Layer 1, while an assumption is made that at least one honest party in the world will archive the raw data within a 6-hour window of time - similar to the honesty assumption made when syncing a Bitcoin node (at least one honest node). If desired, the raw data itself can be secured by Syscoin’s L1 network by reposting the data every 6 hours.
+PoDA’s design considers proving and archiving as separate concerns. With PoDA, the succinct proof of data is stored on Layer 1, while an assumption is made that at least one honest party in the world will archive the raw data within at least a 6-hour window of time - similar to the honesty assumption made when syncing a Bitcoin node (at least one honest node). If desired, the raw data itself can be secured by Syscoin’s L1 network by reposting the data every 6 hours.
 
 Validium (fully offchain DA) is also available as an alternative to PoDA for less-critical applications where the focus might be on even lower cost and higher throughput by trading-off Layer 1 data security. However, in the case of Syscoin PoDA, Layer 1 data security is quite affordable and PoDA nodes can store raw data offchain if they wish while still gaining the security of onchain state and proving.
 
@@ -53,6 +53,10 @@ Examples:
 > syscoin-cli syscoincreatenevmblob "data"
 > curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "syscoincreatenevmblob", "params": ["data"]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
 ```
+
+:::tip
+You can extend the TTL (time-to-live) of a PoDA blob by resubmitting the same exact blob with the `overwrite_existing` flag set to TRUE.  This results in the existing cached blob having its counter reset for another six hours of life before pruning.
+:::
 
   
 ### `syscoincreaterawnevmblob`
