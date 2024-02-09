@@ -131,7 +131,7 @@ Preface: PoDA's design is based on a separation of concerns between data availab
 
 This means PoDA's purpose is to 1.) prove that raw data was properly made available to the public and that the public was given sufficient opportunity archive it, and 2.) provide the on-chain basics (hash) needed to verify the integrity of any archived data at a later time.
 
-Considering the above, archiving itself is left non-deterministic. Archivers can utilize Syscoin's Sentinel implementation below which provides the means to both store and retrieve PoDA data blobs, or employ other means at their discretion. If decentralized archiving is a priority, there are a variety of networks that provide this, such a KYVE, Filecoin, etc.
+Considering the above, archiving itself is left non-deterministic. Archivers can utilize Syscoin's Sentinel implementation below which provides the means to both store and retrieve PoDA data blobs, or employ other means at their discretion. If decentralized archiving is a priority, there are networks that you can custom-integrate with PoDA, such a KYVE.
 
 Syscoin **[Sentinel](https://github.com/syscoin/sentinel)** includes a PoDA archive client/server with out-of-the-box support for Filecoin/Lighthouse and Cloudflare R2 (supply your API keys)   
 This is relatively easy to set up. Refer to the **[instructions](https://github.com/syscoin/sentinel#poda)** on GitHub.
