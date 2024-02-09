@@ -25,16 +25,115 @@ Note: The Blockbook explorer does not currently parse the PoDA hash, but it is v
 
 The hash of the raw data blob is always stored on-chain for the purpose of proving data integrity, as seen above in the sample's OP_RETURN.
 
-## How to access raw data blobs
+## How to interact with PoDA
 
-Full raw data blobs are available within the native chain’s mempool for a period of six hours before being pruned. During this window of time, archiving services can access and store the raw data. While in the mempool, the data can be viewed a couple of different ways:  
+**Syscoin Core (>=v4.4) provides an RPC interface that enables use of the PoDA protocol**
 
-- **[Syscoin Core](https://github.com/syscoin/syscoin/releases/latest)** (>= v4.4) RPCs: `listnevmblobdata`, `getnevmblobdata`
-- **[syscointx-js](https://github.com/syscoin/syscointx-js)**
+Once submitted, full raw data blobs are available within the native chain’s mempool for a period of six hours of finality before being pruned.  As long as the blob is in the mempool, archiving services can access and store it.  In the event that sufficient finality is absent, PoDA will retain blobs in the mempool until aforementioned finality threshold is met.  This helps ensure published data is given proper guarantees to solve fisherman's dilemma even during adverse network conditions. 
 
-## How to run a PoDA archiving node  
+  
+### `syscoincreatenevmblob`
 
-Syscoin **[Sentinel](https://github.com/syscoin/sentinel)** includes a PoDA archive client/server.  
+Submit data blob with auto-generated Keccak256 versionHash (recommended)
+
+```text
+syscoincreatenevmblob "data" ( overwrite_existing conf_target "estimate_mode" fee_rate )
+
+Arguments:
+1. data                  (string, required) blob in hex
+2. overwrite_existing    (boolean, optional, default=true) true to overwrite an existing blob if it exists, false to return versionhash of data on duplicate.
+3. conf_target           (numeric, optional, default=wallet -txconfirmtarget) Confirmation target in blocks
+4. estimate_mode         (string, optional, default="unset") The fee estimate mode, must be one of (case insensitive):
+                         "unset"
+                         "economical"
+                         "conservative"
+5. fee_rate              (numeric or string, optional, default=not set, fall back to wallet fee estimation) Specify a fee rate in sat/vB.
+
+Examples:
+> syscoin-cli syscoincreatenevmblob "data"
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "syscoincreatenevmblob", "params": ["data"]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+  
+### `syscoincreaterawnevmblob`
+
+Submit data blob with custom (user-specified) versionHash. This might be useful if you wish to use a different hash algorithm or implement some custom commitment scheme as a layer on top of PoDA. Otherwise, it is best to stick with the `syscoincreatenevmblob` standard.
+
+```text
+syscoincreaterawnevmblob "versionhash" "data" ( conf_target "estimate_mode" fee_rate )
+
+Arguments:
+1. versionhash      (string, required) Version hash of the blob
+2. data             (string, required) data in hex
+3. conf_target      (numeric, optional, default=wallet -txconfirmtarget) Confirmation target in blocks
+4. estimate_mode    (string, optional, default="unset") The fee estimate mode, must be one of (case insensitive):
+                    "unset"
+                    "economical"
+                    "conservative"
+5. fee_rate         (numeric or string, optional, default=not set, fall back to wallet fee estimation) Specify a fee rate in sat/vB.
+
+Examples:
+> syscoin-cli syscoincreaterawnevmblob "versionhash" "data" 6 economical 25
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "syscoincreaterawnevmblob", "params": ["versionhash" "data" 6 economical 25]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+### `listnevmblobdata`
+
+Retrieve a list of blobs from the UTXO mempool.
+
+```text
+listnevmblobdata ( count from {"getdata":bool} )
+
+Arguments:
+1. count                   (numeric, optional, default=10) The number of results to return.
+2. from                    (numeric, optional, default=0) The number of results to skip.
+3. options                 (json object, optional) A json object with options to filter results.
+     {
+       "getdata": bool,    (boolean, optional) Return data from blob
+     }
+
+Result:
+[                             (json array)
+  {                           (json object)
+    "versionhash" : "hex",    (string) The version hash of the NEVM blob
+    "datasize" : n,           (numeric) Size of data blob in bytes
+    "data" : "hex"            (string) Blob data if getdata is true
+  },
+  ...
+]
+
+Examples:
+> syscoin-cli listnevmblobdata 0
+> syscoin-cli listnevmblobdata 10 10
+> syscoin-cli listnevmblobdata 0 0 '{"getdata":true}'
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "listnevmblobdata", "params": [0, 0, '{"getdata":false}']}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+### `getnevmblobdata`:
+
+Retrieve a specific blob from the mempool by versionHash or txId
+
+```text
+getnevmblobdata "versionhash_or_txid" ( getdata )
+
+Arguments:
+1. versionhash_or_txid    (string, required) The version hash or txid of the NEVM blob
+2. getdata                (boolean, optional) Optional, retrieve the blob data
+
+Examples:
+> syscoin-cli getnevmblobdata 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "getnevmblobdata", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+## How to run a PoDA archiving node
+
+Preface: PoDA's design is based on a separation of concerns between data availability and data archiving, with purpose being the former.
+
+This means PoDA's purpose is to 1.) prove that data was made available to the public, and 2.) provide the on-chain basics (hash) to verify the integrity of any archived data.
+
+Considering the above, archiving itself is left non-deterministic. Archivers can utilize Syscoin's Sentinel implementation below, or employ other means of archiving at their discretion. If decentralized archiving is a priority, there are a variety networks that provide this, such a KYVE, Filecoin, and others.
+
+Syscoin **[Sentinel](https://github.com/syscoin/sentinel)** includes a PoDA archive client/server with out-of-the-box support for Filecoin/Lighthouse and Cloudflare R2 (supply your API keys)   
 This is relatively easy to set up. Refer to the **[instructions](https://github.com/syscoin/sentinel#poda)** on GitHub.
 
 
