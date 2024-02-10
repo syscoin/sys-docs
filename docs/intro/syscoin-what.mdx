@@ -5,16 +5,17 @@ sidebar_position: 1
 
 ## What is Syscoin?
 
-Syscoin is a full-stack modular Proof-of-Work blockchain solution [merge-mined](/docs/tech/merged-mining) with Bitcoin. At its base is a dual-chain Layer 1: the core is the Syscoin native (UTXO) blockchain network providing [Data Availability](/docs/tech/poda) and [Finality](/docs/tech/finality), and running in tandem with it is an Ethereum Virtual Machine (EVM) chain called [*NEVM*](/docs/tech/nevm) (Network-Enhanced Virtual Machine) which provides Ethereum equivalence while inheriting enhanced security from the native chain and providing scalability through rollups.
+Syscoin is a full-stack modular Proof-of-Work blockchain solution [merge-mined](/docs/tech/merged-mining) with Bitcoin. At its base is a dual-chain Layer 1: the core is the Syscoin native (UTXO) blockchain network providing [Data Availability](/docs/tech/poda) and [Finality](/docs/tech/finality), and running in tandem with it is an Ethereum Virtual Machine (EVM) chain called [*NEVM*](/docs/tech/nevm) (Network-Enhanced Virtual Machine) which is built to provide secure settlement for rollups and other EVM scaling layers.
 
 
+Syscoin provides
 
-Notable features of Syscoin include:
-
-- [*NEVM*](/docs/tech/nevm) - the Network-Enhanced Virtual Machine that powers smart contracts on Syscoin.
-- [*Rollux*](/docs/tech/rollux) - a Layer 2 suite of Optimistic and ZK-based rollups to scale NEVM smart contracts.
-- [*Z-DAG*](/docs/tech/z-dag) - an instant settlement protocol with probabilistic security used to enable blisteringly fast UTXO transfers of stablecoins or other SPT assets.
-- [*Sentry Nodes*](/docs/tech/sentrynodes) - incentivized full nodes collectively provide [finality](/docs/tech/finality) through multi-quorum chainlocks as additive security and finality on top of Nakamoto consensus. Owners of these collateralized nodes receive rewards for the services they provide to the network.
+- [*PoDA*](/docs/tech/poda) - Proof of Data Availability is a Bitcoin-based L1 DA protocol for rollups. Efficient, hash-based, general purpose, and easy to integrate with.
+- [*Rollux*](/docs/tech/rollux) - 2-second blocktime, extremely low fees. An EVM-equivalent OPStack rollup built on and secured by Syscoin PoDA. 
+- [*NEVM*](/docs/tech/nevm) - Network-Enhanced Virtual Machine is the L11 EVM of Syscoin, made specifically for securing rollups and other EVM scaling layers.
+- [*Ordinals support*] - Our native Bitcoin-based UTXO chain remains closely up-to-date with Bitcoin Core, including support for Taproot/Schnorr. This means there is a great deal of potential here for cross-chain and even cross-architecture (UTXO <-> EVM Rollup) ordinals. Further, our PoDA protocol means ordinal creators can secure data payloads in a new, more efficient way.
+- [*Sentry Nodes*](/docs/tech/sentrynodes) - incentivized full nodes collectively provide [finality](/docs/tech/finality) through multi-quorum chainlocks as additive security and finality on top of Nakamoto consensus. Owners of these collateralized nodes receive rewards, including seniority benefits, for the services they provide to the network.
+- [*Z-DAG*](/docs/tech/z-dag) - an instant settlement protocol with probabilistic security used to enable blisteringly fast UTXO transfers of SYS, stablecoins or other UTXO-based assets.
 - [*Notary rulesets*](/docs/tech/notary) - in a nutshell these allow [*Syscoin Platform Token (SPT)*](/docs/tech/tokens) creators to apply their own rulesets on transfers of their SPT and then accept or deny the transfers by signing or not signing the transactions. These off-chain rulesets enable SPT asset managers to maintain compliance even when regulations or business rules change.
 
 ## Modular Design
@@ -37,26 +38,29 @@ The settlement layer is the layer that secures the ecosystem, as such it should 
 
 ### Data Availability
 
-Data availability is required to exist within the security domain of Layer 1 in order for rollups to properly serve critical financial applications, and secure users’ ability to exit to L1. Syscoin’s L1 DA solution is called PoDA (Proof of Data Availability). Syscoin’s PoDA differs from Ethereum’s danksharding in how data is stored, presented, pruned, and how fees are calculated. PoDA is able to utilize an existing fee market while Ethereum requires the addition of new complexities.
-
-PoDA’s design considers proving and archiving as separate concerns. With PoDA, the succinct proof of data is stored on Layer 1, while an assumption is made that at least one honest party in the world will archive the raw data within a 6-hour window of time - similar to the honesty assumption made when syncing a Bitcoin node (at least one honest node). If desired, the raw data itself can be secured by Syscoin’s L1 network by reposting the data every 6 hours.
-
-Validium (fully offchain DA) is also available as an alternative to PoDA for less-critical applications where the focus might be on even lower cost and higher throughput by trading-off Layer 1 data security.
+The PoDA protocol serves data-availability within the security domain of Layer 1 enabling rollups to properly serve critical financial applications, and secure users’ ability to exit back to L1. Syscoin was the first project to deliver a dedicated Layer 1 DA protocol to mainnet, with PoDA in March 2023. PoDA is an alternative to sharding focused DA, and intersects Bitcoin through its use of Syscoin's merged mining, UTXO model, and simple fee market.
 
 
 
-## Why use Syscoin?
+## Why Choose Syscoin?
 
-As detailed above, with rollups operating on top of Syscoin, service is highly scalable. With Validium and fractal scaling, even greater scale can be achieved. As such the scalability aspect is very much covered. Scalability doesn't just mean high transaction per second volume though, it also takes into consideration the cost of transactions. Transactions on Syscoin will be cheap even at high throughput, as such if a project was considering which chain to operate their rollups on top of and wanted to have low gas fees for regularly posting proofs to the blockchain, Syscoin will be cheaper than other EVM-based chains.
+Security: Syscoin provides manifold security as a settlement and data availability layer for rollups and other scaling solutions. First, leveraging merge-mining with Bitcoin, Syscoin is currently powered by around 60% of Bitcoin's own hashrate. This taps you into the world's best Proof-of-Work network for proven antifragility and fault tolerance as well as resilience against economic black swans, at a level which pure Proof-of-stake systems simply cannot match. Additionally, Syscoin's Sentry nodes provide multi-quorum chainlocks for an additive layer of finality which keeps intact the benefits of Proof-of-work while greatly mitigating the risks of 51% attacks and selfish mining. Furthermore, the security of Syscoin's data availability will soon extend to nearly any blockchain ecosystem through zkDA, a new Syscoin innovation in-progress that also brings a new level of cross-chain interoperability. All of this underscores Syscoin's commitment to robust security.
 
-Next is decentralization, Syscoin has around 2700 active Sentry Nodes operating on its network, with its popularity increasing as it becomes a more well-known smart chain it's likely that this number will increase for the rewards hosting a Sentry Node provides. This means that Syscoin is not just scalable but also decentralized.
+Scalability: With a unique and holistically modular design, Syscoin stands out with exceptional support for scalability layers. Providing a live dedicated data availability protocol on Layer 1 means Syscoin is already ideal for natively supporting rollups of all kinds as scaling layers. Rollux, the first rollup built on Syscoin, is a perfect example.  Scalability, in this context, extends beyond transaction volume and speed of settlement; it also encompasses the affordability of transactions. Low cost execution makes Syscoin an attractive option for projects seeking a settlement layer for their rollup, especially those aiming to make frequent state commitments. In comparison to other EVM-based chains, Syscoin is more scalable and cost-effective, but that's not all.
 
-Lastly is security. Due to being merge-mined with Bitcoin Syscoin currently has around 50-60% of the hashpower that goes into mining Bitcoin. This is a large amount of security already and the Syscoin team is now looking to onboard more Bitcoin miners as it aims to become one of the most secure settlement layers. Not content with just this though, Syscoin also utilizes multi-quorum chainlocks for [finality](/docs/tech/finality), practically eliminating the risk of attacks like 51%, selfish mining, and long-range MEV attacks, making it even more secure.
+Decentralization: The network boasts approximately 2,700 independently owned and operated Sentry nodes which work together deterministically to serve a decentralized finality mechanism. The rewards associated with hosting a Sentry node contribute to their growth and retention, including seniority benefits. Over 75% of these nodes have been active and collateralized for over two and half years. Furthermore, SYS, the native currency of Syscoin, has been in circulation since 2014 and is broadly distributed.
 
-To conclude, Syscoin is not only designed to be scalable and decentralized, it is also highly secure and cost-effective to build on.
+In summary, Syscoin is
 
+- modular
+- exceptionally secure
+- scalable
+- decentralized
+- flexible
+- economical
+- reliable
 
-Are you a project interested in building on Syscoin?
+Are you a project considering Syscoin for your blockchain needs?
 
 - Contact us here: https://syscoin.org/contact
 - Or you can connect with us on the Syscoin Discord server: https://discord.gg/syscoin
