@@ -12,7 +12,14 @@ PoDA’s advantages can be summarized as:
 - Simpler data fee market based on Syscoin’s UTXO fee market
 - Nakamoto Assumption: Only one honest node is needed to guarantee data
 
-PoDA’s design considers proving and archiving as separate concerns. With PoDA, the succinct proof of data is stored on Layer 1, while an assumption is made that at least one honest party in the world will archive the raw data within at least a six-hour window of time - similar to the honesty assumption made when syncing a Bitcoin node (at least one honest node).
+PoDA's design is based on a separation of concerns between data availability and data archiving, with the protocol's purpose being the former.
+
+This means PoDA purpose is to 
+
+- Deterministically ensure and prove that raw data has been made available to the public and that the public was given a sufficient and defined opportunity to archive it.
+- Provide the on-chain basics (hash) needed to verify the integrity of any archived data at a later time.
+
+With PoDA, a hash of the raw data blob is stored on Layer 1, while an assumption is made that at least one honest party in the world will archive the raw data within at least a six-hour window of time - similar to the honesty assumption made when syncing a Bitcoin node (at least one honest node).
 
 Validium (fully offchain DA) is also available as an alternative to PoDA for less-critical applications where the focus might be on even lower cost and higher throughput by trading-off Layer 1 data security. However, in the case of Syscoin PoDA, Layer 1 data security is quite affordable and PoDA archivers store raw data offchain while you still gaining the security of onchain state and proving.
 
