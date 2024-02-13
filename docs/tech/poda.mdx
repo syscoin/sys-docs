@@ -19,24 +19,24 @@ PoDA’s advantages can be summarized as:
 - **Deterministically ensure and prove that raw data has been placed within the commons and that the public was given a sufficient and defined opportunity to archive it.**
 - **Permanently provide an on-chain hash necessary to verify the integrity of any archived data at a later time, and the option of custom hashes for other purposes a user might implement on top.**
 
-With PoDA, by default, a Keccak256 hash of the raw data blob is stored on Layer 1, while an assumption is made that at least one honest party in the world will archive the raw data within at least a six-hour window of time - similar to the honesty assumption made when syncing a Bitcoin node (at least one honest node). After this window of time, the blob is pruned from the network's cache while its hash remains on-chain.
+With PoDA, by default, a Keccak256 hash of the full data blob is stored on Layer 1, while an assumption is made that at least one honest party in the world will archive the blob within at least a six-hour window of time - similar to the honesty assumption made when syncing a Bitcoin node (at least one honest node). After this window of time, the blob is pruned from the network's cache while its hash remains on-chain.
 
-Validium (fully offchain DA) is also available as an alternative to PoDA for less-critical applications where the focus might be on even lower cost and higher throughput by trading-off Layer 1 data security. However, in the case of Syscoin PoDA, Layer 1 data security is quite affordable; archivers store raw data off-chain while you gain the security of an on-chain hash.
+Validium (fully offchain DA) is also available as an alternative to PoDA for less-critical applications where the focus might be on even lower cost and higher throughput by trading-off Layer 1 data security. However, in the case of Syscoin PoDA, Layer 1 data security is quite affordable; archivers store full data off-chain while you gain the security of an on-chain hash.
 
 ## Sample PoDA transaction
 
 This PoDA transaction was submitted by Rollux L2 to the Syscoin Native (UTXO) Mainnet.    
 **https://blockbook.syscoin.org/tx/8de8bf84a1c55a06ad2d10ee10e036e51d122d02ded0a57ebddfd1da640aebc6**  
 
-Note: The Blockbook explorer does not currently parse the PoDA hash, but it is visible in the raw transaction data as scriptPubKey.asm: “OP_RETURN 20**e76700ef2ceab4e1f71af30a1fcf0662eedbb932aa66285ac30dbca46256e7d4**”
+Note: The version hash is visible in the raw transaction data as scriptPubKey.asm: “OP_RETURN 20**e76700ef2ceab4e1f71af30a1fcf0662eedbb932aa66285ac30dbca46256e7d4**”
 
-The hash of the raw data blob is always stored on-chain as seen above in the sample's OP_RETURN. This should be used to prove the integrity of archived data at any future time.
+The hash of the data blob is stored on-chain as seen above in boldened portion of the sample's OP_RETURN. This should be used to prove the integrity of archived data at any future time.
 
 ## How to interact with PoDA
 
 **Syscoin Core (>=v4.4) provides an RPC interface that enables use of the PoDA protocol**
 
-Once submitted, the transaction with version hash is stored onchain in the next available block, while the full raw data blob is made publicly available within the native chain’s cache for a period of six hours of finality before being pruned.  As long as the blob is cached, archiving services can access and store it.  In the event that sufficient finality is absent, PoDA will retain blobs in the cache until aforementioned finality threshold is met.  This helps ensure published data is given proper guarantees to solve fisherman's dilemma even during adverse network conditions. 
+Once submitted, the transaction with version hash is stored onchain in the next available block, while the full data blob is made publicly available within the native chain’s cache for a period of six hours of finality before being pruned.  As long as the blob is cached, archiving services can access and store it.  In the event that sufficient finality is absent, PoDA will retain blobs in the cache until aforementioned finality threshold is met.  This helps ensure published data is given proper guarantees to solve fisherman's dilemma even during adverse network conditions. 
 
   
 ### `syscoincreatenevmblob`
@@ -62,7 +62,7 @@ Examples:
 ```
 
 :::tip
-You can extend the TTL (time-to-live) of a PoDA blob by resubmitting the same exact blob with the `overwrite_existing` flag set to TRUE.  This results in the existing cached blob having its counter reset for another six hours of life before pruning.
+You can extend the TTL (time-to-live) of a PoDA blob for another six hours by resubmitting the same exact blob with the `overwrite_existing` flag set to TRUE.
 :::
 
   
