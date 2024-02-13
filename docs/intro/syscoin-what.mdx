@@ -15,39 +15,6 @@ Quickly see what percentage of Bitcoin's hashrate is supporting Syscoin by check
 
 ![img](../../images/diagram_SyscoinOverallDesign.png)
 
-## What Syscoin Provides
-
-- [**PoDA**](/docs/tech/poda) - Proof of Data Availability is an L1 DA protocol for rollups. It is hash-based and built on UTXO. Efficient, general purpose, easy to integrate.
-- [**Rollux**](https://rollux.com) - An OPStack rollup anchored to Bitcoin through Syscoin's DA protocol. Provides 2-second blocktime, extremely low fees, and supports application layers on top.  
-- [**NEVM**](/docs/tech/nevm) - Network-Enhanced Virtual Machine is the L1 EVM of Syscoin, made specifically for supporting rollups and other scaling layers.
-- **Ordinals support** - Our native Bitcoin-based UTXO chain remains closely up-to-date with Bitcoin Core and includes support for Taproot/Schnorr. This means there is a great deal of potential here for cross-chain and even cross-architecture (UTXO <-> EVM Rollup) ordinals. Further, our PoDA protocol means ordinal creators can secure data payloads in a new, more efficient way.
-- [**Sentry Nodes and Finality**](/docs/tech/sentrynodes) - Incentivized full nodes collectively provide [finality](/docs/tech/finality) through multi-quorum chainlocks as additive security on top of Bitcoin's PoW. Owners of these collateralized nodes receive rewards, including seniority benefits, for the services they provide to the network.
-- [**Z-DAG**](/docs/tech/z-dag) - Based upon Satoshi's "snack machine" concept, Z-DAG is a UTXO-based instant settlement protocol with probabilistic security used to enable a very high throughput of UTXO transfers. Works with UTXO-based assets. In a nutshell, it utilizes Bitcoin's mempool design as a DAG by providing double-spend awareness across a mesh topology.
-- [**Notary rulesets**](/docs/tech/notary) - This allows [*Syscoin Platform Token (SPT)*](/docs/tech/tokens) creators to apply their own rulesets on transfers of their SPT and then accept or deny the transfers by signing or not signing the transactions. These off-chain rulesets enable SPT asset managers to maintain compliance even when regulations or business rules change.
-
-## Modular Design
-
-To understand why Syscoin is the perfect choice for developers, one must first understand the new direction in which the EVM-based blockchain ecosystem is evolving. The new paradigm is focused on modular blockchains. Rather than trying to achieve everything (scalability, decentralization, security) on a single blockchain layer, modularity involves multiple layers. There are three terms to keep in mind for the coming blockchain future, these are:
-
-- Execution layer
-- Settlement layer
-- Data availability
-
-These will be expanded on below.
-
-### Execution Layer
-
-The execution layer in the new blockchain paradigm is where all the day-to-day transactions take place. Using a DEX to swap tokens? Buying NFTs on a marketplace? Whatever you can think of, most of these smart contracts will be operating on the execution layer. These Layer 2 scaling solutions can be optimistic or ZK-based rollups, or perhaps hybridized rollups in the future. Layer 1 blockchains, i.e. Syscoin NEVM or Ethereum, cannot scale on their own without trading-off some security and/or decentralization. This is why execution belongs a separate Layer 2 focused on scalability, enabling the Layer 1 to serve its best purposes - secure decentralized settlement and data availability.
-
-### Settlement Layer
-
-The settlement layer is the layer that secures the ecosystem, as such it should be highly secure such as through being [merge-mined](/docs/tech/merged-mining) with Bitcoin. Highly scalable rollups operating as the execution layer for Syscoin will, at regular intervals, post proofs of the transactions that took place on them to the [NEVM](/docs/tech/nevm) blockchain in order to securely and immutably store what has taken place within the rollups.
-
-### Data Availability
-
-The PoDA protocol serves data-availability within the security domain of Layer 1 enabling rollups to properly serve critical financial applications, and secure users’ ability to exit back to L1. Syscoin was the first project to deliver a dedicated Layer 1 DA protocol to mainnet, with PoDA in March 2023. PoDA is an alternative to sharding focused DA, and intersects Bitcoin through its use of Syscoin's merged mining, UTXO model, and simple fee market.
-
-
 
 ## Why Choose Syscoin?
 
