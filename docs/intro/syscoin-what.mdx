@@ -7,17 +7,21 @@ sidebar_position: 1
 
 Syscoin is a modular Proof-of-Work blockchain solution [merge-mined](/docs/tech/merged-mining) with Bitcoin. Syscoin is designed primarily to provide secure settlement and data availability, especially for rollups and other EVM or AltVM scaling layers that wish to tap into Bitcoin's anti-fragility and Proof-of-Work. Syscoin's base is composed of a dual-chain Layer 1: the core is the Syscoin native (UTXO) blockchain providing [data availability](/docs/tech/poda) and [finality](/docs/tech/finality). Running in tandem with the UTXO chain is an Ethereum Virtual Machine (EVM) chain called [*NEVM*](/docs/tech/nevm) (Network-Enhanced Virtual Machine), which is merged mined alongside the UTXO chain and also inherits finality.
 
-Brought to mainnet in 2014, the Syscoin protocol has evolved through many iterations (much like blockchain technology itself), creating, optimizing and deprecating features or characteristics across time.  
+Originally brought to mainnet in 2014, the Syscoin protocol has evolved through many iterations (much like blockchain technology itself), creating, optimizing and deprecating features or characteristics across time. 
+
+Quickly see what percentage of Bitcoin's hashrate is supporting Syscoin by checking the following:
+[**Bitcoin hashrate**](https://www.coinwarz.com/mining/bitcoin/hashrate-chart) 
+[**Syscoin hashrate**](https://www.coinwarz.com/mining/syscoin/hashrate-chart)
 
 Syscoin provides
 
-- [*PoDA*](/docs/tech/poda) - Proof of Data Availability is a Bitcoin-based L1 DA protocol for rollups. Efficient, hash-based, general purpose, and easy to integrate.
-- [*Rollux*](/docs/tech/rollux) - An OPStack rollup anchored to Bitcoin through Syscoin's DA protocol. Provides 2-second blocktime, extremely low fees, and supports application layers on top.  
-- [*NEVM*](/docs/tech/nevm) - Network-Enhanced Virtual Machine is the L11 EVM of Syscoin, made specifically for supporting rollups and other scaling layers.
-- *Ordinals support* - Our native Bitcoin-based UTXO chain remains closely up-to-date with Bitcoin Core and includes support for Taproot/Schnorr. This means there is a great deal of potential here for cross-chain and even cross-architecture (UTXO <-> EVM Rollup) ordinals. Further, our PoDA protocol means ordinal creators can secure data payloads in a new, more efficient way.
-- [*Sentry Nodes and Finality*](/docs/tech/sentrynodes) - Incentivized full nodes collectively provide [finality](/docs/tech/finality) through multi-quorum chainlocks as additive security on top of Bitcoin's PoW. Owners of these collateralized nodes receive rewards, including seniority benefits, for the services they provide to the network.
-- [*Z-DAG*](/docs/tech/z-dag) - Based upon Satoshi's "snack machine" concept, Z-DAG is a UTXO-based instant settlement protocol with probabilistic security used to enable a very high throughput of UTXO transfers. Works with UTXO-based assets. In a nutshell, it utilizes Bitcoin's mempool design as a DAG by providing double-spend awareness across a mesh topology.
-- [*Notary rulesets*](/docs/tech/notary) - This allows [*Syscoin Platform Token (SPT)*](/docs/tech/tokens) creators to apply their own rulesets on transfers of their SPT and then accept or deny the transfers by signing or not signing the transactions. These off-chain rulesets enable SPT asset managers to maintain compliance even when regulations or business rules change.
+- [**PoDA**](/docs/tech/poda) - Proof of Data Availability is a Bitcoin-based L1 DA protocol for rollups. Efficient, hash-based, general purpose, and easy to integrate.
+- [**Rollux**](/docs/tech/rollux) - An OPStack rollup anchored to Bitcoin through Syscoin's DA protocol. Provides 2-second blocktime, extremely low fees, and supports application layers on top.  
+- [**NEVM**](/docs/tech/nevm) - Network-Enhanced Virtual Machine is the L11 EVM of Syscoin, made specifically for supporting rollups and other scaling layers.
+- **Ordinals support** - Our native Bitcoin-based UTXO chain remains closely up-to-date with Bitcoin Core and includes support for Taproot/Schnorr. This means there is a great deal of potential here for cross-chain and even cross-architecture (UTXO <-> EVM Rollup) ordinals. Further, our PoDA protocol means ordinal creators can secure data payloads in a new, more efficient way.
+- [**Sentry Nodes and Finality**](/docs/tech/sentrynodes) - Incentivized full nodes collectively provide [finality](/docs/tech/finality) through multi-quorum chainlocks as additive security on top of Bitcoin's PoW. Owners of these collateralized nodes receive rewards, including seniority benefits, for the services they provide to the network.
+- [**Z-DAG**](/docs/tech/z-dag) - Based upon Satoshi's "snack machine" concept, Z-DAG is a UTXO-based instant settlement protocol with probabilistic security used to enable a very high throughput of UTXO transfers. Works with UTXO-based assets. In a nutshell, it utilizes Bitcoin's mempool design as a DAG by providing double-spend awareness across a mesh topology.
+- [**Notary rulesets**](/docs/tech/notary) - This allows [*Syscoin Platform Token (SPT)*](/docs/tech/tokens) creators to apply their own rulesets on transfers of their SPT and then accept or deny the transfers by signing or not signing the transactions. These off-chain rulesets enable SPT asset managers to maintain compliance even when regulations or business rules change.
 
 ## Modular Design
 
