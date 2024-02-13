@@ -14,10 +14,12 @@ PoDA’s advantages can be summarized as:
 
 **PoDA's design is based on a separation of concerns between data availability and data archiving, with the protocol's purpose being the former.**
 
-**The general purpose of PoDA:**
-
-- **Deterministically ensure and prove that raw data has been placed within the commons and that the public was given a sufficient and defined opportunity to archive it.**
-- **Permanently provide an on-chain hash necessary to verify the integrity of any archived data at a later time, and the option of custom hashes for other purposes a user might implement on top.**
+:::info
+The general purpose of PoDA  
+   
+- Deterministically ensure and prove that raw data has been placed within the commons and that the public was given a sufficient and defined opportunity to archive it.
+- Permanently provide an on-chain hash necessary to verify the integrity of any archived data at a later time, and the option of custom hashes for other purposes a user might implement on top.
+:::
 
 With PoDA, by default, a Keccak256 hash of the full data blob is stored on Layer 1, while an assumption is made that at least one honest party in the world will archive the blob within at least a six-hour window of time - similar to the honesty assumption made when syncing a Bitcoin node (at least one honest node). After this window of time, the blob is pruned from the network's cache while its hash remains on-chain.
 
