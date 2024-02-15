@@ -58,7 +58,7 @@ module.exports = {
           items: [
             {
               label: 'GitHub',
-              href: 'https://github.com/syscoin',
+              href: 'https://github.com/syscoin/syscoin',
             },
           ],
         },
