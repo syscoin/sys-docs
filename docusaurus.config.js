@@ -3,7 +3,7 @@ const path = require('path');
 
 module.exports = {
   title: 'Syscoin Docs',
-  tagline: 'Documentation for the buidlers!',
+  tagline: 'Documentation for builders',
   url: 'https://Syscoin.github.io/sys-docs',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -18,7 +18,7 @@ module.exports = {
       logo: {
         alt: 'Syscoin Logo',
         src: 'img/sys-logo.svg',
-        href: 'https://docs.syscoin.org/docs/intro/syscoin-what/'
+        href: 'https://docs.syscoin.org/docs/intro/nutshell/'
       },
       items: [
         {
