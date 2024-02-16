@@ -10,10 +10,12 @@ This mechanism provides a high probability of finality in a decentralized way, a
 
 |             |Time to finality after block|Blocktime   |Resilience absent finality        |Mechanism     |
 | :-----------|----------------------------|------------|----------------------------------|--------------|
-|**Syscoin**  |~12.5 minutes               |2.5 minutes |Nakamoto longest chain rule       |PoW + Quorums |
+|**Syscoin**  |~12.5 minutes (every 5 blocks) |2.5 minutes |Nakamoto longest chain rule       |PoW + Quorums |
 |**Ethereum** |~14 minutes (~3 epochs)     |10 seconds  |None. No finality = breaking event|PoS + Casper  |
 
 
 This provides effective resistance to 51% and selfish mining attacks, while retaining PoW as the underlying consensus mechanism. Attackers must accomplish two expensive and challenging tasks to achieve a successful 51% attack: 1) Control greater than 50% of Bitcoin's hash power supplied to Syscoin, plus 2) Control a super-majority of Syscoin Sentry Nodes.
 
-Chainlocks can be viewed by using Syscoin Core RPC `getchainlocks`.
+Chainlocks can be viewed from a fully synced node using Syscoin Core RPC `getchainlocks`.
+
+![img](../../images/diagram_Chainlocks.png)
