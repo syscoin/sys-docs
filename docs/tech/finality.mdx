@@ -13,10 +13,10 @@ This mechanism provides a high probability of finality in a decentralized way, a
 |**Syscoin**  |~12.5 minutes (every 5 blocks) |2.5 minutes |Nakamoto longest chain rule       |PoW + Quorums |
 |**Ethereum** |~14 minutes (~3 epochs)     |10 seconds  |None. No finality = breaking event|PoS + Casper  |
 
-### Graceful degredation
+### Graceful degradation
 
 In the rare event that finality cannot be achieved on a block for any reason
-1.  The network falls back to the longest chain rule which is a seamless and non-breaking event, unlike pure proof-of-stake systems, all of which break under the same scenario.
+1.  The network falls back to the longest chain rule of Nakamoto consensus which is always operational. This is a seamless and non-breaking event, unlike pure proof-of-stake systems, all of which break under the same scenario.
 1.  Because [data availability (PoDA)](/docs/tech/poda) depends upon finality for safe pruning of the blob cache, PoDA will retain blobs indefinitely until the blob's on-chain proof is secured by finality across a sum of ~six hours.
 
 
