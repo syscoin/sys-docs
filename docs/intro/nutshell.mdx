@@ -17,7 +17,7 @@ One such rollup is [Rollux](https://rollux.com), an EVM-equivalent OPStack with 
 
 ## Decentralized Finality without Slashing
 
-Data Availability and scaling it require preventing risks of impact from chain re-orgs. Syscoin solves this with a [finality mechanism of multi-quorum chainlocks](/docs/tech/finality). This creates an additive security layer on top of Bitcoin's PoW. Served by 1,600 randomly selected [Sentry nodes](/docs/tech/sentrynodes), this practically eliminates the risks of re-orgs, 51% attacks and selfish mining, without involving slashing.
+Data Availability and scaling it require preventing risks of impact from chain re-orgs. Syscoin solves this with a [finality mechanism of multi-quorum chainlocks](/docs/tech/finality). This creates an additive security layer on top of Bitcoin's PoW. Served by 1,600 randomly selected [Sentry nodes](/docs/tech/sentrynodes), this practically eliminates the risks of re-orgs, 51% attacks and selfish mining, without involving slashing. This design means the network is always supported by Nakamoto consensus from beneath, and the absence of finality (for any reason) means a graceful degradation instead of a halt that would be seen on a PoS network. This has been proven resilient on the live newtork.
 
 ## Current Research & Development
 
