@@ -11,6 +11,16 @@ module.exports = {
   favicon: 'img/sys-logo.svg',
   organizationName: 'Syscoin', // Usually your GitHub org/user name.
   projectName: 'sys-docs', // Usually your repo name.
+  scripts: [
+    {
+    src: "https://dashboard.letmeexplain.ai/embed/lme_chatbot_widget.js", // LetMeExplain embed script
+    async: false,
+    },
+    {
+      src: "/js/enable_lme_chatbot.js", // Custom initialization script
+      defer: true,
+    },
+  ],
   themeConfig: {
     hideableSidebar: true,
     navbar: {
