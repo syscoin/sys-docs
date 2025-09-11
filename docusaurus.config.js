@@ -66,9 +66,9 @@ module.exports = {
       copyright: `Copyright © ${new Date().getFullYear()} Syscoin. Built with Docusaurus.`,
     },
     "colorMode": {
-      "defaultMode": "light",
+      "defaultMode": "dark",
       "disableSwitch": false,
-      "respectPrefersColorScheme": false,
+      "respectPrefersColorScheme": true,
       "switchConfig": {
         "darkIcon": "🔆",
         "darkIconStyle": {},
