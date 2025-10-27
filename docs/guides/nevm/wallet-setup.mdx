@@ -1,0 +1,52 @@
+# Prepare Your Syscoin Wallet
+
+Before deploying or testing contracts you need a wallet that is configured for the Syscoin NEVM networks and funded with SYS (mainnet) or tSYS (testnet).
+
+## Choose a wallet
+
+- **Pali Wallet (recommended):** [Pali Wallet](https://paliwallet.com) is preconfigured for Syscoin NEVM Mainnet and Testnet, so you can skip the network setup steps below.
+- **MetaMask:** Install the [MetaMask browser extension](https://chrome.google.com/webstore/detail/nkbihfbeogaeaoehlefnkodbefgpgknn) or use an existing account, then add the Syscoin networks.
+
+## Add the Syscoin NEVM networks
+
+Use Chainlist to import the networks directly into your wallet:
+
+| Network | Quick add |
+| :-- | :-- |
+| Syscoin NEVM Mainnet | [Add via Chainlist](https://chainlist.org/chain/57) |
+| Syscoin NEVM Testnet (Tanenbaum) | [Add via Chainlist](https://chainlist.org/chain/5700) |
+
+Approve the prompts in your wallet to finish the import. Some tools still label the Syscoin NEVM Testnet as “Tanenbaum”; both names point to the same chain.
+
+### Manual settings (for MetaMask or other wallets)
+
+Use these values if you need to enter the networks manually:
+
+**Mainnet**
+
+- Network Name: Syscoin NEVM Mainnet
+- RPC URL: `https://rpc.syscoin.org`
+- Chain ID: `57`
+- Currency Symbol: `SYS`
+- Block Explorer: `https://explorer.syscoin.org/`
+
+**Testnet**
+
+- Network Name: Syscoin NEVM Testnet
+- RPC URL: `https://rpc.tanenbaum.io/`
+- Chain ID: `5700`
+- Currency Symbol: `tSYS`
+- Block Explorer: `https://explorer.tanenbaum.io/`
+
+## Fund the deployment account
+
+Top up the account you plan to use for deployments:
+
+- Follow the [official faucet instructions](https://support.syscoin.org/t/how-to-get-a-syscoin-faucet/876) for tSYS on testnet or SYS on mainnet.
+- Exchanges or bridges can also provide SYS for mainnet deployments.
+
+## Export the private key
+
+Export the private key for the account that will sign your deployments, then store it in a secure secret manager or `.env` file referenced by Hardhat or Foundry.
+
+**Keep credentials private:** never commit `.env` files and rotate the key immediately if it becomes exposed.

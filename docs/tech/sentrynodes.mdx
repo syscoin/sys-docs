@@ -66,7 +66,7 @@ The **Sentry Node Registry** is the umbrella mechanism that tracks Sentry Node o
   The deterministic list of valid Sentry Nodes anchored by **100,000 SYS collateral**, **ProTx lifecycle**, and **BLS operator keys**. Seniority is derived from the **collateral block height**. This is the canonical source of truth. See the [Sentry Node Setup Guide](/docs/guides/sentrynode_setup).
 
 - **NEVM Registry (projection, in sysgeth):**
-  A **read-only mapping** that associates an **EVM address** to UTXO-side **Sentry metadata** (notably the collateral height). Exposed to contracts via a **precompile** so dapps and rollups can gate features without bespoke indexers. See [Syscoin Geth (sysgeth)](/docs/guides/nevm/sysgeth) and [Add to MetaMask](/docs/guides/nevm/metamask).
+  A **read-only mapping** that associates an **EVM address** to UTXO-side **Sentry metadata** (notably the collateral height). Exposed to contracts via a **precompile** so dapps and rollups can gate features without bespoke indexers. See [Syscoin Geth (sysgeth)](/docs/guides/nevm/sysgeth) and [Prepare Your Syscoin Wallet](/docs/guides/nevm/wallet-setup).
 
 :::tip
 Think of the **UTXO Registry** as the **source of truth** and the **NEVM Registry** as a **contract-friendly window** into that truth.
@@ -177,7 +177,7 @@ console.log("Collateral height:", height.toString());
 **Network reference**
 
 * NEVM mainnet **chainId 57**; testnet **5700**.
-* See [Syscoin Geth (sysgeth)](/docs/guides/nevm/sysgeth) and [Add to MetaMask](/docs/guides/nevm/metamask).
+* See [Syscoin Geth (sysgeth)](/docs/guides/nevm/sysgeth) and [Prepare Your Syscoin Wallet](/docs/guides/nevm/wallet-setup).
 
 ### Governance (grounded in the UTXO Registry)
 
