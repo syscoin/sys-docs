@@ -48,7 +48,7 @@ class AddNetworkComponent extends Component {
         decimals: 18,
       },
       rpcUrls: ['https://rpc.tanenbaum.io/'],
-      blockExplorerUrls: ['https://tanenbaum.io/']
+      blockExplorerUrls: ['https://explorer.tanenbaum.io/']
     }
 
     const rollux_optimistic_testnet = {
