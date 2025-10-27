@@ -1,0 +1,194 @@
+# Deploying Smart Contracts with Hardhat
+
+This is a guide to creating and deploying smart contracts with Hardhat on the Syscoin NEVM.
+
+*NOTE: Syscoin is designed to be a settlement layer for zkRollups and other L2s/execution layers, as such it has a 2.5 minute block time for the optimal settlement security, it is advised to create dApps using zkRollups rather than using the Syscoin blockchain itself for executing smart contracts. You can find zkRollup resources [here](zk-rollups).*
+
+:::info
+Syscoin's public NEVM test network is the **Syscoin NEVM Testnet**, sometimes labeled “Tanenbaum”. We'll use the Syscoin NEVM naming throughout this guide.
+:::
+
+This guide assumes that you have already:
+
+- Installed [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) on your system
+- [Prepared a Syscoin NEVM wallet](/docs/guides/nevm/wallet-setup) with a funded deployment account
+
+## 1. Install Hardhat and create a project
+
+To install Hardhat use the following command:
+
+```
+npm install --save-dev hardhat
+```
+
+Make a new directory where you wish to create your project then `cd` into it and run the command below:
+
+```
+npx hardhat
+```
+
+Select `Create a JavaScript project` and follow the prompts.
+
+Then enter this command to install the necessary dependencies:
+
+```
+npm install --save-dev @nomicfoundation/hardhat-toolbox @nomicfoundation/hardhat-verify dotenv
+```
+
+## 2. Create a new contract
+
+Create a new file in the `contracts` directory called `HelloNEVM.sol`.
+
+Paste the following code into the `HelloNEVM.sol` file.
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.10;
+
+contract HelloNEVM {
+    function sayHello() public pure returns(string memory) {
+        return('Hello NEVM!');
+    }
+}
+```
+
+:::note
+The MIT license header keeps the example broadly reusable. Swap in the SPDX identifier that matches your project’s licensing before shipping real contracts.
+:::
+
+## 3. Configure the network used by Hardhat
+
+Create a `.env` file in the project root and populate it with your endpoints and deployment key (keep the `0x` prefix on the key).
+
+```
+SYSCOIN_TESTNET_RPC_URL=https://rpc.tanenbaum.io/
+SYSCOIN_MAINNET_RPC_URL=https://rpc.syscoin.org/
+PRIVATE_KEY=0xYOUR_PRIVATE_KEY
+```
+
+Then update `hardhat.config.js` with the following, which includes the necessary configuration for contract verification:
+
+```javascript
+require("@nomicfoundation/hardhat-toolbox");
+require("@nomicfoundation/hardhat-verify");
+require("dotenv").config();
+
+const {
+  SYSCOIN_TESTNET_RPC_URL,
+  SYSCOIN_MAINNET_RPC_URL,
+  PRIVATE_KEY
+} = process.env;
+
+/** @type import('hardhat/config').HardhatUserConfig */
+module.exports = {
+  solidity: "^0.8.10",
+  networks: {
+    testnet: {
+      url: SYSCOIN_TESTNET_RPC_URL,
+      chainId: 5700,
+      accounts: PRIVATE_KEY ? [PRIVATE_KEY] : []
+    },
+    mainnet: {
+      url: SYSCOIN_MAINNET_RPC_URL,
+      chainId: 57,
+      accounts: PRIVATE_KEY ? [PRIVATE_KEY] : []
+    }
+  },
+  etherscan: {
+    apiKey: {
+      mainnet: "none", // Blockscout instances don't require an API key
+      testnet: "none",
+    },
+    customChains: [
+      {
+        network: "mainnet",
+        chainId: 57,
+        urls: {
+          apiURL: "https://explorer.syscoin.org/api",
+          browserURL: "https://explorer.syscoin.org",
+        },
+      },
+      {
+        network: "testnet",
+        chainId: 5700,
+        urls: {
+          apiURL: "https://explorer.tanenbaum.io/api",
+          browserURL: "https://explorer.tanenbaum.io",
+        },
+      },
+    ],
+  },
+  sourcify: {
+    enabled: true
+  }
+};
+```
+
+*Note: Check the file into `.gitignore` (Hardhat does this by default) so secrets stay out of source control.*
+
+## 4. Deploy the contract
+
+Open `scripts/deploy.js` (created by Hardhat) and replace its contents with the script below.
+
+```javascript
+const hre = require("hardhat");
+
+async function main() {
+  const HelloNEVM = await hre.ethers.getContractFactory("HelloNEVM");
+  const helloNEVM = await HelloNEVM.deploy();
+
+  await helloNEVM.waitForDeployment();
+
+  console.log(
+    `HelloNEVM deployed to: ${helloNEVM.target}`
+  );
+}
+
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});
+```
+
+Run the usual Hardhat checks before deploying:
+
+```
+npx hardhat compile
+npx hardhat test
+```
+
+Once everything passes, deploy the contract (swap to `mainnet` to target the Syscoin mainnet).
+
+```
+npx hardhat run scripts/deploy.js --network testnet
+```
+
+You will then receive something similar to the following output showing that the contracts have been successfully deployed.
+
+```
+Compiling 1 file with 0.8.10
+Successfully compiled 1 file
+HelloNEVM deployed to: 0x...
+```
+
+Congratulations! Your contracts have been deployed and you can see the contract's address in the output, which is worth saving if you wish to interact with it at a later date.
+
+## 5. Verify the Contract
+
+After deploying your contract, it is a best practice to verify it on the block explorer. This makes your code publicly visible and auditable, and it allows others to interact with your contract directly from the explorer's UI.
+
+Syscoin's explorers are compatible with Hardhat's verification tool. To verify the `HelloNEVM` contract, run the following command, replacing `YOUR_CONTRACT_ADDRESS` with the address you received after deployment.
+
+For the **Syscoin NEVM Testnet**:
+```
+npx hardhat verify --network testnet YOUR_CONTRACT_ADDRESS
+```
+You can view your verified contract on the testnet explorer: `https://explorer.tanenbaum.io`
+
+For **Syscoin Mainnet**:
+```
+npx hardhat verify --network mainnet YOUR_CONTRACT_ADDRESS
+```
+You can view your verified contract on the mainnet explorer: `https://explorer.syscoin.org`
+
+Because of the `customChains` configuration you added to `hardhat.config.js`, Hardhat knows how to communicate with the Syscoin explorers without any further setup.

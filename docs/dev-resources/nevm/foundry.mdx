@@ -1,0 +1,110 @@
+# Deploying Smart Contracts with Foundry
+
+This is a guide to creating and deploying smart contracts with Foundry on the Syscoin NEVM.
+
+*NOTE: Syscoin is designed to be a settlement layer for zkRollups and other L2s/execution layers, as such it has a 2.5 minute block time for the optimal settlement security, it is advised to create dApps using zkRollups rather than using the Syscoin blockchain itself for executing smart contracts. You can find zkRollup resources [here](zk-rollups).*
+
+:::info
+Syscoin's public NEVM test network is the **Syscoin NEVM Testnet**, sometimes labeled “Tanenbaum”. We'll stick with the Syscoin NEVM naming for the rest of this guide.
+:::
+
+This guide assumes that you have already:
+
+- Installed [Foundry](https://book.getfoundry.sh/getting-started/installation) on your system
+- [Prepared a Syscoin NEVM wallet](/docs/guides/nevm/wallet-setup) with a funded deployment account
+
+## 1. Create a new project
+
+Make a new directory where you wish to create your project then `cd` into it and run the command below:
+
+```
+forge init
+```
+
+## 2. Create a new contract
+
+Create a new file in the `src` directory called `HelloNEVM.sol`.
+
+Paste the following code into the `HelloNEVM.sol` file.
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.10;
+
+contract HelloNEVM {
+    function sayHello() public pure returns(string memory) {
+        return('Hello NEVM!');
+    }
+}
+```
+
+:::note
+The example uses the MIT SPDX identifier for permissive reuse. Adjust the license string to align with your project’s requirements before deploying to production.
+:::
+
+## 3. Configure the network used by Foundry
+
+Foundry reads configuration from environment variables. Add the values to a `.env` file in your project root.
+
+```
+SYSCOIN_TESTNET_RPC_URL=https://rpc.tanenbaum.io/
+SYSCOIN_MAINNET_RPC_URL=https://rpc.syscoin.org/
+PRIVATE_KEY=0xYOUR_PRIVATE_KEY
+```
+
+When you want to deploy, load the variables into your shell:
+
+```
+source .env
+export ETH_RPC_URL=$SYSCOIN_TESTNET_RPC_URL
+```
+
+If you need to target mainnet, run `export ETH_RPC_URL=$SYSCOIN_MAINNET_RPC_URL` instead.
+
+*Note: Keep the `0x` prefix on the key and ensure `.env` is ignored by git so credentials don’t leak.*
+
+## 4. Deploy the contract
+
+Once you have configured the environment variables, you can deploy the contract.
+
+```
+forge create --rpc-url $ETH_RPC_URL --private-key $PRIVATE_KEY src/HelloNEVM.sol:HelloNEVM
+```
+
+You will then receive something similar to the following output showing that the contracts have been successfully deployed.
+
+```
+[⠊] Compiling...
+[⠒] Compiling 1 files with 0.8.10
+[⠊] Solc 0.8.10 finished in ...
+Deployer: 0x...
+Deployed to: 0x...
+Transaction hash: 0x...
+```
+
+Congratulations! Your contracts have been deployed and you can see the contract's address in the output, which is worth saving if you wish to interact with it at a later date.
+
+## 5. Verify the Contract
+
+After deploying, you should verify your contract on the block explorer. Foundry can do this using the `forge verify-contract` command. Since Syscoin uses a Blockscout explorer, you need to provide the API URL.
+
+To verify the `HelloNEVM` contract, run the following command, replacing `YOUR_CONTRACT_ADDRESS` with the address from the deployment step.
+
+For the **Syscoin NEVM Testnet**:
+```
+forge verify-contract --chain-id 5700 --verifier-url https://explorer.tanenbaum.io/api?module=contract\&action=verify YOUR_CONTRACT_ADDRESS src/HelloNEVM.sol:HelloNEVM
+```
+You can view your verified contract on the testnet explorer: `https://explorer.tanenbaum.io`
+
+For **Syscoin Mainnet**:
+```
+forge verify-contract --chain-id 57 --verifier-url https://explorer.syscoin.org/api?module=contract\&action=verify YOUR_CONTRACT_ADDRESS src/HelloNEVM.sol:HelloNEVM
+```
+You can view your verified contract on the mainnet explorer: `https://explorer.syscoin.org`
+
+This command tells Foundry to use the specified explorer's verification endpoint. No API key is required.
+
+
+:::tip
+Prefer scripted deployments? Check out `forge script` and the `--broadcast` flag to codify your deployment steps before shipping to production.
+:::
