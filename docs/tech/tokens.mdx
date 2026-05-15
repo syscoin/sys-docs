@@ -1,10 +1,18 @@
 
 # Syscoin Platform Tokens (SPTs)
 
+Syscoin Platform Tokens (SPTs) are tokens that live on the Syscoin native (UTXO) chain rather than on the NEVM (EVM) side. Because they are UTXO-based, SPT transactions inherit the efficiency, privacy, and composability of Bitcoin-style transfers — and can take advantage of Syscoin's [Z-DAG](/docs/tech/z-dag) for fast settlement.
 
+## How SPTs work today (Syscoin Core 5.x / post-Nexus)
 
-Syscoin Platform Tokens, or SPTs for short, are tokens that reside on the Syscoin Native (UTXO) blockchain, rather than the Syscoin NEVM blockchain that runs alongside it and supports ERC-20 tokens. SPTs are UTXO-based tokens (so transactions operate like Bitcoin transactions), rather than account-based (like Ethereum), this offers greater efficiency and allows SPTs to support any current or new innovations that are made available on Bitcoin, such as Lightning Network or Taproot. SPTs can also take advantage of Syscoin's [Z-DAG](/docs/tech/z-dag) technology, for blisteringly fast token payments. Find out how to create your own SPTs [here](/docs/guides/spts/create-issue-tokens).
+The SPT design was redesigned in the [Nexus upgrade (Syscoin Core 5.0)](https://github.com/syscoin/syscoin/blob/master/doc/release-notes/release-notes-5.0.0.md). Issuance and management no longer go through dedicated UTXO-side RPCs; instead, SPTs are minted and redeemed through the **NEVM bridge**:
 
+- Tokens originate on the NEVM side (typically as ERC-20 / ERC-721 / ERC-1155 contracts).
+- The [SyscoinVaultManager](https://explorer.syscoin.org/address/0x7904299b3D3dC1b03d1DdEb45E9fDF3576aCBd5f) contract on NEVM locks tokens and triggers minting of the corresponding SPT on the UTXO side.
+- Once on the UTXO side, SPTs can be transferred natively (with Z-DAG support) and bridged back through the same vault.
 
+The legacy `assetnew`, `assetupdate`, `assetallocationsend`, and related RPCs were removed in 5.0; client code should use [syscoinjs-lib](https://github.com/syscoin/syscoinjs-lib) for UTXO-side SPT transfers and the bridge for issuance.
 
-Another useful aspect of SPTs is the possibility to create Non-Fungible Tokens (NFTs). These are very lightweight; compared to a standard, fungible token they use only 4 extra bytes on the blockchain. If you are interested in checking them out you can download [Pali Wallet](https://paliwallet.com/), a browser extension wallet that supports Syscoin and SPTs, and mint some NFTs on [SysMint](https://sysmint.paliwallet.com/).
+## NFTs
+
+SPTs also support non-fungible tokens. As with fungible SPTs, NFTs in 5.x are bridged from NEVM (ERC-721 / ERC-1155) rather than created via Core RPCs directly. The browser-extension wallet [Pali Wallet](https://paliwallet.com/) supports viewing and transferring SPT-side balances.

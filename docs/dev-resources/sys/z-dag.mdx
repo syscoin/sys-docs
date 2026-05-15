@@ -1,6 +1,6 @@
 # Z-DAG Developer Guide
 
-Z-DAG is a patent-pending transaction technology implemented on the Syscoin blockchain that enables near-instant, low-cost transactions that are highly scalable. Z-DAGs transactional throughput has been audited by third party blockchain auditing firm [Whiteblock](https://whiteblock.io/), you can [view their report here](https://syscoin.org/whitepaper#tps). For more technical information on Z-DAG refer to the [Z-DAG Syscoin Community page](https://syscoin.community/features/z-dag) or the [Syscoin Z-DAG Whitepaper](https://syscoin.org/zdag_syscoin_whitepaper.pdf).
+Z-DAG is a patent-pending transaction technology implemented on the Syscoin blockchain that enables near-instant, low-cost transactions that are highly scalable. Z-DAGs transactional throughput has been audited by third party blockchain auditing firm [Whiteblock](https://whiteblock.io/), you can [view their report here](https://syscoin.org/whitepaper#tps). For more technical information on Z-DAG refer to the [Z-DAG technical overview](/docs/tech/z-dag) or the [Syscoin Z-DAG Whitepaper](https://syscoin.org/zdag_syscoin_whitepaper.pdf).
 
 ## Z-DAG Basics
 
@@ -32,4 +32,6 @@ Z-DAG status is retrieved by the command `assetallocationverifyzdag`. The output
 
 ## Using Z-DAG Balances
 
-The available balance while use Z-DAG can be determined by calling `assetallocationbalance`. If `balance` and `zdag_balance` are the same, then display `balance`. If the balances differ that is an indication that Z-DAG is active for this transaction and it has not yet been confirmed by Proof of Work. In this scenario the `zdag_balance` should be used to indicate to the user their available balance.
+In the legacy 4.x SPT model the per-asset `assetallocationbalance` RPC reported a `zdag_balance` separate from the confirmed `balance`. That RPC was removed in Syscoin Core 5.0 along with the rest of the 4.x asset RPC family.
+
+In the current 5.x model, Z-DAG status is a property of individual transactions rather than aggregated balances: poll `assetallocationverifyzdag` for each unconfirmed transfer of interest, and treat any input still in a non-zero Z-DAG state as not yet safely re-spendable.
