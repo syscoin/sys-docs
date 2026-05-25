@@ -258,6 +258,32 @@ Your Sentry Node is now registered and will appear on the Deterministic Sentry N
 
 You can view this list on the Sentry Nodes tab in QT, or in the console using the command protx_list valid, where the txid of the final protx_register_submit transaction identifies your Sentry Node.
 
+## Register your Sentry Node with the NEVM Registry
+
+Syscoin Core 5.0 (Nexus) introduced the **NEVM Registry** — an on-chain directory that maps each Sentry Node to a NEVM (EVM-format) address. The registry is exposed on the NEVM side at precompile address `0x62` and is used by current and upcoming features that economically align with Syscoin L1 (decentralized sequencing, social airdropping, AVS-style node registrations, etc.).
+
+**Every Sentry Node must register a NEVM address.** Without it, your node is missing from the precompile lookup and from registry-aware tooling.
+
+You register the address by passing a `nevmAddress` argument to `protx_update_service`:
+
+```
+protx_update_service proTxHash ipAndPort operatorKey nevmAddress (operatorPayoutAddress) (feeSourceAddress) (legacy)
+```
+
+Where:
+
+- `nevmAddress`: A NEVM (EVM-format `0x...`) address controlled by you. Required as of Syscoin Core 5.0. Pass an empty string (`""`) to clear a previously registered address.
+
+Example registering a NEVM address against an existing Sentry Node:
+
+```
+protx_update_service 285fba6277586401f8efaf55d4eef7acfa6d690a30c0db7f213a0bb2c6194bd1 161.97.140.65:8369 1a8f477d2b02650b7d159efe315940f05252334eb292376309386cc99b0c4ec7 0xYourNEVMAddress
+```
+
+After the transaction is mined, your Sentry Node appears in the registry and can be queried via the `0x62` precompile from any NEVM contract or RPC consumer.
+
+> **Hosting providers**: services like Allnodes or NodeHub can manage NEVM Registry entries on your behalf. If you're hosted, confirm with your provider whether they handle the `protx_update_service` call for you.
+
 ## Specifying donation address for operatorReward (optional)
 
 **Syscoin Foundation Address:** `sys1q6u9ey7qjh3fmnz5gsghcmpnjlh2akem4xm38sw`
