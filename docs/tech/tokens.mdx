@@ -1,10 +1,66 @@
-
 # Syscoin Platform Tokens (SPTs)
 
+Syscoin Platform Tokens (SPTs) are tokens that live on the Syscoin native (UTXO) chain. Because they are UTXO-based, SPT transactions inherit the efficiency, composability, and Bitcoin-style transaction semantics of the underlying chain — and can use Syscoin's [Z-DAG](/docs/tech/z-dag) for near-instant settlement.
 
+## The current model (Syscoin Core 5.x / post-Nexus)
 
-Syscoin Platform Tokens, or SPTs for short, are tokens that reside on the Syscoin Native (UTXO) blockchain, rather than the Syscoin NEVM blockchain that runs alongside it and supports ERC-20 tokens. SPTs are UTXO-based tokens (so transactions operate like Bitcoin transactions), rather than account-based (like Ethereum), this offers greater efficiency and allows SPTs to support any current or new innovations that are made available on Bitcoin, such as Lightning Network or Taproot. SPTs can also take advantage of Syscoin's [Z-DAG](/docs/tech/z-dag) technology, for blisteringly fast token payments. Find out how to create your own SPTs [here](/docs/guides/spts/create-issue-tokens).
+The SPT design was substantially redesigned in the [Nexus upgrade (Syscoin Core 5.0)](https://github.com/syscoin/syscoin/blob/master/doc/release-notes/release-notes-5.0.0.md). Tokens are no longer issued natively on the UTXO chain via dedicated Core RPCs; instead, **NEVM is the source of truth for tokens and the UTXO side mirrors them**.
 
+The lifecycle has three actors:
 
+1. **A standard token contract on Syscoin NEVM.** ERC-20 for fungible tokens, ERC-721 for NFTs, ERC-1155 for multi-token. Same standards used everywhere in the EVM ecosystem; no Syscoin-specific contract code required.
+2. **The SyscoinVaultManager** ([`0x7904299b3D3dC1b03d1DdEb45E9fDF3576aCBd5f`](https://explorer.syscoin.org/address/0x7904299b3D3dC1b03d1DdEb45E9fDF3576aCBd5f)). This is a consensus-recognized NEVM contract whose address is hardcoded in Syscoin Core's chain parameters. Locking tokens here emits events that Core's consensus rules trust.
+3. **The UTXO chain** records the SPT supply via consensus checks (`CheckSyscoinMint` in `src/services/assetconsensus.cpp`). The SPT is created when a vault-lock event is proved on the UTXO side; it's burned and the NEVM tokens released when the reverse flow is proved on NEVM.
 
-Another useful aspect of SPTs is the possibility to create Non-Fungible Tokens (NFTs). These are very lightweight; compared to a standard, fungible token they use only 4 extra bytes on the blockchain. If you are interested in checking them out you can download [Pali Wallet](https://paliwallet.com/), a browser extension wallet that supports Syscoin and SPTs, and mint some NFTs on [SysMint](https://sysmint.paliwallet.com/).
+Net effect: any standard ERC-20/721/1155 deployed on Syscoin NEVM can be bridged to the UTXO chain and back, without per-token coordination with the Foundation. Registration is automatic — the first bridge call for a new token address auto-assigns it a Syscoin asset ID inside the vault contract.
+
+## What this design buys
+
+- **Fast settlement via Z-DAG.** Once a token is bridged to the UTXO side, payments use the same fast probabilistic-finality protocol as native SYS transfers. The Z-DAG status RPC (`assetallocationverifyzdag`) is unchanged from previous releases.
+- **Standard EVM tooling for issuance.** Deploy a token with Hardhat, Foundry, Remix — anything that targets an EVM chain (chain ID 57). The Syscoin-specific work is only the bridge call, not the token contract itself.
+- **One token, two execution environments.** A token exists as an ERC-20 (or 721/1155) on NEVM and as an SPT on the UTXO chain at the same time. Supply totals on each side are kept consistent by the bridge — what's locked in the vault on NEVM equals what's circulating as SPT on UTXO.
+- **NFTs and multi-token are first-class.** ERC-721 and ERC-1155 bridging arrived in 5.0 alongside the redesigned ERC-20 flow.
+
+## What changed at Nexus (4.x → 5.x)
+
+Pre-Nexus SPTs were a self-contained token system on the UTXO side, with their own Core RPCs (`assetnew`, `assetupdate`, `assetallocationsend`, etc.), notary endpoints for permissioned transfers, and auxiliary fee schedules. The Nexus upgrade removed all of that in favor of the NEVM-bridge model above.
+
+| Concept | Pre-Nexus (4.x) | Post-Nexus (5.x) |
+|---|---|---|
+| Where issuance happens | UTXO chain via `assetnew` RPC | Deploy a token contract on NEVM, bridge initial supply |
+| Where metadata lives (name, symbol, decimals, supply) | UTXO-side `CAsset` record | The NEVM contract |
+| Notary / business rulesets | Built into Core (`notary_address`, `notary_details`) | Removed. Compliance overlays must live in the NEVM contract (transfer hooks, allowlists, etc.) |
+| Auxiliary fee schedules | Built-in `auxfee` struct | Removed. Royalty logic belongs to the NEVM contract |
+| Capability flags (`updatecapability_flags`) | Built-in | Removed. ERC standards define their own permission models |
+| Bridging contract | `ERC20Manager` | `SyscoinVaultManager` (deployed at the Nexus block) |
+| NFT support | Native (4 extra bytes per NFT) | Via ERC-721 bridge |
+| Multi-token (ERC-1155) | Not supported | Supported |
+| Z-DAG | Yes | Yes (unchanged) |
+| Pre-existing 4.x SPTs | — | Wiped at the Nexus activation block; required migration prior |
+
+The legacy asset RPC family (`assetnew`, `assetupdate`, `assetallocationsend`, `assetallocationmint`, `assetallocationbalance`, etc.) is no longer in Core. Application code that used to call those RPCs should now construct UTXO transactions via [syscoinjs-lib](https://github.com/syscoin/syscoinjs-lib) and use the NEVM bridge for issuance.
+
+## What survived in Core
+
+A small set of asset-aware functions remain in Core 5.x:
+
+- `assetallocationverifyzdag` — Z-DAG status check for a single transaction
+- `syscoincheckmint`, `syscoindecoderawtransaction`, `syscoingettxroots`, `syscoingetspvproof` — bridge proof helpers
+- The on-chain consensus rules in `src/services/assetconsensus.cpp` that validate vault-lock events against the hardcoded `SyscoinVaultManager` address
+
+These are documented under the [CLI reference for the `syscoin` category](/docs/cli/syscoin).
+
+## Wallets
+
+[Pali Wallet](https://paliwallet.com/) — the official browser-extension wallet — supports the current SPT model. Users can receive, hold, and send SPTs from the UTXO side, and bridge balances to/from NEVM via the in-wallet flow or via [bridge.syscoin.org](https://bridge.syscoin.org).
+
+For programmatic / server-side usage, [syscoinjs-lib](https://github.com/syscoin/syscoinjs-lib) exposes the SDK methods that construct the UTXO-side transactions (`assetAllocationSend`, `assetAllocationBurn`, `assetAllocationMint`). These do not call the removed Core RPCs — they build the raw transactions directly.
+
+## Where to go next
+
+- **How to issue a new token** — deploy an ERC-20/721/1155 on NEVM and bridge initial supply
+- **How to bridge an existing token** between NEVM and the UTXO chain
+- **How to receive and send SPTs** in Pali Wallet
+- **Z-DAG developer guide** — [/docs/dev-resources/sys/z-dag](/docs/dev-resources/sys/z-dag)
+- **Exchange integration** — [/docs/dev-resources/sys/exchange-integration](/docs/dev-resources/sys/exchange-integration)
+- **5.0 release notes** — [`release-notes-5.0.0.md`](https://github.com/syscoin/syscoin/blob/master/doc/release-notes/release-notes-5.0.0.md) sections §5 (Enhanced NFT/Token Bridge) and §9 (Removal of Deprecated 4.x Asset RPCs)
