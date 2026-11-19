@@ -44,6 +44,16 @@ Sentry Nodes derive their voting authority from frozen branch state. Four roster
 
 A ChainLock can also attest a scheduled Bitcoin checkpoint. Only an authenticated advance carried at the prescribed height can forward a new Bitcoin hash to NEVM. [Bitcoin checkpoints and recovery](./post-quantum.mdx#checkpoints-and-recovery)
 
+## What survives a finality outage
+
+| Condition | What the node can verify and do |
+| --- | --- |
+| No durable ChainLock yet | Select the valid branch with the most work. |
+| A durable ChainLock exists and new certificates stall | Keep verifying work and accepting eligible descendants of the locked block. Applications waiting for a new lock or a dependent settlement may have to wait. |
+| A branch conflicts with accepted durable finality | Reject the conflict under the active rules, even if the branch accumulates more work. The ordinary mining contest cannot reconcile incompatible histories that different nodes have already locked. |
+
+Mining capacity is external to the chain. A compatible miner can redirect its work, but a pool tag provides evidence about submitted work and does not measure independent control of the underlying hardware. Sentry eligibility is visible in the on-chain registry, which likewise does not establish operational independence. Verify live mining and quorum behavior separately. [Core liveness and reorg invariants](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/doc/pq-chainlocks.md#L2695-L2708) · [Block conflict check](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/validation.cpp#L10972-L10986)
+
 ## Following the same transaction through the stack
 
 | Question | What to check |

@@ -30,6 +30,8 @@ Bitcoin merge-mining supplies proof of work to order Core blocks. Post-quantum S
 
 The same separation applies to the compute cooperatives. Members can make routine reservations on an Edgechain at local speed. They can later verify a batch against a record grounded in shared DA and settlement. Base-layer operators spend more time on durable ordering and direct signature checks. The Edgechain uses its own policy and economics for faster processing while drawing on that slower shared infrastructure. [Core and Edgechain cadence](../architecture/overview.mdx#why-core-and-zksys-run-at-different-speeds) · [zkSYS issuance and gas](../architecture/zksys.mdx#sys-collateral-issuance-and-gas)
 
+An autonomous agent needs to know which decisions it can verify from protocol evidence and which still require a human institution to act. The network can report that a history was accepted and that a decision follows public rules. A rare change to the protocol and a cooperative's appeal about a disputed meter reading are decisions people govern explicitly. [What the base can decide on its own](../architecture/modular-alignment.mdx#what-the-base-should-be-able-to-decide-on-its-own)
+
 A proof can establish that an allocation follows a rule given a record of available capacity. The people using the resource still need to decide who measures capacity, how to challenge a report, and who can authorize corrections. Those are governance decisions. A public verification layer gives communities a way to check the consequences of those choices and carry their records between operators.
 
 ## Verification across distance

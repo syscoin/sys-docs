@@ -15,6 +15,14 @@ Enshrining a function makes it part of the rules every base validator enforces. 
 
 Syscoin enshrines the rules that define Core history and the handling of its DA publications. Each Edgechain takes responsibility for ordering its transactions, proving them, and setting its economic policy. This separation gives other builders room to choose their own policy and settlement topology. Their common obligations include paying for shared capacity and honoring the rules of whichever contracts they settle through.
 
+## What the base should be able to decide on its own
+
+A shared settlement layer should let a node explain which history it accepts using public rules and verifiable evidence. The design goal is for routine failures to resolve through those rules. An exceptional protocol upgrade, such as migrating a signature system, is a different decision from asking participants to agree out of band on which already-finalized history to treat as authoritative.
+
+This is also an argument for keeping the base stable. Syscoin's UTXO layer checks transfers, proof of work, data publication, and finality. NEVM supplies programmable settlement. Application behavior and specialized execution can evolve at the Edgechain without continually adding application rules to UTXO consensus. The practical test for a new base rule is whether the shared layer needs to enforce it for independent verification. [Core architecture](./core.mdx) · [The original base-layer design](https://jsidhu.medium.com/blockchain-idealisms-b61c5781ddc3)
+
+Core lets miners submit valid work without a quorum vote for every new block. A loss of quorum can stall finality without halting mining above the last accepted ChainLock. Honest mining can re-enter that live contest. The already-locked ancestry remains binding, so new work cannot reverse a conflicting durable ChainLock. That is the boundary of the protocol's automatic recovery. [Mining and the durable finality boundary](./core.mdx#what-survives-a-finality-outage)
+
 ## The economic feedback loop
 
 ```mermaid
