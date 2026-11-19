@@ -53,7 +53,7 @@ export default function Home() {
               <dd>288 bytes</dd>
             </div>
           </dl>
-          <p>The earlier relay carried the full payload. The compact message carries three 32-byte BLAKE2s digests and the batch context. Core still carries the bytes, so an independent reader can retrieve them and check the digests.</p>
+          <p>The <Link to="/docs/architecture/zksys#what-gateway-changes">Gateway settlement chain</Link> checks batches from application chains and settles its own batches on NEVM. The earlier relay sent the full payload to Gateway. The compact message carries three 32-byte BLAKE2s digests and the batch context. Independent readers can retrieve the full data from Core and check the digests.</p>
           <Link className={styles.relayLink} to="/docs/architecture/data-availability#how-much-crosses-gateway">See the encoder and byte counts</Link>
         </section>
         <section className={styles.reading} aria-labelledby="docs-topics">
