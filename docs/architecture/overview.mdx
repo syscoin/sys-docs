@@ -32,6 +32,10 @@ Core targets a block every 150 seconds. It uses that cadence and bounded Sentry 
 
 zkSYS uses the same base for slower shared decisions and executes application transactions on its own cadence. A sequencer can issue a local execution receipt before the batch is published, proven, and settled. Proof work is shared across batches and can be aggregated before NEVM verification. Waiting for settlement still means waiting for the relevant publication, proof, and underlying finality. [Transaction lifecycle](./zksys.mdx#follow-an-application-transaction)
 
+## Connecting settlement back to Bitcoin
+
+AuxPoW uses Bitcoin-compatible mining work to produce Core blocks. The separate `sys` coinbase reference can also publish a Syscoin ancestor into Bitcoin history. Syscoin’s proposed bridge uses those references to detect conflicts in a withdrawal’s claimed history and pause its release. [Bitcoin-anchored fork detection](./bitcoin-bridge.mdx)
+
 ## Issuance tied to the base
 
 zkSYS also shows how an execution layer can have its own issuance and give it a role in paying for computation. Eligible SYS stake or qualifying Sentry collateral contributes to reward weight under the issuance rules. The resulting zkSYS token can be deposited into the Gas Tank to pay eligible transaction fees. Native SYS continues to serve as the execution layer's base asset. This links local issuance and use to the system that supplies the underlying security and settlement. [zkSYS economics](./zksys.mdx#sys-collateral-issuance-and-gas) · [Enshrine or align?](./modular-alignment.mdx) · [Cross-chain comparison](./comparison.mdx#rollup-economics-and-collateral)

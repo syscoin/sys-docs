@@ -36,6 +36,8 @@ There are two commitments to track in the parent coinbase.
 
 For a Syscoin parent at height `p`, Core expects the reference at the largest multiple of ten at or below `p − 5`. For example, a template extending height 12,348 references height 12,340. The same reference can legitimately appear in multiple templates across that interval. A stale reference can invalidate the **Syscoin** submission even when the parent block is valid Bitcoin work. Under activated PQ rules, Core also requires the exact canonical output format and the modern child chain ID. [Released mining RPC](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/rpc/mining.cpp#L1169-L1229) · [Activated AuxPoW checks](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/validation.cpp#L10531-L10624)
 
+Those references are also the input to Syscoin’s [Bitcoin-anchored fork detection design](./bitcoin-bridge.mdx). A participating miner that finds a Bitcoin block can give a bridge independent evidence of what the pool saw on the Syscoin side.
+
 Syscoin's post-NEVM block spacing target is 150 seconds on mainnet. Bitcoin and Syscoin apply their own difficulty, consensus, and fork choice rules. A remembered Bitcoin coinbase tag alone cannot establish a Syscoin inclusion or calculate the pool's accepted Syscoin work. [Mainnet parameters](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/kernel/chainparams.cpp#L155-L221)
 
 ## Proof of work and finality

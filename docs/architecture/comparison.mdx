@@ -27,6 +27,8 @@ Several networks share parts of the design. Their published architectures give u
 
 Syscoin's distinction in this comparison is the composition of direct hash-based finality, full-blob availability with compact Gateway commitments, independently executed validity batches, and SYS-linked Edgechain issuance. Each network needs evidence about its actual deployments, operator independence, verifier costs, and recovery behavior. [Syscoin design trade-offs](./design-tradeoffs.mdx) · [Network and release status](../intro/status.mdx)
 
+Rootstock also monitors Bitcoin coinbase commitments for visible sidechain forks. See [Bitcoin-anchored fork detection](./bitcoin-bridge.mdx) for how Syscoin’s proposal uses related evidence in a withdrawal veto and what the Bitcoin light-client window must establish.
+
 ## Whole-payload verification and data availability sampling
 
 ```mermaid

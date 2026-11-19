@@ -14,6 +14,8 @@ The architecture chapters assume PQ ChainLocks are active and zkSYS settles vali
 | Post-quantum ChainLocks | Candidate design in Core #609. That head exposes a public compatibility replay profile. Regtest exercises the PQ paths. | [Core #609 at `b3b4f643`](https://github.com/syscoin/syscoin/tree/b3b4f643383a2149807a25fe38d26b5f058daa60) |
 | Core and Geth integration | Paired Geth candidate for Core and NEVM behavior. | [Geth #42 at `1c046ba9`](https://github.com/syscoin/go-ethereum/tree/1c046ba92f8ea95be024a790e9444b80ccbf019a) |
 
+Bitcoin coinbase tags are part of the released mining path. The [BitVM and witness encryption BTC bridge designs](../architecture/bitcoin-bridge.mdx) are research. The PQ checkpoint feed is covered by the candidate profile above.
+
 Use the binary and settings for the public network you intend to join. Validate chain ID, version, and tip before relying on an endpoint. Upgrade announcements govern activation timing and compatibility.
 
 [Read the architecture](../architecture/overview.mdx) or [inspect your network](../reference/overview.mdx).

@@ -9,6 +9,7 @@ Syscoin combines a Bitcoin-merge-mined UTXO chain, post-quantum finality, and an
 | Component | Purpose |
 | --- | --- |
 | [Core](../architecture/core.mdx) | Validates UTXO transactions and accepts parent proof of work through AuxPoW. |
+| [SPT and Z-DAG](../tech/tokens.mdx) | Represent assets in UTXO outputs and give eligible payments an early conflict signal. |
 | [PQ ChainLocks](../architecture/post-quantum.mdx) | Add Sentry quorum finality using SLH-DSA identities and scheduled WOTS+ votes. |
 | [PoDA](../architecture/data-availability.mdx) | Publishes payloads and binds their bytes to hash commitments that anyone can check after retrieval. |
 | [NEVM](../reference/nevm.mdx) | Runs Ethereum-compatible contracts, including verification and settlement contracts. |

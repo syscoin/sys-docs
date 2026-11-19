@@ -1,6 +1,8 @@
 # Z-DAG Developer Guide
 
-Z-DAG gives integrations a status for unconfirmed transactions from a Core node. The node checks the transaction and its unconfirmed ancestors in the local mempool. Configure the waiting period and confirmation policy for the application. [Core architecture](/docs/architecture/core)
+Z-DAG gives integrations a status for unconfirmed SPT allocation transfers from a Core node. The node checks the transaction and its unconfirmed ancestors in the local mempool. Configure the waiting period and confirmation policy for the application. [Z-DAG design and whitepaper](../../tech/z-dag.mdx) · [Core architecture](/docs/architecture/core)
+
+The eligible format is allocation send, transaction version `142`. The queried transaction and its unconfirmed ancestors must meet the Z-DAG size policy of 1,100 serialized bytes. For example, an unconfirmed ordinary SYS transfer that funds a fee input can make the child ineligible even when the child is an SPT allocation send. [Policy size limit](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/policy/policy.h#L49-L51) · [Mempool ancestor checks](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/services/rpc/assetrpc.cpp#L27-L65)
 
 ## Understanding Z-DAG Statuses
 

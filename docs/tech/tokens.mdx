@@ -1,5 +1,19 @@
-# Syscoin assets
+---
+title: UTXO assets and Syscoin Platform Tokens
+description: How native asset outputs work, what Core 5.x supports, and where Z-DAG fits.
+---
 
-SYS is the native currency on Syscoin’s UTXO and NEVM layers. Native UTXO outputs can also represent Syscoin Platform Tokens. Contracts on NEVM can implement standard EVM tokens. For any integration that links the two representations, verify the asset identifier, contract, bridge route, and confirmation policy.
+Syscoin Platform Tokens (SPTs) are assets represented in the Syscoin UTXO model. An asset-bearing output has a spending condition, an asset identifier, and an amount. Spending consumes specific outputs and creates new outputs. Core checks asset conservation for transfers and applies separate rules to protocol mint and burn operations. This is the model described in the Syscoin whitepaper, with a simplified representation since Core 5.0. [Syscoin 4 whitepaper](https://syscoin.org/file/syscoin4-whitepaper.pdf) · [Asset output representation](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/primitives/transaction.h#L380-L429) · [Core asset validation](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/services/assetconsensus.cpp#L505-L555)
 
-Use supported [UTXO integration interfaces](/docs/dev-resources/sys/exchange-integration) for the current release. Syscoin Core 5.0 retired the 4.x asset-creation, update, balance, and allocation RPC family. [Core 5.0 release notes](https://github.com/syscoin/syscoin/blob/v5.0.0/doc/release-notes/release-notes-5.0.0.md#9-removal-of-deprecated-syscoin-4x-asset-rpcs)
+## Why put an asset in an output?
+
+- **Explicit ownership and dependencies.** To verify a transfer, a node follows the inputs to the outputs they spend and checks the spending conditions. It can identify conflicting claims to an output before either is included in a block.
+- **Independent transfers.** Transactions using disjoint inputs do not need to serialize through a shared account nonce. A recipient can see the exact input dependencies and use that graph for confirmation policy.
+- **A conventional payment path.** A straightforward transfer uses the UTXO chain and its script rules. Applications that need richer state and composability can use NEVM contracts. A bridge between those representations must establish the asset, amount, destination, and authorized transition.
+- **An early payment signal.** Z-DAG was built for Syscoin’s asset transfers. It checks eligible transfers and their unconfirmed dependencies for conflicts and warnings, giving the recipient evidence to use before a block arrives. [Z-DAG and SPT payments](./z-dag.mdx)
+
+SYS is the native currency. SYSX is the UTXO-side asset representation used by the SYS route between Core and NEVM. A native SYS payment and an SPT allocation transfer have different transaction formats and policies. [SYS bridge route](https://bridge.syscoin.org/) · [UTXO integration reference](../dev-resources/sys/exchange-integration.mdx)
+
+## What Core 5.x supports
+
+Core 5.0 retired the 4.x RPCs for creating and managing assets on the UTXO side. The newer model delegates asset issuance and management to NEVM and uses supported bridge paths to bring eligible assets into the UTXO representation. Core still validates allocation transfers. External tooling can construct supported transactions. Check which asset and route your deployment actually supports. The public SYS bridge describes the native SYS route through SYSX. [Core 5.0 changes](https://github.com/syscoin/syscoin/blob/v5.0.0/doc/release-notes/release-notes-5.0.0.md#9-removal-of-deprecated-syscoin-4x-asset-rpcs) · [SDK reference](../dev-resources/documentation/javascript-sdk-ref/syscoinjs.mdx)
