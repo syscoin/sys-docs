@@ -48,6 +48,7 @@ syscoin-cli getblockheader "$tip"
 | Retrieve a blob and verify its BLAKE2s digest | [Read and hash a Core blob](https://docs.syscoin.org/docs/reference/zksys#read-a-core-blob) |
 | Follow an Edgechain payment to settlement | [Genesis, Gateway and NEVM transaction trace](https://docs.syscoin.org/docs/reference/zksys#trace-a-public-testnet-transaction) |
 | Check which features are live on the selected network | [Network status](https://docs.syscoin.org/docs/intro/status) · [Protocol glossary](https://docs.syscoin.org/docs/reference/glossary) · [Research and specifications](https://docs.syscoin.org/docs/reference/research) |
+| Understand the project’s purpose and current work | [Syscoin’s mission](https://docs.syscoin.org/docs/intro/nutshell#mission) · [Current research and development](https://docs.syscoin.org/docs/intro/nutshell#current-research--development) · [How the design developed](https://docs.syscoin.org/docs/reference/research#from-a-computational-court-to-authority-over-scarce-resources) |
 
 For agents, the [plain-text developer reference](https://docs.syscoin.org/llms.txt) includes the first requests, SDK examples, and deployment status with canonical links.
 
@@ -253,6 +254,27 @@ export async function requestPaliSignature(psbt, assets = new Map()) {
 | Build a Syscoin Platform Token allocation transfer | `builder.assetAllocationSend(...)` takes an asset map keyed by GUID. Its outputs carry asset amounts and it uses SYS inputs for fees. [Allocation builder](https://github.com/syscoin/syscoinjs-lib/blob/05f2e08a46c0eae74e1c5ee06d1099e37f9f73d4/index.js#L790-L847) · [UTXO assets and Z-DAG](https://docs.syscoin.org/docs/tech/tokens) |
 
 For raw REST calls, use the [Blockbook API reference](https://docs.syscoin.org/docs/dev-resources/documentation/javascript-sdk-ref/blockbook). To call an EVM contract, use [NEVM JSON-RPC](https://docs.syscoin.org/docs/reference/nevm) or the [zkSYS Genesis RPC](https://docs.syscoin.org/docs/reference/zksys#public-genesis-testnet).
+
+## Syscoin in a Nutshell
+
+[Canonical page](https://docs.syscoin.org/docs/intro/nutshell)
+
+Syscoin is a Bitcoin-merge-mined blockchain with its own rules for asset transfers, data publication, and programmable settlement. Its design lets people and autonomous agents act through independently operated applications while sharing a history they can verify for themselves. [Core and merge-mining](https://docs.syscoin.org/docs/architecture/core#what-bitcoin-merge-mining-contributes) · [System architecture](https://docs.syscoin.org/docs/architecture/overview)
+
+### Mission
+
+An open source community dedicated to scaling Bitcoin, especially its proof-of-work security, to meet global needs and emerging use-cases, while sticking as close as possible to Bitcoin's original ideals.
+
+As intelligence gets cheaper, people still have to decide how to share water, energy and computing power. We want communities to make those decisions on their own terms, give their agents limited authority, and leave a record others can verify across distance. [Human and AI coordination](https://docs.syscoin.org/docs/intro/human-and-ai)
+
+### Current Research & Development
+
+Core and its Ethereum-compatible settlement layer, NEVM, run on mainnet. As of **November 19, 2026**, four projects extend what a node, a wallet holder, or a Bitcoin bridge can verify. [Network and release status](https://docs.syscoin.org/docs/intro/status)
+
+- **Post-quantum finality · Release candidate.** Core nodes verify the hash-based signatures that lock a block directly. SLH-DSA authenticates Sentry operators and their voting keys. WOTS+ signs the scheduled votes. The candidate exercises the handoff on regtest and has no mainnet activation height. [How a node verifies a ChainLock](https://docs.syscoin.org/docs/architecture/post-quantum#what-a-full-node-verifies)
+- **zkSYS scaling · Public Genesis testnet.** An application publishes its batch data on Core. Gateway carries a 32-byte BLAKE2s identifier per blob. You can follow one payment all the way to Tanenbaum NEVM, where Gateway batch 9,448 used a mock proof. Sharing proof work among independent operators and decentralizing transaction ordering are separate rollout steps. [Trace the payment](https://docs.syscoin.org/docs/reference/zksys#trace-a-public-testnet-transaction) · [Sequencing and proving](https://docs.syscoin.org/docs/architecture/zksys#sequencing-proving-and-recovery)
+- **Post-quantum spending · Experimental smart accounts.** A Pali user can authorize an operation with a hash-based signature when their smart account has the signing module installed. A native zkSYS verifier handles the hash work. Ordinary SYS outputs and NEVM accounts use separate spending rules. [Pali’s signing module and the zkSYS verifier](https://docs.syscoin.org/docs/architecture/zksys#wallets-and-post-quantum-account-authorization)
+- **Bitcoin withdrawals · Bridge research.** Participating miners already name Syscoin blocks in Bitcoin coinbases. The proposed BitVM2 bridge would let a challenger use a timely conflicting tag to veto a BTC withdrawal. Witness encryption is a separate line of research into releasing funds against verified evidence. [Inspect a miner’s tag](https://docs.syscoin.org/docs/architecture/bitcoin-bridge#inspect-a-tag-in-a-bitcoin-block) · [How a withdrawal would be enforced](https://docs.syscoin.org/docs/architecture/bitcoin-bridge#from-detection-to-enforcement-on-bitcoin)
 
 ## Network and release status
 

@@ -10,6 +10,7 @@ const pages = [
   {route: 'docs/reference/zksys', before: '## Trace a public testnet transaction'},
   {route: 'docs/reference/nevm'},
   {route: 'docs/dev-resources/documentation/javascript-sdk-ref/syscoinjs'},
+  {route: 'docs/intro/nutshell', before: '## Why build on Bitcoin mining?'},
   {route: 'docs/intro/status'},
 ];
 

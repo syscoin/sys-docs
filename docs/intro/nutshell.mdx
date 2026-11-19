@@ -6,15 +6,30 @@ description: A practical overview of Syscoin's Bitcoin merge mining, post-quantu
 
 Syscoin is a Bitcoin-merge-mined blockchain with its own rules for asset transfers, data publication, and programmable settlement. Its design lets people and autonomous agents act through independently operated applications while sharing a history they can verify for themselves. [Core and merge-mining](../architecture/core.mdx#what-bitcoin-merge-mining-contributes) · [System architecture](../architecture/overview.mdx)
 
-**Why build on Bitcoin mining?** A participating pool can use the same hash attempts to compete for BTC on Bitcoin and SYS on Syscoin. Bitcoin validates its own blocks. Syscoin’s nodes validate the additional transactions, data commitments, and settlement rules. SYS pays for using those services and helps fund the operators who provide them. zkSYS adds a separate reward token tied to SYS stake or eligible Sentry collateral. Whether the revenue attracts more independent operators depends on demand, costs, and who controls the equipment. [Follow the mining work and revenue](../architecture/core.mdx#why-bitcoin-and-syscoin-fit-together) · [Who pays whom](../architecture/modular-alignment.mdx#who-pays-for-the-shared-infrastructure) · [zkSYS issuance and fees](../architecture/zksys.mdx#sys-collateral-issuance-and-gas)
+## Mission
 
-**Where it stands.** Core and its Ethereum-compatible settlement layer, NEVM, operate on mainnet. The post-quantum finality rules are a release candidate. zkSYS Genesis is a public testnet. The walkthrough below assumes those new finality rules are active and an enforcing verifier checks real execution proofs. [Network and release status](./status.mdx)
+An open source community dedicated to scaling Bitcoin, especially its proof-of-work security, to meet global needs and emerging use-cases, while sticking as close as possible to Bitcoin's original ideals.
+
+As intelligence gets cheaper, people still have to decide how to share water, energy and computing power. We want communities to make those decisions on their own terms, give their agents limited authority, and leave a record others can verify across distance. [Human and AI coordination](./human-and-ai.mdx)
+
+## Current Research & Development
+
+Core and its Ethereum-compatible settlement layer, NEVM, run on mainnet. As of **November 19, 2026**, four projects extend what a node, a wallet holder, or a Bitcoin bridge can verify. [Network and release status](./status.mdx)
+
+- **Post-quantum finality · Release candidate.** Core nodes verify the hash-based signatures that lock a block directly. SLH-DSA authenticates Sentry operators and their voting keys. WOTS+ signs the scheduled votes. The candidate exercises the handoff on regtest and has no mainnet activation height. [How a node verifies a ChainLock](../architecture/post-quantum.mdx#what-a-full-node-verifies)
+- **zkSYS scaling · Public Genesis testnet.** An application publishes its batch data on Core. Gateway carries a 32-byte BLAKE2s identifier per blob. You can follow one payment all the way to Tanenbaum NEVM, where Gateway batch 9,448 used a mock proof. Sharing proof work among independent operators and decentralizing transaction ordering are separate rollout steps. [Trace the payment](../reference/zksys.mdx#trace-a-public-testnet-transaction) · [Sequencing and proving](../architecture/zksys.mdx#sequencing-proving-and-recovery)
+- **Post-quantum spending · Experimental smart accounts.** A Pali user can authorize an operation with a hash-based signature when their smart account has the signing module installed. A native zkSYS verifier handles the hash work. Ordinary SYS outputs and NEVM accounts use separate spending rules. [Pali’s signing module and the zkSYS verifier](../architecture/zksys.mdx#wallets-and-post-quantum-account-authorization)
+- **Bitcoin withdrawals · Bridge research.** Participating miners already name Syscoin blocks in Bitcoin coinbases. The proposed BitVM2 bridge would let a challenger use a timely conflicting tag to veto a BTC withdrawal. Witness encryption is a separate line of research into releasing funds against verified evidence. [Inspect a miner’s tag](../architecture/bitcoin-bridge.mdx#inspect-a-tag-in-a-bitcoin-block) · [How a withdrawal would be enforced](../architecture/bitcoin-bridge.mdx#from-detection-to-enforcement-on-bitcoin)
+
+## Why build on Bitcoin mining?
+
+A participating pool can use the same hash attempts to compete for BTC on Bitcoin and SYS on Syscoin. Bitcoin validates its own blocks. Syscoin’s nodes validate the additional transactions, data commitments, and settlement rules. SYS pays for using those services and helps fund the operators who provide them. zkSYS adds a separate reward token tied to SYS stake or eligible Sentry collateral. Whether the revenue attracts more independent operators depends on demand, costs, and who controls the equipment. [Follow the mining work and revenue](../architecture/core.mdx#why-bitcoin-and-syscoin-fit-together) · [Who pays whom](../architecture/modular-alignment.mdx#who-pays-for-the-shared-infrastructure) · [zkSYS issuance and fees](../architecture/zksys.mdx#sys-collateral-issuance-and-gas)
 
 Syscoin’s 2021 scaling proposal began with a wallet holder’s problem. Keeping control of your coins is one requirement. Being able to spend them when an operator goes offline is another. Moving execution off the shared chain makes room for more applications, but it also means someone else must be able to recover the data and check the result. The same reasoning applies to an agent acting for a community. Who gave it the right to act, and what can a member verify after the operator is gone? [How the design developed, from the wallet holder’s problem to *Truth States*](../reference/research.mdx#from-a-computational-court-to-authority-over-scarce-resources)
 
 ## Follow the payment
 
-Suppose your wallet sends a payment on zkSYS. It gets a local receipt. Later, someone who never used your wallet wants to check the result after the original operator has gone offline.
+Suppose your wallet sends a payment on zkSYS. It gets a local receipt. Later, someone who never used your wallet wants to check the result after the original operator has gone offline. This example assumes the new finality rules are active and settlement enforces real execution proofs.
 
 ```mermaid
 flowchart TD

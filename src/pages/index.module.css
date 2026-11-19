@@ -2,7 +2,7 @@
   background: var(--sys-surface);
   color: var(--ifm-font-color-base);
 }
-.hero, .networks, .reading {
+.hero, .networks, .relay, .reading {
   max-width: 1320px;
   margin: 0 auto;
   padding-inline: clamp(1.25rem, 5vw, 5rem);
@@ -24,8 +24,8 @@
   text-transform: uppercase;
 }
 .hero h1 {
-  font-size: clamp(3rem, 5.5vw, 5.85rem);
-  max-width: 12ch;
+  font-size: clamp(2.8rem, 5vw, 5rem);
+  max-width: 18ch;
   margin: 0 0 1.25rem;
   line-height: .97;
   letter-spacing: -.059em;
@@ -54,8 +54,15 @@
 .networks { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); }
 .networks a { padding: 1.25rem 1rem 1.25rem 0; color: var(--ifm-font-color-base); border-block: 1px solid var(--sys-line); }
 .networks b { display: block; margin-top: .32rem; font-size: 1.04rem; }
+.relay { padding-top: clamp(2.75rem, 5vw, 4.5rem); }
+.relay h2, .reading h2 { font-size: clamp(1.8rem,3vw,2.65rem); letter-spacing: -.035em; }
+.relay p { margin-bottom: 0; max-width: 72ch; color: var(--sys-muted); }
+.relaySizes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; margin-block: 1.15rem; }
+.relaySizes div { padding: clamp(.8rem, 2.5vw, 1.6rem); border: 1px solid var(--sys-line); border-radius: .7rem; background: var(--sys-panel); }
+.relaySizes dt { font-size: .95rem; color: var(--sys-muted); }
+.relaySizes dd { margin: .3rem 0 0; font-size: clamp(1.6rem, 4.8vw, 3.75rem); font-weight: 700; line-height: 1.1; letter-spacing: -.04em; }
+.relaySizes div:last-child dd { color: var(--sys-accent); }
 .reading { padding-block: 3.5rem 4.5rem; }
-.reading h2 { font-size: clamp(1.8rem,3vw,2.65rem); letter-spacing: -.035em; }
 .routes { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1rem; }
 .card { display:block; border: 1px solid var(--sys-line); border-radius: .7rem; padding: 1.25rem; color: var(--ifm-font-color-base); background: var(--sys-panel); transition: border-color .15s ease; }
 .card:hover { text-decoration: none; border-color: var(--sys-accent); }
@@ -68,13 +75,12 @@
 .thesis a { font-weight: 650; }
 @media (max-width: 800px) {
   .hero { grid-template-columns: 1fr; }
-  .hero h1 { max-width: 16ch; }
   .networks { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .networks a:nth-child(n+3) { border-top: none; }
 }
 @media (max-width: 520px) {
   .networks, .routes { grid-template-columns: 1fr; }
   .networks a + a { border-top: none; }
-  .hero h1 { font-size: clamp(2.8rem, 11vw, 4rem); }
+  .hero h1 { font-size: clamp(2.45rem, 9vw, 3.5rem); }
   .reading { padding-block: 2.75rem; }
 }

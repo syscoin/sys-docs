@@ -48,7 +48,14 @@ On April 13, 2026, Jagdeep Sidhu published commitment-stage RISC-V cycle counts 
 
 [![Syscoin’s logarithmic chart of guest cycles for a nine-blob workload. KZG used 540 million cycles, Keccak used 154 million, and BLAKE2s used 300 thousand.](../../static/img/da-proving-cost.png)](../../static/img/da-proving-cost.png)
 
-**Figure 7.** The logarithmic bars show guest cycles spent building the commitment. The report gives aggregate counts for this workload and reports H100 throughput separately. [Open the full-size chart](../../static/img/da-proving-cost.png) · [Original workload](https://x.com/realSidhuJag/status/2043835947029316074) · [Testnet report, Figure 7](https://syscoin.org/news/zksys-update)
+**Figure 7.** The logarithmic bars show guest cycles spent building the commitment. The June report identifies a single H100 for a separate proving-throughput result. [Open the full-size chart](../../static/img/da-proving-cost.png) · [April 13 cycle report](https://x.com/realSidhuJag/status/2043835947029316074) · [June testnet report, Figure 7](https://syscoin.org/news/zksys-update)
+
+<details>
+<summary>What the nine-blob benchmark records</summary>
+
+The April 13 post gives a cycle count for each algorithm on the same nine blobs. The total size of roughly 1.1 MiB is the author’s estimate. The guest commit, encoded input fixture, proof and security settings, benchmark runner and host used for the cycle counts are unpublished.
+
+</details>
 
 | DA commitment path tested | Reported guest cycles | Relative to BLAKE2s |
 | --- | ---: | ---: |

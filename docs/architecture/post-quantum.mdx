@@ -33,7 +33,7 @@ Suppose the locked Core block contains a zkSYS blob publication. The ChainLock t
 | **Execution of a zkSYS batch** | **Real-proof configuration.** Airbender proves execution of the agreed batch program against its public input, including the commitment to the ordered blob identifiers. The proof system uses Merkle commitments and a FRI low-degree test. [Execution proof and input binding](./zksys.mdx#why-there-are-two-proof-stages) |
 | **Proof accepted at settlement** | **Deployment-specific.** Check the deployed wrapper, verification key, public input and submitted proof. A real PLONK wrapper adds its own setup and soundness assumptions. **Observed testnet.** Gateway batch 9,448 used the mock format on Tanenbaum NEVM. [Decode that submission](../reference/zksys.mdx#trace-a-public-testnet-transaction) · [Real-verifier requirements](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/docs/src/design/prover_api.md#real-snark-readiness) |
 
-<figcaption>A Sentry can sign the history containing a payment. Only the account’s spending authority can authorize that payment. zkSYS’s settlement verifier checks what executing it did to the batch state.</figcaption>
+<figcaption>A Sentry can sign the history containing a payment. Only the account’s spending authority can authorize that payment. With an enforcing real-proof verifier, zkSYS settlement checks the batch’s claimed state transition.</figcaption>
 </figure>
 
 ## Signing roles and keys
