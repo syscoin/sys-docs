@@ -45,14 +45,38 @@ curl --fail --silent --show-error "$zk_rpc" \
   ]' | jq '.[] | {id, error, block: (.result | if . then {number, hash} else null end)}'
 ```
 
-For an application transaction, query the receipt or open the hash in the explorer. The receipt's `status` describes the transaction execution. It is separate from the finality of the block and any bridge message it emitted. Set `tx_hash` to the `0x`-prefixed transaction hash for the network you queried.
+## Trace a public testnet transaction
+
+On November 18, 2026, a contract call on Genesis emitted token transfers. Its receipt is the first of four public records you can follow. Each chain has its own block and batch numbers. The link between them is the event or block range recorded by the next chain.
+
+| Where to look | What to match |
+| --- | --- |
+| Genesis transaction | The transaction succeeded in Edge block **10,968**. The batch RPC below places that block in Edge batch **10,436** and reports Gateway execution block **31,362**. [Genesis receipt and token transfers](https://explorer-zk.tanenbaum.io/tx/0xa018d61db50752eeda10c6d52b51fd1741cc8eb41db46d9b972677539d5fef0b) |
+| Gateway execution | The settlement transaction in Gateway block **31,362** emitted `BlockExecution` for Edge batch **10,436**. The event’s state and batch commitments match the Genesis batch RPC result. [Gateway execution logs](https://explorer-gw.tanenbaum.io/api/v2/transactions/0x321f5184dea2ff8026bc84b01df304c8936b139e64b25774ffd326853b2391d9/logs) |
+| Gateway batch on NEVM | In Tanenbaum NEVM block **1,009,176**, the range report for Gateway batch **9,448** covers Gateway blocks **31,360–31,362**. The same transaction emitted the batch commitment. [NEVM range and commit events](https://explorer.tanenbaum.io/api/v2/transactions/0x4661a9f890147e1ceb4dc8647eeba801ec206d4a318b299083c291b89f9820f3/logs) |
+| Gateway batch execution on NEVM | In NEVM block **1,009,182**, the same contract emitted `BlockExecution` for batch **9,448** with the state and batch commitments from the previous row. [NEVM execution logs](https://explorer.tanenbaum.io/api/v2/transactions/0x6498e1f4bd29000890343b377d9790b2a63db10e03d3d25fcd5ea1f9ed4f29e6/logs) |
+
+Reproduce the first link with `curl` and `jq`. Replace `tx_hash` to follow another mined transaction on the same deployment. The Ethereum receipt encodes its block number in hex. The zkSYS batch method takes that height as a JSON integer.
 
 ```bash
-jq -nc --arg tx "$tx_hash" \
+zk_rpc=https://rpc-zk.tanenbaum.io
+tx_hash=0xa018d61db50752eeda10c6d52b51fd1741cc8eb41db46d9b972677539d5fef0b
+
+block_hex=$(jq -nc --arg tx "$tx_hash" \
   '{jsonrpc:"2.0",id:1,method:"eth_getTransactionReceipt",params:[$tx]}' | \
-  curl --fail --silent --show-error "$zk_rpc" \
-    -H 'content-type: application/json' --data-binary @- | jq .
+  curl -fsS "$zk_rpc" -H 'content-type: application/json' --data-binary @- | \
+  jq -er '.result.blockNumber')
+block_number=$(printf '%d' "$block_hex")
+
+jq -nc --argjson block "$block_number" \
+  '{jsonrpc:"2.0",id:1,method:"zks_getBatchByBlockNumber",params:[$block]}' | \
+  curl -fsS "$zk_rpc" -H 'content-type: application/json' --data-binary @- | \
+  jq '{error, batch: .result.batch_info.batch_number, range: .result.block_range,
+       state: .result.batch_info.state_commitment, commitment: .result.batch_info.commitment,
+       settlementBlock: .result.execute_sl_block_number}'
 ```
+
+In the event logs, each indexed value occupies a 32-byte topic. For `BlockExecution` the first topic identifies the event, followed by the batch number, state commitment, and batch commitment. For `ReportCommittedBatchRangeZKsyncOS` the three values are the batch number, first block, and last block. Match the emitting settlement contract as well as the values. These observations establish the recorded testnet settlement path. Verifier mode, Core blob availability, and destination withdrawal execution each require additional evidence. [Event ABI](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/lib/contract_interface/src/lib.rs#L385-L392) · [Batch watcher](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/lib/l1_watcher/src/persist_batch_watcher.rs#L18-L30) · [Verifier modes](../architecture/zksys.mdx#why-there-are-two-proof-stages)
 
 ## Inspect issuance and gas credit
 

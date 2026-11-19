@@ -4,11 +4,46 @@ description: Compare data availability, finality, verification, and execution-la
 sidebar_position: 7
 ---
 
-A rollup that wants independent verification has to answer three questions. Can someone obtain the input bytes? Which history published them? Which state transition did the settlement verifier accept? Different systems assign these jobs to different participants. The comparison below covers the named publication paths and their verification rules.
+Consider two people checking the same rollup batch. A recovery operator needs every input byte to rebuild state. A reader on a limited connection may only need confidence that someone could recover those bytes. On Syscoin, the recovery operator can fetch the blob and hash it. Ethereum PeerDAS nodes sample columns, while Celestia and Avail light clients sample encoded shares or cells. [Whole-payload and sampling checks](#whole-payload-verification-and-data-availability-sampling)
+
+Syscoin’s other design choices affect what a node operator, an application, or a bridge verifier can check.
+
+- **A base node checks finality directly.** It can verify a bounded set of hash-based signatures locally. The price is a larger certificate on the network. Ethereum's proposed recursive aggregation would trade prover work for less material per verifying node. [Direct verification and recursive aggregation](#direct-verification-and-recursive-aggregation)
+- **An Edgechain can share settlement without sending its full batch through Gateway.** Core takes the byte traffic, while Gateway processes compact references and proofs. A recovery operator still needs the payload. [Two-Edgechain example](./design-tradeoffs.mdx#what-happens-when-a-second-edgechain-joins)
+- **An execution layer can tie its issuance to the base asset.** In zkSYS, SYS stake and eligible Sentry collateral determine reward weight, and the resulting zkSYS token can pay eligible fees. Arbitrum One and OP Mainnet charge ETH for gas and distribute their separate governance tokens under their own allocation rules. [Rollup economics and collateral](#rollup-economics-and-collateral)
+- **A BTC withdrawal verifier could pause on visible disagreement.** Participating miners already publish Syscoin ancestor tags in Bitcoin. The proposed bridge uses a qualifying conflicting tag to veto a release without first electing a winning Syscoin fork. [Bitcoin-anchored fork detection](./bitcoin-bridge.mdx#detecting-a-fork-versus-choosing-one)
+
+The Syscoin entries describe the PQ and proof-settled zkSYS design. The deployment status page identifies the rules and verifier modes in use on each network. [Network and release status](../intro/status.mdx)
+
+## What one MiB costs in data references
+
+Take **1 MiB of identical application bytes** and compare the two DA encoders in the ZKsync OS lineage. Each adds a 31-byte length prefix. The Syscoin encoder groups the result into chunks of up to 2 MiB. The upstream Ethereum encoder puts 31 application bytes in each of 4,096 field elements per blob. This makes the comparison reproducible for one rollup implementation. Other Ethereum applications can choose different packing. [Syscoin v0.24.4 encoder](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/lib/batch_types/src/batch_info.rs#L366-L397) · [Upstream ZKsync OS v0.4.0 encoder](https://github.com/matter-labs/zksync-os/blob/69bc430549e88f9264066d14f2001707572c5d33/basic_bootloader/src/bootloader/block_flow/zk/post_tx_op/da_commitment_generator/blob_commitment_generator/mod.rs#L26-L85)
+
+| Measure for 1,048,576 input bytes | zkSYS compact references | Ethereum EIP-4844 with the upstream encoder |
+| --- | ---: | ---: |
+| Encoded input to divide among blobs | 1,048,607 bytes | 1,048,607 bytes |
+| Capacity used for the division | 2,097,152 bytes per chunk | 126,976 bytes per blob |
+| Blob count | **1 blob** | **9 blobs** |
+| Combined 32-byte IDs | **32 bytes** in the Edge commit ID field | **288 bytes** of versioned hashes across blob transactions |
+| Serialized blob data before transport and erasure coding | 1,048,607 bytes, variable length | 1,179,648 bytes, nine fixed 128 KiB blobs |
+
+Here the larger Syscoin chunk needs one ninth as many ID bytes for the same application input. Both kinds of ID occupy 32 bytes. These counts describe blob framing and references. Fees, proof generation time, and application throughput are separate measurements. Ethereum also uses a 48-byte KZG commitment for each blob and lets a reader authenticate a piece independently. Syscoin's direct digest check takes the entire blob as input. [EIP-4844 sizes and versioned hash](https://eips.ethereum.org/EIPS/eip-4844#type-aliases) · [PeerDAS authentication](https://eips.ethereum.org/EIPS/eip-7594#specification) · [Gateway commit envelope](./data-availability.mdx)
+
+### What a verifier can check with those bytes
+
+| Publication path | Unit at the verification boundary | What the verifier does |
+| --- | --- | --- |
+| **Syscoin whole-blob DA** | A 32-byte digest identifies up to 2 MiB of encoded bytes. The typed Core form carries one additional algorithm byte. | A reader hashes the full payload. The zkSYS proving guest computes the same BLAKE2s-256 IDs and takes Keccak-256 over their ordered list. Gateway can carry the list while independent readers fetch the bytes from Core. [Core limits and types](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/primitives/transaction.h#L72-L81) · [Guest commitment](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/scripts/patches/zksync-os-syscoin-v0.4.0.patch#L273-L289) |
+| **Ethereum PeerDAS** | A 128 KiB blob extends to 128 cells of 2 KiB each. One column contains a cell from each blob at that index. A KZG proof is 48 bytes. | Nodes custody and sample columns. The separate EVM point-evaluation precompile accepts 192 input bytes, including the commitment and proof, to verify one claimed polynomial value. [Mainnet cell parameters](https://github.com/ethereum/consensus-specs/blob/master/presets/mainnet/fulu.yaml) · [PeerDAS columns](https://eips.ethereum.org/EIPS/eip-7594#specification) · [Point evaluation](https://eips.ethereum.org/EIPS/eip-4844#point-evaluation-precompile) |
+| **Celestia regular DA** | Shares are 512 bytes each, including their framing. Two-dimensional coding expands a square of *k × k* shares to *2k × 2k*, four times as many shares. | A light node requests selected shares and verifies Merkle inclusion. This is another hash-based authentication route, with erasure coding and sampling at the availability layer. [Share layout](https://github.com/celestiaorg/go-square/blob/main/share/consts.go#L8-L9) · [Celestia sampling and reconstruction](https://docs.celestia.org/learn/celestia-101/data-availability/) |
+
+**Why call BLAKE2s proof-friendly here?** Airbender has a dedicated implementation for proving BLAKE2s rounds. The zkSYS guest derives each blob ID from the bytes and an ordinary Core node can reproduce it with a standard hash implementation. In Syscoin’s published nine-blob workload, the BLAKE2s commitment path used 300,000 guest cycles against 540 million for KZG. Measuring the duration of an entire rollup proof also requires accounting for the delegated circuits, execution, and wrapping. [Original benchmark chart and cycle table](./data-availability.mdx#why-blake2s-fits-the-prover) · [Airbender proving implementation](https://github.com/matter-labs/airbender-platform/blob/a350ee3e08bef4cbe2b7bc968966bee45bc98a17/crates/airbender-crypto/src/blake2s/mod.rs#L13-L23) · [Syscoin guest and upstream KZG path](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/scripts/patches/zksync-os-syscoin-v0.4.0.patch#L4032-L4068)
+
+## How networks publish rollup data
 
 | Publication path | Commitment and availability check | History and settlement |
 | --- | --- | --- |
-| **Syscoin PoDA** | Core relays whole blobs and verifies their payload hashes. A reader with the bytes can independently recompute the digest. BLAKE2s-256 is the typed option, with legacy Keccak-256 support. | Core serves blobs within a bounded window. Archive operators can retain them for replay. AuxPoW and the active ChainLock policy establish Core ordering and finality. A rollup's execution proof is checked by its configured verifier. [PoDA design](./data-availability.mdx) · [Core and NEVM](./core.mdx) |
+| **Syscoin PoDA** | For a block whose median time is at most two hours behind the node’s adjusted time, Core requires the whole blob and checks its hash. Historical Core sync can accept an older block carrying the commitment alone. A reader with the bytes can recompute the BLAKE2s-256 or legacy Keccak-256 digest. | Core serves blobs within a bounded window. Archive operators can retain them for replay. AuxPoW and the active ChainLock policy establish Core ordering and finality. The rollup's configured verifier checks its execution proof. [Core byte-presence rule](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/validation.cpp#L6002-L6038) · [PoDA retention](./data-availability.mdx#retention-and-replay) |
 | **Bitcoin blocks** | The header commits to the transaction Merkle root. SegWit adds a witness commitment through the coinbase. Full nodes download and validate the block data. | Pruned nodes may discard old block files after validation. Historical sync needs peers that serve the required blocks. Fork choice follows accumulated proof of work, giving confirmations probabilistic security. [Bitcoin paper](https://bitcoin.org/bitcoin.pdf) · [BIP 141](https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki) · [Bitcoin Core pruning](https://bitcoin.org/en/full-node#reduce-storage) |
 | **Ethereum blobs after Fusaka** | The blob identifier is a versioned hash of a KZG commitment. PeerDAS extends blobs with erasure coding and distributes columns. Nodes custody assigned columns and sample peers to check availability. | Blob serving is time-bounded. Archival retrieval requires a data source that keeps the bytes. Ethereum proof-of-stake consensus orders the publication, and the rollup's contracts define its settlement rules. [EIP-4844](https://eips.ethereum.org/EIPS/eip-4844) · [EIP-7594](https://eips.ethereum.org/EIPS/eip-7594) · [Storage strategies](https://ethereum.org/developers/docs/data-availability/blockchain-data-storage-strategies/) |
 | **Celestia regular blobs** | A data square is extended in two dimensions with Reed–Solomon coding. Namespaced Merkle trees allow applications to authenticate their own shares. Light nodes sample shares to gain availability confidence. | Celestia consensus orders data publication. Its DA service leaves rollup execution and settlement to the rollup stack. Light-node sampling has a defined window and historical readers need providers that retain the required shares. [Celestia data availability](https://docs.celestia.org/learn/celestia-101/data-availability/) · [Celestia retrievability](https://docs.celestia.org/learn/celestia-101/retrievability/) |
@@ -31,14 +66,16 @@ Rootstock also monitors Bitcoin coinbase commitments for visible sidechain forks
 
 ## Whole-payload verification and data availability sampling
 
+Before a node decides whether blob bytes are available, it needs a reason to follow the history advertising them. A Syscoin full node can screen a proposed header chain using verifiable AuxPoW and cumulative work before fetching block bodies. ChainLocks and block validation then constrain the history it accepts. Ethereum uses a different starting point for nodes returning after a long absence. A recent trusted checkpoint anchors the proof-of-stake history they synchronize. PeerDAS subsequently checks availability against the authenticated commitments. Comparing blob sizes alone misses this difference in how a reader obtains the chain view. [Syscoin header sync](./core.mdx#why-core-synchronizes-headers-first) · [Ethereum weak subjectivity](https://ethereum.org/developers/docs/consensus-mechanisms/pos/weak-subjectivity/) · [PeerDAS specification](https://eips.ethereum.org/EIPS/eip-7594)
+
 ```mermaid
-flowchart LR
-    A["Whole-payload path"] --> B["Fetch the entire blob"]
-    B --> C["Hash the exact bytes"]
-    C --> D["Compare with the committed digest"]
-    E["Sampling path"] --> F["Request selected encoded shares"]
-    F --> G["Verify each share against the commitment"]
-    G --> H["Estimate availability across the sampled network"]
+flowchart TB
+    accTitle: Two readers checking data availability
+    accDescr: A recovery operator fetches and hashes the complete blob to replay it. A sampling light client checks authenticated shares to gain confidence in availability.
+    A["Recovery operator"] --> B["Fetch and hash blob"]
+    B --> C["Matching bytes for replay"]
+    D["Sampling light client"] --> E["Check authenticated shares"]
+    E --> F["Confidence in availability"]
 ```
 
 PoDA's whole-blob check gives the reader the exact bytes to feed into a decoder, state reconstruction, or a prover. It costs bandwidth proportional to the bytes that reader fetches. Compact zkSYS references remove that payload from the Edgechain-to-Gateway batch envelope. Publishers and validating readers still need a data path for the bytes. [zkSYS publication and retrieval](./zksys.mdx) · [PoDA validation and limits](./data-availability.mdx)

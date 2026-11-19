@@ -2,12 +2,12 @@
 
 ## Where do I connect?
 
-Check [network status](/docs/intro/status), then use the matching [NEVM](/docs/reference/nevm), [zkSYS](/docs/reference/zksys), or [Core](/docs/reference/core) reference. Ethereum-compatible wallets identify networks by chain ID.
+Check [network status](./intro/status.mdx), then use the matching [NEVM](./reference/nevm.mdx), [zkSYS](./reference/zksys.mdx), or [Core](./reference/core.mdx) reference. Ethereum-compatible wallets identify networks by chain ID.
 
 ## What is the difference between PoDA and storing data forever?
 
-A chain commitment identifies the expected payload. Core retains the payload according to its local protocol rules. Use [archive and retrieval procedures](/docs/architecture/data-availability) if your application needs older bytes.
+A hash lets a reader authenticate bytes they can retrieve. Core requires payloads when validating fresh publications. A node syncing historical blocks can accept older commitments after the payload requirement expires. An application that needs to replay those batches later must obtain the bytes from a source that kept them. [Publication, retention, and replay](./architecture/data-availability.mdx#retention-and-replay)
 
 ## Which post-quantum features are deployed?
 
-See the released and candidate boundaries in [Post-quantum ChainLocks](/docs/architecture/post-quantum) and [network status](/docs/intro/status).
+See the released and candidate boundaries in [Post-quantum ChainLocks](./architecture/post-quantum.mdx) and [network status](./intro/status.mdx).

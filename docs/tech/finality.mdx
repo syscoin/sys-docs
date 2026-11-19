@@ -2,6 +2,6 @@
 
 Core chooses an eligible chain using proof of work and applies the ChainLock rules of the running release. A ChainLock identifies a particular block hash and height. It is separate from the accumulation of work and confirmations in the base chain.
 
-In the PQ design, Sentry Nodes use authenticated commitments to scheduled WOTS+ vote keys, and full nodes verify the signatures in each certificate. [Post-quantum ChainLocks](/docs/architecture/post-quantum) · [Network and release status](/docs/intro/status)
+In the PQ design, Sentry Nodes use authenticated commitments to scheduled WOTS+ vote keys, and full nodes verify the signatures in each certificate. [Post-quantum ChainLocks](../architecture/post-quantum.mdx) · [Network and release status](../intro/status.mdx)
 
 If a quorum stops producing certificates, compatible miners can keep extending valid history above the last durable ChainLock. Applications that require a new lock keep waiting. [Compare recovery models](../architecture/comparison.mdx#protocol-recovery-and-social-recovery) · [Compare direct signatures and recursive proofs](../architecture/comparison.mdx#direct-verification-and-recursive-aggregation)

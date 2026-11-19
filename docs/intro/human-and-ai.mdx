@@ -5,7 +5,9 @@ sidebar_position: 4
 description: Why Syscoin pairs proof of work, finality, data availability, and validity proofs in a design for community governance across distance.
 ---
 
-If AI drives the cost of another unit of intelligence or software labor toward zero, the ability to pay for that labor loses some of its power to organize society. Consider the further possibility that money recedes as the primary way to decide who gets access to shared resources. Communities still have to allocate water, electricity, land, compute capacity, and access to physical infrastructure. They still need a way to agree on who can use how much, change those rules, and show that decisions followed the agreement.
+Two AI agents request the last hour on a community's GPU cluster. Writing either job takes seconds. The cluster can run only one. Who has authority to reserve that hour, and what could a member of the community inspect if the decision looks wrong?
+
+If AI drives the cost of another unit of intelligence or software labor toward zero, the ability to pay for that labor loses some of its power to organize society. Money might also recede as the primary way to decide who gets access to shared resources. Communities would still have to allocate water, electricity, land, and compute. They would need a way to agree on who can use how much, change those rules, and show how a particular decision followed the agreement.
 
 The Syscoin thesis is that independently verifiable rules and records could do some of that coordinating work. A community could grant access through membership, need, allocation windows, or a negotiated local quota. Several communities could keep their own policies and share a verification and settlement layer when their decisions affect each other. Jagdeep Sidhu develops the underlying idea by connecting shared state, specialized execution, and verifiable computation. [Design for an Efficient Coordinated Financial Computing Platform](https://jsidhu.medium.com/a-design-for-an-efficient-coordinated-financial-computing-platform-ab27e8a825a0) · [Truth States, Consciousness, and Decentralized Intelligence](https://jsidhu.medium.com/truth-states-consciousness-and-decentralized-intelligence-d5415da47dc6) · [Public design notes](../reference/research.mdx)
 
@@ -13,7 +15,7 @@ The Syscoin thesis is that independently verifiable rules and records could do s
 
 Elinor Ostrom's research on common-pool resources documents how resource users have organized to govern shared systems at multiple scales. Some communities give users a role in changing rules, use monitors accountable to those users, and provide accessible ways to resolve disputes. Polycentric governance takes seriously that several decision-making groups can work under shared arrangements. Which arrangements work depends on the resource and the people using it. [Beyond Markets and States](https://www.nobelprize.org/uploads/2018/06/ostrom_lecture.pdf)
 
-Consider several community-run compute cooperatives sharing a regional pool of GPU time. Each cooperative sets its membership rules and decides how to allocate its portion. The federation agrees on a shared capacity limit, a procedure for revising it, and what happens when two groups claim the same slot. An AI agent can schedule work within a member's grant. Members can check whether the published decision applied the rules they agreed to and challenge a resource report through the federation's appeals process.
+Suppose the cluster belongs to a federation of compute cooperatives. Each cooperative sets its membership rules and decides how to allocate its portion. The federation agrees on a capacity limit and a reservation rule. An agent needs a member's unexpired grant for that resource and time. The first eligible reservation in the agreed order consumes the slot. Any member can check the grant, the order, and the recorded outcome. If the cluster operator misreported the available hours, members can appeal that report.
 
 | What participants need to check | Evidence the application would need |
 | --- | --- |
@@ -22,7 +24,7 @@ Consider several community-run compute cooperatives sharing a regional pool of G
 | A participant can retrieve the decision record | Available public reconstruction data, a commitment to authenticate it, and retention for the entire review period. Sensitive inputs need a separate disclosure and appeals policy. |
 | Two cooperatives cannot spend the same shared capacity | A shared record of reservations and a finality policy for accepting them. The operators who control the physical resource must enforce that allocation. |
 
-This is an application design. It uses no transferable token to decide who receives a slot. Network fees and operating incentives still belong to the infrastructure's economics.
+In this example the grant decides who can receive a slot. Network fees and operating incentives pay for the infrastructure that carries the decision.
 
 ## Where Syscoin fits
 
@@ -30,21 +32,25 @@ Bitcoin merge-mining supplies proof of work to order Core blocks. Post-quantum S
 
 The same separation applies to the compute cooperatives. Members can make routine reservations on an Edgechain at local speed. They can later verify a batch against a record grounded in shared DA and settlement. Base-layer operators spend more time on durable ordering and direct signature checks. The Edgechain uses its own policy and economics for faster processing while drawing on that slower shared infrastructure. [Core and Edgechain cadence](../architecture/overview.mdx#why-core-and-zksys-run-at-different-speeds) · [zkSYS issuance and gas](../architecture/zksys.mdx#sys-collateral-issuance-and-gas)
 
-An autonomous agent needs to know which decisions it can verify from protocol evidence and which still require a human institution to act. The network can report that a history was accepted and that a decision follows public rules. A rare change to the protocol and a cooperative's appeal about a disputed meter reading are decisions people govern explicitly. [What the base can decide on its own](../architecture/modular-alignment.mdx#what-the-base-should-be-able-to-decide-on-its-own)
-
-A proof can establish that an allocation follows a rule given a record of available capacity. The people using the resource still need to decide who measures capacity, how to challenge a report, and who can authorize corrections. Those are governance decisions. A public verification layer gives communities a way to check the consequences of those choices and carry their records between operators.
+If the two agents dispute the last hour, a proof can establish that the winning reservation was authorized and that the allocation program consumed the slot once. A machine outage raises a different question. The cooperative decides who may report the outage, issue replacement time, or hear an appeal. A new operator can check the same reservation history without taking its predecessor's word for the outcome. [What the base can decide on its own](../architecture/modular-alignment.mdx#what-the-base-should-be-able-to-decide-on-its-own)
 
 ## Verification across distance
 
 Sidhu's global-computing essay uses a shared computer as a design analogy. Parts of the system can specialize in recording state, executing programs, proving results, or verifying them. Picture a local community running its own allocation program while participants on another planet receive the proof and the data they need later. The verification procedure can establish that the transition satisfies the agreed program without coordinating every computational step with the machine that ran it. Zero knowledge can also hide inputs when the proof system and application support that property. [Blockchain as a coordinated global Von Neumann architecture](https://jsidhu.medium.com/blockchain-as-a-coordinated-global-von-neumann-architecture-2876e3c7b0ea) · [Validity proofs over distance](https://x.com/realSidhuJag/status/2112948741288419820)
 
 ```mermaid
-flowchart LR
-  A["Local group applies its policy"] --> B["Prover produces transition evidence"]
-  B --> C["Proof and required public data travel"]
-  C --> D["Remote group verifies later"]
+sequenceDiagram
+  accTitle: Local authority and later shared settlement
+  accDescr: Shared settlement assigns exclusive control of an asset to Mars. Mars can authorize local changes, then transmit a proof and data for shared settlement when communication resumes.
+  participant S as Shared settlement
+  participant M as Mars ledger
+  S->>M: Assign exclusive control of an asset
+  M->>M: Authorize a local transfer
+  M->>M: Prove the state change
+  M-->>S: Transmit proof and required data
+  S->>S: Verify and settle the update
 ```
 
 Execution and verification can be separated in time. Proofs and data still take time to travel. If two distant groups can allocate the same resource, they must agree when an allocation becomes binding or partition authority so that each group can act locally. Sidhu's Earth–Mars example makes the rule concrete. Mars can act locally on assets already assigned exclusively to its ledger. Its validity proof and the required state data travel to the common settlement layer when communication is available. [Truth States, Consciousness, and Decentralized Intelligence](https://jsidhu.medium.com/truth-states-consciousness-and-decentralized-intelligence-d5415da47dc6)
 
-The architecture is most useful where local communities can make timely decisions and publish evidence for later independent verification.
+The practical question for a community designing an application is which rights it can assign exclusively in advance. Local operators can exercise those rights during a communications gap. Competing claims over a shared right still require a common ordering decision. [See how zkSYS separates local execution from settlement](../architecture/zksys.mdx#follow-an-application-transaction)

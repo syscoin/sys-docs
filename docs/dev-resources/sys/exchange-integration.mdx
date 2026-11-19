@@ -6,10 +6,10 @@ Specify the network, asset, amount, and settlement policy for every deposit and 
 | --- | --- |
 | Verify network and sync | `getblockchaininfo`, `getnetworkinfo` |
 | Read an active block | `getblockhash`, `getblockheader`, `getblock` |
-| Decode an available transaction | `getrawtransaction`, `decoderawtransaction`, or indexed [Blockbook transaction lookup](/docs/dev-resources/documentation/javascript-sdk-ref/blockbook#get-transaction) |
+| Decode an available transaction | `getrawtransaction`, `decoderawtransaction`, or indexed [Blockbook transaction lookup](../documentation/javascript-sdk-ref/blockbook.mdx#get-transaction) |
 | Check UTXO status | `gettxout` |
 | Inspect unconfirmed Z-DAG status | `assetallocationverifyzdag` |
 
 Follow the active chain on reorgs and verify that a transaction pays the expected output before crediting it. A non-wallet transaction may need `-txindex` or its block hash for raw transaction lookup. Run `syscoin-cli help <method>` against your deployment for parameter details.
 
-If your policy uses unconfirmed payments, [Z-DAG](/docs/dev-resources/sys/z-dag) explains the local status signal and the confirmation fallback. For NEVM receipts and logs, use the [NEVM JSON-RPC reference](/docs/reference/nevm).
+If your policy uses unconfirmed payments, [Z-DAG](./z-dag.mdx) explains the local status signal and the confirmation fallback. For NEVM receipts and logs, use the [NEVM JSON-RPC reference](../../reference/nevm.mdx).

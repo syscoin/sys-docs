@@ -1,10 +1,17 @@
 ---
-title: What Syscoin provides
+title: Choose where your application runs
 sidebar_position: 3
+description: Choose between a UTXO payment, a contract on NEVM, and execution on a zkSYS Edgechain.
 ---
 
-Syscoin gives applications a shared history secured by Bitcoin merge-mining and [post-quantum ChainLocks](../architecture/post-quantum.mdx). It gives applications two ways to use that history. Publish the bytes needed to reconstruct state through [PoDA](../architecture/data-availability.mdx), and use [NEVM](../reference/nevm.mdx) contracts to verify and settle state transitions.
+Start with the record your application needs. A payment that spends a particular output, a contract call that changes shared EVM state, and a fast local action that settles in a later batch each leave different evidence.
 
-[zkSYS](../architecture/zksys.mdx) is the scaling example. Edgechains execute transactions locally and can use a shared Gateway to settle proofs. Each operator's job is visible in the protocol. Sequencers order transactions, provers produce evidence about execution, and settlement contracts check that evidence. The design calls for decentralized sequencing and proof production, with SYS-linked issuance and a way to pay fees in zkSYS.
+| I need to… | Execution path | First thing to inspect |
+| --- | --- | --- |
+| Send SYS or transfer a supported UTXO asset | **Core** checks the inputs, outputs, and spending conditions. For eligible asset transfers, Z-DAG offers an early conflict check. | Look up the transaction on the active Core chain. For a pending allocation transfer, read the [Z-DAG status](../dev-resources/sys/z-dag.mdx). |
+| Deploy a contract directly in Syscoin’s Ethereum-compatible environment | **NEVM** executes the contract in blocks paired with Core. | Check the network’s chain ID, then the transaction receipt. [NEVM commands](../reference/nevm.mdx) |
+| Give users fast local execution and settle batches on the base | A **zkSYS Edgechain** executes the application. Its batch data goes to Core and its settlement goes through Gateway to NEVM. | Inspect the local receipt, then follow the covering batch through the configured verifier. [zkSYS lifecycle](../architecture/zksys.mdx#follow-an-application-transaction) |
 
-Developers can [connect to NEVM](../reference/nevm.mdx) with EVM tools or [try zkSYS Genesis](../reference/zksys.mdx). Operators can [inspect Core](../reference/core.mdx) and check [network and release status](./status.mdx) before choosing a binary or endpoint.
+An application's evidence path determines what its users can check after an operator goes offline. A UTXO recipient can verify the output on Core. An Edgechain reader who wants to replay old batches also needs a known prior state and someone who kept the batch bytes. [UTXO assets](../tech/tokens.mdx) · [Retention and replay](../architecture/data-availability.mdx#retention-and-replay)
+
+Choose the deployed network before choosing a wallet or endpoint. The public zkSYS Genesis testnet and Tanenbaum NEVM have different chain IDs and separate balances. [Network and release status](./status.mdx) · [Public Genesis settings](../reference/zksys.mdx#public-genesis-testnet)

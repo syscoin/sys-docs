@@ -2,6 +2,6 @@
 
 A miner can use the same SHA-256 search work for Bitcoin and Syscoin. For Syscoin, AuxPoW ties the Syscoin candidate to the parent coinbase and header. Syscoin validates the parent work against its own target. A parent header can meet the Syscoin target without becoming a published Bitcoin block.
 
-[Core architecture](/docs/architecture/core) explains the commitment and validation boundaries. [Pool operator guide](/docs/guides/mining_setup) covers template generation and submission.
+[Core architecture](../architecture/core.mdx) explains the commitment and validation boundaries. [Pool operator guide](../guides/mining_setup.mdx) covers template generation and submission.
 
 The separate `sys` coinbase output publishes a recent Syscoin ancestor into Bitcoin when the parent block makes Bitcoin’s chain. The proposed BTC bridge uses those references to veto a withdrawal supported by conflicting Syscoin history. [Bitcoin-anchored fork detection](../architecture/bitcoin-bridge.mdx)

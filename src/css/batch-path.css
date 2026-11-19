@@ -1,0 +1,70 @@
+.batch-path {
+  --connector: var(--sys-muted);
+  margin: 1.25rem 0;
+  padding: clamp(.85rem, 2vw, 1.5rem);
+  border: 1px solid var(--sys-line);
+  border-radius: .8rem;
+  background: var(--sys-surface);
+}
+.batch-stage, .batch-branch {
+  padding: .8rem 1rem;
+  border: 1px solid var(--sys-line);
+  border-radius: .5rem;
+  background: var(--sys-panel);
+}
+.batch-stage {
+  max-width: 30rem;
+  margin: auto;
+  border-inline-start: 3px solid var(--sys-accent);
+}
+.batch-path strong, .batch-path p { display: block; }
+.batch-path strong { font-family: var(--ifm-heading-font-family); font-size: 1.12rem; }
+.batch-path p, .batch-path figcaption { font-size: .94rem; line-height: 1.5; }
+.batch-path p { margin: .2rem 0 0; }
+.batch-path figcaption { margin-top: 1rem; color: var(--sys-muted); }
+.batch-branches {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  position: relative;
+  padding-block: 1.5rem;
+}
+.batch-branches::before, .batch-branches::after {
+  content: '';
+  position: absolute;
+  inset-inline: 25%;
+  height: .75rem;
+  border-inline: 1px solid var(--connector);
+}
+.batch-branches::before { top: .75rem; border-top: 1px solid var(--connector); }
+.batch-branches::after { bottom: .75rem; border-bottom: 1px solid var(--connector); }
+.batch-stage { position: relative; }
+.batch-stage::after, .batch-branches + .batch-stage::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  height: .8rem;
+  border-left: 1px solid var(--connector);
+}
+.batch-stage::after { top: 100%; }
+.batch-branches + .batch-stage::after { content: none; }
+.batch-branches + .batch-stage::before { bottom: 100%; }
+@media (max-width: 600px) {
+  .batch-branches {
+    grid-template-columns: 1fr;
+    margin-inline-start: .9rem;
+    border-inline-start: 1px solid var(--connector);
+    padding: .7rem 0 .7rem .9rem;
+    gap: .55rem;
+  }
+  .batch-branches::before, .batch-branches::after, .batch-stage::after, .batch-branches + .batch-stage::before { content: none; }
+  .batch-branch { position: relative; }
+  .batch-branch::before {
+    content: '';
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    width: .9rem;
+    border-top: 1px solid var(--connector);
+  }
+}

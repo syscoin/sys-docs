@@ -1,5 +1,6 @@
 @import '@fontsource-variable/geist';
 @import '@fontsource-variable/bricolage-grotesque';
+@import './batch-path.css';
 
 :root {
   --ifm-font-family-base: 'Geist Variable', system-ui, sans-serif;

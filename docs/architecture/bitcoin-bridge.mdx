@@ -23,25 +23,26 @@ The [Syscoin AuxPoW mining dashboard](https://status-api.syscoin.org/local/minin
 
 ## Detecting a fork versus choosing one
 
-A fork-choice light client accepts the history that wins under its configured work or signing rules. The fork-detecting withdrawal policy asks a narrower question. Did the candidate include the right burn, and did the admissible Bitcoin records agree with the relevant Syscoin ancestry? If a qualifying Bitcoin tag names a different Syscoin block at a height that matters to the claim, the policy can stop that withdrawal without first deciding which Syscoin branch should win.
+A withdrawal claim says that a user burned the bridged asset on Syscoin and is entitled to BTC. A fork-choice light client selects a Syscoin history and looks for the burn there. The proposed fork-detecting policy asks whether the claimed burn and its ancestry are consistent with the qualifying evidence in Bitcoin. That distinction matters because the vault can keep funds locked while Syscoin participants resolve a disagreement.
+
+For example, suppose the claimed history contains block **A** at Syscoin height 120. Within the Bitcoin range being checked, a qualifying coinbase tag names block **B** at height 120. Those histories disagree at the same height. The verifier can veto release without knowing whether A or B will ultimately win. Two tags that both name A show repetition. A tag naming an ancestor shared by both branches cannot distinguish them.
 
 ```mermaid
 flowchart TD
-    MINER["Participating Bitcoin miner builds a coinbase"]
-    MINER --> WORK["Auxiliary Merkle root binds the Syscoin candidate"]
-    WORK --> CORE["Core verifies parent work against the Syscoin target"]
-    MINER --> TAG["sys output names an earlier Syscoin block"]
-    TAG --> BTC["Bitcoin block records the tag"]
-    BTC --> WIN["Authenticate the Bitcoin evidence window"]
-    BURN["Claimed Syscoin burn and linked ancestry"] --> CHECK["Check the claim against qualifying tags"]
-    WIN --> CHECK
-    CHECK -->|"One qualifying conflict"| STOP["Veto release from the BTC vault"]
-    CHECK -->|"Required support and no qualifying conflict"| CLAIM["Continue to the remaining release checks"]
+    accTitle: A Bitcoin tag can veto a proposed withdrawal
+    accDescr: At an eligible height the claim names block A and a Bitcoin coinbase names block B. An authenticated conflict keeps the BTC vault locked for this claim.
+    BURN["Syscoin history with burn"] --> A["Height 120, block A"]
+    WINDOW["Authenticated Bitcoin window"] --> B["Tag for height 120, block B"]
+    A --> CHECK["Different hash at the same eligible height"]
+    B --> CHECK
+    CHECK --> STOP["Veto this withdrawal"]
 ```
 
 Under a policy that vetoes on one conflict, **one honest participating miner is enough to supply the fork alarm** if it actually publishes a timely, relevant tag in the accepted Bitcoin window. Merely having an honest miner online gives no assurance of inclusion during a finite window. The policy also requires positive supporting evidence before release. Untagged blocks, stale references, and valid repeated references need explicit handling. [Syscoin bridge paper, §§7.2–7.4](https://syscoin.org/btc_bridge.pdf#page=8)
 
-The honest-work assumption remains on the Bitcoin side. The paper analyzes sustained Bitcoin hashpower majority as a way to suppress or replace the evidence across the relevant window. Bitcoin’s security over a finite window is probabilistic. A shorter window can also close before any honest participant mines a block with a qualifying tag. A whole-window guarantee needs a fresh, independently anchored Bitcoin range and a way to account for all qualifying conflicts before release. Algorithm 2 in the paper stops after obtaining its required sequence of matching references. Extending the veto through a longer window needs explicit coverage or a separate challenge rule. [Algorithm 2](https://syscoin.org/btc_bridge.pdf#page=12) · [Bitcoin window assumptions, §8.3.3](https://syscoin.org/btc_bridge.pdf#page=15) · [Bitcoin proof-of-work model](https://bitcoin.org/bitcoin.pdf)
+The honest-work assumption remains on the Bitcoin side. The paper analyzes sustained Bitcoin hashpower majority as a way to suppress or replace evidence across the relevant window. Bitcoin’s security over a finite window is probabilistic. A short window can close before any honest participant publishes a qualifying tag. Even unanimous observed tags can be insufficient if the required number of supporting references never arrives. [Bitcoin window assumptions, §8.3.3](https://syscoin.org/btc_bridge.pdf#page=15) · [Bitcoin proof-of-work model](https://bitcoin.org/bitcoin.pdf)
+
+Algorithm 2 in the paper counts strictly ascending references and returns as soon as it reaches its threshold. Under that pseudocode, encountering the same tagged block twice before the threshold would fail the ascending-order test. The live coinbase examples above show why a production policy needs explicit rules for repeats. A veto covering an entire Bitcoin window would also need a fresh, independently anchored range and enforced coverage of its later blocks, or a separate challenge rule. [Algorithm 2, lines 21–35](https://syscoin.org/btc_bridge.pdf#page=12)
 
 ## From detection to enforcement on Bitcoin
 

@@ -1,0 +1,23 @@
+.diagram { margin-block: 1rem; }
+.viewport { overflow-x: auto; }
+/* Static flowchart nodes have no tooltip or action. Let the viewport handle
+   panning without triggering Mermaid's unused tooltip handlers. */
+.viewport :global(g.node:not(.clickable):not([title])) { pointer-events: none; }
+.control {
+  display: block;
+  margin: 0 0 .45rem auto;
+  padding: .4rem .75rem;
+  border: 1px solid var(--sys-line);
+  border-radius: .4rem;
+  background: var(--sys-panel);
+  color: var(--ifm-color-primary);
+  font: inherit;
+  font-size: .85rem;
+  cursor: pointer;
+}
+.control:hover { border-color: var(--sys-accent); }
+.viewport:focus-visible { outline: 2px solid var(--sys-accent); outline-offset: 2px; }
+@media print {
+  .control { display: none; }
+  .viewport > div { width: 100% !important; }
+}

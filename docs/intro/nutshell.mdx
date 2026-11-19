@@ -4,19 +4,32 @@ sidebar_position: 1
 description: A practical overview of Syscoin's Bitcoin merge mining, post-quantum finality, hash-based data availability, NEVM, and zkSYS.
 ---
 
-Syscoin combines a Bitcoin-merge-mined UTXO chain, post-quantum finality, and an Ethereum-compatible settlement environment called NEVM. An execution layer can publish its batch data through Core and have its state transitions verified on NEVM. [zkSYS](../architecture/zksys.mdx) shows how the pieces work together.
+Suppose your wallet sends a payment on zkSYS. It gets a receipt within the execution layer. Later, someone running their own software wants to check what happened without asking your wallet or trusting the original operator. What evidence can they use?
+
+The walkthrough uses the design with active post-quantum finality and zkSYS validity-proof settlement. Check the release, network, and verifier configuration when connecting to a deployment. [Network and release status](./status.mdx)
+
+## Follow the payment
+
+1. **Get a receipt.** An operator called a sequencer orders the payment on zkSYS and executes it. The receipt tells your wallet the local outcome. The batch containing the payment still has to reach shared settlement. [zkSYS transaction lifecycle](../architecture/zksys.mdx#follow-an-application-transaction)
+2. **Recover the record.** zkSYS groups transactions into a batch and publishes the bytes needed to reconstruct the change on Syscoin Core. A reader can retrieve those bytes and hash them to check they match the published identifiers. Later reviews also need an archive that kept the bytes. [Data publication and retention](../architecture/data-availability.mdx)
+3. **Check which history counts.** Bitcoin miners can reuse their work to mine Core blocks. Under the post-quantum rules, a quorum of Sentry Nodes signs the block history, and Core nodes verify those signatures directly. A ChainLock gives readers a common finalized history in which to locate the batch publication. [Mining and finality](../architecture/core.mdx)
+4. **Check the result.** A prover supplies evidence that the batch obeyed the execution rules. To check this payment, identify its block and batch, then follow that batch to settlement on Gateway. Gateway settles its own batches on NEVM, Syscoin's Ethereum-compatible contract layer. Reconstructing the resulting state also requires the prior state and the published bytes. [Proof and settlement](../architecture/zksys.mdx)
+
+The division of work lets zkSYS respond on its own schedule. Applications that join an Edgechain add execution work there. Their publications consume Core bandwidth and storage, and Core nodes validate blocks and check finality. [System map](../architecture/overview.mdx) · [Costs of independent validation](../architecture/design-tradeoffs.mdx)
+
+Try the settlement check on a public Genesis testnet transaction. Follow its receipt to the Edgechain batch on Gateway, then find the Gateway batch on Tanenbaum NEVM. [Trace a public testnet transaction](../reference/zksys.mdx#trace-a-public-testnet-transaction)
+
+## Where the other pieces fit
 
 | Component | Purpose |
 | --- | --- |
-| [Core](../architecture/core.mdx) | Validates UTXO transactions and accepts parent proof of work through AuxPoW. |
-| [SPT and Z-DAG](../tech/tokens.mdx) | Represent assets in UTXO outputs and give eligible payments an early conflict signal. |
-| [PQ ChainLocks](../architecture/post-quantum.mdx) | Add Sentry quorum finality using SLH-DSA identities and scheduled WOTS+ votes. |
-| [PoDA](../architecture/data-availability.mdx) | Publishes payloads and binds their bytes to hash commitments that anyone can check after retrieval. |
+| [Core](../architecture/core.mdx) | Tracks balances as unspent transaction outputs (UTXOs). Accepts Bitcoin-compatible parent mining work through auxiliary proof of work (AuxPoW). |
+| [Syscoin Platform Tokens and Z-DAG](../tech/tokens.mdx) | Let applications transfer assets directly as Core outputs. For eligible payments, wallets can ask a node for an early mempool conflict signal. |
+| [Post-quantum ChainLocks](../architecture/post-quantum.mdx) | Authenticate Sentry operators with SLH-DSA hash-based signatures. Operators sign scheduled block votes with WOTS+ keys. |
+| [Proof of Data Availability](../architecture/data-availability.mdx) | Publishes payloads through Core. Gateway can carry compact identifiers while independent readers retrieve and check the larger payloads. |
 | [NEVM](../reference/nevm.mdx) | Runs Ethereum-compatible contracts, including verification and settlement contracts. |
 | [zkSYS](../architecture/zksys.mdx) | Executes on an Edgechain and sends commitments and proofs through Gateway. Its issuance uses SYS-linked reward eligibility, and its Gas Tank lets users spend zkSYS on eligible fees. |
 
-The architecture describes the system with PQ active and zkSYS settling validity proofs. Check [network and release status](./status.mdx) for active configurations, and the [command reference](../reference/overview.mdx) for commands you can run now.
+To inspect the system yourself, query a Core block or retrieve a blob using the [command reference](../reference/overview.mdx). To evaluate the design, compare its costs with [other chains](../architecture/comparison.mdx) or inspect the real Bitcoin coinbase tags that the [proposed BTC bridge](../architecture/bitcoin-bridge.mdx) would use.
 
-[Designing for independent validation](../architecture/design-tradeoffs.mdx) brings the choices and their costs together. The [cross-chain comparison](../architecture/comparison.mdx) covers data availability, finality, and rollup economics. The [Bitcoin bridge design](../architecture/bitcoin-bridge.mdx) shows how live coinbase tags can support a withdrawal veto.
-
-[Humans, AI, and shared resources](./human-and-ai.mdx) explains why that architecture matters for communities making decisions about shared resources.
+A payment is one example of a state change. A grant to use a shared resource is another. The [human and AI design thesis](./human-and-ai.mdx) follows a community deciding who can reserve a scarce hour of compute.

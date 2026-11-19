@@ -8,8 +8,12 @@ In the activated post-quantum (PQ) design, Syscoin nodes lock a block and its an
 
 ## Signing roles and keys
 
+There are two signing jobs. A Sentry operator establishes who can vote by committing its child keys under a long-lived SLH-DSA identity. When a finality vote comes due, the operator signs with the WOTS+ leaf assigned to that statement. A full node can follow the vote back to the on-chain authority and check exactly which roster slot it counts toward. [Signing profiles and authority](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/doc/pq-chainlocks.md)
+
 ```mermaid
 flowchart TB
+    accTitle: From an authorized Sentry operator to a verified ChainLock
+    accDescr: The owner authorizes an operator, who commits child keys. A chain snapshot fixes roster slots. Scheduled child keys sign the block statement, and a full node checks 267 votes in each of three selected rosters.
     Owner["Owner-authorized<br/>initial registration"]
     SLH["Operator identity<br/>SLH-DSA-SHAKE-128s"]
     Root["Epoch child-key root<br/>committed on chain"]

@@ -27,6 +27,8 @@ Core lets miners submit valid work without a quorum vote for every new block. A 
 
 ```mermaid
 flowchart TD
+    accTitle: How Edgechain activity uses the base economy
+    accDescr: Eligible SYS stake, Sentry collateral, and optional proof duties feed scheduled zkSYS rewards. Accounts can pay for execution with gas credit or native SYS. Execution generates demand for Core publication and shared proof settlement.
     BASE["SYS stake and eligible Sentry collateral"] --> WEIGHT["Reward eligibility under Edgechain rules"]
     WORK["Accepted proof duties when service mode is enabled"] --> WEIGHT
     WEIGHT --> REWARD["Scheduled zkSYS rewards"]

@@ -3,7 +3,7 @@ title: Deploy with Hardhat
 description: Configure Hardhat 3 and deploy a simple contract to Syscoin NEVM Tanenbaum with Ignition.
 ---
 
-Use Hardhat 3 with a [supported Node.js release](https://hardhat.org/docs/getting-started) and a [Tanenbaum account funded with tSYS](/docs/guides/nevm/wallet-setup). The example uses Ignition for deployment and Hardhat's encrypted keystore for signing credentials.
+Use Hardhat 3 with a [supported Node.js release](https://hardhat.org/docs/getting-started) and a [Tanenbaum account funded with tSYS](../../guides/nevm/wallet-setup.mdx). The example uses Ignition for deployment and Hardhat's encrypted keystore for signing credentials.
 
 ## Create the project
 
@@ -79,7 +79,7 @@ export default buildModule("HelloNEVMModule", (m) => {
 
 ## Build and deploy on Tanenbaum
 
-Build with the production profile and confirm your RPC reports `0x1644` using the [NEVM chain-ID check](/docs/reference/nevm). The explicit Paris bytecode target applies to both profiles. Add the private key for your disposable test account when the keystore prompts you. [Hardhat build profiles](https://hardhat.org/docs/guides/writing-contracts/build-profiles)
+Build with the production profile and confirm your RPC reports `0x1644` using the [NEVM chain-ID check](../../reference/nevm.mdx). The explicit Paris bytecode target applies to both profiles. Add the private key for your disposable test account when the keystore prompts you. [Hardhat build profiles](https://hardhat.org/docs/guides/writing-contracts/build-profiles)
 
 ```bash
 npx hardhat build --build-profile production

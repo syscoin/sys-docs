@@ -7,6 +7,8 @@ Syscoin Platform Tokens (SPTs) are assets represented in the Syscoin UTXO model.
 
 ## Why put an asset in an output?
 
+Imagine a workshop owns an output holding 10 units of an SPT. It spends that output, sends 7 units to a supplier, and sends 3 back to itself as change. Core checks the asset ID and accounts for all 10 units across the new outputs. The supplier can point to the exact output it received. A separate workshop spending its own asset outputs can pay another supplier independently. Core accounts for the native SYS fee separately from the token amounts. [Native fee and asset accounting](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/consensus/tx_verify.cpp#L186-L220) · [Allocation conservation](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/services/assetconsensus.cpp#L505-L555)
+
 - **Explicit ownership and dependencies.** To verify a transfer, a node follows the inputs to the outputs they spend and checks the spending conditions. It can identify conflicting claims to an output before either is included in a block.
 - **Independent transfers.** Transactions using disjoint inputs do not need to serialize through a shared account nonce. A recipient can see the exact input dependencies and use that graph for confirmation policy.
 - **A conventional payment path.** A straightforward transfer uses the UTXO chain and its script rules. Applications that need richer state and composability can use NEVM contracts. A bridge between those representations must establish the asset, amount, destination, and authorized transition.

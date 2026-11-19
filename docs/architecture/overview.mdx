@@ -4,27 +4,35 @@ sidebar_position: 0
 description: How PQ ChainLocks, hash-based availability, NEVM settlement, and zkSYS execution and issuance fit together.
 ---
 
-Syscoin is designed to give independently run applications a shared place to order commitments, recover the data behind them, and settle verified state. The base combines Bitcoin-merge-mined Core, post-quantum Sentry finality, and an EVM settlement environment called NEVM. zkSYS is the worked example of scaling this base with independently executed and proven batches.
+When a second application joins Syscoin, which machines must do more work? An application on zkSYS adds execution to its Edgechain. The base chain still has to carry the published data, agree on its history, and settle proofs through its Ethereum-compatible contract layer, NEVM. This division lets execution grow across chains while keeping the shared costs visible. [Designing for independent validation](./design-tradeoffs.mdx)
 
-This architecture assumes the PQ rules are active and zkSYS runs with validity-proof settlement. The [network and release status](../intro/status.mdx) tracks where those assumptions hold for operators and integrations. [Designing for independent validation](./design-tradeoffs.mdx) explains the shared costs these choices impose and how to measure them.
+The map follows a wallet transfer in the design with post-quantum (PQ) ChainLocks active and zkSYS using a real validity-proof verifier. Public deployments have their own activation and verifier settings. [Network and release status](../intro/status.mdx)
 
-```mermaid
-flowchart TD
-    BTC["SHA-256 parent mining work"] -->|"AuxPoW proof"| CORE["Syscoin Core UTXO chain"]
-    CL["Sentry quorum with SLH-DSA identities and WOTS+ votes"] -->|"ChainLocks"| CORE
-    CORE -->|"linked execution blocks"| NEVM["NEVM settlement"]
-    EDGE["zkSYS Edgechain"] -->|"full batch payload"| DA["PoDA on Syscoin"]
-    DA -->|"blob publication and finality"| CORE
-    EDGE -->|"proof and compact DA references"| GW["Gateway"]
-    GW -->|"verified state transition"| NEVM
-```
+## Where one zkSYS batch goes
 
-| Question | Mechanism | What to inspect |
-| --- | --- | --- |
-| Which base block does a node accept? | UTXO rules, cumulative proof of work, and the applicable ChainLock rules | [Core and merge mining](./core.mdx) |
-| Who can attest to block finality? | A Sentry quorum that proves its scheduled vote signatures under authenticated commitments and a consensus-defined roster | [Post-quantum ChainLocks](./post-quantum.mdx) |
-| Can a verifier reconstruct the data behind a batch? | Blob publication, finality, and a retrieval and retention policy. The verifier rehashes the exact bytes under the selected commitment algorithm. | [Data availability](./data-availability.mdx) |
-| Does the submitted state transition satisfy the agreed rules? | The zkSYS verifier binds proof acceptance to the committed inputs, program, and output. | [zkSYS execution and settlement](./zksys.mdx) |
+<figure className="batch-path" aria-label="Paths from execution to publication, proof, and settlement">
+  <div className="batch-stage">
+    <strong>zkSYS executes the transfer</strong>
+    <p>The sequencer orders it. The wallet gets a local receipt. The batcher groups this change with others.</p>
+  </div>
+  <div className="batch-branches">
+    <div className="batch-branch">
+      <strong>Publish the bytes on Core</strong>
+      <p>Core nodes require matching bytes for a fresh publication. Pools merge-mine the blocks. Sentry ChainLocks finalize that history.</p>
+    </div>
+    <div className="batch-branch">
+      <strong>Prove the execution</strong>
+      <p>Proof workers produce evidence that the batch takes the prior state to the claimed result under the agreed program.</p>
+    </div>
+  </div>
+  <div className="batch-stage">
+    <strong>Settle on Gateway, then NEVM</strong>
+    <p>Gateway receives the Edgechain proof and compact data references. Gateway’s own batches settle on NEVM, whose canonical blocks are paired with Core.</p>
+  </div>
+  <figcaption>Readers who want to replay the change fetch the full data from Core or an archive. The larger Edgechain payload travels on the publication path. Gateway carries its identifiers.</figcaption>
+</figure>
+
+Try it with a public Genesis transaction. Start with its receipt in Edge block **10,968**. Find the Edge batch that contains the block, match its execution event on Gateway, then find the Gateway batch covering that event on Tanenbaum NEVM. Those four records show what the testnet settled. To replay the batch, you also need its bytes and prior state. To tell whether the contracts checked a real proof, inspect their verifier configuration. [Trace the public transaction](../reference/zksys.mdx#trace-a-public-testnet-transaction) · [Retrieve and check blob bytes](../reference/zksys.mdx#read-a-core-blob)
 
 ## Why Core and zkSYS run at different speeds
 
@@ -45,5 +53,7 @@ The decentralized target puts transaction ordering and proof production in the h
 ## Why use hashes in several layers?
 
 Proof of work uses SHA-256 to measure search effort. PoDA uses versioned hashes to bind payloads. SLH-DSA uses hash trees and one-time and few-time signature components to authenticate messages. The FRI-based prover uses hash commitments to bind transcript data as part of a larger proof system. Each construction pays for different properties and carries its own assumptions. The settlement proof also inherits the assumptions of its deployed wrapper.
+
+The mining and DA hashes connect through the block. A syncing node can check a candidate’s accumulated work before requesting large bodies. An up-to-date node that already received a publication can recognize it during compact block relay. A reader recovering the batch later can use its committed hash to authenticate a copy from an archive. These savings occur at different times in the life of the same data. [How header-first sync and compact relay work together](./design-tradeoffs.mdx#why-check-work-before-downloading-bytes)
 
 A digest lets someone check bytes they obtain. A signature ties an authorized key to a statement. A validity proof checks a specified state transition against a verifier. Record retention and the accuracy of information originating outside the chain need their own checks. [Compare the architecture across chains](./comparison.mdx) · [Read the design thesis](../intro/human-and-ai.mdx)

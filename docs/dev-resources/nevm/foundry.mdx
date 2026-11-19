@@ -3,7 +3,7 @@ title: Deploy with Foundry
 description: Build, deploy, verify, and call a simple contract on Syscoin NEVM Tanenbaum with Foundry.
 ---
 
-This guide uses Syscoin NEVM Tanenbaum (chain ID `5700`). Install Foundry and [prepare a test account with tSYS](/docs/guides/nevm/wallet-setup). [Foundry installation](https://www.getfoundry.sh/introduction/installation)
+This guide uses Syscoin NEVM Tanenbaum (chain ID `5700`). Install Foundry and [prepare a test account with tSYS](../../guides/nevm/wallet-setup.mdx). [Foundry installation](https://www.getfoundry.sh/introduction/installation)
 
 ## Build a contract
 
@@ -68,4 +68,4 @@ forge verify-contract "$contract" src/HelloNEVM.sol:HelloNEVM \
   --verifier-url https://explorer.tanenbaum.io/api --watch
 ```
 
-Open the result in the [Syscoin NEVM testnet explorer](https://explorer.tanenbaum.io). The [NEVM RPC reference](/docs/reference/nevm) lists endpoints and chain IDs for other deployments.
+Open the result in the [Syscoin NEVM testnet explorer](https://explorer.tanenbaum.io). The [NEVM RPC reference](../../reference/nevm.mdx) lists endpoints and chain IDs for other deployments.

@@ -2,6 +2,6 @@
 
 PoDA is Syscoin Core’s data publication mechanism. The publication transaction commits to the payload. Nodes handle the payload separately from the transaction and apply their retention rules. Use an archival source when you need historical bytes for replay.
 
-[Data availability architecture](/docs/architecture/data-availability) covers versioned hashes, sidecar validation, retention, archival retrieval, and how zkSYS references published data. [Core RPC reference](/docs/reference/core) shows how to inspect the interface for your release.
+[Data availability architecture](../architecture/data-availability.mdx) covers versioned hashes, sidecar validation, retention, archival retrieval, and how zkSYS references published data. [Core RPC reference](../reference/core.mdx) shows how to inspect the interface for your release.
 
 Syscoin’s whole-blob path gives a reader the exact bytes needed for replay and a hash to check them. Node bandwidth scales with the payload, and older data needs an archive. See how this compares with Ethereum PeerDAS, Celestia, and Avail. [Compare DA designs](../architecture/comparison.mdx#whole-payload-verification-and-data-availability-sampling)
