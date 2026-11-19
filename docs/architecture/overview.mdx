@@ -6,7 +6,7 @@ description: How PQ ChainLocks, hash-based availability, NEVM settlement, and zk
 
 Syscoin is designed to give independently run applications a shared place to order commitments, recover the data behind them, and settle verified state. The base combines Bitcoin-merge-mined Core, post-quantum Sentry finality, and an EVM settlement environment called NEVM. zkSYS is the worked example of scaling this base with independently executed and proven batches.
 
-This architecture assumes the PQ rules are active and zkSYS runs with validity-proof settlement. The [network and release status](../intro/status.mdx) tracks where those assumptions hold for operators and integrations.
+This architecture assumes the PQ rules are active and zkSYS runs with validity-proof settlement. The [network and release status](../intro/status.mdx) tracks where those assumptions hold for operators and integrations. [Designing for independent validation](./design-tradeoffs.mdx) explains the shared costs these choices impose and how to measure them.
 
 ```mermaid
 flowchart TD

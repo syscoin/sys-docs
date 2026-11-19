@@ -1,7 +1,7 @@
 ---
 title: Hash-based data availability
 description: Follow zkSYS batch data from publication on Syscoin to retrieval, finality, and NEVM membership.
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 A rollup publishes data so independent participants can reconstruct its state. Syscoin's Proof of Data Availability (PoDA) publishes the bytes as blobs on Syscoin Core. In the zkSYS code this path is called Bitcoin DA. A compact digest identifies each blob. zkSYS can send those identifiers through Gateway while keeping the larger payloads on the DA path. Syscoin Core blocks receive merge-mined proof of work through AuxPoW. [Core 5.1.0 release notes](https://github.com/syscoin/syscoin/releases/tag/v5.1.0) · [zkSYS batch publication](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/node/bin/src/batcher/mod.rs#L578-L605)

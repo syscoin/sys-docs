@@ -1,7 +1,7 @@
 ---
-title: Data availability across chains
-description: Compare Syscoin PoDA, Bitcoin blocks, Ethereum blobs, Celestia, and Avail by verification, retention, and settlement.
-sidebar_position: 6
+title: Compare modular blockchain designs
+description: Compare data availability, finality, verification, and execution-layer economics in Syscoin and other modular designs.
+sidebar_position: 7
 ---
 
 A rollup that wants independent verification has to answer three questions. Can someone obtain the input bytes? Which history published them? Which state transition did the settlement verifier accept? Different systems assign these jobs to different participants. The comparison below covers the named publication paths and their verification rules.
@@ -14,6 +14,18 @@ A rollup that wants independent verification has to answer three questions. Can 
 | **Celestia regular blobs** | A data square is extended in two dimensions with Reed–Solomon coding. Namespaced Merkle trees allow applications to authenticate their own shares. Light nodes sample shares to gain availability confidence. | Celestia consensus orders data publication. Its DA service leaves rollup execution and settlement to the rollup stack. Light-node sampling has a defined window and historical readers need providers that retain the required shares. [Celestia data availability](https://docs.celestia.org/learn/celestia-101/data-availability/) · [Celestia retrievability](https://docs.celestia.org/learn/celestia-101/retrievability/) |
 | **Celestia Fibre** | Publishers split encoded blobs across validator-operated Fibre servers. Signed storage attestations from a voting-power quorum support settlement of the publication. Readers request shards by blob ID and reconstruct the payload. | Active on Mainnet Beta. Consensus records the commitment and finalizes payment. Server storage is time-bounded and availability depends on the provider quorum and reachable shards. [When to use Fibre](https://docs.celestia.org/build/post-retrieve-blob/fibre/when-to-use/) · [Fibre network status](https://docs.celestia.org/build/post-retrieve-blob/fibre/client-brief/#status) |
 | **Avail DA** | Data is arranged in a matrix with rows extended by Reed–Solomon coding. KZG commitments authenticate individual cells. Light clients sample cells through the peer network or RPC. | Avail's nominated proof-of-stake validators finalize headers. Rollup execution and settlement follow the rollup stack. Historical retrieval depends on who retains its data. [How Avail DA works](https://docs.availproject.org/docs/da/concepts/how-avail-da-works) |
+
+## Other Bitcoin-oriented designs
+
+Several networks share parts of the design. Their published architectures give useful comparisons for how each chooses to order blocks, verify execution, and connect its economy to Bitcoin.
+
+| Network | What it shares with Syscoin | Main architectural difference |
+| --- | --- | --- |
+| **Rootstock** | Reuses SHA-256 mining work from participating Bitcoin pools and supplies an EVM-compatible chain. | Rootstock's core design couples a merge-mined sidechain with PowPeg and rBTC. Syscoin combines its UTXO base with a separate paired NEVM history, direct PQ ChainLocks, and a blob publication path for execution layers. [Rootstock foundations](https://dev.rootstock.io/concepts/) · [Rootstock merge mining](https://dev.rootstock.io/concepts/foundations/merged-mining/) |
+| **Stacks** | Combines Bitcoin-linked ordering with a distinct signing and execution system. | Proof of Transfer uses Bitcoin transactions for tenure selection and anchors Stacks history at tenure boundaries. Syscoin accepts AuxPoW under its own target and obtains durable finality from Sentry certificates. [Proof of Transfer](https://docs.stacks.co/learn/stacks-101/proof-of-transfer) · [Bitcoin finality in Stacks](https://docs.stacks.co/learn/block-production/bitcoin-finality) |
+| **Nervos CKB** | Uses proof of work and a generalized UTXO model to let independent nodes verify state while computation can happen off-chain. | CKB validates state stored in Cells through RISC-V scripts. Syscoin's design uses Bitcoin merge-mining, a dedicated whole-blob DA path, and NEVM contracts to settle validity proofs from zkSYS. [CKB Cell Model](https://docs.nervos.org/docs/ckb-fundamentals/cell-model) · [CKB verification](https://docs.nervos.org/docs/getting-started/how-ckb-works) |
+
+Syscoin's distinction in this comparison is the composition of direct hash-based finality, full-blob availability with compact Gateway commitments, independently executed validity batches, and SYS-linked Edgechain issuance. Each network needs evidence about its actual deployments, operator independence, verifier costs, and recovery behavior. [Syscoin design trade-offs](./design-tradeoffs.mdx) · [Network and release status](../intro/status.mdx)
 
 ## Whole-payload verification and data availability sampling
 

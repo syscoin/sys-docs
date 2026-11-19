@@ -5,7 +5,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 import styles from './index.module.css';
 
 const routes = [
-  {title: 'System architecture', description: 'Follow merged mining, ChainLocks, NEVM settlement, and the data path into zkSYS.', href: '/docs/architecture/overview'},
+  {title: 'Designing for independent validation', description: 'Follow the work from Core to Gateway and see how the design balances node cost, finality, and scaling.', href: '/docs/architecture/design-tradeoffs'},
   {title: 'zkSYS and modular alignment', description: 'See how faster execution uses Syscoin DA, settlement, and SYS-linked issuance.', href: '/docs/architecture/zksys'},
   {title: 'Post-quantum design', description: 'Trace hash-based signatures from operator identity to directly verified quorum certificates.', href: '/docs/architecture/post-quantum'},
   {title: 'Command reference', description: 'Inspect Core and NEVM, connect to zkSYS testnet, and locate the primary sources.', href: '/docs/reference/overview'},
@@ -19,7 +19,7 @@ export default function Home() {
         <header className={styles.hero}>
           <div className={styles.heroText}>
             <h1>From Bitcoin work to verifiable execution.</h1>
-            <p>Explore how Syscoin combines Bitcoin merge mining, post-quantum finality, and hash-based data availability. Follow zkSYS from execution through proof-based settlement.</p>
+            <p>Syscoin pairs Bitcoin merge mining with directly verified post-quantum finality. zkSYS scales execution in parallel while Core nodes check the shared history and its data.</p>
             <div className={styles.actions}>
               <Link className={`${styles.action} ${styles.primary}`} to="/docs/architecture/overview">Explore the architecture <span aria-hidden="true">↗</span></Link>
               <Link className={styles.action} to="/docs/intro/status">Check network status</Link>

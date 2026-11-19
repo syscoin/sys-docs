@@ -1,7 +1,7 @@
 ---
 title: Syscoin Core and NEVM
 description: How Bitcoin merge-mining, post-quantum ChainLocks, the Syscoin UTXO chain, and NEVM execution fit together.
-sidebar_position: 1
+sidebar_position: 2
 ---
 
 In the activated PQ architecture, Syscoin Core validates the UTXO chain and its auxiliary proof of work (AuxPoW). Sentry Nodes certify accepted history with hash-based ChainLocks. Core pairs its blocks with NEVM, the Network-Enhanced Virtual Machine, and coordinates connection, disconnection, and the finality boundary with Syscoin Geth. The UTXO and NEVM chains each have their own block hashes, heights, and RPCs. [Core #609 design](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/doc/pq-chainlocks.md) · [Paired NEVM implementation](https://github.com/syscoin/go-ethereum/blob/1c046ba92f8ea95be024a790e9444b80ccbf019a/eth/nevm_finality_test.go)
@@ -51,6 +51,8 @@ A ChainLock can also attest a scheduled Bitcoin checkpoint. Only an authenticate
 | No durable ChainLock yet | Select the valid branch with the most work. |
 | A durable ChainLock exists and new certificates stall | Keep verifying work and accepting eligible descendants of the locked block. Applications waiting for a new lock or a dependent settlement may have to wait. |
 | A branch conflicts with accepted durable finality | Reject the conflict under the active rules, even if the branch accumulates more work. The ordinary mining contest cannot reconcile incompatible histories that different nodes have already locked. |
+
+The near-tip rule constrains what a newly received certificate can change. For an ordinary live or current catch-up certificate with target height `H`, the target must be the latest signable height and its branch must share the active chain's ancestor at `H−5`. Core #560 introduced the ancestry check for BLS ChainLocks. The activated PQ implementation preserves it. This prevents a certificate in the current signing window from reviving a branch that diverged earlier. A competing branch that respects durable finality can still win through greater cumulative work and then qualify for a new certificate. [Core #560 and its regression test](https://github.com/syscoin/syscoin/pull/560) · [PQ ancestry checks](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/llmq/quorums_chainlocks.cpp#L1840-L1889) · [PQ shallow and deep branch tests](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/test/pq_chainlock_handler_tests.cpp#L8143-L8220)
 
 Mining capacity is external to the chain. A compatible miner can redirect its work, but a pool tag provides evidence about submitted work and does not measure independent control of the underlying hardware. Sentry eligibility is visible in the on-chain registry, which likewise does not establish operational independence. Verify live mining and quorum behavior separately. [Core liveness and reorg invariants](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/doc/pq-chainlocks.md#L2695-L2708) · [Block conflict check](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/validation.cpp#L10972-L10986)
 
