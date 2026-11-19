@@ -72,17 +72,17 @@ Before fetching a blob, a reader needs a reason to follow the history advertisin
 
 ```mermaid
 flowchart TB
-    accTitle: Two readers checking data availability
-    accDescr: A recovery operator fetches and hashes the complete blob to replay it. A sampling light client checks authenticated shares to gain confidence in availability.
-    A["Recovery operator"] --> B["Fetch and hash blob"]
-    B --> C["Matching bytes for replay"]
-    D["Sampling light client"] --> E["Check authenticated shares"]
-    E --> F["Confidence in availability"]
+    accTitle: How PoDA links the payload to the Gateway reference
+    accDescr: Core checks the complete blob against the digest in its publication transaction. Gateway carries that digest. An independent reader can hash the same bytes and use them as an input to replay.
+    Blob["Complete blob on Core"] --> Check["Hash the blob and match the digest"]
+    Digest["Digest in the publication transaction"] --> Check
+    Digest --> Gateway["Gateway carries the digest"]
+    Check --> Replay["Verified blob bytes for replay"]
 ```
 
 PoDA's whole-blob check gives the reader the exact bytes to feed into a decoder, state reconstruction, or a prover. It costs bandwidth proportional to the bytes that reader fetches. Compact zkSYS references remove that payload from the Edgechain-to-Gateway batch envelope. Publishers and validating readers still need a data path for the bytes. [zkSYS publication and retrieval](./zksys.mdx) · [PoDA validation and limits](./data-availability.mdx)
 
-Erasure coding allows reconstruction from enough authenticated shares. Sampling lets a light participant check a much smaller amount while gaining probabilistic confidence that enough data was distributed. The confidence depends on coding, sampling, custody, and the client's view of peers. An application replaying every transition still needs enough data to reconstruct its input. Ethereum and Avail use KZG openings for samples. Celestia's regular blob path uses authenticated shares under Merkle roots. Sampling and polynomial commitments are separate design choices. [Ethereum PeerDAS](https://ethereum.org/roadmap/fusaka/peerdas/) · [Celestia data availability](https://docs.celestia.org/learn/celestia-101/data-availability/) · [Avail DA](https://docs.availproject.org/docs/da/concepts/how-avail-da-works)
+Networks that use data availability sampling encode a payload as redundant shares. A light node can check a small, random set of authenticated shares to gain confidence that enough were distributed to reconstruct the data. How much confidence it gains depends on the encoding, the number of samples, and the peers it can reach. An application replaying the batch still needs the reconstructed payload. [Original data availability sampling paper](https://arxiv.org/abs/1809.09044)
 
 A valid commitment identifies data under the commitment scheme's assumptions. A successful fetch establishes access for that reader at that time. Canonical inclusion and finality establish which publication belongs to the accepted chain. A settlement proof covers the statement and inputs its verifier checks. Historical replay also uses the retained payloads and their order, authenticated prior state and block inputs. [PoDA evidence and retention](./data-availability.mdx#availability-inclusion-and-finality)
 
