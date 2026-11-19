@@ -56,6 +56,65 @@
 .editorial-plate p { margin: 0; }
 .editorial-plate img { display: block; width: 100%; height: auto; }
 .editorial-plate figcaption { margin-top: .6rem; padding-inline-start: .8rem; border-inline-start: 2px solid var(--sys-line); color: var(--sys-muted); font-size: .92rem; line-height: 1.45; }
+.planet-relay {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(.35rem, 1.5vw, .9rem);
+  margin-block: .55rem;
+  padding: .55rem clamp(.45rem, 1.5vw, .85rem);
+  border: 1px solid var(--sys-line);
+  border-radius: .5rem;
+  background: var(--sys-panel);
+  font-size: .85rem;
+}
+.planet-relay__endpoint {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  font-weight: 650;
+}
+.planet-relay__signal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .35rem;
+  text-align: center;
+  color: var(--sys-muted);
+  font-size: .8rem;
+  line-height: 1.3;
+}
+.planet-relay__signal strong {
+  display: block;
+  color: var(--ifm-font-color-base);
+}
+.planet-relay__signal::before,
+.planet-relay__signal::after {
+  flex: 1;
+  border-top: 1px dashed var(--sys-line);
+  content: '';
+}
+.planet-mark {
+  flex: none;
+  inline-size: 1.6rem;
+  block-size: 1.6rem;
+  border-radius: 50%;
+  box-shadow: inset -3px -4px 6px rgb(20 22 42 / 42%), inset 1px 2px 3px rgb(255 255 255 / 28%);
+}
+.planet-mark--earth {
+  background:
+    radial-gradient(ellipse at 30% 32%, #82bf86 0 20%, transparent 22%),
+    radial-gradient(ellipse at 45% 59%, #54a880 0 15%, transparent 17%),
+    radial-gradient(ellipse at 78% 63%, #78bc83 0 13%, transparent 15%),
+    radial-gradient(circle at 30% 25%, #79d0ed, #427bd0 60%, #25396f);
+}
+.planet-mark--mars {
+  background:
+    radial-gradient(ellipse at 49% 12%, #ffd2a3 0 13%, transparent 16%),
+    radial-gradient(ellipse at 69% 58%, #a14a3a 0 15%, transparent 19%),
+    radial-gradient(ellipse at 35% 72%, #b15f45 0 16%, transparent 20%),
+    radial-gradient(circle at 28% 25%, #ffbd83, #d57854 65%, #93452e);
+}
 .markdown .budget-example { margin: 1.25rem 0 1.75rem; }
 .budget-example figcaption { font-weight: 650; }
 .budget-cases { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .65rem; margin-block: .65rem 0; }

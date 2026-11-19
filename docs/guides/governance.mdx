@@ -1,5 +1,6 @@
 ---
 title: Decentralized governance
+image: /img/governing-shared-power.webp
 description: Inspect Syscoin governance proposals, submit a funding request, and verify superblock payments.
 sidebar_position: 8
 ---
@@ -33,7 +34,7 @@ Under the released mainnet rules, the nominal SYS budget is a limit used to sele
 | Above 95% and below 105% | Keep the prior budget. |
 | At least 105% | Increase by 10%, with a ceiling of **5,000,000 SYS**. |
 
-For example, suppose the prior nominal budget is 2,000,000 SYS. A 1,900,000 SYS payment sets the next budget to 1,800,000 SYS. A 2,100,000 SYS payment sets it to 2,200,000 SYS. A cycle with no payout leaves the nominal budget at 2,000,000 SYS and mints no proposal payment. This arithmetic describes the released and PQ candidate utilization formulas. The candidate changes how voting authority and eligibility are verified. [Budget constants](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/governance/governanceclasses.h#L96-L111) · [Released adjustment](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/masternode/masternodepayments.cpp#L19-L35) · [PQ candidate adjustment](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/masternode/masternodepayments.cpp#L66-L82) · [PQ signing roles](../architecture/post-quantum.mdx#signing-roles-and-keys)
+For example, suppose the prior nominal budget is 2,000,000 SYS. A 1,900,000 SYS payment sets the next budget to 1,800,000 SYS. A 2,100,000 SYS payment sets it to 2,200,000 SYS. A cycle with no payout leaves the nominal budget at 2,000,000 SYS and mints no proposal payment. The released rules and the PQ candidate use the same budget arithmetic. The candidate changes how voting authority and eligibility are verified. [Budget constants](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/governance/governanceclasses.h#L96-L111) · [Released adjustment](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/masternode/masternodepayments.cpp#L19-L35) · [PQ candidate adjustment](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/masternode/masternodepayments.cpp#L66-L82) · [PQ signing roles](../architecture/post-quantum.mdx#signing-roles-and-keys)
 
 ## Submit a proposal
 

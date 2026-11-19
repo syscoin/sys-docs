@@ -1,12 +1,13 @@
 ---
 title: Dynamic governance
+image: /img/governing-shared-power.webp
 description: Why Syscoin’s community funding budget adapts, how the algorithm works, and what a public superblock proves.
 sidebar_position: 2
 ---
 
-Who pays for open-source work after the original team leaves? In *Dealing with social conditions in a decentralized world*, Jag Sidhu argues that wallets, documentation, hosting, and research should be able to compete for public funding. When day-to-day funding rests with a small treasury group, the people maintaining the network depend on that group’s priorities and runway. A public proposal, vote, and payout give the community a way to scrutinize those choices over time. [Sidhu’s February 2025 essay](https://medium.com/@sidhujag/dealing-with-social-conditions-in-a-decentralized-world-fd6d59552213)
+Who pays for open-source work after the original team leaves? We designed dynamic governance so wallets, documentation, hosting, and research can compete for public funding. When a small treasury group controls day-to-day funding, the people maintaining the network depend on that group’s priorities and finances. A public proposal, vote, and payout give the community a way to scrutinize those choices over time. [Sidhu’s February 2025 essay](https://medium.com/@sidhujag/dealing-with-social-conditions-in-a-decentralized-world-fd6d59552213)
 
-Sidhu’s design keeps the funding power narrow, limits how fast the budget can change, and spaces decisions out so participants can see how the money is used. A funding vote can pay for work on a protocol change. Activating consensus rules still requires nodes to run software that enforces them. The Syscoin 5 Nexus upgrade added the adaptive budget described below. [Nexus rationale](https://syscoin.org/news/codename-nexus) · [Proposal approval](https://syscoin.org/news/syscoin-5-approved)
+We limit what a funding vote can do and how fast the budget can change. The time between cycles gives people a chance to see where funds went and respond. A funding vote can pay for work on a protocol change. Activating consensus rules still requires nodes to run software that enforces them. The Syscoin 5 Nexus upgrade added the adaptive budget described below. [Nexus rationale](https://syscoin.org/news/codename-nexus) · [Proposal approval](https://syscoin.org/news/syscoin-5-approved)
 
 ## How one cycle sets up the next
 
@@ -59,4 +60,4 @@ The trigger refers to proposal `9c675dfc0bd5d7b08dbdd8300e918d1f9c50b0c6804ede83
 
 </details>
 
-Use a synced Core node to inspect the current schedule and nominal budget, submit a proposal, or cast a funding vote. The operator guide includes the exact RPCs and shows how to check payouts against block outputs. [Governance commands](../guides/governance.mdx#inspect-proposals-and-the-schedule)
+Use a synced Core node to inspect the schedule and nominal budget, submit a proposal, cast a vote, or verify a payout against a block’s outputs. [Governance commands](../guides/governance.mdx#inspect-proposals-and-the-schedule)

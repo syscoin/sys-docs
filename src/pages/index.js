@@ -2,6 +2,7 @@ import React from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import {PageMetadata} from '@docusaurus/theme-common';
 import styles from './index.module.css';
 
 const routes = [
@@ -12,9 +13,11 @@ const routes = [
 ];
 
 export default function Home() {
-  const art = useBaseUrl('/img/compute-cooperative.webp');
+  const heroImage = '/img/compute-cooperative.webp';
+  const art = useBaseUrl(heroImage);
   return (
     <Layout title="Syscoin engineering documentation" description="See how Syscoin uses Bitcoin mining, hash-based data availability and zkSYS to let independent applications share a verifiable record.">
+      <PageMetadata image={heroImage} />
       <main className={styles.home}>
         <header className={styles.hero}>
           <div className={styles.heroText}>

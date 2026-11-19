@@ -1,5 +1,6 @@
 ---
 title: zkSYS and DA commands
+image: /img/genesis-settlement-trace.webp
 description: Read-only checks for zkSYS network identity, issuance, gas credit, Core blobs, and NEVM DA membership.
 sidebar_position: 2
 ---
@@ -10,7 +11,7 @@ Genesis is the public zkSYS Edgechain testnet. You can read it immediately over 
 
 1. **Choose the network.** In the Portal, select **zkSYS Tanenbaum** and connect your EVM wallet. For manual setup, use the Genesis RPC and chain ID **57057** below. Chainlist calls the same network *zkTanenbaum Testnet*. [Chainlist wallet settings](https://chainlist.org/chain/57057)
 2. **Get gas for a first transaction.** Give the Genesis faucet your public `0x` address to request native test SYS. The Portal and faucet label that balance **TSYS**. The separately issued **zkSYS** reward token has its own contract and Gas Tank. [Genesis faucet](https://faucet-zk.tanenbaum.io) · [Gas Tank and issuance](../architecture/zksys.mdx#sys-collateral-issuance-and-gas)
-3. **Bring existing testnet funds.** The Portal’s **Bridge** moves supported assets between Tanenbaum NEVM and zkSYS Genesis. The separate **zkSYS Bridge** also offers Ethereum Sepolia as a source. Its documented Sepolia-to-Genesis route takes supported tokens through Tanenbaum NEVM before depositing on Genesis. Choose the source, destination and token shown by the bridge to get the available route. [Portal bridge](https://portal.tanenbaum.io/bridge) · [zkSYS Bridge](https://bridge-zk.tanenbaum.io) · [Sepolia route](https://github.com/syscoin/zksys-bridge/blob/49e733e27504965fb1c871faae6058fcbe28a9a9/bridge-dapp/docs/HYPERLANE_TESTNET_LAUNCH.md#L16-L32)
+3. **Bring existing testnet funds.** The Portal’s **Bridge** moves supported assets between Tanenbaum NEVM and zkSYS Genesis. The separate **zkSYS Bridge** also offers Ethereum Sepolia as a source. The Sepolia-to-Genesis route moves supported tokens through Tanenbaum NEVM before depositing them on Genesis. Choose the source, destination and token shown by the bridge to get the available route. [Portal bridge](https://portal.tanenbaum.io/bridge) · [zkSYS Bridge](https://bridge-zk.tanenbaum.io) · [Sepolia route](https://github.com/syscoin/zksys-bridge/blob/49e733e27504965fb1c871faae6058fcbe28a9a9/bridge-dapp/docs/HYPERLANE_TESTNET_LAUNCH.md#L16-L32)
 4. **Find the result.** The Portal’s **Assets** and **Transfers** views show activity for the connected wallet. Paste the Genesis transaction hash into the Genesis explorer to see the receipt and events. A bridge deposit can have a source transaction and a separate destination transaction. [Genesis explorer](https://explorer-zk.tanenbaum.io) · [Portal source](https://github.com/syscoin/dapp-portal/tree/b0bf31c73aaf338d627806d819df57d84b617428)
 
 For a first read without a wallet, this request returns the Genesis chain ID (`0xdee1`), client version and sync status. Match the results by request ID.

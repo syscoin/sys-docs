@@ -1,5 +1,6 @@
 ---
 title: Designing for independent validation
+image: /img/da-payload-budget.webp
 sidebar_position: 1
 description: How Syscoin balances independent validation, safe settlement, and scale by moving different kinds of work to different layers.
 ---
@@ -55,7 +56,7 @@ A peer that already has the blobs can reconstruct a compact block without anothe
 
 Core stores recent blob bytes so a full node can retrieve and hash the whole publication. Availability sampling gives a light client probabilistic evidence under different networking assumptions. Once a Syscoin blob expires, a returning node can still catch up through older blocks carrying its commitment. An application recovering that batch needs an archive with the original bytes, an authenticated starting state, and the other execution inputs. This division keeps long-term application storage with the operators and communities that need it. [Core presence checks](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/validation.cpp#L6002-L6038) · [Historical replay](./data-availability.mdx#what-can-someone-verify-a-week-later) · [Al-Bassam et al., Fraud and Data Availability Proofs](https://doi.org/10.1007/978-3-662-64331-0_15)
 
-The PQ candidate’s integration test verifies **801 signatures in a 1,001,572-byte certificate**. Published results give the certificate size. Production hardware requirements at peak traffic are still unknown. [Certificate test and qualification status](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/doc/pq-chainlocks.md#L3009-L3015)
+In our PQ candidate integration test, Core verified **801 signatures in a 1,001,572-byte certificate**. Peak-traffic production hardware requirements are still unknown. [Certificate test and qualification status](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/doc/pq-chainlocks.md#L3009-L3015)
 
 ## Published measurements
 
@@ -65,15 +66,15 @@ The $9 estimate covers proving on three A5000 GPUs. The 1,800-fold difference co
 
 | Question | Published result | What was measured |
 | --- | --- | --- |
-| What can a small prover operator handle? | **77.8 million transactions/month** of estimated proving capacity on **three A5000 GPUs**. At the reported **$700/month**, that is about **$9 per million transactions proved**. | Sidhu extrapolated the monthly capacity from internal runs that proved over 120,000 transactions. DA publication and settlement incur separate charges. [April 13, 2026 hardware and workload report](https://x.com/realSidhuJag/status/2043835944558833769) · [May 5 Foundation report](https://syscoin.org/eco-update-260505) |
-| What does the DA commitment choice cost inside the guest? | **300,000 RISC-V cycles** for BLAKE2s, **154 million** for Keccak, **540 million** for the KZG path. | Same historical nine-blob workload, approximately **1.1 MiB** according to the author. BLAKE2s took **1/1,800** of the KZG path’s guest cycles. Proving the rest of the batch, relaying it, and waiting for settlement take additional work and time. [April 13 cycle counts](https://x.com/realSidhuJag/status/2043835947029316074) · [Nine-blob cycle comparison](./data-availability.mdx#why-blake2s-fits-the-prover) |
+| What can a small prover operator handle? | **77.8 million transactions/month** of estimated proving capacity on **three A5000 GPUs**. At **$700/month** for that setup, that is about **$9 per million transactions proved**. | We extrapolated monthly capacity from runs that proved over 120,000 transactions. DA publication and settlement incur separate charges. [April 13, 2026 hardware and workload report](https://x.com/realSidhuJag/status/2043835944558833769) · [May 5 Foundation report](https://syscoin.org/eco-update-260505) |
+| What does the DA commitment choice cost inside the guest? | **300,000 RISC-V cycles** for BLAKE2s, **154 million** for Keccak, **540 million** for the KZG path. | Our April nine-blob workload, estimated at **1.1 MiB**. BLAKE2s took **1/1,800** of the KZG path’s guest cycles. Proving the rest of the batch, relaying it, and waiting for settlement take additional work and time. [April 13 cycle counts](https://x.com/realSidhuJag/status/2043835947029316074) · [Nine-blob cycle comparison](./data-availability.mdx#why-blake2s-fits-the-prover) |
 | What did the zkSYS smart-account signature optimization buy? | **2,810,587 → 1,369,699 guest cycles**, a **51.3% reduction** for the direct call. The forwarded path went from **2,804,184 → 1,363,307**. | Portable SHA-2 verification of fixed counter-0 direct/forwarded vectors, v31/V7, upstream OS `b76084f3` with the Syscoin patch. The PR gives the program and verification-key digests. The metric is guest cycles. The charge remained **45,000 gas**. [Test, artifact hashes and V7 configuration](https://github.com/syscoin/zksync-os-server/pull/305) · [Merged revision](https://github.com/syscoin/zksync-os-server/commit/ed3c35b144a817eb9142fa1e21b8dc205449b49c) |
 | How sensitive were early Z-DAG asset payments to latency? | **15,328 transfers/s** at **50 ms** emulated latency and **8,677 transfers/s** at **100 ms**. The **150 ms** case produced no completed measurement. | Whiteblock’s Core 4 build `80da881`, Ubuntu 18.04, three Skylake vCPUs and 10 GB SSD in the test profile. Its 30-node pre-confirmation test used nine assets, 250 sends per asset and an 11-second wait. Block settlement has its own cadence. [System and test conditions, Tables I–III](https://syscoin.org/tps_whiteblock_syscoin_report.pdf#page=2) · [Latency results, Table VIII](https://syscoin.org/tps_whiteblock_syscoin_report.pdf#page=3) |
 
 <details>
 <summary>What the three-GPU proving estimate includes</summary>
 
-The April 13 report identifies three A5000 GPUs and a monthly cost of $700. The reported hardware and internal run count are public. The software commit, transaction mix, proof and security settings, benchmark runner and itemized monthly costs are unpublished. [April hardware report](https://x.com/realSidhuJag/status/2043835944558833769) · [May Foundation update](https://syscoin.org/eco-update-260505)
+Our April 13 estimate used three A5000 GPUs and a monthly cost of $700. We have yet to publish the software commit, transaction mix, proof and security settings, runner, or a breakdown of that cost. [April hardware report](https://x.com/realSidhuJag/status/2043835944558833769) · [May Foundation update](https://syscoin.org/eco-update-260505)
 
 </details>
 

@@ -1,5 +1,6 @@
 ---
 title: Hash-based data availability
+image: /img/recovering-a-batch.webp
 description: Follow zkSYS batch data from publication on Syscoin to retrieval, finality, and NEVM membership.
 sidebar_position: 3
 ---
@@ -44,20 +45,20 @@ Edge proofs must bind execution to the batch bytes that readers can retrieve. In
 
 The guest then applies **Keccak-256** to the ordered list of blob digests. For the 5 MiB example, this outer hash processes 96 bytes. Gateway binds the references to their chain and batch and hashes them into its ordered root. The SNARK wrapper verifies aggregated execution proof work at settlement and brings its own assumptions. This division places the prover-friendly hash on the largest input while preserving the commitment format expected by the settlement contracts. [Edge commitment](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/lib/batch_types/src/batch_info.rs#L580-L592) · [Gateway reference binding](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/lib/batch_types/src/batch_info.rs#L49-L71) · [Settlement wrapper](./zksys.mdx#why-there-are-two-proof-stages)
 
-On April 13, 2026, Jagdeep Sidhu published commitment-stage RISC-V cycle counts for a **nine-blob workload**. The Foundation reproduced those counts in Figure 7 of its June 30 v31 testnet report. Sidhu estimated the total at **roughly 1.1 MiB**. The v0.24.4 encoder fits that much application data in one Syscoin blob, and Core allows up to 32 publications in a block. [Original workload and cycle counts](https://x.com/realSidhuJag/status/2043835947029316074) · [June testnet report](https://syscoin.org/news/zksys-update)
+We measured RISC-V commitment cycles on the same **nine blobs** and shared the counts on April 13, 2026. Our estimate for the combined input size was **roughly 1.1 MiB**. Figure 7 of the June 30 v31 testnet update uses those counts. The v0.24.4 encoder fits that much application data in one Syscoin blob, and Core allows up to 32 publications in a block. [Original workload and cycle counts](https://x.com/realSidhuJag/status/2043835947029316074) · [June testnet report](https://syscoin.org/news/zksys-update)
 
 [![Syscoin’s logarithmic chart of guest cycles for a nine-blob workload. KZG used 540 million cycles, Keccak used 154 million, and BLAKE2s used 300 thousand.](../../static/img/da-proving-cost.png)](../../static/img/da-proving-cost.png)
 
-**Figure 7.** The logarithmic bars show guest cycles spent building the commitment. The June report identifies a single H100 for a separate proving-throughput result. [Open the full-size chart](../../static/img/da-proving-cost.png) · [April 13 cycle report](https://x.com/realSidhuJag/status/2043835947029316074) · [June testnet report, Figure 7](https://syscoin.org/news/zksys-update)
+**Figure 7.** The logarithmic bars show guest cycles spent building the commitment. We used one H100 for the separate proving-throughput test in the June update. [Open the full-size chart](../../static/img/da-proving-cost.png) · [April 13 cycle report](https://x.com/realSidhuJag/status/2043835947029316074) · [June testnet report, Figure 7](https://syscoin.org/news/zksys-update)
 
 <details>
 <summary>What the nine-blob benchmark records</summary>
 
-The April 13 post gives a cycle count for each algorithm on the same nine blobs. The total size of roughly 1.1 MiB is the author’s estimate. The guest commit, encoded input fixture, proof and security settings, benchmark runner and host used for the cycle counts are unpublished.
+We counted cycles for each algorithm on the same nine blobs and estimated their combined size at roughly 1.1 MiB. We have yet to publish the guest commit, encoded input fixture, proof and security settings, benchmark runner, or host for this cycle test.
 
 </details>
 
-| DA commitment path tested | Reported guest cycles | Relative to BLAKE2s |
+| DA commitment path tested | Guest cycles | Relative to BLAKE2s |
 | --- | ---: | ---: |
 | KZG path | 540,000,000 | 1,800× |
 | Keccak path | 154,000,000 | ≈513× |

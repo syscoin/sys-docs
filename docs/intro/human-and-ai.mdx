@@ -1,5 +1,6 @@
 ---
 title: Who allocates what remains scarce when intelligence gets cheap?
+image: /img/compute-cooperative.webp
 sidebar_label: Humans, AI, and shared resources
 sidebar_position: 4
 description: Follow two AI agents competing for one GPU hour, the people who can challenge the outcome, and the evidence Syscoin could supply.
@@ -35,7 +36,7 @@ A proof can establish that the published program respected a revocation and allo
 
 ### What counts as a truth state?
 
-In *Truth States*, Sidhu distinguishes observing a state from having the authority to change it. His account of consciousness asks what happens when observers recognize the consequences of their own actions. Sol sees who received the hour. The monitor can testify about the machine. Only the panel can award a remedy under the federation’s rules. Members can verify who recorded the booking and who authorized the remedy, then disagree about whether the policy was fair. They can use what happened to Sol to change the *next* version of the rule. [Truth States, Consciousness, and Decentralized Intelligence](https://jsidhu.medium.com/truth-states-consciousness-and-decentralized-intelligence-d5415da47dc6)
+*Truth States* starts with a distinction. Anyone can observe a shared state when they have access to the evidence. The rules determine who can change it. The essay connects this to consciousness by asking what happens when observers recognize the consequences of their own actions. Sol sees who received the hour. The monitor can testify about the machine. Only the panel can award a remedy under the federation’s rules. Members can verify who recorded the booking and who authorized the remedy, then disagree about whether the policy was fair. They can use what happened to Sol to change the *next* version of the rule. [Truth States, Consciousness, and Decentralized Intelligence](https://jsidhu.medium.com/truth-states-consciousness-and-decentralized-intelligence-d5415da47dc6)
 
 ### If the operator stops cooperating
 
@@ -59,7 +60,7 @@ flowchart TD
 | When something goes wrong | Who can act and what they need |
 | --- | --- |
 | An agent tries to book outside its grant | In the hypothetical cooperative, the program checks the signer, cluster, budget, expiry and recorded revocation. Whoever holds upgrade authority can change future rules. The sequencer controls inclusion. A signed acknowledgement can support Mira’s complaint about a delayed revocation. Her grant expires on Friday regardless. |
-| A member loses a wallet key | A Pali account using the reference guardian module can schedule recovery once enough of its appointed guardians approve. The recovery transaction must be included after the configured delay and before expiry. [Guardian settings and scheduling](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/contracts/src/pali/PaliGuardianRecoveryModule.sol#L68-L157) · [Execution window](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/contracts/src/pali/PaliGuardianRecoveryModule.sol#L183-L209) |
+| A member loses a wallet key | A Pali v5 smart account with our reference guardian module can schedule recovery once enough of its appointed guardians approve. The recovery transaction must be included after the configured delay and before expiry. [Guardian settings and scheduling](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/contracts/src/pali/PaliGuardianRecoveryModule.sol#L68-L157) · [Execution window](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/contracts/src/pali/PaliGuardianRecoveryModule.sol#L183-L209) |
 | The provider fails | A replacement with the saved inputs and a known prior state can reconstruct the booking. The deployment’s handoff rules decide who may sequence the next one. Sol can bring the original booking and the monitor’s signed maintenance record to the members’ panel before the appeal deadline. [What survives a seven-day appeal](../architecture/data-availability.mdx#what-can-someone-verify-a-week-later) |
 | A member leaves | If a chain runs the reference Gas Tank, an included withdrawal returns unused credit as zkSYS **on that chain**. Moving the balance elsewhere depends on the destination’s release rules. The Genesis record shows a settled batch. A unilateral exit during censorship would need its own inclusion or fallback path. The federation decides separately whether another cooperative will honor unused hours. [Gas Tank withdrawal](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/contracts/src/zksys/ZkSysGasTank.sol#L123-L164) · [Public settlement trace](../reference/zksys.mdx#trace-a-public-testnet-transaction) |
 
@@ -84,10 +85,24 @@ If members decide that emergency jobs should get the first hour, they can change
 
 ![An imagined Martian settlement prepares a communications dish at dawn.](../../static/img/mars-signal.webp)
 
-<figcaption>Radio signals between Mars and Earth take about 3 to 22.4 minutes each way as the planets move. A right assigned exclusively to Mars can change hands locally while people on Earth wait for the record. <a href="https://science.nasa.gov/mars/mars-relay-network/">NASA Mars Relay Network</a></figcaption>
+<div className="planet-relay">
+  <span className="planet-relay__endpoint">
+    <span className="planet-mark planet-mark--earth" aria-hidden="true" />
+    Earth
+  </span>
+  <span className="planet-relay__signal">
+    <span><strong>About 3–22.4 min</strong> one-way signal time</span>
+  </span>
+  <span className="planet-relay__endpoint">
+    <span className="planet-mark planet-mark--mars" aria-hidden="true" />
+    Mars
+  </span>
+</div>
+
+<figcaption>Signal time changes as the planets orbit. A right assigned exclusively to Mars can change hands locally while people on Earth wait for the record. <a href="https://science.nasa.gov/mars/mars-relay-network/">NASA Mars Relay Network</a></figcaption>
 </figure>
 
-Sidhu’s 2022 essay compares rollups to the arithmetic units of a computer and the settlement layer to its control unit. The Earth–Mars example in *Truth States* asks how such a computer could coordinate rights when its parts are light-minutes apart. Imagine settlement has assigned a right exclusively to Mars. Mars can authorize local transfers during a communication gap because Earth has already given up the right to make a competing transfer. When a message arrives, a verifier on Earth can check a proof against the previously agreed state and program. It can then accept the update without a round trip for every intermediate computation. [Blockchain as a coordinated global Von Neumann architecture](https://jsidhu.medium.com/blockchain-as-a-coordinated-global-von-neumann-architecture-2876e3c7b0ea) · [Sidhu’s Earth–Mars example in *Truth States*](https://jsidhu.medium.com/truth-states-consciousness-and-decentralized-intelligence-d5415da47dc6)
+In our coordinated computing design, rollups handle execution like a computer’s arithmetic units. The settlement layer coordinates their work like a control unit. The Earth–Mars example in *Truth States* asks how that design could coordinate rights when its parts are light-minutes apart. Imagine settlement has assigned a right exclusively to Mars. Mars can authorize local transfers during a communication gap because Earth has already given up the right to make a competing transfer. When a message arrives, a verifier on Earth can check a proof against the previously agreed state and program. It can then accept the update without a round trip for every intermediate computation. [Blockchain as a coordinated global Von Neumann architecture](https://jsidhu.medium.com/blockchain-as-a-coordinated-global-von-neumann-architecture-2876e3c7b0ea) · [Earth–Mars example in *Truth States*](https://jsidhu.medium.com/truth-states-consciousness-and-decentralized-intelligence-d5415da47dc6)
 
 ```mermaid
 sequenceDiagram
