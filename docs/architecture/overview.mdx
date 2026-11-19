@@ -4,7 +4,7 @@ sidebar_position: 0
 description: How PQ ChainLocks, hash-based availability, NEVM settlement, and zkSYS execution and issuance fit together.
 ---
 
-A new zkSYS application can run on an Edgechain without asking every Syscoin Core node to run its program. The Edgechain orders and executes its transactions. Core carries the published batch data and agrees on its history. Gateway aggregates batches for settlement on NEVM, Syscoin’s Ethereum-compatible contract layer. Applications can grow at different speeds while their users share a record that independent nodes can verify. [Designing for independent validation](./design-tradeoffs.mdx)
+A new zkSYS application can run on an Edgechain without asking every Syscoin Core node to run its program. The Edgechain orders and executes its transactions. Core carries the published batch data and agrees on its history. Gateway is the shared settlement chain for Edgechains. It records accepted batches, then settles its own batches on NEVM, Syscoin’s Ethereum-compatible contract layer. Applications can grow at different speeds while their users share a record that independent nodes can verify. [Designing for independent validation](./design-tradeoffs.mdx)
 
 The payment below follows the zkSYS design with post-quantum (PQ) ChainLocks active and an enforcing validity-proof verifier. [Network and release status](../intro/status.mdx)
 

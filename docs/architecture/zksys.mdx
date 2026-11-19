@@ -5,7 +5,7 @@ description: How zkSYS scales Syscoin through Edgechain execution, collateral-li
 sidebar_position: 4
 ---
 
-zkSYS is Syscoin’s EVM-compatible execution chain. Send a payment and your wallet gets a receipt there. How can someone who never used your wallet check what happened? The Edgechain publishes batch data to Syscoin Core and a validity proof binds the execution result to the data commitment. Gateway settles the Edgechain batch. The Gateway block that records its execution belongs to a new batch that settles on Syscoin NEVM. Multiple Edgechains can share this path while setting their own execution and fee policies. [Syscoin's Edgechain design](https://syscoin.org/news/syscoin-5-faqs) · [Syscoin's ZKsync OS server](https://github.com/syscoin/zksync-os-server/tree/v0.24.4)
+zkSYS is Syscoin’s EVM-compatible execution chain. Send a payment and your wallet gets a receipt there. How can someone who never used your wallet check what happened? In the real-proof design, the Edgechain publishes batch data to Syscoin Core and a validity proof binds the execution result to the data commitment. **Gateway** is a shared settlement chain for Edgechains. Its contracts check the batch commitment and proof and record the accepted result in a Gateway block. The Gateway batch containing that block settles on Syscoin NEVM. Multiple Edgechains can share this path while setting their own execution and fee policies. [Syscoin's Edgechain design](https://syscoin.org/news/syscoin-5-faqs) · [Syscoin's ZKsync OS server](https://github.com/syscoin/zksync-os-server/tree/v0.24.4)
 
 <figure className="editorial-plate">
 
