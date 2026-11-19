@@ -6,6 +6,15 @@ sidebar_position: 7
 
 Blockbook indexes transactions, addresses and blocks for wallet and application queries. API V2 exposes the index over REST and WebSocket. Older integrations may use the legacy REST and Socket.IO interfaces.
 
+## Syscoin endpoints
+
+| Network | REST base URL | Expected status |
+| --- | --- | --- |
+| Syscoin UTXO mainnet | `https://blockbook.syscoin.org/api/v2` | `blockbook.coin` is `Syscoin` and `backend.chain` is `main`. |
+| Tanenbaum UTXO testnet | `https://blockbook-dev.syscoin.org/api/v2` | `blockbook.coin` is `Syscoin Testnet` and `backend.chain` is `test`. |
+
+Pass the origin, such as `https://blockbook.syscoin.org`, to SyscoinJS. The library adds the API path. For direct REST requests, start at `/api/v2`. [First block and transaction lookup](../../../reference/overview.mdx#read-a-syscoin-block-from-a-terminal) · [SyscoinJS](./syscoinjs.mdx)
+
 ## API V2
 
 V2 uses a common response format across supported chains. Amounts are strings in the smallest denomination, such as satoshis or wei, with no decimal point. Responses omit empty fields, including nulls, empty strings and arrays, and numeric zeroes. For example, a transaction with version zero can arrive without a `version` field.

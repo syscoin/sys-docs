@@ -4,34 +4,40 @@ description: Read-only checks for zkSYS network identity, issuance, gas credit, 
 sidebar_position: 2
 ---
 
-## Public Genesis testnet
+## Start on zkSYS Genesis
 
-Genesis is zkSYS's live public testnet. These endpoints let you inspect execution and test applications. The public network settings identify the native SYS balance. Treat the separately issued zkSYS token and gas tank as deployment-specific contracts and verify their addresses before importing a token or making an approval. [Genesis settings](https://syscoin.org/news/zksys-genesis-public-testnet-is-live) · [Issuance and gas design](../architecture/zksys.mdx#sys-collateral-issuance-and-gas)
+Genesis is the public zkSYS Edgechain testnet. You can read it immediately over JSON-RPC. To try an application with a wallet, start at the [zkSYS Portal](https://portal.tanenbaum.io).
 
-| Setting | Value |
-| --- | --- |
-| Network | zkSYS Genesis Testnet |
-| Chain ID | `57057` (`0xdee1`) |
-| Currency symbol | `SYS` (testnet) |
-| RPC | [rpc-zk.tanenbaum.io](https://rpc-zk.tanenbaum.io) |
-| Explorer | [explorer-zk.tanenbaum.io](https://explorer-zk.tanenbaum.io) |
-| Faucet | [faucet-zk.tanenbaum.io](https://faucet-zk.tanenbaum.io) |
-| Testnet bridge | [bridge-zk.tanenbaum.io](https://bridge-zk.tanenbaum.io) |
+1. **Choose the network.** In the Portal, select **zkSYS Tanenbaum** and connect your EVM wallet. For manual setup, use the Genesis RPC and chain ID **57057** below. Chainlist calls the same network *zkTanenbaum Testnet*. [Chainlist wallet settings](https://chainlist.org/chain/57057)
+2. **Get gas for a first transaction.** Give the Genesis faucet your public `0x` address to request native test SYS. The Portal and faucet label that balance **TSYS**. The separately issued **zkSYS** reward token has its own contract and Gas Tank. [Genesis faucet](https://faucet-zk.tanenbaum.io) · [Gas Tank and issuance](../architecture/zksys.mdx#sys-collateral-issuance-and-gas)
+3. **Bring existing testnet funds.** The Portal’s **Bridge** moves supported assets between Tanenbaum NEVM and zkSYS Genesis. The separate **zkSYS Bridge** also offers Ethereum Sepolia as a source. Its documented Sepolia-to-Genesis route takes supported tokens through Tanenbaum NEVM before depositing on Genesis. Choose the source, destination and token shown by the bridge to get the available route. [Portal bridge](https://portal.tanenbaum.io/bridge) · [zkSYS Bridge](https://bridge-zk.tanenbaum.io) · [Sepolia route](https://github.com/syscoin/zksys-bridge/blob/49e733e27504965fb1c871faae6058fcbe28a9a9/bridge-dapp/docs/HYPERLANE_TESTNET_LAUNCH.md#L16-L32)
+4. **Find the result.** The Portal’s **Assets** and **Transfers** views show activity for the connected wallet. Paste the Genesis transaction hash into the Genesis explorer to see the receipt and events. A bridge deposit can have a source transaction and a separate destination transaction. [Genesis explorer](https://explorer-zk.tanenbaum.io) · [Portal source](https://github.com/syscoin/dapp-portal/tree/b0bf31c73aaf338d627806d819df57d84b617428)
 
-Genesis and Tanenbaum NEVM use different chain IDs. EVM transactions signed for Genesis use `57057`. Tanenbaum NEVM uses `5700`, and Syscoin mainnet NEVM uses `57`. Check the wallet's chain ID before signing, especially if its visible network name matches another entry. [Genesis settings](https://syscoin.org/news/zksys-genesis-public-testnet-is-live) · [NEVM chain configuration](https://github.com/syscoin/go-ethereum/blob/1c046ba92f8ea95be024a790e9444b80ccbf019a/params/config.go#L74-L130)
-
-Query the network and server identity. The `eth_chainId` result is hex, and the `eth_syncing` result may be `false` or an object with progress. These commands use `curl` and `jq`.
+For a first read without a wallet, this request returns the Genesis chain ID (`0xdee1`), client version and sync status. Match the results by request ID.
 
 ```bash
 zk_rpc=https://rpc-zk.tanenbaum.io
+curl -fsS "$zk_rpc" -H 'Content-Type: application/json' --data '[
+  {"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]},
+  {"jsonrpc":"2.0","id":2,"method":"web3_clientVersion","params":[]},
+  {"jsonrpc":"2.0","id":3,"method":"eth_syncing","params":[]}
+]' | jq '.[] | {id, result, error}'
+```
 
-curl --fail --silent --show-error "$zk_rpc" \
-  -H 'content-type: application/json' \
-  --data '[
-    {"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]},
-    {"jsonrpc":"2.0","id":2,"method":"web3_clientVersion","params":[]},
-    {"jsonrpc":"2.0","id":3,"method":"eth_syncing","params":[]}
-  ]' | jq '.[] | {id, result, error}'
+## Public Genesis testnet
+
+The application executes on Genesis. Its Edgechain batch settles on Gateway, and Gateway’s own batch settles on Tanenbaum NEVM. Each chain has its own block heights, transaction hashes and explorer. [Published network settings](https://syscoin.org/news/zksys-genesis-public-testnet-is-live)
+
+| Test network and role | Chain ID | RPC | Public explorer |
+| --- | --- | --- | --- |
+| zkSYS Genesis · application execution | 57057 · `0xdee1` | [Public Genesis RPC](https://rpc-zk.tanenbaum.io) | [Genesis explorer](https://explorer-zk.tanenbaum.io) |
+| Gateway · Edgechain settlement | 57001 · `0xdea9` | [Gateway RPC, operator access](https://rpc-gw.tanenbaum.io) | [Gateway explorer](https://explorer-gw.tanenbaum.io) · [Public blocks API](https://explorer-gw.tanenbaum.io/api/v2/blocks) |
+| Tanenbaum NEVM · Gateway settlement | 5700 · `0x1644` | [Public NEVM RPC](https://rpc.tanenbaum.io) | [Tanenbaum explorer](https://explorer.tanenbaum.io) |
+
+Gateway restricts its JSON-RPC by operator IP allowlist. Public clients can read indexed Gateway blocks and execution events through the explorer API. This call returns the latest indexed Gateway block. [Gateway access policy](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/docs/src/guides/gateway_launch.md#L1767-L1772)
+
+```bash
+curl -fsS https://explorer-gw.tanenbaum.io/api/v2/blocks | jq -e '.items[0] | {height, hash}'
 ```
 
 The next request returns the latest and finalized block hashes reported by this node. If the finalized query returns `null` or an error, the endpoint has supplied no finalized block for that request. The worked transaction below follows settlement on Gateway and NEVM.

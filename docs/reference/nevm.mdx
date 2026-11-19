@@ -1,22 +1,41 @@
 ---
 title: NEVM JSON-RPC
 sidebar_position: 3
-description: Verify a Syscoin NEVM connection using read-only Ethereum JSON-RPC requests.
+description: Connect to Syscoin NEVM mainnet or Tanenbaum with public RPC URLs, Chainlist wallet settings, and Ethereum JSON-RPC calls.
 ---
 
-| Network | Decimal chain ID | Hex chain ID | Public RPC |
-| --- | ---: | --- | --- |
-| NEVM mainnet | 57 | `0x39` | `https://rpc.syscoin.org` |
-| NEVM Tanenbaum | 5700 | `0x1644` | `https://rpc.tanenbaum.io` |
+NEVM exposes Ethereum JSON-RPC for accounts, contracts, logs and transaction receipts. The public endpoints below accept reads without a wallet or API key.
 
-Confirm the chain before connecting a wallet or submitting transactions. These requests only read the network ID and current block number.
+## Endpoints and wallet settings
+
+| Network | Chain ID | Native currency | Public RPC | Explorer and wallet discovery |
+| --- | --- | --- | --- | --- |
+| Syscoin NEVM mainnet | 57 · `0x39` | SYS | [rpc.syscoin.org](https://rpc.syscoin.org) | [Block explorer](https://explorer.syscoin.org) · [Chainlist](https://chainlist.org/chain/57) |
+| Tanenbaum NEVM testnet | 5700 · `0x1644` | tSYS | [rpc.tanenbaum.io](https://rpc.tanenbaum.io) | [Block explorer](https://explorer.tanenbaum.io) · [Chainlist](https://chainlist.org/chain/5700) |
+
+Choose Tanenbaum to deploy a first contract. A wallet can import the network from Chainlist or use the values above. Test accounts can request gas through the community’s **Syscoin NEVM Testnet** faucet. [Pali and MetaMask setup](../guides/nevm/wallet-setup.mdx) · [Tanenbaum faucet instructions](https://support.syscoin.org/t/how-to-get-a-syscoin-faucet/876)
+
+For an application on a zkSYS Edgechain, connect to **Genesis testnet** at [rpc-zk.tanenbaum.io](https://rpc-zk.tanenbaum.io), chain ID **57057** (`0xdee1`). Chainlist lists it as *zkTanenbaum Testnet*. Genesis has a separate faucet, explorer and batch RPCs. [Genesis commands and settings](./zksys.mdx#public-genesis-testnet) · [Genesis on Chainlist](https://chainlist.org/chain/57057) · [Genesis faucet](https://faucet-zk.tanenbaum.io)
+
+## Read the chain
+
+This batch returns the chain ID and current block height. Match the results by request ID. On Tanenbaum, request `1` returns `0x1644` and request `2` returns the height in hexadecimal.
 
 ```bash
 RPC=https://rpc.tanenbaum.io
-curl -fsS "$RPC" -H 'Content-Type: application/json' \
-  -d '{"jsonrpc":"2.0","method":"eth_chainId","params":[],"id":1}'
-curl -fsS "$RPC" -H 'Content-Type: application/json' \
-  -d '{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":2}'
+curl -fsS "$RPC" -H 'Content-Type: application/json' --data '[
+  {"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]},
+  {"jsonrpc":"2.0","id":2,"method":"eth_blockNumber","params":[]}
+]'
 ```
+
+| Task | JSON-RPC method | Parameters |
+| --- | --- | --- |
+| Read a public address’s native SYS balance (wei) | `eth_getBalance` | `["0x…address", "latest"]` |
+| Read a contract view | `eth_call` | `[{"to":"0x…contract","data":"0x…ABI_encoded_call"}, "latest"]` |
+| Read a transaction’s outcome and event logs | `eth_getTransactionReceipt` | `["0x…transaction_hash"]` |
+| Fetch a block with transaction hashes | `eth_getBlockByNumber` | `["latest", false]` |
+
+Replace the abbreviated addresses and hashes with their full hex values. A transaction receipt supplies `blockHash`, `status` and `logs` once the transaction is mined. For UTXO balances, outputs and SPT transfers use [Blockbook REST](../dev-resources/documentation/javascript-sdk-ref/blockbook.mdx) or [Syscoin Core RPC](./core.mdx).
 
 For deployment, use [Foundry](../dev-resources/nevm/foundry.mdx) or [Hardhat](../dev-resources/nevm/hardhat.mdx). For the managed client and its version pairing, see [Syscoin Geth](../guides/nevm/sysgeth.mdx). For general method semantics, see the [Ethereum JSON-RPC reference](https://ethereum.org/en/developers/docs/apis/json-rpc/).

@@ -19,5 +19,5 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
-      - name: Check the generated claim index
+      - name: Check the generated developer and agent reference
         run: git diff --exit-code -- static/llms.txt

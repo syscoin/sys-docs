@@ -1,5 +1,5 @@
 # UTXO developer interfaces
 
-[Blockbook](./blockbook.mdx) exposes indexed UTXO transaction and address lookups. [Syscoinjs-lib](https://github.com/syscoin/syscoinjs-lib) provides application tooling. Use the SDK documentation for your installed version and check that it supports the Core and asset format you use.
+[SyscoinJS](./syscoinjs.mdx) gives a Node.js application the same transaction library Pali uses. Start with a public mainnet read, then build an unsigned testnet payment. Use [Blockbook](./blockbook.mdx) directly for indexed blocks, transactions, addresses and unspent outputs over REST or WebSocket.
 
-See the [Core RPC reference](../../../reference/core.mdx) for direct node access and [NEVM JSON-RPC](../../../reference/nevm.mdx) for EVM development.
+A local Core node exposes UTXO consensus and wallet RPCs, including ChainLock and Z-DAG checks. NEVM contracts use Ethereum JSON-RPC. [Core commands](../../../reference/core.mdx) · [NEVM JSON-RPC](../../../reference/nevm.mdx)

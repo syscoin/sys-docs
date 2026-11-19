@@ -8,7 +8,7 @@ const routes = [
   {title: 'Design tradeoffs and measured results', description: 'See where a 2 MiB blob travels in full, where 32 bytes suffice, and how the choice of hash changes the work inside the prover.', href: '/docs/architecture/design-tradeoffs'},
   {title: 'Who pays for the network?', description: 'Trace SYS rewards to miners and Sentries, public funding to approved proposals, and zkSYS issuance to eligible accounts.', href: '/docs/architecture/modular-alignment#who-pays-for-the-shared-infrastructure'},
   {title: 'Post-quantum finality', description: 'See how a full node checks the signatures that lock a Core block and why that takes bandwidth.', href: '/docs/architecture/post-quantum'},
-  {title: 'Command reference', description: 'Inspect a Core block, query NEVM, retrieve batch data, or connect to the public zkSYS testnet.', href: '/docs/reference/overview'},
+  {title: 'Command reference', description: 'Start with a public RPC call, build a UTXO transaction with SyscoinJS, or connect a wallet to NEVM or zkSYS.', href: '/docs/reference/overview'},
 ];
 
 export default function Home() {
@@ -49,9 +49,12 @@ export default function Home() {
             ))}
           </div>
           <aside className={styles.thesis}>
-            <h2>Inspect a public testnet settlement.</h2>
-            <p>A contract call in Genesis block 10,968 reached Gateway and then Tanenbaum NEVM. Decode the mock proof accepted on NEVM for Gateway batch 9,448 and match the batch to its execution event.</p>
-            <Link to="/docs/reference/zksys#trace-a-public-testnet-transaction">Trace the testnet transaction <span aria-hidden="true">→</span></Link>
+            <h2>Start on zkSYS Genesis</h2>
+            <p>Connect a wallet in the portal, get test gas and follow a payment in the explorer. The worked example follows Genesis block 10,968 through Gateway to the mock proof accepted on Tanenbaum NEVM.</p>
+            <div className={styles.actions}>
+              <Link to="/docs/reference/zksys#start-on-zksys-genesis">Open the Genesis quickstart <span aria-hidden="true">→</span></Link>
+              <Link to="/docs/reference/zksys#trace-a-public-testnet-transaction">Trace the testnet transaction <span aria-hidden="true">→</span></Link>
+            </div>
           </aside>
         </section>
       </main>
