@@ -42,15 +42,16 @@ In the example, Mira’s revocation worked because the sequencer included it. Su
 ```mermaid
 flowchart TD
     accTitle: A member’s choices in the hypothetical reservation application
-    accDescr: Mira grants a one-hour allowance with an expiry. An included reservation is checked against the active grant. An included revocation or an expired grant prevents the agent from booking. If the sequencer omits the revocation, Mira needs the deployment’s inclusion or handoff route. Members can appeal a physical failure to the panel, and a replacement can use retained records to reconstruct the booking.
+    accDescr: Mira grants a one-hour allowance with an expiry. The program rejects an ineligible request or a request for a taken slot. A revocation recorded first prevents booking. An omitted revocation needs an inclusion or handoff route, or the grant can expire. If Mira loses her wallet key, an installed guardian module can execute an approved recovery within its configured window. Members can appeal a machine failure. A replacement operator needs retained inputs for replay and separate authority to sequence.
     Grant["Mira authorizes one GPU hour<br/>on this cluster before noon Friday"] --> Request["Agent submits a reservation"]
     Request -->|Included| Check["Program checks grant and slot"]
-    Revoke["Mira submits a revocation"] -->|Included first| Reject["Revoked or expired grant<br/>Request rejected"]
-    Check -->|Grant expired or exhausted| Reject
+    Revoke["Mira submits a revocation"] -->|Included first| Reject["Reservation rejected"]
+    Check -->|Ineligible or slot taken| Reject
     Check -->|Eligible and slot free| Book["Booking recorded"]
     Revoke -.->|Omitted| Remedy["Use a deployed inclusion or handoff route<br/>or wait for grant expiry"]
     Book -->|Machine unavailable| Appeal["Panel hears evidence<br/>and can award another hour"]
-    Book -->|Provider disappears| Restore["Replacement replays retained inputs<br/>Ordering authority is a separate grant"]
+    Book -->|Provider disappears| Restore["Replay from known state and inputs<br/>Takeover needs ordering authority"]
+    Grant -.->|Mira loses her wallet key| Recover["With guardian module installed<br/>Schedule with threshold approvals<br/>Execute in recovery window"]
 ```
 
 | Power a member wants to retain | Who can enforce, change, or block it? | What the member can do |

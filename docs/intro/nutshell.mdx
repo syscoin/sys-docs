@@ -16,6 +16,14 @@ Syscoin’s 2021 scaling proposal began with a wallet holder’s problem. Keepin
 
 Suppose your wallet sends a payment on zkSYS. It gets a local receipt. Later, someone who never used your wallet wants to check the result after the original operator has gone offline.
 
+```mermaid
+flowchart TD
+    accTitle: How one wallet payment reaches shared settlement
+    accDescr: The wallet authorizes a payment. The application executes it and issues a local receipt. After publication and proof checks under the active rules, shared settlement records the batch.
+    Wallet["Your wallet authorizes a payment"] --> App["The application executes it<br/>and issues a local receipt"]
+    App -->|"Publication and proof checks"| Settlement["Shared settlement records the batch"]
+```
+
 1. **Get a receipt.** An operator called a sequencer orders the payment on zkSYS and executes it. The receipt tells your wallet the local outcome. The batch containing the payment still has to reach shared settlement. [zkSYS transaction lifecycle](../architecture/zksys.mdx#follow-an-application-transaction)
 2. **Inspect the publication.** zkSYS groups transactions into a batch and publishes its encoded data on Syscoin Core. A reader can retrieve each blob and hash it to check the batch’s ordered identifiers. After Core’s serving window, the reader needs an archive that kept those bytes. [Data publication and retention](../architecture/data-availability.mdx)
 3. **Check which history counts.** Bitcoin miners can reuse their work to mine Core blocks. Under the post-quantum rules, a quorum of Sentry Nodes signs the block history, and Core nodes verify those signatures directly. A ChainLock gives readers a common finalized history in which to locate the batch publication. [Mining and finality](../architecture/core.mdx)

@@ -19,6 +19,23 @@ Core gives this job a fixed budget. Every fifth block height is eligible for a C
 
 Suppose the locked Core block contains a zkSYS blob publication. The ChainLock tells a reader which Core history contains the commitment. A reader with the blob can hash its bytes and check them against that commitment. To check whether executing the batch took the prior state to the claimed new state, zkSYS uses a validity proof. Gateway and NEVM handle that settlement. [Publication, inclusion and finality](./data-availability.mdx#availability-inclusion-and-finality) · [The two zkSYS proof stages](./zksys.mdx#why-there-are-two-proof-stages)
 
+## Which object does each cryptographic check protect?
+
+<figure aria-label="Cryptographic checks for a Syscoin payment and its settlement">
+
+| Object to check | Mechanism and deployment scope |
+| --- | --- |
+| **Mining work for a Core block** | **Mainnet.** Core checks the Bitcoin-compatible parent header’s SHA-256 mining work against the Syscoin target. Merkle branches bind the child block to the parent coinbase and header. Inclusion in Bitcoin’s best chain requires its own evidence. [AuxPoW checks](./core.mdx#what-bitcoin-merge-mining-contributes) |
+| **Bytes of a published blob** | **Released Core.** Recompute the versioned BLAKE2s-256 or legacy Keccak-256 digest and match it to the commitment. This authenticates a retrieved copy. Later readers need someone who retained it. [Blob encoding and digest](./data-availability.mdx#what-the-hash-commits-to) |
+| **Authority to sign as a Sentry operator** | **Core PQ candidate.** An SLH-DSA-SHAKE-128s identity authenticates the operator’s child-key root. A node uses the on-chain registration and the roster for the target to identify the keys eligible to vote. [Signing roles](#signing-roles-and-keys) |
+| **Finality statement for a specific Core block** | **Mainnet** uses BLS quorum signatures. **Core PQ candidate** uses scheduled WOTS+ signatures whose keys and roster slots each node checks against the block’s signing context. [Certificate checks](#what-a-full-node-verifies) · [Activation boundary](#released-behavior-and-migration) |
+| **Permission to spend** | **Mainnet.** The locking script governs a Core output, including Sentry collateral or payouts. Ordinary NEVM transactions use classical secp256k1 signatures. **zkSYS experiment.** A smart account with the Pali SLH module can authorize user operations under a separate, limited-use SHA-2 signature profile. Check the actual account’s installed policy. [Released account rules](../intro/status.mdx#released-networks-and-public-records) · [Smart-account signing](./zksys.mdx#wallets-and-post-quantum-account-authorization) |
+| **Execution of a zkSYS batch** | **Real-proof configuration.** Airbender proves execution of the agreed batch program against its public input, including the commitment to the ordered blob identifiers. The proof system uses Merkle commitments and a FRI low-degree test. [Execution proof and input binding](./zksys.mdx#why-there-are-two-proof-stages) |
+| **Proof accepted at settlement** | **Deployment-specific.** Check the deployed wrapper, verification key, public input and submitted proof. A real PLONK wrapper adds its own setup and soundness assumptions. **Observed testnet.** Gateway batch 9,448 used the mock format on Tanenbaum NEVM. [Decode that submission](../reference/zksys.mdx#trace-a-public-testnet-transaction) · [Real-verifier requirements](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/docs/src/design/prover_api.md#real-snark-readiness) |
+
+<figcaption>To evaluate a payment, start with the authority that can spend the asset. Then check the publication and the verifier that accepted the resulting state. Each row identifies the evidence for one object.</figcaption>
+</figure>
+
 ## Signing roles and keys
 
 There are two signing jobs. A Sentry operator establishes who can vote by committing its child keys under a long-lived SLH-DSA identity. When a finality vote comes due, the operator signs with the WOTS+ leaf assigned to that statement. A full node can follow the vote back to the on-chain authority and check exactly which roster slot it counts toward. [Signing profiles and authority](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/doc/pq-chainlocks.md)
@@ -69,8 +86,6 @@ A ChainLock statement carries a Bitcoin checkpoint cursor. At a scheduled candid
 The only on-chain carrier for that candidate is at `H + 10`. A non-null receipt must name the exact certificate for `H`. Only a verified `ADVANCE` forwards a new Bitcoin hash to NEVM, and `KEEP` leaves the NEVM checkpoint unchanged. Missing certificate bytes can pause the dependent paired execution, while base Syscoin synchronization can continue under the bounded recovery rules. [Receipt and NEVM replay](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/doc/pq-chainlocks.md#L1839-L1891)
 
 Payment audits are a separate certificate domain. Their compact receipts and probation commitment affect payment eligibility. Payment probation does not change the roster's signing authority. During recovery after pruning, a returning node can verify an exact certificate selected by a receipt on its fully replayed proof-of-work history. That bounded historical import relies on the replayed history for omitted roster transitions. A later certificate must still pass the normal forward-authorization checks, and historical import alone cannot advance finality. [Recovery and payment audit design](https://github.com/syscoin/syscoin/pull/609)
-
-The hash-based upgrade covers ChainLocks and the enrolled Sentry Node roles above. Spending ordinary coins, including collateral and payouts, follows the existing UTXO script rules. NEVM account signatures, rollup proofs, and custody routes each have their own security assumptions.
 
 ## Released behavior and migration
 
