@@ -1,35 +1,27 @@
 # Z-DAG Developer Guide
 
-Z-DAG is a patent-pending transaction technology implemented on the Syscoin blockchain that enables near-instant, low-cost transactions that are highly scalable. Z-DAGs transactional throughput has been audited by third party blockchain auditing firm [Whiteblock](https://whiteblock.io/), you can [view their report here](https://syscoin.org/whitepaper#tps). For more technical information on Z-DAG refer to the [Z-DAG Syscoin Community page](https://syscoin.community/features/z-dag) or the [Syscoin Z-DAG Whitepaper](https://syscoin.org/zdag_syscoin_whitepaper.pdf).
+Z-DAG gives integrations a status for unconfirmed SPT allocation transfers from a Core node. The node checks the transaction and its unconfirmed ancestors in the local mempool. Configure the waiting period and confirmation policy for the application. [Z-DAG design and whitepaper](../../tech/z-dag.mdx) · [Core architecture](../../architecture/core.mdx)
 
-## Z-DAG Basics
-
-Z-DAG is an interactive protocol, meaning you can continue to check the Z-DAG status all the way up to the point of blockchain confirmation. In today's network conditions a minimum Z-DAG threshold of 10 seconds or later are typically secure (99.9999%). Within certain enterprise deployments lower Z-DAG thresholds can be considered secure dependent on network conditions.
-
-A typical transaction workflow has 2 stages:
-
-1. The transaction enters the mempool (unconfirmed).
-2. The transaction is mined into a block (confirmed).
-
-When using Z-DAG, there are 3 stages:
-
-1. The transaction enters the mempool (unconfirmed).
-2. After a predefined Z-DAG threshold time the interactive protocol is called and returns a Z-DAG status.
-3. The transaction is mined into a block (confirmed).
-
-When step 2 returns a Z-DAG status of 0 (after the Z-DAG threshold) that means the SPT can be re-spent without the risk of double-spends. Longer Z-DAG thresholds provide a higher level of security. When transactions are in a Z-DAG state available balance for re-spending should be determined using the Z-DAG balance.
+The eligible format is allocation send, transaction version `142`. The queried transaction and its unconfirmed ancestors must meet the Z-DAG size policy of 1,100 serialized bytes. For example, an unconfirmed ordinary SYS transfer that funds a fee input can make the child ineligible even when the child is an SPT allocation send. [Policy size limit](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/policy/policy.h#L49-L51) · [Mempool ancestor checks](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/services/rpc/assetrpc.cpp#L27-L65)
 
 ## Understanding Z-DAG Statuses
 
-Z-DAG status is retrieved by the command `assetallocationverifyzdag`. The output will reflect one of the following status levels:
+`assetallocationverifyzdag "<txid>"` returns a numeric `status` based on the node's mempool checks.
 
-| Status | Description                                                  |
-| :-----: | :----------------------------------------------------------- |
-| -1     | NOT FOUND (transaction is already confirmed on-chain, or is not a Z-DAG transaction) |
-| 0      | OK                                                           |
-| 1      | WARNING (there are more spending balances than the current POW sender balance in the mempool. An active stance should be taken and perhaps a deeper analysis as to potential conflicts related to the sender.) |
-| 2      | CRITICAL (an active double spend was detected. Any descendant asset allocations are flagged as dangerous and should wait for POW confirmation before proceeding.) |
+| Status | Description |
+| :----: | :---------- |
+| `-1` | The transaction was not found by the mempool check. It may already be confirmed. |
+| `0` | Z-DAG OK. The node's checks passed. |
+| `1` | The transaction or an unconfirmed ancestor signals replace-by-fee (RBF). |
+| `2` | The transaction or an unconfirmed ancestor is not a Z-DAG transaction. |
+| `3` | The transaction or an unconfirmed ancestor exceeds the Z-DAG size limit. |
+| `4` | The node detected a double-spend conflict involving the transaction or an unconfirmed ancestor. |
+| `5` | The node cannot complete conflict verification because it exhausted its budget for retaining conflict evidence. This warning replaces an otherwise OK result until the node restarts. |
+
+Statuses `2` and `4` already have these meanings in Syscoin Core 5.1.3. Status `5` is available in releases that include [Syscoin Core #609](https://github.com/syscoin/syscoin/pull/609).
+
+After your configured Z-DAG waiting period, **accept only numeric `0` as Z-DAG OK**. That result applies to the node's view of the unconfirmed transaction. For any other status, including an unknown value, verify the transaction on the active chain and check that it meets your confirmation requirement before treating it as confirmed.
 
 ## Using Z-DAG Balances
 
-The available balance while use Z-DAG can be determined by calling `assetallocationbalance`. If `balance` and `zdag_balance` are the same, then display `balance`. If the balances differ that is an indication that Z-DAG is active for this transaction and it has not yet been confirmed by Proof of Work. In this scenario the `zdag_balance` should be used to indicate to the user their available balance.
+Core 4.x exposed a `zdag_balance` through `assetallocationbalance`. Core 5.0 removed that RPC. In Core 5.x, apply the transaction status and confirmation checks above to each transfer. [Core 5.0 release notes](https://github.com/syscoin/syscoin/blob/v5.0.0/doc/release-notes/release-notes-5.0.0.md#9-removal-of-deprecated-syscoin-4x-asset-rpcs)

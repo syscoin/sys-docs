@@ -1,13 +1,5 @@
-# Merged Mining
+# Merged mining
 
-Also known as Auxiliary Proof-of-Work or simply AuxPoW, merged mining enables you to mine multiple blockchains at the same time without spending additional energy on mining. It is carbon-neutral as it re-uses the proof from work already performed. It could be seen as someone (the miner) entering a lottery of sorts. With merged-mining the miner can submit the same lottery ticket and numbers to different lotteries (merge-mined blockchains), increasing their rewards.
+A participating Bitcoin miner can earn SYS with the same SHA-256 work it uses to compete for a Bitcoin block. The pool commits to a Syscoin candidate in the parent coinbase. AuxPoW ties that candidate to the parent header so Core can validate the work against Syscoin’s target. A parent header can meet the Syscoin target without becoming a published Bitcoin block. [Core architecture](../architecture/core.mdx) · [Pool setup and job submission](../guides/mining_setup.mdx)
 
-Merged mining was first presented by Satoshi Nakamoto in 2010, and was subsequently introduced to Bitcoin Core. It can be considered a Bitcoin primitive. See Bitcoin's [Merged Mining Specification](https://en.bitcoin.it/wiki/Merged_mining_specification).
-
-From our perspective, it will be proven over time to be a critical component for incentivizing a robust and decentralized Bitcoin network as BTC block rewards will continue to diminish. Without merged-mining, revenue from mining Bitcoin would eventually be limited to Bitcoin’s flat network fees.
-
-Furthermore, merged mining enables Bitcoin’s hashrate to be extensible and support blockchains that offer important utility beyond the scope and best-purpose of the Bitcoin protocol itself.
-
-Note: Blockchains that naively use merge-mined settlement are subject to the same vectors of PoW in general. A solution now exists to solve those challenges, and it comes in the form of a hybrid consensus system that provides decentralized Finality on top of merged-mining. Such a solution is present in Syscoin. Dig into Syscoin's [Finality](/docs/tech/finality).
-
-For more information or to set up your miner(s) to merge-mine Syscoin, refer to the [Merged Mining Setup Guide](/docs/guides/mining_setup).
+The separate `sys` coinbase output publishes a recent Syscoin ancestor into Bitcoin when the parent block makes Bitcoin’s chain. The proposed BTC bridge uses those references to veto a withdrawal supported by conflicting Syscoin history. [Bitcoin-anchored fork detection](../architecture/bitcoin-bridge.mdx)

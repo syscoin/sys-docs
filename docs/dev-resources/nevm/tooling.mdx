@@ -1,36 +1,7 @@
-# Tooling
+# NEVM development tools
 
-Below are a list of tools that will be greatly beneficial to you when you're designing and creating the next big dApp!
+NEVM exposes Ethereum JSON-RPC and works with EVM smart contract tooling. Run the [network checks](../../reference/nevm.mdx) first and test with an account reserved for testnet.
 
-**Hardhat**
-
-[Hardhat](https://hardhat.org/) is a modern JavaScript-based environment with tight plugin tooling for testing, debugging, and scripting. Reach for it when you want TypeScript support, rich task automation, or seamless integration with the ethers.js ecosystem.
-
-For a guide on how to deploy smart contracts with Hardhat on Syscoin NEVM, click [here](./hardhat).
-
-**Foundry**
-
-[Foundry](https://book.getfoundry.sh/) is a Rust-native toolkit focused on speed and reproducibility, ideal if you prefer command-line workflows, fuzzing, or Solidity-first testing.
-
-For a guide on how to deploy smart contracts with Foundry on Syscoin NEVM, click [here](./foundry).
-
-**Truffle (Discontinued)**
-
-Truffle has been discontinued. We recommend using [Hardhat](./hardhat) or [Foundry](./foundry) for developing and deploying smart contracts on Syscoin NEVM.
-
-:::info Further reading
-[Truffle is sunsetting — here’s how to migrate to Hardhat, Foundry, and thirdweb](https://blog.thirdweb.com/guides/truffle-alternative-ethereum/)
-:::
-
-
-
-**Remix IDE**
-
-[Remix](https://remix.ethereum.org/) is an in-browser IDE that enables the writing, deploying and testing of smart contracts. It gives developers the ability to connect to any network they like through the use of browser extensions like MetaMask.
-
-
-**Syscoin RPC Providers**
-
-- [Syscoin Foundation](/docs/guides/nevm/wallet-setup#manual-settings-for-metamask-or-other-wallets) provides mainnet and testnet shared nodes for RPC.
-- [Getblock](https://getblock.io/nodes/sys/) provides mainnet shared nodes for RPC and the option of dedicated nodes.
-- [Ankr](https://ankr.com/rpc/syscoin) provides mainnet shared nodes for RPC and the option of dedicated nodes.
+- [Foundry](./foundry.mdx) for Solidity builds, tests, and RPC inspection.
+- [Hardhat](./hardhat.mdx) for TypeScript workflows.
+- [NEVM wallet setup](../../guides/nevm/wallet-setup.mdx) for connecting a wallet.

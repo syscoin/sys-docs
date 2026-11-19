@@ -1,0 +1,21 @@
+---
+title: Protocol glossary
+sidebar_position: 5
+description: Definitions for the main Syscoin, zkSYS, availability, and post-quantum concepts.
+---
+
+| Term | Meaning in these docs |
+| --- | --- |
+| **AuxPoW** | Auxiliary proof of work. A compatible mining pool commits to a Syscoin block in a parent-chain coinbase and submits a proof to Core. Core independently validates the block and proof. [Core architecture](../architecture/core.mdx) |
+| **ChainLock** | A Sentry Node quorum certificate committing to a specific Core block and height. An active node applies the ChainLock rules to its view of the chain. [Finality](../tech/finality.mdx) |
+| **Commitment** | A compact value bound to some data. With a hash commitment, a verifier recomputes the digest from the bytes and checks equality. |
+| **Data availability** | The ability of a verifier to obtain the data needed to reconstruct or check a claim at the relevant time. Syscoin's PoDA path publishes blob bytes with a digest and has a defined data retention policy. [Data availability](../architecture/data-availability.mdx) |
+| **Edgechain** | An execution chain in the zkSYS design. It runs transactions and generates proofs for batches. [zkSYS proof flow](../architecture/zksys.mdx) |
+| **Gateway** | The zkSYS aggregation path. It accepts eligible Edgechain commitments and aggregates them for settlement under the configured verifier. [zkSYS proof flow](../architecture/zksys.mdx) |
+| **NEVM** | Syscoin's EVM execution environment. Core and sysgeth coordinate the blocks for the NEVM history. [NEVM reference](./nevm.mdx) |
+| **Sentry Node** | A registered node eligible for quorum duties such as ChainLocks, subject to the applicable protocol and network rules. [Sentry Nodes](../tech/sentrynodes.mdx) |
+| **SLH-DSA** | NIST's stateless hash-based signature standard. Syscoin's PQ ChainLock candidate uses it for operator authority and related commitments. [Post-quantum migration](../architecture/post-quantum.mdx) |
+| **UTXO** | An unspent transaction output. Core transactions spend existing outputs and create new ones. |
+| **Validity proof** | Evidence that a specified computation or state transition satisfies the verifier's constraints. Zero knowledge is a separate privacy property concerning what the proof discloses about the witness. [zkSYS proof flow](../architecture/zksys.mdx) |
+| **WOTS+** | A Winternitz one-time signature scheme. The PQ ChainLock candidate schedules one-time signing keys for quorum votes. [Post-quantum migration](../architecture/post-quantum.mdx) |
+| **Z-DAG** | A Core mempool check for supported zero-confirmation transfers. Its status communicates what the queried node observed. [Status codes](../dev-resources/sys/z-dag.mdx) |

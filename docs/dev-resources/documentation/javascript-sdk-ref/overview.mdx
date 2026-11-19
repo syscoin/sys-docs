@@ -1,16 +1,5 @@
----
-sidebar_position: 1
----
+# UTXO developer interfaces
 
-# Overview
+[SyscoinJS](./syscoinjs.mdx) gives a Node.js application the same transaction library Pali uses. Start with a public mainnet read, then build an unsigned testnet payment. Use [Blockbook](./blockbook.mdx) directly for indexed blocks, transactions, addresses and unspent outputs over REST or WebSocket.
 
-This reference documentation is a community effort and is currently still a WIP, as such there will still be some information missing. Please let us know in the [Discord](https://discord.gg/syscoin) if you find mistakes or things that should be added.
-
-The diagram below shows the layout of the syscoinjs-lib module.
-
-- Syscoinjs-lib provides general functions for signing and sending transactions, as well as creating/issuing/sending tokens.
-- Utils.js provides utility functions that return information related to user accounts, addresses, tokens as well as many others.
-- HDSigner and TrezorSigner are used to sign transactions using software or using a Trezor hardware wallet respectively.
-
-![image-20211205153306662](../../../../images/syscoinjs-lib-overview.png)
-
+A local Core node exposes UTXO consensus and wallet RPCs, including ChainLock and Z-DAG checks. NEVM contracts use Ethereum JSON-RPC. [Core commands](../../../reference/core.mdx) · [NEVM JSON-RPC](../../../reference/nevm.mdx)

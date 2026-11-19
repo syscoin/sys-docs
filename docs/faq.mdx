@@ -1,54 +1,13 @@
-import AddNetworkComponent from '../src/components/AddNetworkComponent/AddNetworkComponent';
+# Frequently asked questions
 
+## Where do I connect?
 
+For Ethereum-compatible apps, NEVM mainnet uses chain ID **57**, Tanenbaum NEVM uses **5700**, and the zkSYS Genesis testnet uses **57057**. For UTXO payments, connect to a Syscoin Core node on the matching network. [NEVM endpoints](./reference/nevm.mdx) · [Genesis endpoint](./reference/zksys.mdx#public-genesis-testnet) · [Core ports and network flags](./reference/core.mdx)
 
-# FAQ
+## What is the difference between PoDA and storing data forever?
 
-If your question isn't answered here, please don't hesitate to ask our community!
+A hash lets a reader authenticate bytes they can retrieve. Core requires payloads when validating fresh publications. A node syncing historical blocks can accept older commitments after the payload requirement expires. An application that needs to replay those batches later must obtain the bytes from a source that kept them. [Publication, retention, and replay](./architecture/data-availability.mdx#retention-and-replay)
 
-## How do I add Syscoin to MetaMask?
+## Which post-quantum features are deployed?
 
-You can add Syscoin to MetaMask using the table below. If this fails for any reason then please follow the guide [here](/docs/guides/nevm/wallet-setup). Welcome to Syscoin!
-
-| Network             |                                                        |
-| :------------------ | ------------------------------------------------------ |
-| Rollux L2 Mainnet | <AddNetworkComponent network={'Rollux Optimistic Mainnet'}/> |
-| Rollux L2 Testnet | <AddNetworkComponent network={'Rollux Optimistic Testnet'}/> |
-|       |       |
-| Syscoin NEVM Mainnet     | <AddNetworkComponent network={'Mainnet'}/>             |
-| Syscoin NEVM Tanenbaum (Testnet)   | <AddNetworkComponent network={'Tanenbaum Testnet'}/>   |
-
-Get started on [Rollux](https://rollux.com) at the [Rollux Help Center](https://docs.rollux.com/docs/help/).
-
-
------
-
-## What is Syscoin?
-Syscoin is the Bitcoin-Powered ecosystem securing rollups (L2s and L3s) with unmatched data availability. Syscoin gives superpowers to Bitcoin by providing it the ultimate functionality of a modular execution layer.
-
-## What are modular blockchains such as Syscoin?
-The new paradigm is focused on modular blockchains. Rather than trying to achieve everything (scalability, decentralization, security) on a single layer (monolithic) blockchain, modularity involves multiple layers, where each layer is optimized to a specific purpose. Syscoin, the security-focused base layer, provides guarantees of ultimate security and decentralization to all the super fast low-cost layers that are built on top or that are integrated with Syscoin’s zkDA.
-
-## How does Syscoin provide scalability?
-Our unique data availability helps scaling layers offer their users fees reduced over 1000% and the ability to provide practically limitless throughput with successive layers. Soon, further advancements such as Syscoin’s zkDA will enable other ecosystems to inherit the security of Syscoin’s data availability plus interoperability with all other ecosystems utilizing it.
-
-## What are some rollups that use Syscoin?
-[Rollux](https://rollux.com) is an OPStack (Optimism-based) L2 rollup that is EVM-equivalent and utilizes Syscoin’s data availability. Rollux also provides native data availability based on Syscoin, enabling L3s on top of it. [Cartesi](https://cartesi.io) enables application-specific rollups with a Linux runtime, transcending EVM limitations, and utilizes validity (zk) proofs and Syscoin’s data availability. 
-
-## How does Syscoin help Bitcoin?
-In multiple ways! First, it’s important to understand that we view Bitcoin as the world’s premier and most-proven secure means of decentralized self-sovereign digital ownership and transfer. That same decentralized security provided by Bitcoin’s Proof-of-Work network of miners is extensible through a process called merged mining, which Satoshi himself created and introduced to Bitcoin Core in 2010. This means Bitcoin’s network is capable of supporting far more than just storing and sending some BTC or an ordinal. In fact, technically it can already support everything Ethereum can, and more, without any Core protocol changes. However, for Bitcoin’s network to tap into this, an appropriately designed merge-mined modular blockchain is required, and Bitcoin miners need to support it. This is where Syscoin comes in.
-
-Syscoin also helps Bitcoin by incentivizing Bitcoin’s miners with the utility coin $SYS. While BTC rewards continue to diminish, the Bitcoin miners who merge-mine Syscoin get the additional $SYS incentive at practically no extra cost. That incentive is tied to limitless utility, and this helps them to continue to support Bitcoin and keep its network decentralized indefinitely into the future. 
-
-## Do any large Bitcoin mining pools support Syscoin?
-Yes. Three of the top five Bitcoin mining pools, and some smaller pools, already contribute their total Bitcoin hashrate to the Syscoin ecosystem through merged mining. At the present time Syscoin’s hashrate typically reflects 50 to 60% of Bitcoin’s total hashrate. We are happy to assist additional pools with merge-mining so they can provide $SYS to their miners at practically no extra cost.
-
-## Is merged mining secure?  What about selfish mining?
-At the very least, merge-mining brings the same challenges as standard Proof-of-Work. However, there are important considerations here beyond just the distribution of hashrate supporting the chain. Ultimately, whether a merge-mined chain is secure depends upon that chain’s own protocol. Syscoin is the first blockchain to make merged mining truly secure. This is accomplished by providing an additive layer of decentralized finality on top of the work of Bitcoin’s miners. This is accomplished by a vast network of independently operated non-authoritative incentivized Sentry full nodes which participate in randomized multi-quorums to provide chainlocks. This actually makes Syscoin far more difficult to 51% attack or “selfishly mine” than Bitcoin itself while still keeping Bitcoin’s own PoW at the bottom of the stack. Even if only a single pool mined Syscoin, an attack would still require that pool to control a supermajority of all Sentry nodes, a practically impossible achievement. This finality, which the Bitcoin parent-chain lacks, makes possible the unique data availability we provide to Bitcoin’s community, and so much more that Syscoin provides. 
-
-## What is $SYS used for and where can I get it?
-Don’t blow your finite BTC on gas fees for execution! Syscoin's native coin, $SYS, is used across the ecosystem for gas and transaction fees and to incentivize Bitcoin’s miners who support Syscoin as well as the Sentry nodes that further enhance Syscoin’s security. This coin is very similar to ETH in supply characteristics and deflationary dynamics. Acquire $SYS by heading to the [Get SYS](https://syscoin.org/get-sys) page!  
-
-## Where can I learn more about Syscoin's design and/or the philosophy behind it?
-Our Foundation President and Lead Core Developer maintains a [Medium](https://jsidhu.medium.com/) covering much of this in-depth and with some technical detail.  Also, numerous interviews and Spaces have been held over the years with the various Syscoin teams, and can be found by searching X or Youtube.
-
+Released Core mainnet uses BLS ChainLocks. The PQ release candidate authenticates Sentries with SLH-DSA and verifies their scheduled WOTS+ votes directly. zkSYS has a separate experimental hash-based signing module for smart accounts. [Finality and spending signatures](./architecture/post-quantum.mdx#which-object-does-each-cryptographic-check-protect) · [Network status](./intro/status.mdx)

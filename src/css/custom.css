@@ -1,144 +1,61 @@
-/* stylelint-disable docusaurus/copyright-header */
-/**
- * Any CSS included here will be global. The classic template
- * bundles Infima by default. Infima is a CSS framework designed to
- * work well for content-centric websites.
- */
+@import '@fontsource-variable/geist';
+@import '@fontsource-variable/bricolage-grotesque';
+@import './batch-path.css';
 
-@import "~primeicons/primeicons";
-
-/* You can override the default Infima variables here. */
 :root {
-  --ifm-font-family-base: 'SpaceGrotesk', sans-serif;
-  --ifm-color-primary: #1F5EFF;
-  --ifm-color-primary-dark: #114de9;
-  --ifm-color-primary-darker: #0f47d5;
-  --ifm-color-primary-darkest: #0c3ab0;
-  --ifm-color-primary-light: #4c7aff;
-  --ifm-color-primary-lighter: #5b85ff;
-  --ifm-color-primary-lightest: #7aa1ff;
-  --ifm-code-font-size: 95%;
-  --ifm-font-size-base: 15px;
-  --ifm-container-width: 1480px;
-  --ifm-container-width-xl: 1600px;
-  --doc-sidebar-width: 225px !important;
+  --ifm-font-family-base: 'Geist Variable', system-ui, sans-serif;
+  --ifm-heading-font-family: 'Bricolage Grotesque Variable', var(--ifm-font-family-base);
+  --ifm-font-family-monospace: 'IBM Plex Mono', ui-monospace, monospace;
+  --ifm-font-size-base: 16px;
+  --ifm-line-height-base: 1.65;
+  --ifm-color-primary: #2c49c7;
+  --ifm-color-primary-dark: #223bad;
+  --ifm-color-primary-darker: #1c359e;
+  --ifm-color-primary-darkest: #132477;
+  --ifm-color-primary-light: #3b56cf;
+  --ifm-color-primary-lighter: #526cd9;
+  --ifm-color-primary-lightest: #6880e2;
+  --ifm-background-color: #fafbff;
+  --ifm-navbar-background-color: #fafbff;
+  --ifm-navbar-shadow: none;
+  --ifm-code-font-size: 90%;
+  --doc-sidebar-width: 276px;
+  --sys-surface: #f3f5fd;
+  --sys-panel: #fafbff;
+  --sys-accent: #2e4ac5;
+  --sys-line: #cfd6e9;
+  --sys-muted: #475572;
 }
-
-article header h1 {
-  font-size: 1.7rem !important;
+[data-theme='dark'] {
+  --ifm-color-primary: #a6baff;
+  --ifm-color-primary-dark: #8da6ff;
+  --ifm-color-primary-darker: #819bff;
+  --ifm-color-primary-darkest: #6685ff;
+  --ifm-color-primary-light: #b9c8ff;
+  --ifm-color-primary-lighter: #c6d2ff;
+  --ifm-color-primary-lightest: #dae2ff;
+  --ifm-background-color: #0a0f1e;
+  --ifm-background-surface-color: #11192b;
+  --ifm-navbar-background-color: #0a0f1e;
+  --ifm-code-background: #182339;
+  --ifm-font-color-base: #eef1fc;
+  --sys-surface: #0b1122;
+  --sys-panel: #111a2e;
+  --sys-accent: #acbcff;
+  --sys-line: #293751;
+  --sys-muted: #b0bbd3;
 }
-
-h2 {
-  font-size: 1.55rem !important;
-}
-
-h3 {
-  font-size: 1.3rem !important;
-}
-
-/* resize and make colour less white/black */
-h4 {
-  font-size: 1.3rem !important;
-}
-
-
-html[data-theme='dark'] {
-  --brand-blue-primary: #1F5EFF;
-  --brand-periwinkle: #A8C1FF;
-  --brand-warm: #FFB75F;
-  --doc-bg: #0c0c0c;
-  --doc-sidebar-bg: #1A1A1A;
-  --doc-footer-bg: #222222;
-  --ifm-heading-color: #FFFFFF;
-  --ifm-color-content: #E0E0E0;
-  --ifm-color-content-secondary: #a0a0a0;
-  --ifm-background-color: var(--doc-bg);
-  --ifm-color-primary: var(--brand-blue-primary);
-  --ifm-link-color: var(--brand-periwinkle);
-  --ifm-link-hover-color: #FFFFFF;
-  --ifm-border-color: rgba(255, 255, 255, 0.1);
-  --ifm-code-background: #000000;
-  --docusaurus-highlight-code-line-bg: rgba(31, 94, 255, 0.2);
-}
-
-.dropdown__link {
-  font-size: inherit;
-}
-
-.navbar {
-  height: 3rem;
-}
-
-[data-theme='dark'] .navbar {
-  background-color: var(--doc-sidebar-bg);
-  border-bottom: 1px solid var(--ifm-border-color);
-  box-shadow: none !important;
-}
-
-[data-theme='dark'] article header h1 { color: var(--ifm-heading-color); }
-[data-theme='dark'] h2 { border-bottom: 1px solid var(--ifm-border-color); margin-top: 2.5rem; color: var(--ifm-heading-color); }
-[data-theme='dark'] h3 { color: var(--ifm-heading-color); }
-[data-theme='dark'] a:hover { color: var(--ifm-link-hover-color); }
-[data-theme='dark'] .admonition-heading * { color: var(--ifm-background-color); }
-[data-theme='dark'] .admonition-content * { color: var(--ifm-background-color); }
-[data-theme='dark'] .admonition-content code { color: var(--ifm-code-color); }
-
-[data-theme='dark'] [class*="docSidebarContainer_"] {
-  background-color: var(--doc-sidebar-bg);
-  border-right: 1px solid var(--ifm-border-color);
-}
-
-[data-theme='dark'] .menu__link {
-  font-size: 0.9rem;
-  border-radius: 4px;
-}
-
-[data-theme='dark'] .menu__link--sublist.menu__link--active {
-  color: var(--ifm-color-primary);
-  background-color: transparent;
-}
-
-[data-theme='dark'] .menu__list .menu__link--active:not(.menu__link--sublist) {
-  background-color: rgba(31, 94, 255, 0.15);
-  color: #fff;
-  font-weight: 600;
-  border-right: 3px solid var(--ifm-color-primary);
-}
-[data-theme='dark'] .menu__link--active, [data-theme='dark'] .menu__link:hover {
-  color: #fff;
-}
-
-[data-theme='dark'] .footer--dark {
-  background-color: var(--doc-footer-bg);
-  border-top: 1px solid var(--ifm-border-color);
-}
-[data-theme='dark'] .footer__title {
-  color: var(--ifm-heading-color);
-}
-[data-theme='dark'] .footer__link-item {
-  color: var(--ifm-color-content-secondary);
-  transition: color var(--ifm-transition-fast);
-}
-[data-theme='dark'] .footer__link-item:hover {
-  color: var(--ifm-link-color);
-}
-
-[data-theme='dark'] .pagination-nav__link,
-[data-theme='dark'] button[class*="collapseButton_"] {
-  border: 1px solid var(--ifm-border-color);
-  background-color: transparent;
-  transition: border-color var(--ifm-transition-fast), color var(--ifm-transition-fast);
-}
-[data-theme='dark'] .pagination-nav__link:hover,
-[data-theme='dark'] button[class*="collapseButton_"]:hover {
-  border-color: var(--ifm-color-primary);
-}
-[data-theme='dark'] .pagination-nav__label {
-  color: var(--brand-periwinkle);
-}
-
-[data-theme='dark'] .token.keyword { color: var(--brand-periwinkle-light); }
-[data-theme='dark'] .token.string  { color: #9BE7FF; }
-[data-theme='dark'] .token.function{ color: var(--brand-periwinkle); }
-[data-theme='dark'] .token.number  { color: var(--brand-warm); }
-[data-theme='dark'] .token.comment { color: #8b90a0; }
+.navbar { border-bottom: 1px solid var(--sys-line); }
+.navbar__brand { font-weight: 760; letter-spacing: -.03em; }
+.markdown > h1, .markdown > header > h1 { letter-spacing: -.045em; font-size: clamp(2rem, 5vw, 3.6rem); line-height: 1.03; }
+.markdown h2 { letter-spacing: -.028em; }
+.markdown table { width: 100%; }
+.markdown table td, .markdown table th { vertical-align: top; }
+.markdown img { border-radius: .5rem; }
+.markdown .editorial-plate { margin: 1.25rem 0 1.75rem; }
+.editorial-plate p { margin: 0; }
+.editorial-plate img { display: block; width: 100%; height: auto; }
+.editorial-plate figcaption { margin-top: .6rem; padding-inline-start: .8rem; border-inline-start: 2px solid var(--sys-line); color: var(--sys-muted); font-size: .92rem; line-height: 1.45; }
+.menu { font-size: .9rem; }
+.footer--dark { --ifm-footer-background-color: #090f21; border-top: 1px solid #293751; }
+:where(a,button,input):focus-visible { outline: 2px solid var(--sys-accent); outline-offset: 3px; }

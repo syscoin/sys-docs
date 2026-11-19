@@ -1,52 +1,25 @@
-# Prepare Your Syscoin Wallet
+---
+title: Set up a Syscoin NEVM wallet
+description: Add Syscoin NEVM Mainnet or Tanenbaum to Pali Wallet or MetaMask and fund a test account.
+---
 
-Before deploying or testing contracts you need a wallet that is configured for the Syscoin NEVM networks and funded with SYS (mainnet) or tSYS (testnet).
+Use [Pali Wallet](https://paliwallet.com) or [MetaMask](https://metamask.io/download/) with an EVM account. In Pali, select the Syscoin NEVM network if it is already listed. In MetaMask or another EVM wallet, add the network manually using the values below. [MetaMask network setup](https://support.metamask.io/configure/networks/how-to-add-a-custom-network-rpc/)
 
-## Choose a wallet
+## Manual settings for MetaMask or other wallets
 
-- **Pali Wallet (recommended):** [Pali Wallet](https://paliwallet.com) is preconfigured for Syscoin NEVM Mainnet and Testnet, so you can skip the network setup steps below.
-- **MetaMask:** Install the [MetaMask browser extension](https://chrome.google.com/webstore/detail/nkbihfbeogaeaoehlefnkodbefgpgknn) or use an existing account, then add the Syscoin networks.
+Tanenbaum is the Syscoin NEVM test network. Check the chain ID in your wallet before you sign a transaction or copy a deposit address for use with an exchange or bridge.
 
-## Add the Syscoin NEVM networks
+| Setting | Syscoin NEVM Mainnet | Syscoin NEVM Testnet (Tanenbaum) |
+| --- | --- | --- |
+| RPC URL | `https://rpc.syscoin.org` | `https://rpc.tanenbaum.io` |
+| Chain ID | `57` | `5700` |
+| Currency symbol | `SYS` | `tSYS` |
+| Block explorer | [explorer.syscoin.org](https://explorer.syscoin.org) | [explorer.tanenbaum.io](https://explorer.tanenbaum.io) |
 
-Use Chainlist to import the networks directly into your wallet:
+For a direct chain-ID check, use the [NEVM RPC reference](../../reference/nevm.mdx). The separate [zkSYS Genesis testnet](../../reference/zksys.mdx) uses chain ID `57057`.
 
-| Network | Quick add |
-| :-- | :-- |
-| Syscoin NEVM Mainnet | [Add via Chainlist](https://chainlist.org/chain/57) |
-| Syscoin NEVM Testnet (Tanenbaum) | [Add via Chainlist](https://chainlist.org/chain/5700) |
+## Fund your account
 
-Approve the prompts in your wallet to finish the import. Some tools still label the Syscoin NEVM Testnet as “Tanenbaum”; both names point to the same chain.
+For Tanenbaum, follow the [Syscoin faucet instructions](https://support.syscoin.org/t/how-to-get-a-syscoin-faucet/876) under **Syscoin NEVM Testnet** and provide the public `0x` address you want to fund. For mainnet, confirm that the funding source supports the **Syscoin NEVM** network. UTXO SYS and NEVM SYS use different address formats.
 
-### Manual settings (for MetaMask or other wallets)
-
-Use these values if you need to enter the networks manually:
-
-**Mainnet**
-
-- Network Name: Syscoin NEVM Mainnet
-- RPC URL: `https://rpc.syscoin.org`
-- Chain ID: `57`
-- Currency Symbol: `SYS`
-- Block Explorer: `https://explorer.syscoin.org/`
-
-**Testnet**
-
-- Network Name: Syscoin NEVM Testnet
-- RPC URL: `https://rpc.tanenbaum.io/`
-- Chain ID: `5700`
-- Currency Symbol: `tSYS`
-- Block Explorer: `https://explorer.tanenbaum.io/`
-
-## Fund the deployment account
-
-Top up the account you plan to use for deployments:
-
-- Follow the [official faucet instructions](https://support.syscoin.org/t/how-to-get-a-syscoin-faucet/876) for tSYS on testnet or SYS on mainnet.
-- Exchanges or bridges can also provide SYS for mainnet deployments.
-
-## Export the private key
-
-Export the private key for the account that will sign your deployments, then store it in a secure secret manager or `.env` file referenced by Hardhat or Foundry.
-
-**Keep credentials private:** never commit `.env` files and rotate the key immediately if it becomes exposed.
+Use a dedicated test account for deployment practice. The [Foundry](../../dev-resources/nevm/foundry.mdx) and [Hardhat](../../dev-resources/nevm/hardhat.mdx) guides show how to load a test signer through an encrypted keystore.

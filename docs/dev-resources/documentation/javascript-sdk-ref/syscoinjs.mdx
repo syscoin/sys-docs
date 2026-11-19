@@ -1,200 +1,112 @@
 ---
-sidebar_position: 3
+title: SyscoinJS for UTXO applications
+description: Read a mainnet transaction from Blockbook and build an unsigned Tanenbaum payment with syscoinjs-lib in Node.js.
 ---
 
-
-import ShowInfoComponent from '../../../../src/components/ShowInfoComponent/ShowInfoComponent';
-import * as tables from '../../../../src/tables/tablesIndex';
-import * as examples from '../../../../src/examples-code/examplesIndex';
-import { PrimeIcons } from 'primereact/api';
-import NpmIcon from '../../../../src/images/npm-square-red-1.svg';
-
-# Syscoinjs-lib
-
-
-<p>
-<a href="https://github.com/syscoin/syscoinjs-lib">
-  <i className="pi pi-github" style={{'fontSize': '2em'}}></i>
-</a>
-
-<a href="https://www.npmjs.com/package/syscoinjs-lib">
-  <NpmIcon width="2rem" height="2rem" />
-</a>
-</p>
-
-A Javascript library for utilising Syscoin blockchain operations in node.js and browsers.
-
-This documentation is currently a WIP. Please let us know if you notice any typos or have any ideas for improvement.
-
----
-
-### assetAllocationBurn
-
-##### *assetAllocationBurn( assetOpts, txOpts, assetMap, sysChangeAddress, feeRate, sysFromXpubOrAddress, utxos, redeemOrWitnessScript )*
-
-Burn an asset allocation for the purpose of provably burning. Could be used to create proof-of-burn for SysNEVM bridge by specifying the NEVM address as the destination in assetOpts.
-
-<ShowInfoComponent paramTable={tables.assetAllocationBurn} returnTable={tables.assetAllocationBurnReturn} examples={[examples.assetBurnToEth, examples.assetBurnToSys]} anchor={"#assetallocationburn"}/>
-
----
-
-
-### assetAllocationMint
-
-##### *assetAllocationMint( assetOpts, txOpts, assetMap, sysChangeAddress, feeRate, sysFromXpubOrAddress, utxos, redeemOrWitnessScript )*
-
-Mint a new asset using proof-of-lock on NEVM chain as a proof to mint tokens on Syscoin.
-
-
-<ShowInfoComponent paramTable={tables.assetAllocationMint} returnTable={tables.assetAllocationMintReturn} examples={[examples.assetMintToSys, examples.assetMintToSys2]} anchor={"#assetallocationmint"}/>
-
-
----
-
-
-
-### assetAllocationSend
-
-##### *assetAllocationSend( txOpts, assetMap, sysChangeAddress, feeRate, sysFromXpubOrAddress, utxos, redeemOrWitnessScript )*
-
-Send an asset allocation to other users. Once the assetSend() function has been used to issue a token to an address this function is then used to send the tokens.
-
-<ShowInfoComponent paramTable={tables.assetAllocationSend} returnTable={tables.assetAllocationSendReturn} examples={[examples.transferAsset, examples.transferAssetFundedByAddress, examples.transferAssetFundedByMultiHDSigners, examples.transferAssetFundedByMultisig, examples.transferAssetFundedByXpub, examples.transferAssetWithMemo]} anchor={"#assetallocationsend"}/>
-
-
----
-
-
-
-### assetNew
-
-##### *assetNew( assetOpts, txOpts, sysChangeAddress, sysReceivingAddress, feeRate, sysFromXpubOrAddress, utxos, redeemOrWitnessScript )*
-
-Create new Syscoin Platform Token (SPT).
-
-<ShowInfoComponent paramTable={tables.assetNew} returnTable={tables.assetNewReturn} examples={[examples.newAsset]} anchor={"#assetnew"}/>
-
-
----
-
-
-### assetSend
-
-##### *assetSend( txOpts, assetMap, sysChangeAddress, feeRate, sysFromXpubOrAddress, utxos, redeemOrWitnessScript )*
-
-Issue supply by sending it from asset to an address holding an allocation of the asset.
-
-<ShowInfoComponent paramTable={tables.assetSend} returnTable={tables.assetSendReturn} examples={[examples.issueAsset, examples.issueAssetNFT, examples.issueAssetNFT2]} anchor={"#assetsend"}/>
-
-
----
-
-
-
-### assetUpdate
-
-##### *assetUpdate( assetGuid, assetOpts, txOpts, assetMap, sysChangeAddress, sysReceivingAddress, feeRate, sysFromXpubOrAddress, utxos, redeemOrWitnessScript )*
-
-Update an existing Syscoin Platform Token (SPT).
-
-<ShowInfoComponent paramTable={tables.assetUpdate} returnTable={tables.assetUpdateReturn} examples={[examples.updateAsset, examples.updateAssetAuxFees, examples.updateAssetNotary]} anchor={"#assetupdate"}/>
-
-
----
-
-
-### createPSBTFromRes
-##### *createPSBTFromRes( res, redeemOrWitnessScript )*
-
-Crafts a PSBT from a res object. Detects witness/non-witness UTXOs and sets appropriate data required for bitcoinjs-lib to sign properly.
-
-<ShowInfoComponent paramTable={tables.createPSBTFromRes} returnTable={tables.createPSBTFromResReturn} anchor={"#createpsbtfromres"}/>
-
-
----
-
-
-### createTransaction
-##### *createTransaction( txOpts, changeAddress, outputsArr, feeRate, fromXpubOrAddress, utxos, redeemOrWitnessScript )*
-
-This function is used to send Syscoin or Bitcoin or like coins.
-
-<ShowInfoComponent paramTable={tables.createTransaction} returnTable={tables.createTransactionReturn} examples={[examples.sendSys, examples.sendSysMemo]} anchor={"#createtransaction"}/>
-
-
----
-
-
-
-### fetchAndSanitizeUTXOs
-
-##### *fetchAndSanitizeUTXOs( utxos, fromXpubOrAddress, txOpts, assetMap, excludeZeroConf )*
-
-Fetch UTXO's for an address or [xPub](types/#xpub) from back-end Blockbook provider and sanitize them for use by upstream libraries.
-
-<ShowInfoComponent paramTable={tables.fetchAndSanitizeUTXOs} returnTable={tables.fetchAndSanitizeUTXOsReturn} anchor={"#fetchandsanitizeutxos"}/>
-
-
----
-
-
-### signAndSend
-
-##### *signAndSend( res, notaryAssets )*
-
-Signs and Notarizes if necessary and sends a transaction to the network using [Signer](utils/#Signer).
-
-<ShowInfoComponent paramTable={tables.signAndSend} returnTable={tables.signAndSendReturn} anchor={"#signandsend"}/>
-
-
----
-
-
-
-### signAndSendWithSigner
-
-##### *signAndSendWithSigner( res, Signer, notaryAssets )*
-
-Signs and Notarizes if necessary and sends a transaction to the network using [Signer](utils/#Signer).
-
-<ShowInfoComponent paramTable={tables.signAndSendWithSigner} returnTable={tables.signAndSendWithSignerReturn} anchor={"#signandsendwithSigner"}/>
-
-
----
-
-
-
-### signAndSendWithWIF
-
-##### *signAndSendWithWIF( res, wif, notaryAssets )*
-
-Signs and Notarizes if necessary and sends a transaction to the network using [Signer](utils/#Signer).
-
-<ShowInfoComponent paramTable={tables.signAndSendWithWIF} returnTable={tables.signAndSendWithWIFReturn} examples={[examples.sendSysMemo]} anchor={"#signandsendwithwif"}/>
-
-
----
-
-
-
-### Syscoin
-
-##### *Syscoin( Signer, blockbookURL, network )*
-
-Constructor.
-
-Top level object used by consuming libraries to craft Syscoin/Bitcoin transactions. For Syscoin SPT support is provided.
-
-<ShowInfoComponent paramTable={tables.Syscoin} anchor={"#syscoin"}/>
-
-
----
-
-
-### syscoinBurnToAssetAllocation
-
-##### *syscoinBurnToAssetAllocation( txOpts, assetMap, sysChangeAddress, feeRate, sysFromXpubOrAddress, utxos, redeemOrWitnessScript )*
-
-Burn Syscoin to mint SYSX.
-
-<ShowInfoComponent paramTable={tables.syscoinBurnToAssetAllocation} returnTable={tables.syscoinBurnToAssetAllocationReturn} examples={[examples.sysBurnToAsset]} anchor={"#syscoinburntoassetallocation"}/>
+SyscoinJS connects JavaScript applications to Syscoin’s UTXO chain. It can look up transactions and available outputs through Blockbook, select inputs, and build a partially signed Bitcoin transaction (PSBT) for a wallet to approve. Pali Wallet directly imports the library to retrieve previous transactions and interpret PSBT inputs and outputs. Pali’s referenced revision pins the same `syscoinjs-lib@2.0.0` used below. [Pali’s package pin](https://github.com/syscoin/pali-wallet/blob/6d711f162f8bd64a7ac8c408bedeaf918381c0c3/package.json#L108) · [Pali’s transaction lookup](https://github.com/syscoin/pali-wallet/blob/6d711f162f8bd64a7ac8c408bedeaf918381c0c3/source/scripts/Background/controllers/transactions/syscoin.ts#L142) · [Pali’s PSBT handling](https://github.com/syscoin/pali-wallet/blob/6d711f162f8bd64a7ac8c408bedeaf918381c0c3/source/utils/syscoinPsbtValues.ts) · [Published SDK](https://www.npmjs.com/package/syscoinjs-lib/v/2.0.0)
+
+## Install in a Node.js project
+
+The examples run with Node.js 22. In a new directory, initialize the project before installing the SDK.
+
+```bash
+mkdir syscoinjs-quickstart
+cd syscoinjs-quickstart
+npm init -y
+npm install --save-exact syscoinjs-lib@2.0.0
+```
+
+## Read a transaction on mainnet
+
+Run this in the project directory. The SDK takes the Blockbook **base URL** and adds the API path itself. This example reads the coinbase transaction in Syscoin block **2,345,720**. It prints the containing block’s height and hash. The current index height changes as new blocks arrive.
+
+```bash
+node <<'JS'
+const { utils } = require('syscoinjs-lib');
+
+async function main() {
+  const blockbook = 'https://blockbook.syscoin.org';
+  const txid = 'f86cd23a46b743acff73119dd1e5df02661a19dbac43c0bca75460de410468d3';
+  const info = await utils.fetchProviderInfo(blockbook);
+  if (info?.blockbook?.coin !== 'Syscoin' || info?.backend?.chain !== 'main') {
+    throw new Error('Expected a Syscoin mainnet indexer');
+  }
+
+  const tx = await utils.fetchBackendRawTx(blockbook, txid);
+  if (tx?.txid !== txid) throw new Error('Transaction lookup failed');
+  console.log({
+    indexHeight: info.blockbook.bestHeight,
+    txid: tx.txid,
+    blockHeight: tx.blockHeight,
+    blockHash: tx.blockHash
+  });
+}
+
+main().catch(error => { console.error(error.message); process.exitCode = 1; });
+JS
+```
+
+The transaction’s `blockHash` is `6c5dc51f2e929822702fcac8281081f05088972c1ddd6eaeb11e0d20014079ac`. You can open the same record directly over HTTPS or query your own Core node for the block and its ChainLock. [Blockbook transaction](https://blockbook.syscoin.org/api/v2/tx/f86cd23a46b743acff73119dd1e5df02661a19dbac43c0bca75460de410468d3) · [Core commands](../../../reference/core.mdx#chainlocks-and-sentry-node-status)
+
+## Build an unsigned Tanenbaum payment
+
+This offline example spends a **fictional** 100,000-satoshi output, pays 40,000 satoshis to a testnet address, and returns the change. The builder has no signer or backend. It returns the unsigned PSBT for inspection. One SYS is 100,000,000 satoshis. SDK output amounts are `utils.BN` values in satoshis and the fee rate is in satoshis per virtual byte. [SDK builder and return values](https://github.com/syscoin/syscoinjs-lib/blob/05f2e08a46c0eae74e1c5ee06d1099e37f9f73d4/index.js#L739-L788) · [Syscoin address networks](https://github.com/syscoin/syscoinjs-lib/blob/05f2e08a46c0eae74e1c5ee06d1099e37f9f73d4/utils.js#L87-L111)
+
+```bash
+node <<'JS'
+const { syscoin: Syscoin, utils } = require('syscoinjs-lib');
+
+async function main() {
+  const builder = new Syscoin(null, null, utils.syscoinNetworks.testnet);
+  const change = 'tsys1qzyg3zyg3zyg3zyg3zyg3zyg3zyg3zyg3g9m666';
+  const recipient = 'tsys1qyg3zyg3zyg3zyg3zyg3zyg3zyg3zyg3z8c7ujd';
+  const utxos = [{
+    txid: 'ab'.repeat(32), vout: 0, value: '100000',
+    address: change, confirmations: 6
+  }];
+  const outputs = [{ address: recipient, value: new utils.BN(40000) }];
+  const feeRate = new utils.BN(2);
+  const { psbt, fee } = await builder.createTransaction(
+    { rbf: true }, change, outputs, feeRate, undefined, utxos
+  );
+
+  console.log({
+    inputs: psbt.inputCount,
+    outputs: psbt.txOutputs.map(out => ({ address: out.address, sats: out.value.toString() })),
+    feeSats: fee.toString(),
+    unsignedPsbt: psbt.toBase64()
+  });
+}
+
+main().catch(error => { console.error(error.message); process.exitCode = 1; });
+JS
+```
+
+With this fixture and SDK version, the PSBT contains one input, the **40,000-satoshi payment**, **59,706 satoshis of change**, and a **294-satoshi fee**. In a wallet integration, the inputs come from the user’s actual outputs, change goes to their wallet, and the wallet authorizes the payment. Supplying a signer to `createTransaction` enables the SDK’s signing and submission path when no funding address or xpub is passed. Use the signer-free builder above when your application hands the PSBT to a wallet for approval. [Signing and submission behavior](https://github.com/syscoin/syscoinjs-lib/blob/05f2e08a46c0eae74e1c5ee06d1099e37f9f73d4/index.js#L761-L788)
+
+## Hand a payment to Pali in a browser
+
+A connected dApp can let the user review and sign a PSBT built from their **actual wallet inputs**. Build for the network selected in Pali’s UTXO mode. On the user’s approval action, pass the SDK’s JSON wrapper to `sys_sign`. The wrapper contains the Base64 PSBT and its serialized asset map. For an ordinary SYS payment the map is empty. `sys_sign` requests a signature in Pali. Broadcasting is a separate action. [SDK serialization](https://github.com/syscoin/syscoinjs-lib/blob/05f2e08a46c0eae74e1c5ee06d1099e37f9f73d4/utils.js#L2077-L2080) · [Pali signing method](https://github.com/syscoin/pali-wallet/blob/6d711f162f8bd64a7ac8c408bedeaf918381c0c3/source/scripts/Background/controllers/message-handler/method-registry.ts#L1297-L1309) · [Pali’s approval payload](https://github.com/syscoin/pali-wallet/blob/6d711f162f8bd64a7ac8c408bedeaf918381c0c3/source/scripts/Background/controllers/message-handler/popup-promise.ts#L173-L195)
+
+```js
+import { utils } from 'syscoinjs-lib';
+
+export async function requestPaliSignature(psbt, assets = new Map()) {
+  if (!window.pali?.request) throw new Error('Pali provider unavailable');
+  await window.pali.request({ method: 'sys_requestAccounts', params: [] });
+  return window.pali.request({
+    method: 'sys_sign',
+    params: [utils.exportPsbtToJson(psbt, assets)]
+  });
+}
+```
+
+## Other SDK calls
+
+| Task | Entry point |
+| --- | --- |
+| Look up available outputs for a public address | `utils.fetchBackendUTXOS(blockbook, address)`. The indexer reports values in satoshis. [UTXO lookup](https://github.com/syscoin/syscoinjs-lib/blob/05f2e08a46c0eae74e1c5ee06d1099e37f9f73d4/utils.js#L310-L359) |
+| Read an indexed block by hash | `utils.fetchBackendBlock(blockbook, blockHash)`. [Block lookup](https://github.com/syscoin/syscoinjs-lib/blob/05f2e08a46c0eae74e1c5ee06d1099e37f9f73d4/utils.js#L629-L659) |
+| Build a Syscoin Platform Token allocation transfer | `builder.assetAllocationSend(...)` takes an asset map keyed by GUID. Its outputs carry asset amounts and it uses SYS inputs for fees. [Allocation builder](https://github.com/syscoin/syscoinjs-lib/blob/05f2e08a46c0eae74e1c5ee06d1099e37f9f73d4/index.js#L790-L847) · [UTXO assets and Z-DAG](../../../tech/tokens.mdx) |
+
+For raw REST calls, use the [Blockbook API reference](./blockbook.mdx). To call an EVM contract, use [NEVM JSON-RPC](../../../reference/nevm.mdx) or the [zkSYS Genesis RPC](../../../reference/zksys.mdx#public-genesis-testnet).

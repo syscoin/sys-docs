@@ -1,0 +1,82 @@
+---
+title: System architecture
+sidebar_position: 0
+description: How PQ ChainLocks, hash-based availability, NEVM settlement, and zkSYS execution and issuance fit together.
+---
+
+A new zkSYS application can run on an Edgechain without asking every Syscoin Core node to run its program. The Edgechain orders and executes its transactions. Core carries the published batch data and agrees on its history. Gateway aggregates batches for settlement on NEVM, Syscoin’s Ethereum-compatible contract layer. Applications can grow at different speeds while their users share a record that independent nodes can verify. [Designing for independent validation](./design-tradeoffs.mdx)
+
+The payment below follows the zkSYS design with post-quantum (PQ) ChainLocks active and an enforcing validity-proof verifier. [Network and release status](../intro/status.mdx)
+
+The same division matters when the transaction grants a right to a scarce resource. Imagine two cooperatives that share a machine and can each replace their scheduler. They need a history that both can check after either operator leaves. Core supplies common ordering and a place to publish the data. The execution layer applies the reservation rule the members chose. If the machine breaks, an accountable person must report it and the members’ appeals policy must identify who can award a replacement. [Follow a disputed reservation](../intro/human-and-ai.mdx)
+
+## Where one zkSYS batch goes
+
+<figure className="batch-path" aria-label="Paths from execution to publication, proof, and settlement">
+  <div className="batch-stage batch-authority">
+    <strong>A person or agent authorizes a transfer</strong>
+    <p>The wallet signs under the account’s policy. A delegated agent needs an account or application that enforces the grant.</p>
+  </div>
+  <div className="batch-stage">
+    <strong>zkSYS executes the transfer</strong>
+    <p>The sequencer orders it. The wallet gets a local receipt. The batcher groups this change with others.</p>
+  </div>
+  <div className="batch-branches">
+    <div className="batch-branch">
+      <strong>Publish the bytes on Core</strong>
+      <p>The publisher sends the blobs to Syscoin. A participating Bitcoin pool reuses its mining work to produce a Core block. Core nodes check the block and fresh blob data. Eligible Sentries sign the ChainLock over this history.</p>
+    </div>
+    <div className="batch-branch">
+      <strong>Prove the execution</strong>
+      <p>Proof workers run the batch program and bind its state transition to the ordered blob identifiers. The wrapper prepares a proof the settlement verifier can check.</p>
+    </div>
+  </div>
+  <div className="batch-stage">
+    <strong>Settle on Gateway, then NEVM</strong>
+    <p>Gateway checks the Edgechain commitment and proof under its configured rules. The Gateway block recording that execution is part of a new batch that settles on NEVM. Core and NEVM nodes pair their canonical blocks.</p>
+  </div>
+  <figcaption>Design with candidate PQ ChainLocks active and a real zkSYS verifier. Bitcoin merge-mining, Core and NEVM operate on mainnet. Genesis is a public testnet. Bitcoin records a Syscoin ancestor reference when a qualifying tagged block lands there. Syscoin carries the blobs. A later replay also needs retained inputs and an authenticated starting state.</figcaption>
+</figure>
+
+One public Genesis payment shows the route. Its receipt appears in Edge block **10,968**. Gateway recorded the execution of the Edge batch, and Tanenbaum NEVM recorded the enclosing Gateway batch **9,448**. That NEVM submission used a mock proof. Its public records show exactly where the payment settled under the testnet rules. [Trace the public transaction](../reference/zksys.mdx#trace-a-public-testnet-transaction) · [Inspect the NEVM proof submission](https://explorer.tanenbaum.io/tx/0xc82091801f6b0947db4bed5fb2400e07313e2730b0c37d389d2b3c5dba9fdde0) · [Check replay inputs](./data-availability.mdx#what-can-someone-verify-a-week-later)
+
+### Which record answers which question?
+
+Publication and proving can progress independently after a batch is sealed. A reader checking a particular payment needs records from both paths.
+
+| Question | Inspect | What else matters |
+| --- | --- | --- |
+| Did the application process my call? | The local Edgechain receipt, block number, and logs. | The sequencer can issue a receipt before shared settlement. |
+| Can I obtain the published data? | Fetch the encoded blobs from Core or an archive, hash them, and compare the ordered identifiers to the batch commitment. | Fetching a copy establishes access at that time. For inclusion, locate the publication transaction in the canonical Core block. [Retrieve the bytes](../reference/zksys.mdx#read-a-core-blob) |
+| Has the publication’s history been locked? | The Core block hash and the certificate accepted under the network’s active finality rules. | Apply the deployment’s policy and distinguish classical mainnet ChainLocks from the PQ candidate. A locked hash does not preserve expired bytes. [Finality during an outage](./core.mdx#what-survives-a-finality-outage) |
+| Did the batch obey the program? | The deployed verifier, proof format, public input, and proof acceptance. | Real-proof verification binds the specified computation. The documented testnet Gateway batch used a mock proof on NEVM. [Decode the example](../reference/zksys.mdx#trace-a-public-testnet-transaction) |
+| Which effects reached settlement? | Match the Edge execution event on Gateway, then the enclosing Gateway batch’s execution on NEVM. | A message that moves an asset to another chain still needs a destination execution record. |
+| Can another operator recover next week? | Restore the replay archive against the authenticated terminal block, using prior state, transactions, block context, protocol version, and required preimages. | Contract authority governs who may take over ordering or release funds. [Restore and appeal evidence](./data-availability.mdx#what-can-someone-verify-a-week-later) |
+
+## Why Core and zkSYS run at different speeds
+
+Core targets a block every 150 seconds. It uses that cadence and bounded Sentry rosters to carry roughly 1 MB of signatures in a completed PQ ChainLock certificate. Nodes verify SLH-DSA signatures on registrations and key commitments and check the scheduled WOTS+ signatures in the certificate directly. That spends bandwidth and local hash work and keeps recursive proof soundness and prover availability out of the ChainLock validation path. The protocol still depends on its quorum, signer-state, and relay assumptions. [Core block timing](./core.mdx#what-bitcoin-merge-mining-contributes) · [Full-node certificate checks](./post-quantum.mdx#what-a-full-node-verifies) · [Ethereum's recursive aggregation proposal](./comparison.mdx#direct-verification-and-recursive-aggregation)
+
+zkSYS uses the same base for slower shared decisions and executes application transactions on its own cadence. A sequencer can issue a local execution receipt before the batch is published, proven, and settled. Proof work is shared across batches and can be aggregated before NEVM verification. Waiting for settlement still means waiting for the relevant publication, proof, and underlying finality. [Transaction lifecycle](./zksys.mdx#follow-an-application-transaction)
+
+## Connecting settlement back to Bitcoin
+
+AuxPoW uses Bitcoin-compatible mining work to produce Core blocks. The separate `sys` coinbase reference can also publish a Syscoin ancestor into Bitcoin history. Syscoin’s proposed bridge uses those references to detect conflicts in a withdrawal’s claimed history and pause its release. [Bitcoin-anchored fork detection](./bitcoin-bridge.mdx)
+
+## When an application can stay on Core
+
+An issuer can put a transferable asset directly into Core’s unspent transaction outputs (UTXOs). Each transfer names the outputs it spends, and Core validates who can spend them and how much can move. For an eligible Syscoin Platform Token payment, a recipient can also ask a node whether its mempool shows a conflicting spend before the block arrives. The Z-DAG result is a local, time-sensitive signal. Only status `0` reports Z-DAG OK. A recipient that requires settlement checks confirmation and the applicable finality policy separately. [UTXO assets](../tech/tokens.mdx) · [Z-DAG status and payment policy](../dev-resources/sys/z-dag.mdx)
+
+## Issuance tied to the base
+
+zkSYS also shows how an execution layer can have its own issuance and give it a role in paying for computation. Eligible SYS stake or qualifying Sentry collateral contributes to reward weight under the issuance rules. The resulting zkSYS token can be deposited into the Gas Tank to pay eligible transaction fees. Native SYS continues to serve as the execution layer's base asset. This links local issuance and use to the system that supplies the underlying security and settlement. [zkSYS economics](./zksys.mdx#sys-collateral-issuance-and-gas) · [Enshrine or align?](./modular-alignment.mdx) · [Cross-chain comparison](./comparison.mdx#rollup-economics-and-collateral)
+
+The decentralized target puts transaction ordering and proof production in the hands of multiple eligible operators over time. A validity proof can constrain the result regardless of who proves it. Sequencing authority, inclusion, replacement when an operator stalls, and compensation for service each require their own rules. [zkSYS operator model](./zksys.mdx#sequencing-proving-and-recovery)
+
+## Why use hashes in several layers?
+
+Proof of work uses SHA-256 to measure search effort. PoDA uses versioned hashes to bind payloads. SLH-DSA uses hash trees and one-time and few-time signature components to authenticate messages. The FRI-based prover uses hash commitments to bind transcript data as part of a larger proof system. Each construction pays for different properties and carries its own assumptions. The settlement proof also inherits the assumptions of its deployed wrapper.
+
+The mining and DA hashes connect through the block. A syncing node can check a candidate’s accumulated work before requesting large bodies. An up-to-date node that already received a publication can recognize it during compact block relay. A reader recovering the batch later can use its committed hash to authenticate a copy from an archive. [How header-first sync and compact relay work together](./design-tradeoffs.mdx#why-check-work-before-downloading-bytes)
+
+For the security of a particular action, the relevant questions are who signed it, which bytes it committed to, and which verifier accepted the result. [Cryptographic scope by object](./post-quantum.mdx#which-object-does-each-cryptographic-check-protect) · [Compare the architecture across chains](./comparison.mdx)

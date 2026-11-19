@@ -1,32 +1,91 @@
-/**
- * CSS files with the .module.css suffix will be treated as CSS modules
- * and scoped locally.
- */
-
-.heroBanner {
-  padding: 2rem 0;
-  padding-bottom: 0rem;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
+.home {
+  background: var(--sys-surface);
+  color: var(--ifm-font-color-base);
 }
-
-@media screen and (max-width: 966px) {
-  .heroBanner {
-    padding: 2rem;
-  }
+.hero, .networks, .relay, .reading {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding-inline: clamp(1.25rem, 5vw, 5rem);
 }
-
-.buttons {
-  display: flex;
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
   align-items: center;
-  justify-content: center;
+  gap: clamp(1.5rem, 4vw, 4rem);
+  padding-block: clamp(2rem, 6vw, 6rem);
 }
-
-.mainline {
-  font-size: 3rem;
+.networks small {
+  display: block;
+  color: var(--sys-accent);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: .75rem;
+  font-weight: 650;
+  letter-spacing: .12em;
+  text-transform: uppercase;
 }
-
-.tagline {
-  font-size: 1rem;
+.hero h1 {
+  font-size: clamp(2.8rem, 5vw, 5rem);
+  max-width: 18ch;
+  margin: 0 0 1.25rem;
+  line-height: .97;
+  letter-spacing: -.059em;
+  text-wrap: balance;
+}
+.hero p { max-width: 52ch; color: var(--sys-muted); font-size: 1.08rem; }
+.hero .status { font-size: .92rem; border-inline-start: 2px solid var(--sys-line); padding-inline-start: .8rem; margin: 1.2rem 0 0; }
+.actions { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.8rem; }
+.action {
+  display: inline-flex;
+  align-items: center;
+  gap: .7rem;
+  border: 1px solid var(--sys-line);
+  border-radius: .5rem;
+  color: var(--ifm-font-color-base);
+  font-weight: 650;
+  padding: .67rem 1rem;
+}
+.action:hover { text-decoration: none; border-color: var(--sys-accent); }
+.primary, .primary:hover { background: #254aec; border-color: #254aec; color: white; }
+.primary:hover { background: #1d39c6; }
+.art { margin: 0; border-radius: 1rem; overflow: hidden; background: var(--sys-panel); border: 1px solid var(--sys-line); box-shadow: 0 26px 60px #080f281a; }
+.art img { display: block; width: 100%; height: auto; }
+.art figcaption { padding: .85rem 1rem; color: var(--sys-muted); font-size: .94rem; }
+.art figcaption strong { color: var(--ifm-font-color-base); }
+.networks { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); }
+.networks a { padding: 1.25rem 1rem 1.25rem 0; color: var(--ifm-font-color-base); border-block: 1px solid var(--sys-line); }
+.networks b { display: block; margin-top: .32rem; font-size: 1.04rem; }
+.relay { padding-top: clamp(2.75rem, 5vw, 4.5rem); }
+.relay h2, .reading h2 { font-size: clamp(1.8rem,3vw,2.65rem); letter-spacing: -.035em; }
+.relay p { margin-bottom: 0; max-width: 72ch; color: var(--sys-muted); }
+.relayLink { display: inline-flex; align-items: center; min-height: 44px; margin-top: .35rem; font-weight: 650; }
+.relaySizes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; margin-block: 1.15rem; }
+.relaySizes div { padding: clamp(.8rem, 2.5vw, 1.6rem); border: 1px solid var(--sys-line); border-radius: .7rem; background: var(--sys-panel); }
+.relaySizes dt { font-size: .95rem; color: var(--sys-muted); }
+.relaySizes dd { margin: .3rem 0 0; font-size: clamp(1.6rem, 4.8vw, 3.75rem); font-weight: 700; line-height: 1.1; letter-spacing: -.04em; }
+.relaySizes div:last-child dd { color: var(--sys-accent); }
+.reading { padding-block: 3.5rem 4.5rem; }
+.routes { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1rem; }
+.card { display:block; border: 1px solid var(--sys-line); border-radius: .7rem; padding: 1.25rem; color: var(--ifm-font-color-base); background: var(--sys-panel); transition: border-color .15s ease; }
+.card:hover { text-decoration: none; border-color: var(--sys-accent); }
+.card h3 { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: .45rem; font-size: 1.25rem; }
+.card span { color: var(--sys-accent); }
+.card p { color: var(--sys-muted); margin: 0; }
+.thesis { border-top: 1px solid var(--sys-line); margin-top: 2.75rem; padding-top: 2rem; }
+.thesis h2 { font-size: clamp(1.6rem, 2.6vw, 2.3rem); }
+.thesis p { color: var(--sys-muted); }
+.thesis a { font-weight: 650; }
+@media (max-width: 800px) {
+  .hero { grid-template-columns: 1fr; }
+  .networks { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .networks a:nth-child(n+3) { border-top: none; }
+}
+@media (max-width: 520px) {
+  .networks, .routes { grid-template-columns: 1fr; }
+  .networks a + a { border-top: none; }
+  .hero h1 { font-size: clamp(2rem, 9vw, 3.5rem); }
+  .hero .actions { margin-top: 1.2rem; }
+  .hero .action { justify-content: center; padding-inline: .75rem; font-size: .95rem; }
+  .hero .action span { display: none; }
+  .relaySizes dd { font-size: clamp(1.35rem, 5vw, 1.6rem); white-space: nowrap; }
+  .reading { padding-block: 2.75rem; }
 }

@@ -1,0 +1,51 @@
+---
+title: Commands and references
+sidebar_position: 0
+description: Make a first Syscoin API call, build a UTXO payment with SyscoinJS, or connect an EVM application to NEVM or zkSYS.
+---
+
+**Reading UTXOs or building a SYS payment?** Blockbook gives a script public access to indexed blocks, transactions and unspent outputs. SyscoinJS (SJS) builds UTXO transactions in JavaScript. A local Core node exposes the consensus and mempool RPCs, including ChainLocks and Z-DAG. **Calling an EVM contract?** Use the NEVM or zkSYS JSON-RPC endpoint for the chain where the contract lives. Public reads work without a wallet. [SyscoinJS examples](../dev-resources/documentation/javascript-sdk-ref/syscoinjs.mdx) · [EVM RPC endpoints and ChainList](./nevm.mdx#endpoints-and-wallet-settings)
+
+## Start on zkSYS Genesis
+
+Open the [zkSYS Portal](https://portal.tanenbaum.io) to connect a wallet and view balances. For a first transaction, get test gas from the [Genesis faucet](https://faucet-zk.tanenbaum.io) and look up the receipt in the [Genesis explorer](https://explorer-zk.tanenbaum.io). The [zkSYS Bridge](https://bridge-zk.tanenbaum.io) shows the available routes for moving supported assets. Scripts connect directly to `https://rpc-zk.tanenbaum.io` on chain ID `57057`. [Genesis quickstart, RPCs and settlement explorers](./zksys.mdx#start-on-zksys-genesis)
+
+## Read a Syscoin block from a terminal
+
+This example uses `curl` and `jq`. The first request identifies the indexer’s chain and sync state. The next two read a public mainnet block and its first transaction. Use `https://blockbook-dev.syscoin.org` for Tanenbaum UTXO reads with a testnet block height or transaction ID. [Mainnet indexer](https://blockbook.syscoin.org/api/v2) · [Testnet indexer](https://blockbook-dev.syscoin.org/api/v2)
+
+```bash
+book=https://blockbook.syscoin.org
+curl -fsS "$book/api/v2" | jq '{coin: .blockbook.coin, chain: .backend.chain, inSync: .blockbook.inSync}'
+
+txid=$(curl -fsS "$book/api/v2/block/2345720?pageSize=1" | jq -er '.txs[0].txid')
+curl -fsS "$book/api/v2/tx/$txid" | jq '{txid, blockHeight, confirmations}'
+```
+
+The transaction belongs to block **2,345,720**. To read a public address, use `GET /api/v2/address/{address}?details=basic`. To get spendable candidates from confirmed transactions, use `GET /api/v2/utxo/{address}?confirmed=true`. UTXO values are integer strings in satoshis, with 100,000,000 satoshis per SYS. [Blockbook API](../dev-resources/documentation/javascript-sdk-ref/blockbook.mdx)
+
+## Call your own Core node
+
+With a running local daemon, `syscoin-cli` uses the node’s local RPC credentials. Run `syscoin-cli help` to list commands available in that build and `syscoin-cli help <command>` for parameters and result fields. The example reads the active chain and its tip. On Tanenbaum, add `-testnet` to each call. [Core ports and commands](./core.mdx)
+
+```bash
+syscoin-cli getblockchaininfo
+tip=$(syscoin-cli getbestblockhash)
+syscoin-cli getblockheader "$tip"
+```
+
+## Build or inspect an application
+
+| I want to… | Start here |
+| --- | --- |
+| Read a UTXO transaction in JavaScript or build a partially signed Bitcoin transaction (PSBT) for Syscoin | [SyscoinJS installation and runnable examples](../dev-resources/documentation/javascript-sdk-ref/syscoinjs.mdx) |
+| Let a user connect or sign a UTXO payment in Pali | The browser dapp uses `window.pali`. [Pali account API](https://docs.paliwallet.com/docs/utxo-syscoin-api/overview) · [Pass a SyscoinJS PSBT to Pali for approval](../dev-resources/documentation/javascript-sdk-ref/syscoinjs.mdx#hand-a-payment-to-pali-in-a-browser) |
+| Read EVM balances, contract state or receipts | [NEVM RPC endpoints, ChainList and first request](./nevm.mdx) · [zkSYS Genesis settings and faucet](./zksys.mdx#public-genesis-testnet) |
+| Deploy a Solidity contract on Tanenbaum | [Foundry](../dev-resources/nevm/foundry.mdx) · [Hardhat](../dev-resources/nevm/hardhat.mdx) |
+| Check an unconfirmed Syscoin Platform Token payment | [Z-DAG status codes](../dev-resources/sys/z-dag.mdx) · [Local Core commands](./core.mdx#z-dag-status) |
+| Retrieve a blob and verify its BLAKE2s digest | [Read and hash a Core blob](./zksys.mdx#read-a-core-blob) |
+| Follow an Edgechain payment to settlement | [Genesis, Gateway and NEVM transaction trace](./zksys.mdx#trace-a-public-testnet-transaction) |
+| Check which features are live on the selected network | [Network status](../intro/status.mdx) · [Protocol glossary](./glossary.mdx) · [Research and specifications](./research.mdx) |
+| Understand the project’s purpose and current work | [Syscoin’s mission](../intro/nutshell.mdx#mission) · [Current research and development](../intro/nutshell.mdx#current-research--development) · [How the design developed](./research.mdx#from-a-computational-court-to-authority-over-scarce-resources) |
+
+For agents, the [plain-text developer reference](../../static/llms.txt) includes the first requests, SDK examples, and deployment status with canonical links.

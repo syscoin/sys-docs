@@ -1,11 +1,54 @@
 ---
+title: Decentralized governance
+description: Inspect Syscoin governance proposals, submit a funding request, and verify superblock payments.
 sidebar_position: 8
 ---
 
-# Decentralized Governance
+Syscoin Core lets users submit funding proposals and valid Sentry Nodes vote on them. A proposal requests a payment from the base-chain superblock budget. Any user with the proposal fee can submit one. Funding votes use the voting key registered for the Sentry Node, which may be delegated. This guide follows the released Core v5.1.3 rules. [Proposal admission](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/rpc/governance.cpp#L118-L217) · [Funding vote verification](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/rpc/governance.cpp#L537-L573)
 
-The Syscoin protocol provides the Syscoin community the means to participate in decentralized governance. Very similar to the governance of Dash, Syscoin gives Sentry owners the power to vote on proposals that are seeking funding from a monthly superblock emission. Proposals can be submitted by anyone.
+## Inspect proposals and the schedule
 
-Check back for more details and detailed walkthroughs!  Until then, suffice to say, the details and process of participating are practically identical to those of Dash governance.
+Run these commands on a synced node. Substitute the governance object hash for `GOVERNANCE_HASH`. For Tanenbaum, add `-testnet` before each RPC command.
 
-Sysnode.info provides a very useful [governance dashboard](https://sysnode.info/governance) that makes it easier to participate in Syscoin governance.
+```bash
+syscoin-cli getgovernanceinfo
+syscoin-cli getsuperblockbudget
+syscoin-cli gobject_list all proposals
+syscoin-cli gobject_get "$GOVERNANCE_HASH"
+syscoin-cli gobject_getcurrentvotes "$GOVERNANCE_HASH"
+```
+
+Mainnet superblocks follow a 17,520-block cycle, roughly monthly at the target block interval. Tanenbaum uses 60 blocks. Use `nextsuperblock` for the next scheduled height. A proposal’s net funding vote is yes minus no. To qualify for selection, it must reach the greater of the network’s minimum governance quorum and one tenth of the current valid Sentry Node count, rounded down. Core considers qualifying proposals in order of net support and applies the payment window and budget. Verify actual payment in the superblock’s coinbase outputs. [Mainnet schedule](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/kernel/chainparams.cpp#L154-L161) · [Testnet schedule](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/kernel/chainparams.cpp#L324-L331) · [Proposal selection](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/governance/governance.cpp#L585-L677)
+
+## How the superblock budget changes
+
+Under the released mainnet rules, the nominal SYS budget is a limit used to select payments. It starts from **2,000,000 SYS** when a valid previous superblock has no cached budget. At a scheduled superblock, qualifying proposals can draw up to 110% of the nominal budget, capped at **5,000,000 SYS**. Core records the actual payment for adjustment purposes as the coinbase output total above the ordinary block-payment allowance. Individual recipients and amounts are visible in the triggered superblock’s outputs. [Budget lookup](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/governance/governanceclasses.cpp#L486-L495) · [Output limit and utilization](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/masternode/masternodepayments.cpp#L69-L87) · [Selecting payable proposals](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/governance/governance.cpp#L638-L688)
+
+| Payment relative to the prior nominal budget | Next nominal budget |
+| --- | --- |
+| Zero | Keep the prior budget. |
+| Above zero and at most 95% | Reduce by 10%, with a floor of **20,000 SYS**. |
+| Above 95% and below 105% | Keep the prior budget. |
+| At least 105% | Increase by 10%, with a ceiling of **5,000,000 SYS**. |
+
+For example, suppose the prior nominal budget is 2,000,000 SYS. A 1,900,000 SYS payment sets the next budget to 1,800,000 SYS. A 2,100,000 SYS payment sets it to 2,200,000 SYS. A cycle with no payout leaves the nominal budget at 2,000,000 SYS and mints no proposal payment. This arithmetic describes the released and PQ candidate utilization formulas. The candidate changes how voting authority and eligibility are verified. [Budget constants](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/governance/governanceclasses.h#L96-L111) · [Released adjustment](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/masternode/masternodepayments.cpp#L19-L35) · [PQ candidate adjustment](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/masternode/masternodepayments.cpp#L66-L82) · [PQ signing roles](../architecture/post-quantum.mdx#signing-roles-and-keys)
+
+## Submit a proposal
+
+1. Write a proposal with `type` set to `1`, a `name`, `start_epoch` and `end_epoch` in Unix seconds, the requested `payment_amount` in SYS, a base-chain `payment_address` for the selected network, and a `url` with the proposal details. Encode the exact JSON bytes as hex, save them with the parent hash, revision, and creation time, and run `gobject_check "$DATA_HEX"`.
+2. Once you have reviewed the data, call `gobject_prepare` from a funded wallet using those values. In the default wallet configuration, this step commits and broadcasts the fee transaction. The current proposal fee is **150 SYS** burned on mainnet, plus the ordinary transaction fee. Save the returned fee transaction ID.
+3. Wait for six active-chain confirmations for the fee transaction, then use `gobject_submit` with the same parent hash, revision, creation time, hex data, and the fee transaction ID. Record the returned governance object hash and query it from a synced node.
+
+Use `syscoin-cli help gobject_prepare` and `syscoin-cli help gobject_submit` for argument order. A root proposal uses parent hash `0`. Rehearse the flow with test funds before preparing a mainnet proposal. [Proposal data validation](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/governance/governancevalidators.cpp#L72-L212) · [Fee and confirmation constants](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/governance/governanceobject.h#L30-L40) · [Fee transaction and broadcast](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/wallet/rpcgovernance.cpp#L222-L256)
+
+## Cast a funding vote
+
+Use a local wallet that holds the registered voting key for a valid Sentry Node. Set `OUTCOME` to `yes`, `no`, or `abstain`, and `PROREG_TXID` to the Sentry Node’s registration ID.
+
+```bash
+syscoin-cli -rpcwallet="$VOTING_WALLET" gobject_vote_alias \
+  "$GOVERNANCE_HASH" funding "$OUTCOME" "$PROREG_TXID"
+syscoin-cli gobject_getcurrentvotes "$GOVERNANCE_HASH"
+```
+
+The PQ candidate proposes an independent SLH-DSA key for proposal funding votes. The released v5.1.3 instructions above use the current voting key. [Released voting RPC](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/wallet/rpcgovernance.cpp#L324-L385) · [PQ signing roles](../architecture/post-quantum.mdx#signing-roles-and-keys)
