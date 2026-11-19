@@ -56,6 +56,14 @@
 .editorial-plate p { margin: 0; }
 .editorial-plate img { display: block; width: 100%; height: auto; }
 .editorial-plate figcaption { margin-top: .6rem; padding-inline-start: .8rem; border-inline-start: 2px solid var(--sys-line); color: var(--sys-muted); font-size: .92rem; line-height: 1.45; }
+.markdown .budget-example { margin: 1.25rem 0 1.75rem; }
+.budget-example figcaption { font-weight: 650; }
+.budget-cases { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .65rem; margin-block: .65rem 0; }
+.budget-cases div { padding: .8rem; border: 1px solid var(--sys-line); border-radius: .5rem; background: var(--sys-panel); }
+.budget-cases dt, .budget-cases dd { color: var(--sys-muted); font-size: .9rem; }
+.budget-cases dd { margin: 0; }
+.budget-cases strong { display: block; margin-block: .25rem; color: var(--sys-accent); font-size: 1.2rem; }
+@media (max-width: 996px) { .budget-cases { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .menu { font-size: .9rem; }
 .footer--dark { --ifm-footer-background-color: #090f21; border-top: 1px solid #293751; }
 :where(a,button,input):focus-visible { outline: 2px solid var(--sys-accent); outline-offset: 3px; }

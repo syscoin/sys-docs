@@ -6,7 +6,7 @@ import styles from './index.module.css';
 
 const routes = [
   {title: 'Design tradeoffs and measured results', description: 'See where a 2 MiB blob travels in full, where 32 bytes suffice, and how the choice of hash changes the work inside the prover.', href: '/docs/architecture/design-tradeoffs'},
-  {title: 'Who pays for the network?', description: 'Trace SYS rewards to miners and Sentries, public funding to approved proposals, and zkSYS issuance to eligible accounts.', href: '/docs/architecture/modular-alignment#who-pays-for-the-shared-infrastructure'},
+  {title: 'Governance and public funding', description: 'See who can set rules for shared resources, how Sentries vote on proposals, and why the budget adjusts to what gets paid.', href: '/docs/governance/overview'},
   {title: 'Post-quantum finality', description: 'See how a full node checks the signatures that lock a Core block and why that takes bandwidth.', href: '/docs/architecture/post-quantum'},
   {title: 'Command reference', description: 'Start with a public RPC call, build a UTXO transaction with SyscoinJS, or connect a wallet to NEVM or zkSYS.', href: '/docs/reference/overview'},
 ];
