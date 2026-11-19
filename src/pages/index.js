@@ -12,27 +12,28 @@ const routes = [
 ];
 
 export default function Home() {
-  const art = useBaseUrl('/img/syscoin-foundations.webp');
+  const art = useBaseUrl('/img/compute-cooperative.webp');
   return (
     <Layout title="Syscoin engineering documentation" description="Understand Syscoin Core, NEVM settlement, hash-based data availability, and zkSYS.">
       <main className={styles.home}>
         <header className={styles.hero}>
           <div className={styles.heroText}>
-            <h1>How Syscoin scales execution.</h1>
-            <p>An application can answer quickly. Someone who never ran its server should still be able to check the result. Follow a zkSYS transaction to see how Bitcoin mining work, published data, and proofs make that possible.</p>
+            <h1>Who gets the last GPU hour?</h1>
+            <p>Imagine two AI agents booking one machine. The community that owns it needs to see who had permission, which request won, and how to appeal. Syscoin’s design gives independent operators a shared history on which to check the decision.</p>
             <div className={styles.actions}>
               <Link className={`${styles.action} ${styles.primary}`} to="/docs/intro/nutshell">Follow a transaction <span aria-hidden="true">→</span></Link>
-              <Link className={styles.action} to="/docs/intro/status">Check network and release status</Link>
+              <Link className={styles.action} to="/docs/intro/human-and-ai">Follow the disputed reservation</Link>
             </div>
           </div>
           <div className={styles.art}>
-            <img src={art} alt="" width="1200" height="800" fetchPriority="high" />
+            <img src={art} alt="Two cooperative members check a reservation ledger and a power meter beside their shared GPU rack." width="1344" height="756" fetchPriority="high" />
           </div>
         </header>
         <nav className={styles.networks} aria-label="Architecture guides">
           <Link to="/docs/architecture/overview"><small>System map</small><b>How the layers fit together</b></Link>
           <Link to="/docs/architecture/comparison"><small>Other chains</small><b>Compare the tradeoffs</b></Link>
           <Link to="/docs/architecture/bitcoin-bridge#inspect-a-tag-in-a-bitcoin-block"><small>Bitcoin bridge research</small><b>Inspect a real mining tag</b></Link>
+          <Link to="/docs/intro/status"><small>Network status</small><b>Check deployments and releases</b></Link>
         </nav>
         <section className={styles.reading} aria-labelledby="docs-topics">
           <h2 id="docs-topics">Explore the stack</h2>
@@ -45,9 +46,9 @@ export default function Home() {
             ))}
           </div>
           <aside className={styles.thesis}>
-            <h2>Who sets the rules when intelligence gets cheap?</h2>
-            <p>If an AI agent reserves a community’s last hour of compute, how can another member check that it had permission? Follow a reservation from a local rule to a record another cooperative can verify.</p>
-            <Link to="/docs/intro/human-and-ai">Humans, AI, and shared resources <span aria-hidden="true">→</span></Link>
+            <h2>Start with a receipt you can check.</h2>
+            <p>A transaction in Genesis block 10,968 reached Gateway and then Tanenbaum NEVM. Match its batch number to the events on each chain and inspect what the settlement contract accepted.</p>
+            <Link to="/docs/reference/zksys#trace-a-public-testnet-transaction">Trace the testnet transaction <span aria-hidden="true">→</span></Link>
           </aside>
         </section>
       </main>

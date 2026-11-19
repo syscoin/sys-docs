@@ -47,14 +47,19 @@ curl --fail --silent --show-error "$zk_rpc" \
 
 ## Trace a public testnet transaction
 
-On November 18, 2026, a contract call on Genesis emitted token transfers. Its receipt is the first of four public records you can follow. Each chain has its own block and batch numbers. The link between them is the event or block range recorded by the next chain.
+On November 18, 2026, a contract call on Genesis emitted token transfers. Its receipt is the first of five public records you can follow. Each chain has its own block and batch numbers. The link between them is the event or block range recorded by the next chain.
 
 | Where to look | What to match |
 | --- | --- |
 | Genesis transaction | The transaction succeeded in Edge block **10,968**. The batch RPC below places that block in Edge batch **10,436** and reports Gateway execution block **31,362**. [Genesis receipt and token transfers](https://explorer-zk.tanenbaum.io/tx/0xa018d61db50752eeda10c6d52b51fd1741cc8eb41db46d9b972677539d5fef0b) |
 | Gateway execution | The settlement transaction in Gateway block **31,362** emitted `BlockExecution` for Edge batch **10,436**. The event’s state and batch commitments match the Genesis batch RPC result. [Gateway execution logs](https://explorer-gw.tanenbaum.io/api/v2/transactions/0x321f5184dea2ff8026bc84b01df304c8936b139e64b25774ffd326853b2391d9/logs) |
 | Gateway batch on NEVM | In Tanenbaum NEVM block **1,009,176**, the range report for Gateway batch **9,448** covers Gateway blocks **31,360–31,362**. The same transaction emitted the batch commitment. [NEVM range and commit events](https://explorer.tanenbaum.io/api/v2/transactions/0x4661a9f890147e1ceb4dc8647eeba801ec206d4a318b299083c291b89f9820f3/logs) |
-| Gateway batch execution on NEVM | In NEVM block **1,009,182**, the same contract emitted `BlockExecution` for batch **9,448** with the state and batch commitments from the previous row. [NEVM execution logs](https://explorer.tanenbaum.io/api/v2/transactions/0x6498e1f4bd29000890343b377d9790b2a63db10e03d3d25fcd5ea1f9ed4f29e6/logs) |
+| Gateway batch proof on NEVM | In NEVM block **1,009,179**, the proof transaction for batch **9,448** succeeded. Its inner payload uses the V8 **testnet mock proof** format. The settlement contract emitted `BlocksVerification(9447, 9448)`. [Transaction and calldata](https://explorer.tanenbaum.io/api/v2/transactions/0xc82091801f6b0947db4bed5fb2400e07313e2730b0c37d389d2b3c5dba9fdde0) · [Verification event](https://explorer.tanenbaum.io/api/v2/transactions/0xc82091801f6b0947db4bed5fb2400e07313e2730b0c37d389d2b3c5dba9fdde0/logs) |
+| Gateway batch execution on NEVM | In NEVM block **1,009,182**, the same contract emitted `BlockExecution` for batch **9,448** with the original state and batch commitments. [NEVM execution logs](https://explorer.tanenbaum.io/api/v2/transactions/0x6498e1f4bd29000890343b377d9790b2a63db10e03d3d25fcd5ea1f9ed4f29e6/logs) |
+
+[![Elapsed block time after the Genesis receipt. Edge batch executed on Gateway at 3 minutes 21 seconds. NEVM recorded Gateway batch commitment at 12 minutes 11 seconds, mock proof acceptance at 16 minutes 37 seconds and execution at 22 minutes 37 seconds.](../../static/img/genesis-settlement-trace.webp)](../../static/img/genesis-settlement-trace.webp)
+
+The five blocks span **22 minutes 37 seconds**. These timestamps describe one testnet transaction and include waiting between blocks. Measuring real proving time requires a batch that runs the production proof path and timing from its workers. [Full-size timing chart](../../static/img/genesis-settlement-trace.webp) · [V8 proof formats](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/lib/l1_sender/src/commands/prove.rs#L434-L465)
 
 Reproduce the first link with `curl` and `jq`. Replace `tx_hash` to follow another mined transaction on the same deployment. The Ethereum receipt encodes its block number in hex. The zkSYS batch method takes that height as a JSON integer.
 
@@ -76,7 +81,26 @@ jq -nc --argjson block "$block_number" \
        settlementBlock: .result.execute_sl_block_number}'
 ```
 
-In the event logs, each indexed value occupies a 32-byte topic. For `BlockExecution` the first topic identifies the event, followed by the batch number, state commitment, and batch commitment. For `ReportCommittedBatchRangeZKsyncOS` the three values are the batch number, first block, and last block. Match the emitting settlement contract as well as the values. These observations establish the recorded testnet settlement path. Verifier mode, Core blob availability, and destination withdrawal execution each require additional evidence. [Event ABI](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/lib/contract_interface/src/lib.rs#L385-L392) · [Batch watcher](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/lib/l1_watcher/src/persist_batch_watcher.rs#L18-L30) · [Verifier modes](../architecture/zksys.mdx#why-there-are-two-proof-stages)
+In the event logs, each indexed value occupies a 32-byte topic. For `BlockExecution` the first topic identifies the event, followed by the batch number, state commitment, and batch commitment. For `ReportCommittedBatchRangeZKsyncOS` the three values are the batch number, first block, and last block. Match the emitting settlement contract as well as the values. Checking Core blob availability and destination withdrawal execution requires their respective records. [Event ABI](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/lib/contract_interface/src/lib.rs#L385-L392) · [Batch watcher](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/lib/l1_watcher/src/persist_batch_watcher.rs#L18-L30)
+
+<details>
+<summary>Reproduce the proof-format check with Foundry Cast</summary>
+
+Read the original transaction input. Decode the outer call, remove the one-byte encoding version `0x01`, then decode the previous batch, the new batch array and the submitted proof words. [Outer and inner ABI](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/lib/contract_interface/src/lib.rs#L403-L410) · [Stored batch tuple](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/lib/contract_interface/src/lib.rs#L350-L360) · [Versioned encoding](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/lib/l1_sender/src/commands/prove.rs#L495-L509)
+
+```bash
+prove_tx=0xc82091801f6b0947db4bed5fb2400e07313e2730b0c37d389d2b3c5dba9fdde0
+input=$(cast tx "$prove_tx" input --rpc-url https://rpc.tanenbaum.io)
+inner=$(cast decode-calldata --json 'proveBatchesSharedBridge(address,uint256,uint256,bytes)' "$input" | \
+  jq -er '.[3] | select(startswith("0x01")) | "0x" + .[4:]')
+stored='(uint64,bytes32,uint64,uint256,bytes32,bytes32,bytes32,uint256,bytes32)'
+cast abi-decode --input --json "proofPayload(${stored},${stored}[],uint256[])" "$inner" | \
+  jq '{previous: .[0][0], batch: .[1][0][0], words: (.[2]|length), prefix: .[2][:3]}'
+```
+
+The decoded batches are **9,447 → 9,448**, with four proof words. The first three are **2051, 0, 13**. The first word is `0x803`, which selects verifier version 8 and proof type 3. The fourth word matches the folded public input computed from the previous and new state commitments, Gateway’s chain configuration and the batch commitment. This establishes that the sampled Gateway-to-NEVM submission used the test format that checks this binding. The real V8 format uses type 2 and carries 44 cryptographic proof words after the two routing words. [Type and sizes](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/lib/l1_sender/src/commands/prove.rs#L16-L25) · [Public input calculation](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/lib/l1_sender/src/commands/prove.rs#L344-L376) · [Mock and real encodings](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/lib/l1_sender/src/commands/prove.rs#L437-L465)
+
+</details>
 
 ## Inspect issuance and gas credit
 
@@ -150,4 +174,4 @@ jq -nc --arg data "0x$digest" \
     -H 'content-type: application/json' --data-binary @- | jq .
 ```
 
-The call checks registration at the chosen NEVM block view. The response carries no blob payload, Core publication height, or ChainLock. Consult the Core query or your deployment's finality policy when that evidence is required. [NEVM precompile](https://github.com/syscoin/go-ethereum/blob/1c046ba92f8ea95be024a790e9444b80ccbf019a/core/vm/contracts.go#L1212-L1226) · [Membership storage](https://github.com/syscoin/go-ethereum/blob/1c046ba92f8ea95be024a790e9444b80ccbf019a/core/rawdb/accessors_execution.go#L111-L117)
+The call reads sysgeth’s current 50,001-block canonical membership window. Passing an older block number to `eth_call` selects historical EVM state, while `0x63` still reads the current index. Retry if sysgeth reports that its metadata changed during the call. To establish a publication’s original inclusion and finality, verify the transaction in its Core block and apply your deployment’s finality policy. To inspect its contents, retrieve and hash the blob. [NEVM precompile](https://github.com/syscoin/go-ethereum/blob/1c046ba92f8ea95be024a790e9444b80ccbf019a/core/vm/contracts.go#L1212-L1226) · [Membership window](https://github.com/syscoin/go-ethereum/blob/1c046ba92f8ea95be024a790e9444b80ccbf019a/docs/syscoin-data-hash-index-upgrade.md#L3-L6) · [Retry and historical reads](https://github.com/syscoin/go-ethereum/blob/1c046ba92f8ea95be024a790e9444b80ccbf019a/docs/syscoin-data-hash-index-upgrade.md#L72-L96)

@@ -48,7 +48,7 @@
 .primary:hover { background: #1d39c6; }
 .art { border-radius: 1rem; overflow: hidden; background: #080f28; border: 1px solid var(--sys-line); box-shadow: 0 26px 60px #080f281a; }
 .art img { display: block; width: 100%; height: auto; }
-.networks { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); }
+.networks { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); }
 .networks a { padding: 1.25rem 1rem 1.25rem 0; color: var(--ifm-font-color-base); border-block: 1px solid var(--sys-line); }
 .networks b { display: block; margin-top: .32rem; font-size: 1.04rem; }
 .reading { padding-block: 3.5rem 4.5rem; }
@@ -66,6 +66,8 @@
 @media (max-width: 800px) {
   .hero { grid-template-columns: 1fr; }
   .hero h1 { max-width: 16ch; }
+  .networks { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .networks a:nth-child(n+3) { border-top: none; }
 }
 @media (max-width: 520px) {
   .networks, .routes { grid-template-columns: 1fr; }

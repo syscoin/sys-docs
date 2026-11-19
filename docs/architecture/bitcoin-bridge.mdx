@@ -8,6 +8,13 @@ Syscoin’s proposed Bitcoin bridge asks whether a withdrawal’s Syscoin histor
 
 ## What a Bitcoin miner commits to
 
+<figure className="editorial-plate">
+
+![A technician moves a spare cooling fan through an illustrated Bitcoin mining hall.](../../static/img/bitcoin-mining-hall.webp)
+
+<figcaption>The machines supply hashpower. The participating pool builds the coinbase that carries the Syscoin reference. Once the parent block lands on Bitcoin, a reader can inspect what the pool published.</figcaption>
+</figure>
+
 | Part of the parent coinbase | What it binds |
 | --- | --- |
 | **Auxiliary Merkle root in the input script** | Commits to the candidate Syscoin block through an auxiliary Merkle proof. Syscoin verifies the parent header’s work against the Syscoin target. Such work can be valid for Syscoin even if it never produces a Bitcoin block. |

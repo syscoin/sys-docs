@@ -8,6 +8,8 @@ When a second application joins Syscoin, which machines must do more work? An ap
 
 The map follows a wallet transfer in the design with post-quantum (PQ) ChainLocks active and zkSYS using a real validity-proof verifier. Public deployments have their own activation and verifier settings. [Network and release status](../intro/status.mdx)
 
+The same division matters when the transaction grants a right to a scarce resource. Imagine two cooperatives that share a machine and can each replace their scheduler. They need a history that both can check after either operator leaves. Core supplies common ordering and a place to publish the data. The execution layer applies the reservation rule the members chose. If the machine breaks, an accountable person must report it and the members’ appeals policy must identify who can award a replacement. This is where the protocol meets the institution. [Follow a disputed reservation](../intro/human-and-ai.mdx)
+
 ## Where one zkSYS batch goes
 
 <figure className="batch-path" aria-label="Paths from execution to publication, proof, and settlement">
@@ -32,7 +34,7 @@ The map follows a wallet transfer in the design with post-quantum (PQ) ChainLock
   <figcaption>Readers who want to replay the change fetch the full data from Core or an archive. The larger Edgechain payload travels on the publication path. Gateway carries its identifiers.</figcaption>
 </figure>
 
-Try it with a public Genesis transaction. Start with its receipt in Edge block **10,968**. Find the Edge batch that contains the block, match its execution event on Gateway, then find the Gateway batch covering that event on Tanenbaum NEVM. Those four records show what the testnet settled. To replay the batch, you also need its bytes and prior state. To tell whether the contracts checked a real proof, inspect their verifier configuration. [Trace the public transaction](../reference/zksys.mdx#trace-a-public-testnet-transaction) · [Retrieve and check blob bytes](../reference/zksys.mdx#read-a-core-blob)
+Try it with a public Genesis transaction. Start with its receipt in Edge block **10,968**, match its batch to the execution event on Gateway, and locate the enclosing Gateway batch **9,448** on Tanenbaum NEVM. The NEVM proof submission for that batch carries the explicit mock-proof marker. Its successful receipt lets you verify the settlement sequence under the testnet rules. A production validity claim would require an enforcing verifier and a real proof. Replaying the batch also requires its data and prior state. [Trace the public transaction](../reference/zksys.mdx#trace-a-public-testnet-transaction) · [Inspect the NEVM proof submission](https://explorer.tanenbaum.io/tx/0xc82091801f6b0947db4bed5fb2400e07313e2730b0c37d389d2b3c5dba9fdde0) · [Retrieve and check blob bytes](../reference/zksys.mdx#read-a-core-blob)
 
 ## Why Core and zkSYS run at different speeds
 
@@ -43,6 +45,10 @@ zkSYS uses the same base for slower shared decisions and executes application tr
 ## Connecting settlement back to Bitcoin
 
 AuxPoW uses Bitcoin-compatible mining work to produce Core blocks. The separate `sys` coinbase reference can also publish a Syscoin ancestor into Bitcoin history. Syscoin’s proposed bridge uses those references to detect conflicts in a withdrawal’s claimed history and pause its release. [Bitcoin-anchored fork detection](./bitcoin-bridge.mdx)
+
+## When an application can stay on Core
+
+An issuer can put a transferable asset directly into Core’s unspent transaction outputs (UTXOs). Each transfer names the outputs it spends, and Core validates who can spend them and how much can move. For an eligible Syscoin Platform Token payment, a recipient can also ask a node whether its mempool shows a conflicting spend before the block arrives. The Z-DAG result is a local, time-sensitive signal. Only status `0` reports Z-DAG OK. A recipient that requires settlement checks confirmation and the applicable finality policy separately. [UTXO assets](../tech/tokens.mdx) · [Z-DAG status and payment policy](../dev-resources/sys/z-dag.mdx)
 
 ## Issuance tied to the base
 

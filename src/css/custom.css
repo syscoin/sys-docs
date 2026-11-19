@@ -52,6 +52,10 @@
 .markdown table { width: 100%; }
 .markdown table td, .markdown table th { vertical-align: top; }
 .markdown img { border-radius: .5rem; }
+.markdown .editorial-plate { margin: 1.25rem 0 1.75rem; }
+.editorial-plate p { margin: 0; }
+.editorial-plate img { display: block; width: 100%; height: auto; }
+.editorial-plate figcaption { margin-top: .6rem; padding-inline-start: .8rem; border-inline-start: 2px solid var(--sys-line); color: var(--sys-muted); font-size: .92rem; line-height: 1.45; }
 .menu { font-size: .9rem; }
 .footer--dark { --ifm-footer-background-color: #090f21; border-top: 1px solid #293751; }
 :where(a,button,input):focus-visible { outline: 2px solid var(--sys-accent); outline-offset: 3px; }
