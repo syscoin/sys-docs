@@ -105,11 +105,18 @@ If members decide that emergency jobs should get the first hour, they can change
 In our coordinated computing design, rollups handle execution like a computer’s arithmetic units. The settlement layer coordinates their work like a control unit. The Earth–Mars example in *Truth States* asks how that design could coordinate rights when its parts are light-minutes apart. Imagine settlement has assigned a right exclusively to Mars. Mars can authorize local transfers during a communication gap because Earth has already given up the right to make a competing transfer. When a message arrives, a verifier on Earth can check a proof against the previously agreed state and program. It can then accept the update without a round trip for every intermediate computation. [Blockchain as a coordinated global Von Neumann architecture](https://jsidhu.medium.com/blockchain-as-a-coordinated-global-von-neumann-architecture-2876e3c7b0ea) · [Earth–Mars example in *Truth States*](https://jsidhu.medium.com/truth-states-consciousness-and-decentralized-intelligence-d5415da47dc6)
 
 ```mermaid
+---
+config:
+  sequence:
+    width: 184
+---
 sequenceDiagram
   accTitle: Local authority and later shared settlement
   accDescr: Shared settlement assigns exclusive control of an asset to Mars. Mars can authorize local changes, then transmit a proof and data for shared settlement when communication resumes.
   participant S as Shared settlement
   participant M as Mars ledger
+  properties S: {"icon": "/img/earth-mark.png"}
+  properties M: {"icon": "/img/mars-mark.png"}
   S->>M: Assign exclusive control of an asset
   M->>M: Authorize a local transfer
   M->>M: Prove the state change
