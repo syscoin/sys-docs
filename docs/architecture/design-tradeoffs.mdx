@@ -56,8 +56,6 @@ A peer that already has the blobs can reconstruct a compact block without anothe
 
 For recent PoDA publications, Core requires the complete blob and checks its hash against the digest in the publication transaction. Anyone who retrieves the blob can repeat the same check with a standard hash. Those are the exact bytes an application can use for replay. Core carries the payload while Gateway carries the 32-byte reference for each zkSYS blob. After the blob expires, a returning node can still sync older blocks that carry its commitment. Replaying the batch then requires retained blob bytes, an authenticated starting state, and the other execution inputs. [Core blob checks](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/validation.cpp#L5975-L6038) · [Compact Gateway relay](./data-availability.mdx#how-much-crosses-gateway) · [Historical replay](./data-availability.mdx#what-can-someone-verify-a-week-later)
 
-In our PQ candidate integration test, Core verified **801 signatures in a 1,001,572-byte certificate**. Peak-traffic production hardware requirements are still unknown. [Certificate test and qualification status](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/doc/pq-chainlocks.md#L3009-L3015)
-
 ## Published measurements
 
 [![Cover of Jagdeep Sidhu’s proving-results video, reporting approximately nine dollars per million transactions and a 1,800-fold difference in DA commitment cycles.](../../static/img/proving-results-post.jpg)](https://x.com/realSidhuJag/status/2043835940322652453)
