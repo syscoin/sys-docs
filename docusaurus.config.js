@@ -47,6 +47,7 @@ const config = {
       items: [
         {to: '/docs/intro/nutshell', label: 'Overview', position: 'left'},
         {to: '/docs/architecture/overview', label: 'Architecture', position: 'left'},
+        {to: '/docs/governance/overview', label: 'Governance', position: 'left'},
         {to: '/docs/reference/overview', label: 'Reference', position: 'left'},
         {href: 'https://github.com/syscoin/sys-docs', label: 'GitHub', position: 'right'},
       ],
@@ -57,6 +58,7 @@ const config = {
         {title: 'Protocol', items: [
           {label: 'Overview', to: '/docs/intro/nutshell'},
           {label: 'Architecture', to: '/docs/architecture/overview'},
+          {label: 'Governance', to: '/docs/governance/overview'},
           {label: 'Network status', to: '/docs/intro/status'},
         ]},
         {title: 'Develop', items: [

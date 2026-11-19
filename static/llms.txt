@@ -48,6 +48,7 @@ syscoin-cli getblockheader "$tip"
 | Retrieve a blob and verify its BLAKE2s digest | [Read and hash a Core blob](https://docs.syscoin.org/docs/reference/zksys#read-a-core-blob) |
 | Follow an Edgechain payment to settlement | [Genesis, Gateway and NEVM transaction trace](https://docs.syscoin.org/docs/reference/zksys#trace-a-public-testnet-transaction) |
 | Check which features are live on the selected network | [Network status](https://docs.syscoin.org/docs/intro/status) · [Protocol glossary](https://docs.syscoin.org/docs/reference/glossary) · [Research and specifications](https://docs.syscoin.org/docs/reference/research) |
+| Inspect a funding proposal, vote, or treasury payment | [Governance commands](https://docs.syscoin.org/docs/guides/governance#inspect-proposals-and-the-schedule) · [Dynamic budget and payout example](https://docs.syscoin.org/docs/governance/dynamic-governance) |
 | Understand the project’s purpose and current work | [Syscoin’s mission](https://docs.syscoin.org/docs/intro/nutshell#mission) · [Current research and development](https://docs.syscoin.org/docs/intro/nutshell#current-research--development) · [How the design developed](https://docs.syscoin.org/docs/reference/research#from-a-computational-court-to-authority-over-scarce-resources) |
 
 For agents, the [plain-text developer reference](https://docs.syscoin.org/llms.txt) includes the first requests, SDK examples, and deployment status with canonical links.
@@ -265,7 +266,7 @@ Syscoin is a Bitcoin-merge-mined blockchain with its own rules for asset transfe
 
 An open source community dedicated to scaling Bitcoin, especially its proof-of-work security, to meet global needs and emerging use-cases, while sticking as close as possible to Bitcoin's original ideals.
 
-As intelligence gets cheaper, people still have to decide how to share water, energy and computing power. We want communities to make those decisions on their own terms, give their agents limited authority, and leave a record others can verify across distance. [Human and AI coordination](https://docs.syscoin.org/docs/intro/human-and-ai)
+As intelligence gets cheaper, people still have to decide how to share water, energy and computing power. We want communities to make those decisions on their own terms, give their agents limited authority, and leave a record others can verify across distance. [Human and AI coordination](https://docs.syscoin.org/docs/intro/human-and-ai) · [Governance](https://docs.syscoin.org/docs/governance/overview)
 
 ### Current Research & Development
 

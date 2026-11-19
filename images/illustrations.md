@@ -16,6 +16,12 @@ The illustrations use the built-in image generation tool. The cooperative is the
 
 > Editorial illustration for Syscoin’s human and AI governance chapter. In a community-owned compute room at dusk, two cooperative members compare a paper reservation ledger with the physical power meter beside a single GPU rack. Landscape, precise ink and gouache on warm paper, deep indigo shadows, amber meter light, a quiet documentary composition. Keep the people, ledger, meter and rack legible on a phone. No lettering, logos, coins or robot mascots.
 
+### Governing shared power
+
+[governing-shared-power.webp](../static/img/governing-shared-power.webp)
+
+> Use case: illustration-story. Create a wide 16:9 editorial illustration for the Syscoin documentation page about community governance. A small group of community members in a municipal workshop choose how to share a limited power supply. In the foreground, one technician points to a branching electrical plan on a worn table, another records the decision, and a third looks from the plan to the working equipment. In the background a modest battery cabinet and a row of conduit make the physical constraint clear. Understated editorial painted realism with tactile texture, ink details, warm practical light, and deep indigo shadows. Keep the focal action legible at mobile size. People are making a decision together. No logos, readable text, money, ballots, robots, holograms, or stock photography poses.
+
 ### Mining hall
 
 [bitcoin-mining-hall.webp](../static/img/bitcoin-mining-hall.webp)

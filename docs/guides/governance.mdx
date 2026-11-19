@@ -6,6 +6,8 @@ sidebar_position: 8
 
 Syscoin Core lets users submit funding proposals and valid Sentry Nodes vote on them. A proposal requests a payment from the base-chain superblock budget. Any user with the proposal fee can submit one. Funding votes use the voting key registered for the Sentry Node, which may be delegated. This guide follows the released Core v5.1.3 rules. [Proposal admission](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/rpc/governance.cpp#L118-L217) · [Funding vote verification](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/rpc/governance.cpp#L537-L573)
 
+For the design rationale and a public superblock example, see [Dynamic governance](../governance/dynamic-governance.mdx).
+
 ## Inspect proposals and the schedule
 
 Run these commands on a synced node. Substitute the governance object hash for `GOVERNANCE_HASH`. For Tanenbaum, add `-testnet` before each RPC command.
