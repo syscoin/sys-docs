@@ -19,13 +19,13 @@ export default function Home() {
         <header className={styles.hero}>
           <div className={styles.heroText}>
             <h1>What stays scarce when intelligence gets cheap?</h1>
-            <p>Software can propose a thousand uses for the same water, power or compute. People still decide who gets access. Bitcoin miners can mine Syscoin with the same work they do for Bitcoin. Independent applications share a record anyone can check. <Link to="/docs/intro/nutshell#mission">Our mission</Link></p>
-            <p>In the zkSYS design, communities can act on rights they already hold and publish data and proofs so others can verify the outcome later.</p>
-            <p className={styles.status}><Link to="/docs/intro/status">Network status</Link> · Core and NEVM run on mainnet. Post-quantum ChainLocks are a release candidate. zkSYS Genesis is a public testnet.</p>
+            <p>AI makes planning cheaper. People still decide who gets the water, power or compute. Syscoin gives them a shared record they can check. Bitcoin miners can reuse their work to mine it. <Link to="/docs/intro/nutshell#mission">Our mission</Link></p>
+            <p>In the zkSYS design, communities can act locally on rights they already hold, then publish data and proofs for others to verify.</p>
             <div className={styles.actions}>
               <Link className={`${styles.action} ${styles.primary}`} to="/docs/reference/zksys#trace-a-public-testnet-transaction">Trace a testnet payment <span aria-hidden="true">→</span></Link>
               <Link className={styles.action} to="/docs/intro/nutshell#current-research--development">Current R&amp;D <span aria-hidden="true">→</span></Link>
             </div>
+            <p className={styles.status}><Link to="/docs/intro/status">Network status</Link> · Core and NEVM run on mainnet. Post-quantum ChainLocks are a release candidate. zkSYS Genesis is a public testnet.</p>
           </div>
           <figure className={styles.art}>
             <img src={art} alt="Two cooperative members check a reservation ledger and a power meter beside their shared GPU rack." width="1344" height="756" fetchPriority="high" />
@@ -50,7 +50,8 @@ export default function Home() {
               <dd>288 bytes</dd>
             </div>
           </dl>
-          <p>The earlier relay carried the full payload. The compact message carries three 32-byte BLAKE2s digests and the batch context. Core still carries the bytes, so an independent reader can retrieve them and check the digests. <Link to="/docs/architecture/data-availability#how-much-crosses-gateway">See the encoder and byte counts</Link></p>
+          <p>The earlier relay carried the full payload. The compact message carries three 32-byte BLAKE2s digests and the batch context. Core still carries the bytes, so an independent reader can retrieve them and check the digests.</p>
+          <Link className={styles.relayLink} to="/docs/architecture/data-availability#how-much-crosses-gateway">See the encoder and byte counts</Link>
         </section>
         <section className={styles.reading} aria-labelledby="docs-topics">
           <h2 id="docs-topics">Explore the stack</h2>
