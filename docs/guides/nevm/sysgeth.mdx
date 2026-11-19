@@ -9,6 +9,4 @@ syscoind -help
 sysgeth --help
 ```
 
-For a locally managed RPC, bind administrative interfaces to trusted local transports. Expose only the read or submission APIs required for the intended clients, and keep the Core-to-NEVM transport private. Configure your network before starting a wallet or node; check [NEVM JSON-RPC](../../reference/nevm.mdx) for read-only checks.
-
-[Network and release status](../../intro/status.mdx) tracks the candidate separately from deployed releases. [Syscoin Geth source](https://github.com/syscoin/go-ethereum)
+For a locally managed RPC, bind administrative interfaces to trusted local transports. Expose only the read or submission APIs your clients need, and keep the Core-to-NEVM transport private. Wallets can confirm the selected network with `eth_chainId`. [NEVM JSON-RPC](../../reference/nevm.mdx) · [Supported networks and release status](../../intro/status.mdx) · [Syscoin Geth source](https://github.com/syscoin/go-ethereum)

@@ -5,7 +5,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 import styles from './index.module.css';
 
 const routes = [
-  {title: 'Design tradeoffs and measured results', description: 'Compare DA proving cycles, relay bytes, and GPU capacity. See which costs each result measures.', href: '/docs/architecture/design-tradeoffs'},
+  {title: 'Design tradeoffs and measured results', description: 'See where a 2 MiB blob travels in full, where 32 bytes suffice, and how the choice of hash changes the work inside the prover.', href: '/docs/architecture/design-tradeoffs'},
   {title: 'Who pays for the network?', description: 'Trace SYS rewards to miners and Sentries, public funding to approved proposals, and zkSYS issuance to eligible accounts.', href: '/docs/architecture/modular-alignment#who-pays-for-the-shared-infrastructure'},
   {title: 'Post-quantum finality', description: 'See how a full node checks the signatures that lock a Core block and why that takes bandwidth.', href: '/docs/architecture/post-quantum'},
   {title: 'Command reference', description: 'Inspect a Core block, query NEVM, retrieve batch data, or connect to the public zkSYS testnet.', href: '/docs/reference/overview'},
@@ -20,7 +20,7 @@ export default function Home() {
           <div className={styles.heroText}>
             <h1>What is Syscoin?</h1>
             <p>Syscoin is a blockchain that Bitcoin miners can mine with the same proof of work. It gives people and autonomous agents a common record for checking who authorized a transaction, what data was published, and which outcome settled.</p>
-            <p>Syscoin nodes validate the shared record. In the zkSYS design, applications run on a separate chain and a verifier on Syscoin checks a compact proof of the result.</p>
+            <p>In the zkSYS design, an application can answer its users locally. It publishes the batch data on Syscoin and sends a compact proof for settlement. Other communities can check the result without running that application on every Core node.</p>
             <p className={styles.status}><Link to="/docs/intro/status">Network status</Link> · Core and NEVM run on mainnet. Post-quantum ChainLocks are a release candidate. zkSYS Genesis is a public testnet.</p>
             <div className={styles.actions}>
               <Link className={`${styles.action} ${styles.primary}`} to="/docs/intro/nutshell">Follow a transaction <span aria-hidden="true">→</span></Link>

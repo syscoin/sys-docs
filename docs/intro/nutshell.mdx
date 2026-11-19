@@ -44,6 +44,6 @@ Try the settlement check on a public Genesis testnet transaction. Follow its rec
 | [NEVM](../reference/nevm.mdx) | Runs Ethereum-compatible contracts, including verification and settlement contracts. |
 | [zkSYS](../architecture/zksys.mdx) | **Public Genesis testnet and proof-settled design.** Executes on an Edgechain and settles through Gateway. Its reference contracts link reward eligibility to SYS and allow zkSYS to cover eligible fees. Inspect the verifier for the batch in question. |
 
-To inspect the system yourself, query a Core block or retrieve a blob using the [command reference](../reference/overview.mdx). To evaluate the design, compare its costs with [other chains](../architecture/comparison.mdx) or inspect the real Bitcoin coinbase tags that the [proposed BTC bridge](../architecture/bitcoin-bridge.mdx) would use.
+Some of this history is visible from Bitcoin itself. Participating miners publish references to Syscoin ancestors in Bitcoin coinbases. Those references give the proposed BTC bridge a way to detect a withdrawal that points to a conflicting Syscoin history. [Two Bitcoin coinbases carrying the same Syscoin reference](../architecture/bitcoin-bridge.mdx#inspect-a-tag-in-a-bitcoin-block) · [How other chains handle settlement and data](../architecture/comparison.mdx) · [Core and NEVM commands](../reference/overview.mdx)
 
 A payment is one example of a state change. A grant to use a shared resource is another. The [human and AI design thesis](./human-and-ai.mdx) follows a community deciding who can reserve a scarce hour of compute.

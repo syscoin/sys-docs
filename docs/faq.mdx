@@ -2,7 +2,7 @@
 
 ## Where do I connect?
 
-Check [network status](./intro/status.mdx), then use the matching [NEVM](./reference/nevm.mdx), [zkSYS](./reference/zksys.mdx), or [Core](./reference/core.mdx) reference. Ethereum-compatible wallets identify networks by chain ID.
+For Ethereum-compatible apps, NEVM mainnet uses chain ID **57**, Tanenbaum NEVM uses **5700**, and the zkSYS Genesis testnet uses **57057**. For UTXO payments, connect to a Syscoin Core node on the matching network. [NEVM endpoints](./reference/nevm.mdx) · [Genesis endpoint](./reference/zksys.mdx#public-genesis-testnet) · [Core ports and network flags](./reference/core.mdx)
 
 ## What is the difference between PoDA and storing data forever?
 
@@ -10,4 +10,4 @@ A hash lets a reader authenticate bytes they can retrieve. Core requires payload
 
 ## Which post-quantum features are deployed?
 
-See the released and candidate boundaries in [Post-quantum ChainLocks](./architecture/post-quantum.mdx) and [network status](./intro/status.mdx).
+Released Core mainnet uses BLS ChainLocks. The PQ release candidate authenticates Sentries with SLH-DSA and verifies their scheduled WOTS+ votes directly. zkSYS has a separate experimental hash-based signing module for smart accounts. [Finality and spending signatures](./architecture/post-quantum.mdx#which-object-does-each-cryptographic-check-protect) · [Network status](./intro/status.mdx)

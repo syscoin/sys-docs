@@ -34,7 +34,7 @@ curl --fail --silent --show-error "$zk_rpc" \
   ]' | jq '.[] | {id, result, error}'
 ```
 
-Inspect the latest and finalized block views exposed by that node. Block hashes are useful when comparing endpoints serving the same chain. A `null` or error result is missing evidence. For claims about settled execution, trace the batch on the configured settlement layers and confirm the verifier mode. A public testnet RPC response cannot establish that a production proof verifier is active.
+The next request returns the latest and finalized block hashes reported by this node. If the finalized query returns `null` or an error, the endpoint has supplied no finalized block for that request. The worked transaction below follows settlement on Gateway and NEVM.
 
 ```bash
 curl --fail --silent --show-error "$zk_rpc" \

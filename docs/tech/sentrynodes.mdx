@@ -1,7 +1,5 @@
 # Sentry Nodes
 
-Sentry nodes are collateralized participants in Core’s deterministic node list. Under the released classical ChainLock design, the network derives quorums from eligible registered nodes and uses BLS threshold signatures. The PQ design changes the authentication and quorum signing model.
+Sentry Nodes register collateral on Core and participate in quorums that sign ChainLocks. Under the released rules, a quorum uses a BLS threshold signature to identify a block at a specific height. Core derives quorum membership from the eligible nodes on its deterministic list. [Sentry operator guide](../guides/sentrynode_setup.mdx) · [Node and quorum RPCs](../reference/core.mdx)
 
-- [Sentry operator guide](../guides/sentrynode_setup.mdx) covers the released network.
-- [Post-quantum ChainLocks](../architecture/post-quantum.mdx) covers the candidate.
-- [Core command reference](../reference/core.mdx) describes read-only checks for node and quorum state.
+The PQ candidate authenticates operators with SLH-DSA keys. Selected operators sign scheduled block votes with WOTS+ keys, and each full node checks the signatures in the resulting certificate. [Post-quantum ChainLocks](../architecture/post-quantum.mdx)
