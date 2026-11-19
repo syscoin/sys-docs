@@ -20,6 +20,19 @@ syscoin-cli gobject_getcurrentvotes "$GOVERNANCE_HASH"
 
 Mainnet superblocks follow a 17,520-block cycle, roughly monthly at the target block interval. Tanenbaum uses 60 blocks. Use `nextsuperblock` for the next scheduled height. A proposal’s net funding vote is yes minus no. To qualify for selection, it must reach the greater of the network’s minimum governance quorum and one tenth of the current valid Sentry Node count, rounded down. Core considers qualifying proposals in order of net support and applies the payment window and budget. Verify actual payment in the superblock’s coinbase outputs. [Mainnet schedule](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/kernel/chainparams.cpp#L154-L161) · [Testnet schedule](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/kernel/chainparams.cpp#L324-L331) · [Proposal selection](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/governance/governance.cpp#L585-L677)
 
+## How the superblock budget changes
+
+Under the released mainnet rules, the nominal SYS budget is a limit used to select payments. It starts from **2,000,000 SYS** when a valid previous superblock has no cached budget. At a scheduled superblock, qualifying proposals can draw up to 110% of the nominal budget, capped at **5,000,000 SYS**. Core records the actual payment for adjustment purposes as the coinbase output total above the ordinary block-payment allowance. Individual recipients and amounts are visible in the triggered superblock’s outputs. [Budget lookup](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/governance/governanceclasses.cpp#L486-L495) · [Output limit and utilization](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/masternode/masternodepayments.cpp#L69-L87) · [Selecting payable proposals](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/governance/governance.cpp#L638-L688)
+
+| Payment relative to the prior nominal budget | Next nominal budget |
+| --- | --- |
+| Zero | Keep the prior budget. |
+| Above zero and at most 95% | Reduce by 10%, with a floor of **20,000 SYS**. |
+| Above 95% and below 105% | Keep the prior budget. |
+| At least 105% | Increase by 10%, with a ceiling of **5,000,000 SYS**. |
+
+For example, suppose the prior nominal budget is 2,000,000 SYS. A 1,900,000 SYS payment sets the next budget to 1,800,000 SYS. A 2,100,000 SYS payment sets it to 2,200,000 SYS. A cycle with no payout leaves the nominal budget at 2,000,000 SYS and mints no proposal payment. This arithmetic describes the released and PQ candidate utilization formulas. The candidate changes how voting authority and eligibility are verified. [Budget constants](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/governance/governanceclasses.h#L96-L111) · [Released adjustment](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/masternode/masternodepayments.cpp#L19-L35) · [PQ candidate adjustment](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/masternode/masternodepayments.cpp#L66-L82) · [PQ signing roles](../architecture/post-quantum.mdx#signing-roles-and-keys)
+
 ## Submit a proposal
 
 1. Write a proposal with `type` set to `1`, a `name`, `start_epoch` and `end_epoch` in Unix seconds, the requested `payment_amount` in SYS, a base-chain `payment_address` for the selected network, and a `url` with the proposal details. Encode the exact JSON bytes as hex, save them with the parent hash, revision, and creation time, and run `gobject_check "$DATA_HEX"`.

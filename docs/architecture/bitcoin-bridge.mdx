@@ -42,7 +42,7 @@ flowchart TD
     WINDOW["Authenticated Bitcoin window"] --> B["Tag for height 120, block B"]
     A --> CHECK["Different hash at the same eligible height"]
     B --> CHECK
-    CHECK --> STOP["Veto this withdrawal"]
+    CHECK --> STOP["Proposed bridge rule<br/>Veto this withdrawal"]
 ```
 
 Under a policy that vetoes on one conflict, **one honest participating miner is enough to supply the fork alarm** if it actually publishes a timely, relevant tag in the accepted Bitcoin window. Merely having an honest miner online gives no assurance of inclusion during a finite window. The policy also requires positive supporting evidence before release. Untagged blocks, stale references, and valid repeated references need explicit handling. [Syscoin bridge paper, §§7.2–7.4](https://syscoin.org/btc_bridge.pdf#page=8)

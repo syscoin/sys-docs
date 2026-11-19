@@ -10,7 +10,7 @@ zkSYS is Syscoin’s EVM-compatible execution chain. Send a payment and your wal
 
 ![In an imagined cooperative workshop, one operator checks a storage drive while another tends a GPU server.](../../static/img/zksys-batch-paths.webp)
 
-<figcaption>One operator can retrieve a blob and check its hash. Another can prove how the batch changed the ledger. Gateway brings the ordered blob references and the execution proof into the settlement of that Edgechain batch.</figcaption>
+<figcaption>In the real-proof zkSYS design, one operator can retrieve a blob and check its hash. Another can prove how the batch changed the ledger. Gateway checks the ordered blob references and the execution proof when settling that Edgechain batch.</figcaption>
 </figure>
 
 This walkthrough follows the V32 design with a real proof verifier. Genesis is the public testnet. Its deployment can use a test verifier, and the worked transaction below shows how to identify which proof format a particular batch used. [Genesis public testnet](https://syscoin.org/news/zksys-genesis-public-testnet-is-live) · [V32 testnet configuration](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/docs/src/guides/reference-assets/v32-public-tanenbaum-20261006/INSTALLATION-GATES.md#L80-L86) · [Real and mock verifier modes](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/docs/src/design/prover_api.md#real-snark-readiness)
@@ -32,14 +32,14 @@ Fast execution is an Edgechain property. Shared history, durable finality, and p
 
 ```mermaid
 flowchart TB
-    accTitle: Follow the bytes, the proof and the two settlements
+    accTitle: Real-proof zkSYS design — follow the bytes, proof and two settlements
     accDescr: The batcher publishes full blobs to Core and puts their ordered IDs in the Edge commit on Gateway. Gateway checks a DA metadata lookup and the wrapped proof. The Gateway block containing Edge batch execution belongs to a Gateway batch that settles on NEVM.
     Batch["Seal a batch of zkSYS blocks"] --> Encode["Encode batch data<br/>and derive blob IDs"]
     Encode -->|Full blobs| Core["Publish on Syscoin Core"]
     Encode -->|Ordered blob IDs| Gateway["Commit, prove and execute<br/>the Edge batch on Gateway"]
     Core -.->|DA metadata lookup| Gateway
     Batch --> Prove["Prove the state change<br/>bound to the DA commitment"]
-    Prove -->|Wrapped proof| Gateway
+    Prove -->|Real wrapped proof| Gateway
     Core -->|Retrieve and hash| Reader["Reader checks published bytes"]
     Gateway -->|Gateway blocks| GBatch["Seal a Gateway batch"]
     GBatch -->|Gateway commitment and proof| NEVM["Settle on Syscoin NEVM"]
@@ -74,11 +74,11 @@ SYS is the native balance on zkSYS. The zkSYS token is a separate 18-decimal ERC
 
 ```mermaid
 flowchart TB
-    accTitle: How SYS stake can lead to a zkSYS gas payment
+    accTitle: Reference contracts — how SYS stake can lead to a zkSYS gas payment
     accDescr: Vault stake and observed Sentry collateral determine reward weight. Eligible accounts can claim scheduled zkSYS, deposit it for gas credit, and spend that credit on eligible fees. Base fees create surplus available to burn.
     Stake["Native SYS stake<br/>in the Edgechain vault"] --> Weight["Eligible reward weight"]
     Core["Eligible Sentry collateral<br/>observed through NEVM"] --> Weight
-    Weight --> Issuer["Claim scheduled zkSYS issuance"]
+    Weight --> Issuer["Reference issuer contract<br/>Claim scheduled zkSYS issuance"]
     Issuer --> Tank["Deposit zkSYS for gas credit"]
     Tank --> Charge["Pay an eligible execution fee"]
     Charge --> Refund["Refund and priority tip<br/>remain as credits"]

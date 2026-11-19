@@ -32,6 +32,7 @@
   text-wrap: balance;
 }
 .hero p { max-width: 52ch; color: var(--sys-muted); font-size: 1.08rem; }
+.hero .status { font-size: .92rem; border-inline-start: 2px solid var(--sys-line); padding-inline-start: .8rem; }
 .actions { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.8rem; }
 .action {
   display: inline-flex;
@@ -46,8 +47,10 @@
 .action:hover { text-decoration: none; border-color: var(--sys-accent); }
 .primary, .primary:hover { background: #254aec; border-color: #254aec; color: white; }
 .primary:hover { background: #1d39c6; }
-.art { border-radius: 1rem; overflow: hidden; background: #080f28; border: 1px solid var(--sys-line); box-shadow: 0 26px 60px #080f281a; }
+.art { margin: 0; border-radius: 1rem; overflow: hidden; background: var(--sys-panel); border: 1px solid var(--sys-line); box-shadow: 0 26px 60px #080f281a; }
 .art img { display: block; width: 100%; height: auto; }
+.art figcaption { padding: .85rem 1rem; color: var(--sys-muted); font-size: .94rem; }
+.art figcaption strong { color: var(--ifm-font-color-base); }
 .networks { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); }
 .networks a { padding: 1.25rem 1rem 1.25rem 0; color: var(--ifm-font-color-base); border-block: 1px solid var(--sys-line); }
 .networks b { display: block; margin-top: .32rem; font-size: 1.04rem; }

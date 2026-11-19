@@ -7,7 +7,9 @@
     "node": ">=22"
   },
   "scripts": {
+    "prestart": "node scripts/export-status.cjs",
     "start": "docusaurus start",
+    "prebuild": "node scripts/export-status.cjs",
     "build": "docusaurus build",
     "serve": "docusaurus serve",
     "clear": "docusaurus clear"

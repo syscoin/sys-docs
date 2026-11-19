@@ -39,6 +39,8 @@
 .batch-branches::before { top: .75rem; border-top: 1px solid var(--connector); }
 .batch-branches::after { bottom: .75rem; border-bottom: 1px solid var(--connector); }
 .batch-stage { position: relative; }
+.batch-authority { margin-bottom: 1.2rem; }
+.batch-authority.batch-stage::after { height: 1.2rem; }
 .batch-stage::after, .batch-branches + .batch-stage::before {
   content: '';
   position: absolute;
@@ -50,6 +52,7 @@
 .batch-branches + .batch-stage::after { content: none; }
 .batch-branches + .batch-stage::before { bottom: 100%; }
 @media (max-width: 600px) {
+  .batch-authority { margin-bottom: .55rem; }
   .batch-branches {
     grid-template-columns: 1fr;
     margin-inline-start: .9rem;

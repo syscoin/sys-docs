@@ -6,7 +6,7 @@ import styles from './index.module.css';
 
 const routes = [
   {title: 'Design tradeoffs and measured results', description: 'Compare DA proving cycles, relay bytes, and GPU capacity. See which costs each result measures.', href: '/docs/architecture/design-tradeoffs'},
-  {title: 'How zkSYS uses SYS', description: 'Follow an application transaction, a stake-weighted reward, and a fee paid through the Gas Tank.', href: '/docs/architecture/zksys'},
+  {title: 'Who pays for the network?', description: 'Trace SYS rewards to miners and Sentries, public funding to approved proposals, and zkSYS issuance to eligible accounts.', href: '/docs/architecture/modular-alignment#who-pays-for-the-shared-infrastructure'},
   {title: 'Post-quantum finality', description: 'See how a full node checks the signatures that lock a Core block and why that takes bandwidth.', href: '/docs/architecture/post-quantum'},
   {title: 'Command reference', description: 'Inspect a Core block, query NEVM, retrieve batch data, or connect to the public zkSYS testnet.', href: '/docs/reference/overview'},
 ];
@@ -18,16 +18,19 @@ export default function Home() {
       <main className={styles.home}>
         <header className={styles.hero}>
           <div className={styles.heroText}>
-            <h1>Who gets the last GPU hour?</h1>
-            <p>Imagine two AI agents booking one machine. The community that owns it needs to see who had permission, which request won, and how to appeal. Syscoin’s design gives independent operators a shared history on which to check the decision.</p>
+            <h1>What is Syscoin?</h1>
+            <p>Syscoin is a blockchain that Bitcoin miners can mine with the same proof of work. It gives people and autonomous agents a common record for checking who authorized a transaction, what data was published, and which outcome settled.</p>
+            <p>Syscoin nodes validate the shared record. In the zkSYS design, applications run on a separate chain and a verifier on Syscoin checks a compact proof of the result.</p>
+            <p className={styles.status}><Link to="/docs/intro/status">Network status</Link> · Core and NEVM run on mainnet. Post-quantum ChainLocks are a release candidate. zkSYS Genesis is a public testnet.</p>
             <div className={styles.actions}>
               <Link className={`${styles.action} ${styles.primary}`} to="/docs/intro/nutshell">Follow a transaction <span aria-hidden="true">→</span></Link>
               <Link className={styles.action} to="/docs/intro/human-and-ai">Follow the disputed reservation</Link>
             </div>
           </div>
-          <div className={styles.art}>
+          <figure className={styles.art}>
             <img src={art} alt="Two cooperative members check a reservation ledger and a power meter beside their shared GPU rack." width="1344" height="756" fetchPriority="high" />
-          </div>
+            <figcaption><strong>Who gets the last GPU hour?</strong> Two agents can request it. The members need to check who had permission, which request won, and who can hear an appeal.</figcaption>
+          </figure>
         </header>
         <nav className={styles.networks} aria-label="Architecture guides">
           <Link to="/docs/architecture/overview"><small>System map</small><b>How the layers fit together</b></Link>
@@ -46,8 +49,8 @@ export default function Home() {
             ))}
           </div>
           <aside className={styles.thesis}>
-            <h2>Start with a receipt you can check.</h2>
-            <p>A transaction in Genesis block 10,968 reached Gateway and then Tanenbaum NEVM. Match its batch number to the events on each chain and inspect what the settlement contract accepted.</p>
+            <h2>Inspect a public testnet settlement.</h2>
+            <p>A contract call in Genesis block 10,968 reached Gateway and then Tanenbaum NEVM. Decode the mock proof accepted on NEVM for Gateway batch 9,448 and match the batch to its execution event.</p>
             <Link to="/docs/reference/zksys#trace-a-public-testnet-transaction">Trace the testnet transaction <span aria-hidden="true">→</span></Link>
           </aside>
         </section>

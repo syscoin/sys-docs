@@ -20,7 +20,7 @@ flowchart TB
     Gate --> Commit["Gateway batch can proceed to commit"]
 ```
 
-The diagram shows zkSYS using compact references for Edge-to-Gateway settlement under the activated PQ architecture. Finality lets the settlement path check that a blob publication belongs to a locked Core history. Retrieval and digest verification establish that a verifier has the corresponding bytes. [Core #609](https://github.com/syscoin/syscoin/pull/609) · [Geth #42](https://github.com/syscoin/go-ethereum/pull/42) · [Network and release status](../intro/status.mdx)
+**Design scenario.** The diagram uses zkSYS v0.24.4 compact references and assumes the candidate PQ ChainLock rules are active. The settlement path can check whether the publication belongs to a locked Core history. A reader who retrieves and rehashes the blob checks the bytes they received. [Core #609](https://github.com/syscoin/syscoin/pull/609) · [Geth #42](https://github.com/syscoin/go-ethereum/pull/42) · [Network and release status](../intro/status.mdx)
 
 ## How much crosses Gateway?
 
@@ -44,11 +44,11 @@ Edge proofs must bind execution to the batch bytes that readers can retrieve. In
 
 The guest then applies **Keccak-256** to the ordered list of blob digests. For the 5 MiB example, this outer hash processes 96 bytes. Gateway binds the references to their chain and batch and hashes them into its ordered root. The SNARK wrapper verifies aggregated execution proof work at settlement and brings its own assumptions. This division places the prover-friendly hash on the largest input while preserving the commitment format expected by the settlement contracts. [Edge commitment](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/lib/batch_types/src/batch_info.rs#L580-L592) · [Gateway reference binding](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/lib/batch_types/src/batch_info.rs#L49-L71) · [Settlement wrapper](./zksys.mdx#why-there-are-two-proof-stages)
 
-Figure 7 of the **v31 testnet** report compares three commitment paths on **nine blobs**. Jagdeep Sidhu gives the total input size as **about 1.1 MiB**. The v0.24.4 encoder fits that much application data in one Syscoin blob. The maximum number of DA publications in a Core block is 32. The table counts guest RISC-V cycles for the measured input. [Syscoin testnet report, Figure 7](https://syscoin.org/news/zksys-update) · [Author’s workload description](https://ca.linkedin.com/in/sidhujag)
+On April 13, 2026, Jagdeep Sidhu published commitment-stage RISC-V cycle counts for a **nine-blob workload**. The Foundation reproduced those counts in Figure 7 of its June 30 v31 testnet report. The **roughly 1.1 MiB total** is the author’s approximate workload size. The published figure specifies the blob count. The v0.24.4 encoder fits that much application data in one Syscoin blob, and Core allows up to 32 publications in a block. [Original workload and cycle counts](https://x.com/realSidhuJag/status/2043835947029316074) · [June testnet report](https://syscoin.org/news/zksys-update)
 
 [![Syscoin’s logarithmic chart of guest cycles for a nine-blob workload. KZG used 540 million cycles, Keccak used 154 million, and BLAKE2s used 300 thousand.](../../static/img/da-proving-cost.png)](../../static/img/da-proving-cost.png)
 
-Figure 7 from the Syscoin Foundation’s testnet update. The horizontal axis is logarithmic. Each bar is the commitment-stage cycle count for the same historical input. [Open the full-size chart](../../static/img/da-proving-cost.png) · [Original publication](https://syscoin.org/news/zksys-update)
+**Historical guest-cycle benchmark.** Figure 7 uses a logarithmic axis. The public record gives the three paths and their cycle totals. Reproducing the run exactly would require the guest commit, encoded input fixture, proof/security settings and runner configuration. The report separately cites throughput on an H100. Assigning that GPU to the nine-blob run or converting these bars to whole-proof times would require a measurement connecting the two. [Open the full-size chart](../../static/img/da-proving-cost.png) · [Original workload](https://x.com/realSidhuJag/status/2043835947029316074) · [Testnet report, Figure 7](https://syscoin.org/news/zksys-update)
 
 | DA commitment path tested | Reported guest cycles | Relative to BLAKE2s |
 | --- | ---: | ---: |
@@ -120,7 +120,7 @@ Paired sysgeth #42 uses a third boundary. The `0x63` precompile returns the dige
 
 ![An archive operator retrieves a drive and seats it in a dock to read a saved copy.](../../static/img/recovering-a-batch.webp)
 
-<figcaption>After Core’s lookup window closes, an archive that retained the blob can supply a copy. A reader can hash the returned bytes and compare the result with the digest in the original publication.</figcaption>
+<figcaption>Illustrative recovery. After Core’s lookup window closes, an archive that retained the blob can supply a copy. A reader can hash the returned bytes and compare the result with the digest in the original publication.</figcaption>
 </figure>
 
 Consider a cooperative that gives members seven days to appeal a compute reservation. It can keep that promise without asking every Core node to store a week of data. What the cooperative needs to preserve depends on the question a member can ask. [The reservation and appeal](../intro/human-and-ai.mdx)

@@ -13,6 +13,10 @@ The same division matters when the transaction grants a right to a scarce resour
 ## Where one zkSYS batch goes
 
 <figure className="batch-path" aria-label="Paths from execution to publication, proof, and settlement">
+  <div className="batch-stage batch-authority">
+    <strong>A person or agent authorizes a transfer</strong>
+    <p>The wallet signs under the account’s policy. A delegated agent needs an account or application that enforces the grant.</p>
+  </div>
   <div className="batch-stage">
     <strong>zkSYS executes the transfer</strong>
     <p>The sequencer orders it. The wallet gets a local receipt. The batcher groups this change with others.</p>
@@ -20,21 +24,34 @@ The same division matters when the transaction grants a right to a scarce resour
   <div className="batch-branches">
     <div className="batch-branch">
       <strong>Publish the bytes on Core</strong>
-      <p>Core nodes require matching bytes for a fresh publication. Pools merge-mine the blocks. Sentry ChainLocks finalize that history.</p>
+      <p>The publisher sends the blobs to Syscoin. A participating Bitcoin pool reuses its mining work to produce a Core block. Core nodes check the block and fresh blob data. Eligible Sentries sign the ChainLock over this history.</p>
     </div>
     <div className="batch-branch">
       <strong>Prove the execution</strong>
-      <p>Proof workers produce evidence that the batch takes the prior state to the claimed result under the agreed program.</p>
+      <p>Proof workers run the batch program and bind its state transition to the ordered blob identifiers. The wrapper prepares a proof the settlement verifier can check.</p>
     </div>
   </div>
   <div className="batch-stage">
     <strong>Settle on Gateway, then NEVM</strong>
-    <p>Gateway receives the Edgechain proof and compact data references. Gateway’s own batches settle on NEVM, whose canonical blocks are paired with Core.</p>
+    <p>Gateway checks the Edgechain commitment and proof under its configured rules. The Gateway block recording that execution is part of a new batch that settles on NEVM. Core and NEVM nodes pair their canonical blocks.</p>
   </div>
-  <figcaption>Readers who want to replay the change fetch the full data from Core or an archive. The larger Edgechain payload travels on the publication path. Gateway carries its identifiers.</figcaption>
+  <figcaption>Design with candidate PQ ChainLocks active and a real zkSYS verifier. Bitcoin merge-mining, Core and NEVM operate on mainnet. Genesis is a public testnet. Bitcoin records a Syscoin ancestor reference when a qualifying tagged block lands there. Syscoin carries the blobs. A later replay also needs retained inputs and an authenticated starting state.</figcaption>
 </figure>
 
 Try it with a public Genesis transaction. Start with its receipt in Edge block **10,968**, match its batch to the execution event on Gateway, and locate the enclosing Gateway batch **9,448** on Tanenbaum NEVM. The NEVM proof submission for that batch carries the explicit mock-proof marker. Its successful receipt lets you verify the settlement sequence under the testnet rules. A production validity claim would require an enforcing verifier and a real proof. Replaying the batch also requires its data and prior state. [Trace the public transaction](../reference/zksys.mdx#trace-a-public-testnet-transaction) · [Inspect the NEVM proof submission](https://explorer.tanenbaum.io/tx/0xc82091801f6b0947db4bed5fb2400e07313e2730b0c37d389d2b3c5dba9fdde0) · [Retrieve and check blob bytes](../reference/zksys.mdx#read-a-core-blob)
+
+### Which record answers which question?
+
+Publication and proving can progress independently after a batch is sealed. A reader checking a particular payment needs records from both paths.
+
+| Question | Inspect | What else matters |
+| --- | --- | --- |
+| Did the application process my call? | The local Edgechain receipt, block number, and logs. | The sequencer can issue a receipt before shared settlement. |
+| Can I obtain the published data? | Fetch the encoded blobs from Core or an archive, hash them, and compare the ordered identifiers to the batch commitment. | Fetching a copy establishes access at that time. For inclusion, locate the publication transaction in the canonical Core block. [Retrieve the bytes](../reference/zksys.mdx#read-a-core-blob) |
+| Has the publication’s history been locked? | The Core block hash and the certificate accepted under the network’s active finality rules. | Apply the deployment’s policy and distinguish classical mainnet ChainLocks from the PQ candidate. A locked hash does not preserve expired bytes. [Finality during an outage](./core.mdx#what-survives-a-finality-outage) |
+| Did the batch obey the program? | The deployed verifier, proof format, public input, and proof acceptance. | Real-proof verification binds the specified computation. The documented testnet Gateway batch used a mock proof on NEVM. [Decode the example](../reference/zksys.mdx#trace-a-public-testnet-transaction) |
+| Which effects reached settlement? | Match the Edge execution event on Gateway, then the enclosing Gateway batch’s execution on NEVM. | A message that moves an asset to another chain still needs a destination execution record. |
+| Can another operator recover next week? | Restore the replay archive against the authenticated terminal block, using prior state, transactions, block context, protocol version, and required preimages. | Contract authority governs who may take over ordering or release funds. [Restore and appeal evidence](./data-availability.mdx#what-can-someone-verify-a-week-later) |
 
 ## Why Core and zkSYS run at different speeds
 

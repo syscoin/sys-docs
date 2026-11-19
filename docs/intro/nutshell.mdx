@@ -4,16 +4,20 @@ sidebar_position: 1
 description: A practical overview of Syscoin's Bitcoin merge mining, post-quantum finality, hash-based data availability, NEVM, and zkSYS.
 ---
 
-Suppose your wallet sends a payment on zkSYS. It gets a receipt within the execution layer. Later, someone running their own software wants to check what happened without asking your wallet or trusting the original operator. What evidence can they use?
+Syscoin is a Bitcoin-merge-mined blockchain with its own rules for asset transfers, data publication, and programmable settlement. Its design lets people and autonomous agents act through independently operated applications while sharing a history they can verify for themselves. [Core and merge-mining](../architecture/core.mdx#what-bitcoin-merge-mining-contributes) · [System architecture](../architecture/overview.mdx)
 
-The walkthrough uses the design with active post-quantum finality and zkSYS validity-proof settlement. Check the release, network, and verifier configuration when connecting to a deployment. [Network and release status](./status.mdx)
+**Why build on Bitcoin mining?** A participating pool can use the same hash attempts to compete for BTC on Bitcoin and SYS on Syscoin. Bitcoin validates its own blocks. Syscoin’s nodes validate the additional transactions, data commitments, and settlement rules. SYS pays for using those services and helps fund the operators who provide them. zkSYS adds a separate reward token tied to SYS stake or eligible Sentry collateral. Whether the revenue attracts more independent operators depends on demand, costs, and who controls the equipment. [Follow the mining work and revenue](../architecture/core.mdx#why-bitcoin-and-syscoin-fit-together) · [Who pays whom](../architecture/modular-alignment.mdx#who-pays-for-the-shared-infrastructure) · [zkSYS issuance and fees](../architecture/zksys.mdx#sys-collateral-issuance-and-gas)
+
+**Where it stands.** Core and its Ethereum-compatible settlement layer, NEVM, operate on mainnet. The post-quantum finality rules are a release candidate. zkSYS Genesis is a public testnet. The walkthrough below assumes those new finality rules are active and an enforcing verifier checks real execution proofs. [Network and release status](./status.mdx)
 
 ## Follow the payment
 
+Suppose your wallet sends a payment on zkSYS. It gets a local receipt. Later, someone who never used your wallet wants to check the result after the original operator has gone offline.
+
 1. **Get a receipt.** An operator called a sequencer orders the payment on zkSYS and executes it. The receipt tells your wallet the local outcome. The batch containing the payment still has to reach shared settlement. [zkSYS transaction lifecycle](../architecture/zksys.mdx#follow-an-application-transaction)
-2. **Recover the record.** zkSYS groups transactions into a batch and publishes the bytes needed to reconstruct the change on Syscoin Core. A reader can retrieve those bytes and hash them to check they match the published identifiers. Later reviews also need an archive that kept the bytes. [Data publication and retention](../architecture/data-availability.mdx)
+2. **Inspect the publication.** zkSYS groups transactions into a batch and publishes its encoded data on Syscoin Core. A reader can retrieve each blob and hash it to check the batch’s ordered identifiers. After Core’s serving window, the reader needs an archive that kept those bytes. [Data publication and retention](../architecture/data-availability.mdx)
 3. **Check which history counts.** Bitcoin miners can reuse their work to mine Core blocks. Under the post-quantum rules, a quorum of Sentry Nodes signs the block history, and Core nodes verify those signatures directly. A ChainLock gives readers a common finalized history in which to locate the batch publication. [Mining and finality](../architecture/core.mdx)
-4. **Check the result.** A prover supplies evidence that the batch obeyed the execution rules. To check this payment, identify its block and batch, then follow that batch to settlement on Gateway. Gateway settles its own batches on NEVM, Syscoin's Ethereum-compatible contract layer. Reconstructing the resulting state also requires the prior state and the published bytes. [Proof and settlement](../architecture/zksys.mdx)
+4. **Check the result.** A prover supplies evidence that the batch obeyed the execution rules. Identify the payment’s block and batch, then follow that batch to settlement on Gateway. Gateway settles its own batches on NEVM, Syscoin's Ethereum-compatible contract layer. To re-execute the blocks yourself, start from authenticated state and restore the replay inputs, including transactions, block context, protocol version and required preimages. [Proof and settlement](../architecture/zksys.mdx) · [Replay inputs](../architecture/data-availability.mdx#what-can-someone-verify-a-week-later)
 
 The division of work lets zkSYS respond on its own schedule. Applications that join an Edgechain add execution work there. Their publications consume Core bandwidth and storage, and Core nodes validate blocks and check finality. [System map](../architecture/overview.mdx) · [Costs of independent validation](../architecture/design-tradeoffs.mdx)
 
@@ -25,10 +29,10 @@ Try the settlement check on a public Genesis testnet transaction. Follow its rec
 | --- | --- |
 | [Core](../architecture/core.mdx) | Tracks balances as unspent transaction outputs (UTXOs). Accepts Bitcoin-compatible parent mining work through auxiliary proof of work (AuxPoW). |
 | [Syscoin Platform Tokens and Z-DAG](../tech/tokens.mdx) | Let applications transfer assets directly as Core outputs. For eligible payments, wallets can ask a node for an early mempool conflict signal. |
-| [Post-quantum ChainLocks](../architecture/post-quantum.mdx) | Authenticate Sentry operators with SLH-DSA hash-based signatures. Operators sign scheduled block votes with WOTS+ keys. |
+| [Post-quantum ChainLocks](../architecture/post-quantum.mdx) | **Release candidate.** Authenticate Sentry operators with SLH-DSA hash-based signatures. Operators sign scheduled block votes with WOTS+ keys. |
 | [Proof of Data Availability](../architecture/data-availability.mdx) | Publishes payloads through Core. Gateway can carry compact identifiers while independent readers retrieve and check the larger payloads. |
 | [NEVM](../reference/nevm.mdx) | Runs Ethereum-compatible contracts, including verification and settlement contracts. |
-| [zkSYS](../architecture/zksys.mdx) | Executes on an Edgechain and sends commitments and proofs through Gateway. Its issuance uses SYS-linked reward eligibility, and its Gas Tank lets users spend zkSYS on eligible fees. |
+| [zkSYS](../architecture/zksys.mdx) | **Public Genesis testnet and proof-settled design.** Executes on an Edgechain and settles through Gateway. Its reference contracts link reward eligibility to SYS and allow zkSYS to cover eligible fees. Inspect the verifier for the batch in question. |
 
 To inspect the system yourself, query a Core block or retrieve a blob using the [command reference](../reference/overview.mdx). To evaluate the design, compare its costs with [other chains](../architecture/comparison.mdx) or inspect the real Bitcoin coinbase tags that the [proposed BTC bridge](../architecture/bitcoin-bridge.mdx) would use.
 

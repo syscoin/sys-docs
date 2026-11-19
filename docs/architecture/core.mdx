@@ -9,11 +9,11 @@ In the activated PQ architecture, Syscoin Core validates the UTXO chain and its 
 ```mermaid
 flowchart LR
     accTitle: How a Syscoin node connects mining, finality, and NEVM
-    accDescr: Core checks the parent work, verifies Sentry ChainLocks, and coordinates its block and finality boundaries with the NEVM execution engine.
+    accDescr: In the Core #609 candidate with PQ rules active, Core checks the parent work, verifies hash-based Sentry ChainLocks, and coordinates its block and finality boundaries with the NEVM execution engine. Released v5.1.3 uses BLS ChainLocks.
     Work["Bitcoin-compatible<br/>SHA-256 mining job"]
     Aux["AuxPoW parent header<br/>coinbase and Merkle proofs"]
     Core["Syscoin Core<br/>UTXO consensus and fork choice"]
-    Lock["Sentry Nodes<br/>Hash-based ChainLocks"]
+    Lock["Core #609 candidate<br/>Hash-based Sentry ChainLocks"]
     EVM["Syscoin Geth<br/>NEVM execution"]
     Apps["Wallets, contracts,<br/>and settlement applications"]
     Work --> Aux --> Core
@@ -23,7 +23,7 @@ flowchart LR
     EVM --> Apps
 ```
 
-This page describes the system with PQ rules active. See [Network and release status](../intro/status.mdx) for the deployed code and activation scope.
+The figure follows the **Core #609 candidate with PQ rules active**. Released Core v5.1.3 uses BLS ChainLocks. The pinned candidate’s public compatibility profile replays the legacy chain with its finality services disabled. [Network and release status](../intro/status.mdx)
 
 ## What Bitcoin merge-mining contributes
 
@@ -41,6 +41,29 @@ For a Syscoin parent at height `p`, Core expects the reference at the largest mu
 Those references are also the input to Syscoin’s [Bitcoin-anchored fork detection design](./bitcoin-bridge.mdx). A participating miner that finds a Bitcoin block can give a bridge independent evidence of what the pool saw on the Syscoin side.
 
 Syscoin's post-NEVM block spacing target is 150 seconds on mainnet. Bitcoin and Syscoin apply their own difficulty, consensus, and fork choice rules. A remembered Bitcoin coinbase tag alone cannot establish a Syscoin inclusion or calculate the pool's accepted Syscoin work. [Mainnet parameters](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/kernel/chainparams.cpp#L155-L221)
+
+## Why Bitcoin and Syscoin fit together
+
+A pool already searching for a valid Bitcoin header can include a commitment to a Syscoin candidate in the same mining job. If the work meets Syscoin’s target and the child block passes Syscoin’s rules, the pool can earn SYS. Earning the Bitcoin block reward requires a block accepted on Bitcoin as well. Bitcoin nodes validate their own blocks. Syscoin nodes validate the UTXOs, published blobs and paired NEVM execution. An application can therefore buy publication and settlement on Syscoin while its full payload stays off Bitcoin. [Released AuxPoW checks](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/auxpow.cpp#L39-L110) · [Bitcoin block and coinbase rules](https://developer.bitcoin.org/devguide/block_chain.html#proof-of-work) · [Core publication and NEVM settlement](./data-availability.mdx)
+
+```mermaid
+flowchart TD
+    accTitle: What Bitcoin miners contribute and how Syscoin can pay them
+    accDescr: Applications buy publication and settlement from Syscoin Core and NEVM. Their senders pay transaction fees in SYS. A participating pool can use one mining job on both chains. An accepted Bitcoin block can pay a BTC coinbase. On Syscoin the Core producer and NEVM beneficiary can earn additional SYS. Only the return from that income to continued mining is a conditional economic decision.
+    Apps["Applications and Edgechains<br/>Publishers and settlement senders"]
+    Sys["Syscoin Core and NEVM"]
+    Apps -->|"Core fees or NEVM gas in SYS"| Sys
+    Sys -->|"Published data and settlement records"| Apps
+    Miners["Participating SHA-256 miners"]
+    Miners -->|"Reusable work under Syscoin rules"| Sys
+    Miners -->|"Block accepted on Bitcoin"| BTC["Bitcoin coinbase pays BTC"]
+    Sys -->|"Core producer share and NEVM<br/>beneficiary issuance and tips"| Revenue["Additional SYS revenue<br/>for designated payees"]
+    Revenue -.->|"Can fund continued mining"| Miners
+```
+
+*The mining and payment paths shown are released mainnet rules. zkSYS Genesis uses the application path on testnet.* Solid arrows show work, services, or payments under the respective chain’s rules. The dashed arrow is an economic hypothesis. To test it, compare the pool’s incremental SYS receipts with its running costs and observe whether it keeps mining or adds capacity.
+
+Additional SYS receipts can make running a participating pool more attractive, or help cover existing power, equipment and connectivity costs. How much reaches a hashpower provider depends on pool terms, SYS purchasing power, demand for block space and operating costs. An increase in Bitcoin hashpower or in the number of independent pools would need its own measurements. A BTC withdrawal bridge would need its own enforcement and challenge rules. [Which SYS receipts reach producers](./modular-alignment.mdx#who-pays-for-the-shared-infrastructure) · [Proposed Bitcoin-anchored withdrawals](./bitcoin-bridge.mdx)
 
 ## Why Core synchronizes headers first
 

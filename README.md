@@ -18,3 +18,5 @@ Run `npm run build` to compile MDX, check site links, and generate the static si
 Put architecture under `docs/architecture`, interfaces and source notes under `docs/reference`, and network status under `docs/intro/status.mdx`. Use a pinned source link for implementation details. Mark which network, release, candidate revision, or research result supports each claim. Keep published paths working when replacing old content. Mermaid diagrams live next to the explanation they illustrate.
 
 The [illustration guide](./images/illustrations.md) includes the assets, visual style and scene prompts for the illustrated chapters.
+
+Edit claim IDs, release scopes and verification steps in the [network status register](./docs/intro/status.mdx). Starting or building the site regenerates the [plain-text index](./static/llms.txt) from that page with canonical links. Include the resulting index in the same change.

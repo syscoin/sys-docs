@@ -12,7 +12,7 @@ A peer tells two Core nodes that a particular Syscoin block is now final. What w
 
 ![Two operators at separate workstations examine the same three groups of votes on their own computers.](../../static/img/pq-local-verification.webp)
 
-<figcaption>The Sentries supply the votes. Each receiving Core node determines which roster slots are eligible, authenticates each signing key, and checks that it signed the statement for this block.</figcaption>
+<figcaption>Under the Core #609 candidate, Sentries supply the votes. Each receiving Core node determines which roster slots are eligible, authenticates each signing key, and checks that it signed the statement for this block.</figcaption>
 </figure>
 
 Core gives this job a fixed budget. Every fifth block height is eligible for a ChainLock. A complete certificate for one target carries exactly 801 roster-slot signatures. At the 150-second mainnet block target, eligible heights are about 12½ minutes apart on average. A node can therefore budget for a roughly one-megabyte certificate at that cadence. Actual arrivals vary, and a certificate still needs enough timely votes. A recursive proof could reduce what peers transmit, but would also require someone to generate that proof and each node to rely on the proof system’s soundness. Core chooses to spend bandwidth and local hash work so operators can verify the original signing evidence themselves. [Core block target](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/kernel/chainparams.cpp#L140-L142) · [Wire size and resource qualification](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/doc/pq-chainlocks.md#L1565-L1567) · [Comparison with recursive aggregation](./comparison.mdx#direct-verification-and-recursive-aggregation)
@@ -25,14 +25,14 @@ There are two signing jobs. A Sentry operator establishes who can vote by commit
 
 ```mermaid
 flowchart TB
-    accTitle: From an authorized Sentry operator to a verified ChainLock
+    accTitle: Core PQ candidate — from an authorized Sentry operator to a verified ChainLock
     accDescr: The owner authorizes an operator, who commits child keys. A chain snapshot fixes roster slots. Scheduled child keys sign the block statement, and a full node checks 267 votes in each of three selected rosters.
     Owner["Owner-authorized<br/>initial registration"]
     SLH["Operator identity<br/>SLH-DSA-SHAKE-128s"]
     Root["Epoch child-key root<br/>committed on chain"]
     Snapshot["Validated chain snapshot<br/>freezes eligible roster slots"]
     OTS["Scheduled WOTS+ child key<br/>one leaf per authorized statement"]
-    Cert["Certificate<br/>267 shares each from 3 rosters"]
+    Cert["PQ candidate certificate<br/>267 shares each from 3 rosters"]
     Verify["Full node verifies certificate<br/>and enforces accepted ancestry"]
     Owner --> SLH --> Root --> Snapshot
     Snapshot --> OTS --> Cert --> Verify
