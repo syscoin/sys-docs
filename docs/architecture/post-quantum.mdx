@@ -1,5 +1,6 @@
 ---
 title: Post-quantum ChainLocks
+image: /img/pq-local-verification.webp
 description: How activated hash-based ChainLocks authenticate Sentry Node roles, lock Syscoin history, and attest Bitcoin checkpoints.
 sidebar_position: 5
 ---
@@ -29,7 +30,7 @@ Suppose the locked Core block contains a zkSYS blob publication. The ChainLock t
 | **Bytes of a published blob** | **Released Core.** Recompute the versioned BLAKE2s-256 or legacy Keccak-256 digest and match it to the commitment. This authenticates a retrieved copy. Later readers need someone who retained it. [Blob encoding and digest](./data-availability.mdx#what-the-hash-commits-to) |
 | **Authority to sign as a Sentry operator** | **Core PQ candidate.** An SLH-DSA-SHAKE-128s identity authenticates the operator’s child-key root. A node uses the on-chain registration and the roster for the target to identify the keys eligible to vote. [Signing roles](#signing-roles-and-keys) |
 | **Finality statement for a specific Core block** | **Mainnet** uses BLS quorum signatures. **Core PQ candidate** uses scheduled WOTS+ signatures whose keys and roster slots each node checks against the block’s signing context. [Certificate checks](#what-a-full-node-verifies) · [Activation boundary](#released-behavior-and-migration) |
-| **Permission to spend** | **Mainnet.** The locking script governs a Core output, including Sentry collateral or payouts. Ordinary NEVM transactions use classical secp256k1 signatures. **zkSYS experiment.** A smart account with the Pali SLH module can authorize user operations under a separate, limited-use SHA-2 signature profile. [Released account rules](../intro/status.mdx#released-networks-and-public-records) · [Smart-account signing](./zksys.mdx#wallets-and-post-quantum-account-authorization) |
+| **Permission to spend** | **Mainnet.** The locking script governs a Core output, including Sentry collateral or payouts. Ordinary NEVM transactions use classical secp256k1 signatures. **Pali v5 experiment on zkSYS.** With the SLH-DSA module installed, a smart account can authorize user operations under a limited-use SHA-2 signature profile. [Released account rules](../intro/status.mdx#released-networks-and-public-records) · [Smart-account signing](./zksys.mdx#wallets-and-post-quantum-account-authorization) |
 | **Execution of a zkSYS batch** | **Real-proof configuration.** Airbender proves execution of the agreed batch program against its public input, including the commitment to the ordered blob identifiers. The proof system uses Merkle commitments and a FRI low-degree test. [Execution proof and input binding](./zksys.mdx#why-there-are-two-proof-stages) |
 | **Proof accepted at settlement** | **Deployment-specific.** Check the deployed wrapper, verification key, public input and submitted proof. A real PLONK wrapper adds its own setup and soundness assumptions. **Observed testnet.** Gateway batch 9,448 used the mock format on Tanenbaum NEVM. [Decode that submission](../reference/zksys.mdx#trace-a-public-testnet-transaction) · [Real-verifier requirements](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/docs/src/design/prover_api.md#real-snark-readiness) |
 

@@ -38,6 +38,7 @@ const config = {
     theme: {customCss: require.resolve('./src/css/custom.css')},
   }]],
   themeConfig: {
+    image: 'img/syscoin-foundations.webp',
     docs: {sidebar: {hideable: true, autoCollapseCategories: true}},
     colorMode: {defaultMode: 'dark', respectPrefersColorScheme: true},
     mermaid: {theme: {light: 'neutral', dark: 'dark'}},
