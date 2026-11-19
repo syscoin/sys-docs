@@ -37,6 +37,16 @@ When the Syscoin tip changes, fetch fresh work and replace the template's proof 
 
 ## Confirm accepted work
 
+The [Syscoin AuxPoW mining dashboard](https://status-api.syscoin.org/local/mining) shows indexed pool activity, estimated shares of Syscoin blocks over several time windows, and Bitcoin-side commitment counts. Its JSON endpoint also reports the indexed Syscoin height.
+
+```bash
+curl --fail --silent --show-error https://status-api.syscoin.org/mining |
+  jq '{as_of_utxo_height, pools: [.miners[] |
+    {name, last_syscoin_block, share_24h, share_7d, share_30d, syscoin_commitments}]}'
+```
+
+Pool shares here describe indexed Syscoin production. Use Core and actual Bitcoin headers when you need direct evidence for an individual accepted block or coinbase reference.
+
 ```bash
 syscoin-cli getblockhash "$SYS_BLOCK_HEIGHT"
 syscoin-cli getblock "$SYS_BLOCK_HASH" 1

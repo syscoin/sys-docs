@@ -19,6 +19,8 @@ A Bitcoin header commits to the coinbase through the transaction Merkle root. An
 
 Bitcoin blocks `976621` and `976623` both carry a `sys` output naming Syscoin height `2345720` and hash `6c5dc51f2e929822702fcac8281081f05088972c1ddd6eaeb11e0d20014079ac`. The corresponding Syscoin block matches that height and hash. Inspect the outputs of the Bitcoin coinbase transactions to see the repeated commitment. Repetition by itself is expected. To identify the work that actually mined a particular Syscoin block, inspect its AuxPoW parent separately. [Bitcoin coinbase at height 976621](https://mempool.space/tx/76423b124f5fb4046e9d93d84ec339fcbabc2ac6f178842c5765bf1c31bbd506) · [Bitcoin coinbase at height 976623](https://mempool.space/tx/b4bb215ab48d38474cfa84fa6d89d459ebd2fb3675d2f9cea89939f2fd0dd735) · [Syscoin block 2345720 in Blockbook](https://explorer-blockbook.syscoin.org/api/v2/block/2345720?pageSize=1)
 
+The [Syscoin AuxPoW mining dashboard](https://status-api.syscoin.org/local/mining) lets readers monitor pool activity and indexed Bitcoin commitment counts. For a particular bridge claim, verify the original Bitcoin block and coinbase against the relevant evidence window.
+
 ## Detecting a fork versus choosing one
 
 A fork-choice light client accepts the history that wins under its configured work or signing rules. The fork-detecting withdrawal policy asks a narrower question. Did the candidate include the right burn, and did the admissible Bitcoin records agree with the relevant Syscoin ancestry? If a qualifying Bitcoin tag names a different Syscoin block at a height that matters to the claim, the policy can stop that withdrawal without first deciding which Syscoin branch should win.
