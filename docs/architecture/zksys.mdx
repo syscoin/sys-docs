@@ -4,30 +4,23 @@ description: How zkSYS scales Syscoin through Edgechain execution, collateral-li
 sidebar_position: 4
 ---
 
-zkSYS is Syscoin's flagship EVM-compatible Edgechain and shows how execution scales in the PQ-era architecture. It executes transactions on its own chain, publishes batch bytes to Syscoin Core, and settles commitments and proofs through Gateway. Gateway coordinates settlement for multiple Edgechains and settles its own batches on Syscoin NEVM. Edgechains can choose their execution and fee policies while sharing this publication and settlement infrastructure. [Syscoin's Edgechain design](https://syscoin.org/news/syscoin-5-faqs) · [Syscoin's ZKsync OS server](https://github.com/syscoin/zksync-os-server/tree/v0.24.4)
+zkSYS is Syscoin’s EVM-compatible execution chain. Send a payment and your wallet gets a receipt there. How can someone who never used your wallet check what happened? The Edgechain publishes batch data to Syscoin Core and a validity proof binds the execution result to the data commitment. Gateway settles the Edgechain batch. The Gateway block that records its execution belongs to a new batch that settles on Syscoin NEVM. Multiple Edgechains can share this path while setting their own execution and fee policies. [Syscoin's Edgechain design](https://syscoin.org/news/syscoin-5-faqs) · [Syscoin's ZKsync OS server](https://github.com/syscoin/zksync-os-server/tree/v0.24.4)
 
-```mermaid
-flowchart TB
-    accTitle: Where a zkSYS batch settles
-    accDescr: An Edgechain produces blocks and receipts. Batch bytes go to Core for publication and replay. Compact references and a wrapped execution proof go to Gateway. Gateway settles its own batches on NEVM.
-    Edge["zkSYS executes transactions<br/>and returns receipts"] --> Batch["Seal a batch of Edge blocks"]
-    Batch --> Bytes["Publish batch bytes<br/>on Syscoin Core"]
-    Batch --> Refs["Compute ordered<br/>blob references"]
-    Batch --> Proof["Prove execution<br/>and wrap the proof"]
-    Bytes -->|Publication and finality| GW["Settle the Edge batch<br/>on Gateway"]
-    Refs --> GW
-    Proof --> GW
-    GW --> NEVM["Settle the Gateway batch<br/>on Syscoin NEVM"]
-```
+<figure className="editorial-plate">
 
-The two settlement steps belong to different chains. Gateway records what happened to an Edge batch. NEVM records what happened to the Gateway batch that contains that settlement. The diagram assumes the V32 real-proof configuration. Genesis is the public testnet, and test deployments can select mock verification. Check the deployed verifier mode when interpreting testnet results. [Genesis public testnet](https://syscoin.org/news/zksys-genesis-public-testnet-is-live) · [V32 testnet configuration](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/docs/src/guides/reference-assets/v32-public-tanenbaum-20261006/INSTALLATION-GATES.md#L80-L86) · [Real and mock verifier modes](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/docs/src/design/prover_api.md#real-snark-readiness)
+![In an imagined cooperative workshop, one operator checks a storage drive while another tends a GPU server.](../../static/img/zksys-batch-paths.webp)
+
+<figcaption>One operator can retrieve a blob and check its hash. Another can prove how the batch changed the ledger. Gateway brings the ordered blob references and the execution proof into the settlement of that Edgechain batch.</figcaption>
+</figure>
+
+This walkthrough follows the V32 design with a real proof verifier. Genesis is the public testnet. Its deployment can use a test verifier, and the worked transaction below shows how to identify which proof format a particular batch used. [Genesis public testnet](https://syscoin.org/news/zksys-genesis-public-testnet-is-live) · [V32 testnet configuration](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/docs/src/guides/reference-assets/v32-public-tanenbaum-20261006/INSTALLATION-GATES.md#L80-L86) · [Real and mock verifier modes](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/docs/src/design/prover_api.md#real-snark-readiness)
 
 ## What zkSYS uses from each layer
 
 | Layer | What zkSYS uses it for |
 | --- | --- |
 | Core and PQ ChainLocks | Order and finalize publication so the settlement process can refer to a locked base-chain history. |
-| PoDA | Publish the full bytes needed for independent replay. Carry only compact references through Gateway. |
+| PoDA | Publish the complete encoded batch data. A reader can fetch and hash the blobs. The Edge commit on Gateway carries their ordered identifiers. |
 | NEVM and Gateway | Coordinate acceptance of Edgechain commitments and settle verified batches into a shared EVM state. |
 | Airbender and the settlement verifier | Prove execution in batches and verify succinct claims about the state changes. |
 | SYS-linked issuance and fees | Allocate a separate reward token using base-asset stake and eligible collateral. Use that token for eligible execution fees through the Gas Tank. |
@@ -37,14 +30,27 @@ Fast execution is an Edgechain property. Shared history, durable finality, and p
 
 ## Follow an application transaction
 
-1. **Execute.** A sequencer orders transactions and turns them into blocks. The application gets an EVM receipt with execution status and logs. Contracts rely on the instructions, precompiles, and fee rules of the deployed execution version.
-2. **Seal and publish.** The batcher collects a range of blocks and produces canonical public data and state transition inputs. In the Syscoin DA mode, the batcher splits that data into blobs and publishes the actual bytes to Core. For Edgechains settling through Gateway, the Edge commitment contains compact references instead of a second copy of the Edge payload.
-3. **Commit and prove.** Settlement binds committed batch metadata to the proof's public inputs. Proof workers prove the configured execution program. Depending on deployment mode, verification runs through the real wrapper or the designated test verifier.
-4. **Verify and execute on settlement.** A commit records metadata, proof verification authorizes the agreed state transition, and execution makes the appropriate batch effects available to settlement contracts. In the Gateway topology, follow the Edge batch on Gateway and the relevant Gateway batch on NEVM. Application receipts, DA lookups, proof acceptance, and canonical settlement inclusion are different observations.
+```mermaid
+flowchart TB
+    accTitle: Follow the bytes, the proof and the two settlements
+    accDescr: The batcher publishes full blobs to Core and puts their ordered IDs in the Edge commit on Gateway. Gateway checks a DA metadata lookup and the wrapped proof. The Gateway block containing Edge batch execution belongs to a Gateway batch that settles on NEVM.
+    Batch["Seal a batch of zkSYS blocks"] --> Encode["Encode batch data<br/>and derive blob IDs"]
+    Encode -->|Full blobs| Core["Publish on Syscoin Core"]
+    Encode -->|Ordered blob IDs| Gateway["Commit, prove and execute<br/>the Edge batch on Gateway"]
+    Core -.->|DA metadata lookup| Gateway
+    Batch --> Prove["Prove the state change<br/>bound to the DA commitment"]
+    Prove -->|Wrapped proof| Gateway
+    Core -->|Retrieve and hash| Reader["Reader checks published bytes"]
+    Gateway -->|Gateway blocks| GBatch["Seal a Gateway batch"]
+    GBatch -->|Gateway commitment and proof| NEVM["Settle on Syscoin NEVM"]
+```
 
-Follow Genesis block **10,968** to Gateway batch **9,448** on Tanenbaum NEVM. The public records span **22 minutes 37 seconds** from the application’s block to Gateway batch execution on NEVM. The proof transaction for that Gateway batch used the V8 testnet mock format. A reader can decode it, match the settlement events and see exactly what the testnet recorded. [Trace the transaction and check the proof format](../reference/zksys.mdx#trace-a-public-testnet-transaction)
+1. **Read the local receipt.** The sequencer orders the payment in an Edgechain block. The receipt records its execution status and logs. A batch later groups that block with others.
+2. **Identify the published data.** The batcher derives a 32-byte BLAKE2s ID from each encoded blob and submits the full blobs to Core. For 5 MiB of application data, the Edge commit carries three IDs, **96 bytes** in its blob-ID field. Anyone with a copy can hash each blob and match it against the ordered list. [Batch publication](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/node/bin/src/batcher/mod.rs#L578-L605) · [Encoding and exact wire sizes](./data-availability.mdx#how-much-crosses-gateway)
+3. **Check execution against that data.** The proving program derives the blob IDs from the batch it executed. Keccak-256 commits to the IDs in order. The wrapped proof binds the state transition to the batch commitment. To accept it, the real verifier must check the proof against the agreed public input. A reader who wants to inspect a published payload fetches its bytes from Core or a retaining archive. [Proving guest](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/scripts/patches/zksync-os-syscoin-v0.4.0.patch#L271-L289) · [Ordered commitment](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/lib/batch_types/src/batch_info.rs#L580-L591) · [Settlement public input](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/lib/l1_sender/src/commands/prove.rs#L350-L375)
+4. **Match the two settlements.** Find the Edge batch’s execution event on Gateway. Its Gateway block belongs to a numbered Gateway batch. On NEVM, match that range to the Gateway batch’s commit, proof and execution records. Before submitting the Gateway commit, the node checks its own DA publications and the forwarded Edge blob references under its configured finality policy. [Gateway commit checks](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/node/bin/src/batcher/bitcoin_da_finality_gate.rs#L598-L636)
 
-[Batch sealing and publication](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/node/bin/src/batcher/mod.rs#L578-L610) · [Gateway availability and batch verification](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/lib/batch_verification/src/verifier/mod.rs) · [Settlement sender](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/lib/l1_sender/src/lib.rs)
+Try the two-settlement check on Genesis. Edge block **10,968** belongs to Edge batch **10,436**. Gateway executed that batch in **block 31,362**. In turn, Gateway batch **9,448** covers blocks **31,360–31,362** and settled on Tanenbaum NEVM. The five public records span **22 minutes 37 seconds**. The NEVM proof transaction for this Gateway batch used the V8 testnet mock format. [Trace the transaction and decode the proof format](../reference/zksys.mdx#trace-a-public-testnet-transaction)
 
 ## Why there are two proof stages
 
@@ -98,7 +104,7 @@ On an ETH-denominated rollup such as Arbitrum One, a user can bridge ETH to the 
 ## Sequencing, proving, and recovery
 
 - **Ordering and liveness.** A proof constrains the state transition that a verifier accepts. Timely inclusion still depends on the deployment's sequencer, DA publication, proving, and settlement paths.
-- **Recovery.** Keep the payloads and identifiers needed to replay from an authenticated state. An accepted proof alone cannot reconstruct missing batch data.
+- **Recovery.** To inspect published batch data, retrieve the encoded blobs and check their digests. To re-execute the original blocks, a replacement operator also needs the prior state, transactions, block context, protocol version and forced preimages. zkSYS keeps those inputs in its block replay archive and checks the replay against an authenticated history. [Replay inputs and recovery checks](./data-availability.mdx#what-can-someone-verify-a-week-later)
 - **Cross-chain messages.** Verify the message against the receiving contract's protocol and accepted settlement root. A source transaction receipt alone is insufficient evidence of destination delivery.
 - **Progressively decentralizing operators.** Decentralized sequencing and proving are distinct objectives. Independently operated provers can share execution proof duties and endorse wrapping while a sequencer still determines transaction order. The opt-in senior Sentry service describes that intermediate configuration with one shared sequencer and work-based bonus accounting. Decentralizing sequencing also requires a deployed ordering and handoff protocol. Verify both the actual sequencer configuration and the active prover roster before making operator decentralization claims. [Prover service design and rollout boundaries](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/docs/src/design/prover_service_v1.md#L1-L46)
 
