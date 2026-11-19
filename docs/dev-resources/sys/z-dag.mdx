@@ -1,21 +1,6 @@
 # Z-DAG Developer Guide
 
-Z-DAG is a patent-pending transaction technology implemented on the Syscoin blockchain that enables near-instant, low-cost transactions that are highly scalable. Z-DAGs transactional throughput has been audited by third party blockchain auditing firm [Whiteblock](https://whiteblock.io/), you can [view their report here](https://syscoin.org/whitepaper#tps). For more technical information on Z-DAG refer to the [Z-DAG Syscoin Community page](https://syscoin.community/features/z-dag) or the [Syscoin Z-DAG Whitepaper](https://syscoin.org/zdag_syscoin_whitepaper.pdf).
-
-## Z-DAG Basics
-
-Z-DAG is an interactive protocol, meaning you can continue to check the Z-DAG status all the way up to the point of blockchain confirmation. In today's network conditions a minimum Z-DAG threshold of 10 seconds or later are typically secure (99.9999%). Within certain enterprise deployments lower Z-DAG thresholds can be considered secure dependent on network conditions.
-
-A typical transaction workflow has 2 stages:
-
-1. The transaction enters the mempool (unconfirmed).
-2. The transaction is mined into a block (confirmed).
-
-When using Z-DAG, there are 3 stages:
-
-1. The transaction enters the mempool (unconfirmed).
-2. After a predefined Z-DAG threshold time the interactive protocol is called and returns a Z-DAG status.
-3. The transaction is mined into a block (confirmed).
+Z-DAG gives integrations a status for unconfirmed transactions from a Core node. The node checks the transaction and its unconfirmed ancestors in the local mempool. Configure the waiting period and confirmation policy for the application. [Core architecture](/docs/architecture/core)
 
 ## Understanding Z-DAG Statuses
 

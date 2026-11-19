@@ -1,0 +1,19 @@
+---
+title: Network and release status
+sidebar_position: 2
+description: The deployed Syscoin network, the zkSYS testnet, and the PQ release candidate covered by this guide.
+---
+
+The architecture chapters assume PQ ChainLocks are active and zkSYS settles validity proofs. Use the release and deployment information here when connecting to the public network or operating a service. The pins identify the source used for this edition.
+
+| Capability | Status in this edition | Evidence |
+| --- | --- | --- |
+| Syscoin Core | Released mainnet line with AuxPoW and classical ChainLocks | [Core v5.1.3](https://github.com/syscoin/syscoin/releases/tag/v5.1.3) |
+| NEVM | Mainnet chain ID `57`. Tanenbaum chain ID `5700`. | [NEVM reference](../reference/nevm.mdx) |
+| zkSYS Genesis | Public testnet chain ID `57057`. Check the proof and settlement configuration separately. | [zkSYS testnet reference](../reference/zksys.mdx) |
+| Post-quantum ChainLocks | Candidate design in Core #609. That head exposes a public compatibility replay profile. Regtest exercises the PQ paths. | [Core #609 at `b3b4f643`](https://github.com/syscoin/syscoin/tree/b3b4f643383a2149807a25fe38d26b5f058daa60) |
+| Core and Geth integration | Paired Geth candidate for Core and NEVM behavior. | [Geth #42 at `1c046ba9`](https://github.com/syscoin/go-ethereum/tree/1c046ba92f8ea95be024a790e9444b80ccbf019a) |
+
+Use the binary and settings for the public network you intend to join. Validate chain ID, version, and tip before relying on an endpoint. Upgrade announcements govern activation timing and compatibility.
+
+[Read the architecture](../architecture/overview.mdx) or [inspect your network](../reference/overview.mdx).

@@ -1,0 +1,22 @@
+---
+title: NEVM JSON-RPC
+sidebar_position: 3
+description: Verify a Syscoin NEVM connection using read-only Ethereum JSON-RPC requests.
+---
+
+| Network | Decimal chain ID | Hex chain ID | Public RPC |
+| --- | ---: | --- | --- |
+| NEVM mainnet | 57 | `0x39` | `https://rpc.syscoin.org` |
+| NEVM Tanenbaum | 5700 | `0x1644` | `https://rpc.tanenbaum.io` |
+
+Confirm the chain before connecting a wallet or submitting transactions. These requests only read the network ID and current block number.
+
+```bash
+RPC=https://rpc.tanenbaum.io
+curl -fsS "$RPC" -H 'Content-Type: application/json' \
+  -d '{"jsonrpc":"2.0","method":"eth_chainId","params":[],"id":1}'
+curl -fsS "$RPC" -H 'Content-Type: application/json' \
+  -d '{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":2}'
+```
+
+For deployment, use [Foundry](/docs/dev-resources/nevm/foundry) or [Hardhat](/docs/dev-resources/nevm/hardhat). For the managed client and its version pairing, see [Syscoin Geth](/docs/guides/nevm/sysgeth). For general method semantics, see the [Ethereum JSON-RPC reference](https://ethereum.org/en/developers/docs/apis/json-rpc/).

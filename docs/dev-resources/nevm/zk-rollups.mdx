@@ -1,31 +1,7 @@
-# Rollups
+# Rollups on Syscoin
 
-Syscoin is focused on end-user adoption of its Rollux suite with Rollup technologies that serve as Layer 2, and using the Syscoin blockchain as the settlement layer for them.
+A rollup needs execution, a way to retrieve transaction data, and settlement rules that a verifier can check. An EVM-compatible RPC tells you how to connect. Its verifier and data path define the security properties for a particular deployment.
 
-Check out **[The Ultimate Guide to Rollups](https://jsidhu.medium.com/the-ultimate-guide-to-rollups-f8c075571770)** for an technical overview of rollups the differences between Optimistic and ZK rollups. 
-
-## Syscoin Rollux
-
-- **[About Rollux](/docs/tech/rollux)**
-- **[Connect to Rollux Networks](/docs/guides/rollux/metamask)**
-
-<br />
-
-**Here are some different Rollup communities in the industry.**
-
-## Optimistic Rollups
-
-- **[Arbitrum](https://offchainlabs.com)** - Offchain Labs are the builders of the Arbitrum solution and Nitro
-- **[Metis](https://metis.io)** - Layer 2 solutions by MetisDAO
-- **[Optimism](https://optimism.io)** - Code base of Rollux OPv1, and creators of Bedrock
-
-
-
-## ZK-Rollups
-
-- **[StarkWare](https://starkware.co/)** - a layer 2 network that uses zkSTARK proofs and the Cairo programming language.
-  - You can find a large number of StarkNet (StarkWare's main ZK-Rollup solution) resources [here](https://github.com/gakonst/awesome-starknet).
-- **[zkSync](https://zksync.io/)** - an open-source scaling and privacy engine, which uses zkSNARK proofs.
-- **[Aztec](https://aztec.network/)** - an open-source, layer 2 network that utilizes zkSNARK proofs, PLONK technology and the Noir programming language. Aztec is largely focused on private payments solutions.
-
-
+- [zkSYS](/docs/architecture/zksys) explains the Edgechain, Gateway, and settlement design.
+- [Data availability](/docs/architecture/data-availability) explains payload publication and recovery.
+- [Rollux](/docs/tech/rollux) links to the separate OP Stack project.

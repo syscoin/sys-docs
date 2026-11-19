@@ -1,39 +1,18 @@
-# Website
+# Syscoin Docs
 
-This website is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator.
+The Syscoin engineering documentation is published at [docs.syscoin.org](https://docs.syscoin.org/). This repository contains the Docusaurus site, diagrams, and source text.
 
-## Installation
+## Develop locally
 
-```console
-yarn install
+Use Node.js 22 or a newer supported LTS release.
+
+```bash
+npm ci
+npm start
 ```
 
-## Local Development
+Run `npm run build` to compile MDX, check site links, and generate the static site and search index in `build/`. Use `npm run serve` to preview the built site and try search. CI builds every pull request. The lockfile uses scoped npm overrides for patched build dependencies until Docusaurus and its Webpack dependencies adopt them.
 
-```console
-yarn start
-```
+## Update protocol docs
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
-
-## Build
-
-```console
-yarn build
-```
-
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
-
-NOTE: If any of the tables in the root directory have been changed then run the command below in order to update the tables on the website.
-
-```console
-node tableConverter.js
-```
-
-## Deployment
-
-```console
-GIT_USER=<Your GitHub username> USE_SSH=true yarn deploy
-```
-
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+Put architecture under `docs/architecture`, interfaces and source notes under `docs/reference`, and network status under `docs/intro/status.mdx`. Use a pinned source link for implementation details. Mark which network, release, candidate revision, or research result supports each claim. Keep published paths working when replacing old content. Mermaid diagrams live next to the explanation they illustrate.

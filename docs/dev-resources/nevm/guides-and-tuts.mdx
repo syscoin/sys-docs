@@ -1,21 +1,12 @@
-# Courses, Guides & Tutorials
+---
+title: Deploy with Remix
+---
 
-Below are some courses, guides and tutorials that will either give you a simple and gentle introduction to getting started with the tooling for creating and deploying smart contracts, or they will take you on the full journey towards dApp development.
+[Remix](https://remix.ethereum.org/) can compile contracts and send deployments through a browser wallet. Connect the wallet to **Tanenbaum NEVM**, chain ID `5700`, then check the active network in both tools. [NEVM wallet setup](../../guides/nevm/wallet-setup.mdx)
 
+1. Compile a test contract. The [Foundry example](./foundry.mdx) uses Solidity `0.8.28` and targets `paris`.
+2. In Remix's Deploy & Run panel, select the browser extension environment.
+3. Review the deployment request in the wallet and confirm on Tanenbaum.
+4. Check the receipt and contract address using the [NEVM reference](../../reference/nevm.mdx).
 
-
-**CryptoZombies**
-
-The most popular course for how to create smart contracts, [CryptoZombies](https://cryptozombies.io/) has taught over 415,672 students how to code in Solidity and create dApps.
-
-**Create and Deploy Smart Contracts using Remix**
-
-Follow the guide [here](https://remix-ide.readthedocs.io/en/latest/create_deploy.html). To change your network to NEVM in MetaMask follow the guide [here](/docs/guides/nevm/wallet-setup).
-
-**Deploy with Hardhat (Syscoin NEVM)**
-
-Walk through the end-to-end setup in our [Hardhat deployment guide](./hardhat) to configure networks, compile, test, and ship contracts to Syscoin.
-
-**Deploy with Foundry (Syscoin NEVM)**
-
-Prefer a Rust-powered CLI workflow? Follow the [Foundry deployment guide](./foundry) to scaffold, configure, and deploy contracts against Syscoin NEVM.
+Follow the current IDE documentation for wallet connections and deployment controls. [Remix Deploy & Run](https://remix-ide.readthedocs.io/en/latest/run.html)

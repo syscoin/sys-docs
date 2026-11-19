@@ -1,0 +1,129 @@
+---
+title: zkSYS and DA commands
+description: Read-only checks for zkSYS network identity, issuance, gas credit, Core blobs, and NEVM DA membership.
+sidebar_position: 2
+---
+
+## Public Genesis testnet
+
+Genesis is zkSYS's live public testnet. These endpoints let you inspect execution and test applications. The public network settings identify the native SYS balance. Treat the separately issued zkSYS token and gas tank as deployment-specific contracts and verify their addresses before importing a token or making an approval. [Genesis settings](https://syscoin.org/news/zksys-genesis-public-testnet-is-live) · [Issuance and gas design](../architecture/zksys.mdx#sys-collateral-issuance-and-gas)
+
+| Setting | Value |
+| --- | --- |
+| Network | zkSYS Genesis Testnet |
+| Chain ID | `57057` (`0xdee1`) |
+| Currency symbol | `SYS` (testnet) |
+| RPC | [rpc-zk.tanenbaum.io](https://rpc-zk.tanenbaum.io) |
+| Explorer | [explorer-zk.tanenbaum.io](https://explorer-zk.tanenbaum.io) |
+| Faucet | [faucet-zk.tanenbaum.io](https://faucet-zk.tanenbaum.io) |
+| Testnet bridge | [bridge-zk.tanenbaum.io](https://bridge-zk.tanenbaum.io) |
+
+Genesis and Tanenbaum NEVM use different chain IDs. EVM transactions signed for Genesis use `57057`. Tanenbaum NEVM uses `5700`, and Syscoin mainnet NEVM uses `57`. Check the wallet's chain ID before signing, especially if its visible network name matches another entry. [Genesis settings](https://syscoin.org/news/zksys-genesis-public-testnet-is-live) · [NEVM chain configuration](https://github.com/syscoin/go-ethereum/blob/1c046ba92f8ea95be024a790e9444b80ccbf019a/params/config.go#L74-L130)
+
+Query the network and server identity. The `eth_chainId` result is hex, and the `eth_syncing` result may be `false` or an object with progress. These commands use `curl` and `jq`.
+
+```bash
+zk_rpc=https://rpc-zk.tanenbaum.io
+
+curl --fail --silent --show-error "$zk_rpc" \
+  -H 'content-type: application/json' \
+  --data '[
+    {"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]},
+    {"jsonrpc":"2.0","id":2,"method":"web3_clientVersion","params":[]},
+    {"jsonrpc":"2.0","id":3,"method":"eth_syncing","params":[]}
+  ]' | jq '.[] | {id, result, error}'
+```
+
+Inspect the latest and finalized block views exposed by that node. Block hashes are useful when comparing endpoints serving the same chain. A `null` or error result is missing evidence. For claims about settled execution, trace the batch on the configured settlement layers and confirm the verifier mode. A public testnet RPC response cannot establish that a production proof verifier is active.
+
+```bash
+curl --fail --silent --show-error "$zk_rpc" \
+  -H 'content-type: application/json' \
+  --data '[
+    {"jsonrpc":"2.0","id":1,"method":"eth_getBlockByNumber","params":["latest",false]},
+    {"jsonrpc":"2.0","id":2,"method":"eth_getBlockByNumber","params":["finalized",false]}
+  ]' | jq '.[] | {id, error, block: (.result | if . then {number, hash} else null end)}'
+```
+
+For an application transaction, query the receipt or open the hash in the explorer. The receipt's `status` describes the transaction execution. It is separate from the finality of the block and any bridge message it emitted. Set `tx_hash` to the `0x`-prefixed transaction hash for the network you queried.
+
+```bash
+jq -nc --arg tx "$tx_hash" \
+  '{jsonrpc:"2.0",id:1,method:"eth_getTransactionReceipt",params:[$tx]}' | \
+  curl --fail --silent --show-error "$zk_rpc" \
+    -H 'content-type: application/json' --data-binary @- | jq .
+```
+
+## Inspect issuance and gas credit
+
+Use these [Foundry Cast](https://www.getfoundry.sh/cast/) commands on a zkSYS deployment that publishes validated build and contract addresses. Set `zk_rpc` to its RPC and `token`, `issuer`, `tank`, `vault`, and `account` to the corresponding `0x`-prefixed addresses. Check the chain ID against the deployment record and confirm that the contracts exist. For an upgradeable contract, also check the proxy implementation and authority against that record. A testnet chain ID alone cannot establish that issuance or gas payment is configured.
+
+```bash
+cast chain-id --rpc-url "$zk_rpc"
+block=$(cast block-number --rpc-url "$zk_rpc")
+cast code "$tank" --rpc-url "$zk_rpc" --block "$block"
+cast call "$tank" 'token()(address)' --rpc-url "$zk_rpc" --block "$block"
+cast call "$issuer" 'token()(address)' --rpc-url "$zk_rpc" --block "$block"
+```
+
+Both `token()` calls should match the verified token address on that chain. Inspect the issuance clock and the account's reward and stake records at the same block height. These are distinct balances. `pendingRewards` returns legacy or passive reward accounting. A service-enabled deployment exposes per-period bonuses separately through `pendingServiceRewards(address,uint256)`. [Issuer views](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/contracts/src/zksys/ZkSysIssuer.sol#L477-L525) · [Staking vault](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/contracts/src/zksys/ZkSysNativeStakingVault.sol#L19-L25)
+
+```bash
+cast call "$issuer" 'startTime()(uint256)' --rpc-url "$zk_rpc" --block "$block"
+cast call "$issuer" 'currentPeriod()(uint256)' --rpc-url "$zk_rpc" --block "$block"
+cast call "$issuer" 'pendingRewards(address)(uint256)' "$account" --rpc-url "$zk_rpc" --block "$block"
+cast call "$vault" 'stakeOf(address)(uint256)' "$account" --rpc-url "$zk_rpc" --block "$block"
+```
+
+Check credit, backing, and the native SYS balance separately. The tank's zkSYS token balance should be at least its `totalCredits`. The `surplus()` view is clamped to zero, so it cannot diagnose a shortfall by itself. The native balance check remains relevant when sending ordinary transactions with tank credit. [Tank accounting](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/contracts/src/zksys/ZkSysGasTank.sol#L71-L98) · [Native validation](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/lib/revm_consistency_checker/src/syscoin_gas_tank.rs#L120-L136)
+
+```bash
+cast call "$tank" 'creditOf(address)(uint256)' "$account" --rpc-url "$zk_rpc" --block "$block"
+cast call "$tank" 'totalCredits()(uint256)' --rpc-url "$zk_rpc" --block "$block"
+cast call "$token" 'balanceOf(address)(uint256)' "$tank" --rpc-url "$zk_rpc" --block "$block"
+cast balance "$account" --rpc-url "$zk_rpc" --block "$block"
+```
+
+## Read a Core blob
+
+Use `syscoin-cli` against your selected Core node. The node must be on the network that published the blob. Inspect the help for the release you run. Set `digest` to the 64 hexadecimal characters returned as `versionhash`, without a `0x` prefix or BLAKE2s version byte.
+
+```bash
+syscoin-cli help listnevmblobdata
+syscoin-cli help getnevmblobdata
+syscoin-cli listnevmblobdata 10 0
+syscoin-cli getnevmblobdata "$digest" false
+```
+
+The metadata response includes `versionhash`, `txid`, `mtp`, and `datasize`. It can include the active block `height`, `blockhash`, and `chainlock` when Core can locate the publication and report its ChainLock state. Use the publication's block and configured policy to evaluate confirmations. Listing or retrieving a blob does not establish finality. [Core blob lookup and response](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/services/rpc/nevmrpc.cpp#L103-L216) · [Core list help](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/services/rpc/nevmrpc.cpp#L315-L351)
+
+For a blob recorded as BLAKE2s, retrieve its bytes and check the digest locally. This example uses Python's BLAKE2s implementation. Use a Keccak-256 implementation for legacy blobs.
+
+```bash
+set -o pipefail
+syscoin-cli getnevmblobdata "$digest" true | \
+  python3 -c 'import hashlib, json, sys
+payload = bytes.fromhex(json.load(sys.stdin)["data"])
+expected = sys.argv[1].lower()
+actual = hashlib.blake2s(payload).hexdigest()
+if actual != expected:
+    raise SystemExit(f"Digest mismatch: {actual}")
+print(actual)' "$digest"
+```
+
+If Core no longer serves the blob, query the archive provided by your deployment and verify its returned bytes. Keep the original publication locator alongside the digest and raw payload for audit and recovery. Core's query window can expire even though an application still needs replay data. [Retention and integrity](../architecture/data-availability.mdx#retention-and-replay)
+
+## Check NEVM registration
+
+Use the **NEVM** JSON-RPC endpoint for your deployment. Set `nevm_rpc` to that endpoint and `digest` as above. `0x0000000000000000000000000000000000000063` is the Syscoin DA membership precompile. In the paired sysgeth code, a member is returned as the exact digest. An empty successful response is `0x`. Treat RPC errors as unavailable observations.
+
+```bash
+jq -nc --arg data "0x$digest" \
+  '{jsonrpc:"2.0",id:1,method:"eth_call",params:[{
+     to:"0x0000000000000000000000000000000000000063",data:$data
+   },"latest"]}' | \
+  curl --fail --silent --show-error "$nevm_rpc" \
+    -H 'content-type: application/json' --data-binary @- | jq .
+```
+
+The call checks registration at the chosen NEVM block view. The response carries no blob payload, Core publication height, or ChainLock. Consult the Core query or your deployment's finality policy when that evidence is required. [NEVM precompile](https://github.com/syscoin/go-ethereum/blob/1c046ba92f8ea95be024a790e9444b80ccbf019a/core/vm/contracts.go#L1212-L1226) · [Membership storage](https://github.com/syscoin/go-ethereum/blob/1c046ba92f8ea95be024a790e9444b80ccbf019a/core/rawdb/accessors_execution.go#L111-L117)

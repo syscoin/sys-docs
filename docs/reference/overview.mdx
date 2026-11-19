@@ -1,0 +1,18 @@
+---
+title: Commands and references
+sidebar_position: 0
+description: Find supported Syscoin Core, NEVM, and zkSYS interfaces and primary research resources.
+---
+
+Use the reference for the network and client you are operating. Syscoin Core uses Bitcoin-style RPCs on the UTXO side. NEVM and zkSYS implement separate EVM JSON-RPC endpoints and have different chain IDs.
+
+| Task | Reference |
+| --- | --- |
+| Inspect a Core node, finality, Z-DAG, PoDA, or merged mining | [Syscoin Core command reference](./core.mdx) |
+| Read an NEVM block or verify an EVM RPC connection | [NEVM network and JSON-RPC](./nevm.mdx) |
+| Connect to the public zkSYS testnet | [zkSYS testnet reference](./zksys.mdx) |
+| Look up a Syscoin UTXO transaction by height or hash | [Blockbook API](/docs/dev-resources/documentation/javascript-sdk-ref/blockbook) |
+| Look up protocol terms | [Protocol glossary](./glossary.mdx) |
+| Read standards, papers, and the public design discussions | [Research and design notes](./research.mdx) |
+
+Use the `help` output from your exact Core binary for parameters and returned fields. Start with [network status](../intro/status.mdx) if you are unsure which release or endpoint applies.

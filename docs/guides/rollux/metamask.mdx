@@ -1,10 +1,20 @@
+---
+title: Connect a wallet to Rollux
+description: Add Rollux Mainnet to Pali Wallet or MetaMask and confirm the network before moving SYS.
+---
 
-# Add to MetaMask or install Pali Wallet
+Use [Pali Wallet](https://paliwallet.com) or [MetaMask](https://metamask.io/download/) with an EVM account. Choose Rollux Mainnet from the wallet's networks or add it manually. [Rollux wallet instructions](https://docs.rollux.com/docs/help/connect-metamask/)
 
-Looking for simple instructions to connect to Rollux? Head to the **[Rollux Help Center](https://sys-labs.github.io/community-hub/docs/help/)**!
+## Rollux Mainnet settings
 
-Once you're connected you can...
+| Setting | Value |
+| --- | --- |
+| Network name | Rollux Mainnet |
+| RPC URL | `https://rpc.rollux.com` |
+| Chain ID | `570` (`0x23a`) |
+| Currency symbol | `SYS` |
+| Block explorer | [explorer.rollux.com](https://explorer.rollux.com) |
 
--  Move your SYS to Rollux using the [Rollux Portal](https://bridge.rollux.com), Rollux's canonical bridge.
--  Use a Rollux [faucet](https://rollux.id/faucet?chainId=570) to get a small amount of SYS to cover a fee or two on Rollux.
--  Get going with some dapps on Rollux such as [Pegasys](https://app.pegasys.fi) DEX, [Luxy](https://luxy.io) NFT Marketplace, or any other live dapps in the [Rollux ecosystem](https://rollux.com/ecosystem)!
+Rollux Mainnet and Syscoin NEVM Mainnet have separate balances. To move SYS between them, open the [Rollux Portal](https://bridge.rollux.com) and verify the source network, destination network, and recipient address before signing. [Rollux public network settings](https://docs.rollux.com/docs/useful-tools/networks/#rollux-mainnet)
+
+Rollux Tanenbaum testnet was discontinued on October 8, 2025. Use [Syscoin NEVM Tanenbaum](../nevm/wallet-setup.mdx) to test contracts on NEVM or [zkSYS Genesis](/docs/reference/zksys) to test on the zkSYS network. [Rollux testnet sunset announcement](https://syscoin.org/news/ecosystem-update-251016)

@@ -1,10 +1,5 @@
+# Syscoin assets
 
-# Syscoin Platform Tokens (SPTs)
+SYS is the native currency on Syscoin’s UTXO and NEVM layers. Native UTXO outputs can also represent Syscoin Platform Tokens. Contracts on NEVM can implement standard EVM tokens. For any integration that links the two representations, verify the asset identifier, contract, bridge route, and confirmation policy.
 
-
-
-Syscoin Platform Tokens, or SPTs for short, are tokens that reside on the Syscoin Native (UTXO) blockchain, rather than the Syscoin NEVM blockchain that runs alongside it and supports ERC-20 tokens. SPTs are UTXO-based tokens (so transactions operate like Bitcoin transactions), rather than account-based (like Ethereum), this offers greater efficiency and allows SPTs to support any current or new innovations that are made available on Bitcoin, such as Lightning Network or Taproot. SPTs can also take advantage of Syscoin's [Z-DAG](/docs/tech/z-dag) technology, for blisteringly fast token payments. Find out how to create your own SPTs [here](/docs/guides/spts/create-issue-tokens).
-
-
-
-Another useful aspect of SPTs is the possibility to create Non-Fungible Tokens (NFTs). These are very lightweight; compared to a standard, fungible token they use only 4 extra bytes on the blockchain. If you are interested in checking them out you can download [Pali Wallet](https://paliwallet.com/), a browser extension wallet that supports Syscoin and SPTs, and mint some NFTs on [SysMint](https://sysmint.paliwallet.com/).
+Use supported [UTXO integration interfaces](/docs/dev-resources/sys/exchange-integration) for the current release. Syscoin Core 5.0 retired the 4.x asset-creation, update, balance, and allocation RPC family. [Core 5.0 release notes](https://github.com/syscoin/syscoin/blob/v5.0.0/doc/release-notes/release-notes-5.0.0.md#9-removal-of-deprecated-syscoin-4x-asset-rpcs)

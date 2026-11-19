@@ -1,13 +1,5 @@
-# Merged Mining
+# Merged mining
 
-Also known as Auxiliary Proof-of-Work or simply AuxPoW, merged mining enables you to mine multiple blockchains at the same time without spending additional energy on mining. It is carbon-neutral as it re-uses the proof from work already performed. It could be seen as someone (the miner) entering a lottery of sorts. With merged-mining the miner can submit the same lottery ticket and numbers to different lotteries (merge-mined blockchains), increasing their rewards.
+A miner can use the same SHA-256 search work for Bitcoin and Syscoin. For Syscoin, AuxPoW ties the Syscoin candidate to the parent coinbase and header. Syscoin validates the parent work against its own target. A parent header can meet the Syscoin target without becoming a published Bitcoin block.
 
-Merged mining was first presented by Satoshi Nakamoto in 2010, and was subsequently introduced to Bitcoin Core. It can be considered a Bitcoin primitive. See Bitcoin's [Merged Mining Specification](https://en.bitcoin.it/wiki/Merged_mining_specification).
-
-From our perspective, it will be proven over time to be a critical component for incentivizing a robust and decentralized Bitcoin network as BTC block rewards will continue to diminish. Without merged-mining, revenue from mining Bitcoin would eventually be limited to Bitcoin’s flat network fees.
-
-Furthermore, merged mining enables Bitcoin’s hashrate to be extensible and support blockchains that offer important utility beyond the scope and best-purpose of the Bitcoin protocol itself.
-
-Note: Blockchains that naively use merge-mined settlement are subject to the same vectors of PoW in general. A solution now exists to solve those challenges, and it comes in the form of a hybrid consensus system that provides decentralized Finality on top of merged-mining. Such a solution is present in Syscoin. Dig into Syscoin's [Finality](/docs/tech/finality).
-
-For more information or to set up your miner(s) to merge-mine Syscoin, refer to the [Merged Mining Setup Guide](/docs/guides/mining_setup).
+[Core architecture](/docs/architecture/core) explains the commitment and validation boundaries. [Pool operator guide](/docs/guides/mining_setup) covers template generation and submission.

@@ -1,35 +1,19 @@
 ---
+title: Syscoin in a Nutshell
 sidebar_position: 1
+description: A practical overview of Syscoin's Bitcoin merge mining, post-quantum finality, hash-based data availability, NEVM, and zkSYS.
 ---
-# Syscoin in a Nutshell
 
-## Mission
+Syscoin combines a Bitcoin-merge-mined UTXO chain, post-quantum finality, and an Ethereum-compatible settlement environment called NEVM. An execution layer can publish its batch data through Core and have its state transitions verified on NEVM. [zkSYS](../architecture/zksys.mdx) shows how the pieces work together.
 
-An open source community dedicated to scaling Bitcoin, especially its proof-of-work security, to meet global needs and emerging use-cases, while sticking as close as possible to Bitcoin's original ideals.
+| Component | Purpose |
+| --- | --- |
+| [Core](../architecture/core.mdx) | Validates UTXO transactions and accepts parent proof of work through AuxPoW. |
+| [PQ ChainLocks](../architecture/post-quantum.mdx) | Add Sentry quorum finality using SLH-DSA identities and scheduled WOTS+ votes. |
+| [PoDA](../architecture/data-availability.mdx) | Publishes payloads and binds their bytes to hash commitments that anyone can check after retrieval. |
+| [NEVM](../reference/nevm.mdx) | Runs Ethereum-compatible contracts, including verification and settlement contracts. |
+| [zkSYS](../architecture/zksys.mdx) | Executes on an Edgechain and sends commitments and proofs through Gateway. Its issuance uses SYS-linked reward eligibility, and its Gas Tank lets users spend zkSYS on eligible fees. |
 
-Syscoin's evolution across ten years of mainnet and the foresight reflected in its design mean the project has a head-start providing a comprehensive network and protocol for projects aiming to achieve Bitcoin L2. Join us!
+The architecture describes the system with PQ active and zkSYS settling validity proofs. Check [network and release status](./status.mdx) for active configurations, and the [command reference](../reference/overview.mdx) for commands you can run now.
 
-## The Blockchain Protocol
-
-Syscoin is a mainnet Bitcoin L2 that provides [a data availability protocol that scales](/docs/tech/poda), making EVM and AltVM rollups on Bitcoin a reality. [Merge-mined](/docs/tech/merged-mining) by a majority Bitcoin's hashrate, Syscoin anchors rollups to Bitcoin's own proof-of-work and works with rollups’ existing sequencer architectures. 
-
-One such rollup is [Rollux](https://rollux.com), an EVM-equivalent OPStack with 2 second blocktimes and negligible fees, which is live.
-
-## Decentralized Finality without Slashing
-
-Data Availability and scaling it require preventing risks of impact from chain re-orgs. Syscoin solves this with a [finality mechanism of multi-quorum chainlocks](/docs/tech/finality). This creates an additive security layer on top of Bitcoin's PoW. Served by 1,600 randomly selected [Sentry nodes](/docs/tech/sentrynodes), this practically eliminates the risks of re-orgs, 51% attacks and selfish mining, without involving slashing. This design means the network is always supported by Nakamoto consensus from beneath, and the absence of finality (for any reason) means a graceful degradation instead of a halt that would be seen on a PoS network.
-
-## Current Research & Development
-
-- [zkDA](https://syscoin.org/news/introducing-zkda), an upcoming solution that will make Data Availability cross-chain interoperable through ZK light clients. This will make it easy for other blockchains to tap into Syscoin's DA and ultimately Bitcoin's PoW, and to trustlessly interoperate with other ecosystems that do the same.
-- SYS Labs and Syscoin Foundation R&D includes [Bitcoin L0](https://jsidhu.medium.com/rollux-creating-a-new-layer-0-for-bitcoin-modularity-e2d737c99168), crypto-economic security for every facet of Bitcoin L2 through Rollux, and a difficulty-based stBTC.
-
-## Why $SYS?
-
-Don't blow your finite BTC on gas fees! [$SYS](https://syscoin.org/get-sys) is a utility-focused native coin, based upon EIP-1559. SYS incentivizes Bitcoin miners to keep supporting Bitcoin indefinitely into the future despite diminishing BTC rewards. It also incentivizes Syscoin's Sentry nodes.
-
-## Diagram
-
-Objects colored gray are in research and development. All others are mainnet.
-
-![img](../../images/diagram_SyscoinOverallDesign.png)
+[Humans, AI, and shared resources](./human-and-ai.mdx) explains why that architecture matters for communities making decisions about shared resources.

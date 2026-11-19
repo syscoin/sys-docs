@@ -1,0 +1,68 @@
+---
+title: Post-quantum ChainLocks
+description: How activated hash-based ChainLocks authenticate Sentry Node roles, lock Syscoin history, and attest Bitcoin checkpoints.
+sidebar_position: 4
+---
+
+In the activated post-quantum (PQ) design, Syscoin nodes lock a block and its ancestry after verifying a certificate of individually authenticated signatures from deterministically selected Sentry Node rosters. Long-lived SLH-DSA keys authenticate Sentry Node roles. Scheduled WOTS+ child keys sign the frequent finality votes. This page assumes the rules in Core #609 are active. [Protocol design](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/doc/pq-chainlocks.md) · [Network and release status](../intro/status.mdx)
+
+## Signing roles and keys
+
+```mermaid
+flowchart TB
+    Owner["Owner-authorized<br/>initial registration"]
+    SLH["Operator identity<br/>SLH-DSA-SHAKE-128s"]
+    Root["Epoch child-key root<br/>committed on chain"]
+    Snapshot["Validated chain snapshot<br/>freezes eligible roster slots"]
+    OTS["Scheduled WOTS+ child key<br/>one leaf per authorized statement"]
+    Cert["Certificate<br/>267 shares each from 3 rosters"]
+    Verify["Full node verifies certificate<br/>and enforces accepted ancestry"]
+    Owner --> SLH --> Root --> Snapshot
+    Snapshot --> OTS --> Cert --> Verify
+```
+
+| Layer | Selected profile | Purpose |
+| --- | --- | --- |
+| Owner | NIST FIPS 205 `SLH-DSA-SHAKE-128s`. | Authorize registrar changes, choose a voting delegate, and approve initial operator registration or delayed recovery. |
+| Proposal funding voter | Independent `SLH-DSA-SHAKE-128s` key. | Sign proposal funding votes when authorized by the owner. The operator retains the trigger and non-funding vote roles. |
+| Operator | `SLH-DSA-SHAKE-128s`, with a 32-byte public key and 7,856-byte signature. | Authenticate the operator and its child-key root, service updates, peer identity, and active-key rotation or revocation. |
+| Scheduled vote | `SYS-SCHEDULED-WOTS+-SHAKE-N16-W16-H8-V1`, 704-byte inner signature. | Sign the statement assigned to one leaf of an epoch child key. This is a Syscoin profile built from hash-based components and subject to independent review before public deployment. |
+| Child-key authentication | 32-byte child public key plus a depth-16 path of 512 bytes. | Authenticate that child key against the operator's frozen root. A vote with its key and path occupies 1,248 bytes. |
+
+New registrations require an SLH owner proof of possession. Once a Sentry Node enrolls its SLH owner key, owner actions require that active key and version. An active SLH owner, an active funding vote key, and the relevant operator child root are required for Sentry payment eligibility. [Owner and voting migration](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/doc/pq-chainlocks.md#L175-L235) · [Provider authorization checks](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/evo/providertx.cpp#L648-L731)
+
+The SLH identities are stateless. The scheduled WOTS+ signer needs durable state. The protocol derives its leaf from the signing slot. Each child key has 256 physical leaves, with 231 assigned to ChainLocks and four to payment audits. The other 21 leaves are invalid for signing. The signer reserves a leaf durably before signing and permits deterministic replay for the exact same message. Reorgs and crashes do not refund one-time leaves. Operating two copies of the same signer state or restoring a stale journal defeats the assumption that a leaf signs one distinct message. [FIPS 205](https://csrc.nist.gov/pubs/fips/205/final) · [Wire types](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/llmq/pq_chainlock_types.h) · [Signer journal](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/llmq/pq_signer_journal.cpp)
+
+Hash-based identity signatures trade payload size for a different set of cryptographic assumptions. FIPS 205 uses SHA-2 or SHAKE depending on the parameter set. The selected SHAKE profile is distinct from the BLAKE2s DA commitment and the SHA-256 work used in AuxPoW. NIST also standardizes the structured-lattice ML-DSA profile in FIPS 204. The different wire sizes reflect different constructions and do not provide a security ranking by themselves. [FIPS 205](https://csrc.nist.gov/pubs/fips/205/final) · [FIPS 204](https://csrc.nist.gov/pubs/fips/204/final)
+
+## What a full node verifies
+
+ChainLocks use 288-block epochs and targets every fifth block. Local generation for a target at height `H` starts with five blocks of follow-on history, at `H + 5`. This signing delay governs local generation and is separate from the certificate validity rules. Four active rosters have 400 ordered slots each. A final certificate selects exactly three of them and contains exactly 267 authenticated signatures per selected roster, for **801 roster-slot signatures** total. An operator can appear in multiple rosters. Membership, order, eligibility, and child roots are derived from frozen, branch-bound deterministic-masternode and registry state. [Schedule](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/llmq/pq_chainlock_schedule.h) · [Roster derivation](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/llmq/pq_quorum_builder.cpp) · [Certificate checks](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/llmq/pq_chainlock_verify.cpp)
+
+A live share carries a statement identifier, packed slot, and authenticated signature. The receiver reconstructs the statement from its immutable signing context. The certificate includes the common statement once, the selected-roster mask and signer bitmaps, and the ordered signatures. The current serialized certificate is **1,001,572 bytes**, about 0.95 MiB, while the compact live share is 1,282 bytes. These sizes describe the pinned implementation. [Wire format and size accounting](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/llmq/pq_chainlock_types.h#L760-L766)
+
+Full nodes check signatures and authentication paths directly. A recursive proof of the signing checks would add a proof verifier and its soundness assumptions to the authorization path. This design spends network bandwidth and local hash work instead, and uses succinct execution proofs at the zkSYS layer. [Cadence and design trade-off](./overview.mdx#why-core-and-zksys-run-at-different-speeds) · [Comparison with Ethereum's draft aggregation](./comparison.mdx#direct-verification-and-recursive-aggregation)
+
+A certificate authorizes the block and its ancestry under the checked signing context. A node verifies the branch-bound authority and its relation to the durable winner. Within an unchanged 400-slot roster, two sets of 267 share at least 134 slots. Two choices of three out of the same four rosters share at least two rosters. The within-roster bound assumes at most 133 Byzantine slots per selected roster. Across differently composed rosters, safety also assumes a complete certificate reaches honest signers before they sign a conflicting branch in a later view. Finality can pause when quorum or state is unavailable. [Certificate checks and safety model](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/doc/pq-chainlocks.md#L1073-L1134)
+
+## Checkpoints and recovery
+
+A ChainLock statement carries a Bitcoin checkpoint cursor. At a scheduled candidate height `H`, the Syscoin block commits to a Bitcoin previous-block hash, `BTCPREV`, that must match the AuxPoW parent header. Signers independently check their Bitcoin headers view before signing an `ADVANCE`. A `KEEP` certificate preserves the cursor. The certificate attests to the signing quorum’s Bitcoin view. Consumers can validate a header proof and set their own Bitcoin confirmation policy. [Candidate binding and signer policy](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/doc/pq-chainlocks.md#L1754-L1826)
+
+The only on-chain carrier for that candidate is at `H + 10`. A non-null receipt must name the exact certificate for `H`. Only a verified `ADVANCE` forwards a new Bitcoin hash to NEVM, and `KEEP` leaves the NEVM checkpoint unchanged. Missing certificate bytes can pause the dependent paired execution, while base Syscoin synchronization can continue under the bounded recovery rules. [Receipt and NEVM replay](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/doc/pq-chainlocks.md#L1839-L1891)
+
+Payment audits are a separate certificate domain. Their compact receipts and probation commitment affect payment eligibility. Payment probation does not change the roster's signing authority. During recovery after pruning, a returning node can verify an exact certificate selected by a receipt on its fully replayed proof-of-work history. That bounded historical import relies on the replayed history for omitted roster transitions. A later certificate must still pass the normal forward-authorization checks, and historical import alone cannot advance finality. [Recovery and payment audit design](https://github.com/syscoin/syscoin/pull/609)
+
+The hash-based upgrade covers ChainLocks and the enrolled Sentry Node roles above. Spending ordinary coins, including collateral and payouts, follows the existing UTXO script rules. NEVM account signatures, rollup proofs, and custody routes each have their own security assumptions.
+
+## Released behavior and migration
+
+Core v5.1.3 uses BLS/DKG ChainLocks. The pinned Core #609 public profile uses compatibility replay, with the production activation height and receipt anchor both unset. That profile starts neither a legacy nor a PQ ChainLock service. Explicit regtest profiles exercise preparation and full PQ finality. [Network and release status](../intro/status.mdx) · [Network parameters](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/consensus/params.h#L106-L153) · [Profile validation](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/consensus/pq_migration_config.h)
+
+1. An explicitly supported preparation profile can enroll operator keys, migrate existing ECDSA owner authority to SLH-DSA, and exercise roster coverage and restart recovery in shadow operation. Registration can also continue after activation.
+2. A coordinated release sets the activation height `A`, the separate historical BTCC receipt assumption `R`, and network-specific schedules. Block `A` begins the new consensus rules. The first valid finality certificate still depends on quorum readiness.
+3. An existing datadir hands off the exact legacy-validated `A−1` predecessor with validated local provenance. A fresh or reindexed BLS-free node without authenticated provenance remains restricted to historical replay until an authenticated bootstrap path is available. The design allows a later bootstrap release to publish the independently verified `A−1` block hash.
+
+Below `A`, the final proposal structurally replays legacy BLS/DKG-shaped objects through compatibility codecs. This replay preserves relevant historical state effects and depends on the authenticated handoff for authority. Above the boundary, PQ provider authorization and receipt rules apply to the configured network. [Activation and release gates](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/doc/pq-chainlocks.md#L2622-L2678) · [Handoff checks](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/node/pq_activation_handoff.h)
+
+Public activation still calls for the platform test matrix, independent review of the scheduled construction and payment-audit rules, and measured relay and verifier resource targets. [Outstanding activation requirements](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/doc/pq-chainlocks.md#L3288-L3376)
