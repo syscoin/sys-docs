@@ -10,6 +10,8 @@ Syscoin is a Bitcoin-merge-mined blockchain with its own rules for asset transfe
 
 **Where it stands.** Core and its Ethereum-compatible settlement layer, NEVM, operate on mainnet. The post-quantum finality rules are a release candidate. zkSYS Genesis is a public testnet. The walkthrough below assumes those new finality rules are active and an enforcing verifier checks real execution proofs. [Network and release status](./status.mdx)
 
+Syscoin’s 2021 scaling proposal began with a wallet holder’s problem. Keeping control of your coins is one requirement. Being able to spend them when an operator goes offline is another. Moving execution off the shared chain makes room for more applications, but it also means someone else must be able to recover the data and check the result. The same reasoning applies to an agent acting for a community. Who gave it the right to act, and what can a member verify after the operator is gone? [How the design developed, from the wallet holder’s problem to *Truth States*](../reference/research.mdx#from-a-computational-court-to-authority-over-scarce-resources)
+
 ## Follow the payment
 
 Suppose your wallet sends a payment on zkSYS. It gets a local receipt. Later, someone who never used your wallet wants to check the result after the original operator has gone offline.
