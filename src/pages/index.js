@@ -17,7 +17,7 @@ export default function Home() {
   const art = useBaseUrl(heroImage);
   return (
     <Layout title="Syscoin engineering documentation" description="See how Syscoin uses Bitcoin mining, hash-based data availability and zkSYS to let independent applications share a verifiable record.">
-      <PageMetadata image={heroImage} />
+      <PageMetadata image="/img/social/compute-cooperative.jpg" />
       <main className={styles.home}>
         <header className={styles.hero}>
           <div className={styles.heroText}>
