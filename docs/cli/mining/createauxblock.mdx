@@ -1,0 +1,47 @@
+---
+title: createauxblock
+sidebar_label: createauxblock
+description: "Syscoin Core CLI reference: createauxblock"
+---
+
+# `createauxblock`
+
+Creates a new block and returns information required to merge-mine it.
+
+## Synopsis
+
+```
+createauxblock "address"
+```
+
+## Arguments
+
+```
+1. address    (string, required) Payout address for the coinbase transaction
+```
+
+## Result
+
+```
+{                                 (json object)
+  "hash" : "hex",                 (string) hash of the created block
+  "chainid" : n,                  (numeric) chain ID for this block
+  "previousblockhash" : "hex",    (string) hash of the previous block
+  "coinbasevalue" : n,            (numeric) value of the block's coinbase
+  "coinbasescript" : "hex",       (string) The full scriptPubKey of the parent coinbase output for Syscoin AuxPoW tag commitment
+  "bits" : "str",                 (string) compressed target of the block
+  "height" : n,                   (numeric) height of the block
+  "_target" : "hex"               (string) target in reversed byte order, deprecated
+}
+```
+
+## Examples
+
+```
+> syscoin-cli createauxblock "address"
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "createauxblock", "params": ["address"]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/mining.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/mining.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-21.*

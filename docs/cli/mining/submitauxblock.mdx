@@ -1,0 +1,39 @@
+---
+title: submitauxblock
+sidebar_label: submitauxblock
+description: "Syscoin Core CLI reference: submitauxblock"
+---
+
+# `submitauxblock`
+
+Submits a solved auxpow for a block that was previously created by 'createauxblock'.
+
+## Synopsis
+
+```
+submitauxblock "hash" "auxpow"
+```
+
+## Arguments
+
+```
+1. hash      (string, required) Hash of the block to submit
+2. auxpow    (string, required) Serialised auxpow found
+```
+
+## Result
+
+```
+true|false    (boolean) whether the submitted block was correct
+```
+
+## Examples
+
+```
+> syscoin-cli submitauxblock "hash" "serialised auxpow"
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "submitauxblock", "params": ["hash" "serialised auxpow"]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/mining.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/mining.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-21.*

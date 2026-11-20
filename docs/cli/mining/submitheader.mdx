@@ -1,0 +1,39 @@
+---
+title: submitheader
+sidebar_label: submitheader
+description: "Syscoin Core CLI reference: submitheader"
+---
+
+# `submitheader`
+
+Decode the given hexdata as a header and submit it as a candidate chain tip if valid.
+Throws when the header is invalid.
+
+## Synopsis
+
+```
+submitheader "hexdata"
+```
+
+## Arguments
+
+```
+1. hexdata    (string, required) the hex-encoded block header data
+```
+
+## Result
+
+```
+null    (json null) None
+```
+
+## Examples
+
+```
+> syscoin-cli submitheader "aabbcc"
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "submitheader", "params": ["aabbcc"]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/mining.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/mining.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-21.*
