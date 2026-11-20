@@ -1,0 +1,45 @@
+---
+title: signmessagewithprivkey
+sidebar_label: signmessagewithprivkey
+description: "Syscoin Core CLI reference: signmessagewithprivkey"
+---
+
+# `signmessagewithprivkey`
+
+Sign a message with the private key of an address
+
+## Synopsis
+
+```
+signmessagewithprivkey "privkey" "message"
+```
+
+## Arguments
+
+```
+1. privkey    (string, required) The private key to sign the message with.
+2. message    (string, required) The message to create a signature of.
+```
+
+## Result
+
+```
+"str"    (string) The signature of the message encoded in base 64
+```
+
+## Examples
+
+```
+Create the signature
+> syscoin-cli signmessagewithprivkey "privkey" "my message"
+
+Verify the signature
+> syscoin-cli verifymessage "1D1ZrZNe3JUo7ZycKEYQQiQAWd9y54F4XX" "signature" "my message"
+
+As a JSON-RPC call
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "signmessagewithprivkey", "params": ["privkey", "my message"]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/signmessage.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/signmessage.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-21.*

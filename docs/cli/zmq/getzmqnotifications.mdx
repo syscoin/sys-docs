@@ -1,0 +1,40 @@
+---
+title: getzmqnotifications
+sidebar_label: getzmqnotifications
+description: "Syscoin Core CLI reference: getzmqnotifications"
+---
+
+# `getzmqnotifications`
+
+Returns information about the active ZeroMQ notifications.
+
+## Synopsis
+
+```
+getzmqnotifications
+```
+
+## Result
+
+```
+[                            (json array)
+  {                          (json object)
+    "type" : "str",          (string) Type of notification
+    "address" : "str",       (string) Address of the publisher
+    "addresssub" : "str",    (string, optional) Address of the subscriber, omitted if there is no subscriber assigned to this notification
+    "hwm" : n                (numeric) Outbound message high water mark
+  },
+  ...
+]
+```
+
+## Examples
+
+```
+> syscoin-cli getzmqnotifications 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "getzmqnotifications", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/zmq/zmqrpc.cpp](https://github.com/syscoin/syscoin/blob/master/src/zmq/zmqrpc.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-21.*

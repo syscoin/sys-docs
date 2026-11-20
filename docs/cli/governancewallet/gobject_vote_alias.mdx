@@ -1,0 +1,35 @@
+---
+title: gobject_vote_alias
+sidebar_label: gobject_vote_alias
+description: "Syscoin Core CLI reference: gobject_vote_alias"
+---
+
+# `gobject_vote_alias`
+
+Vote on a governance object by masternode's voting key (if present in local wallet).
+
+## Synopsis
+
+```
+gobject_vote_alias "governanceHash" "vote" "voteOutome" "protxHash"
+```
+
+## Arguments
+
+```
+1. governanceHash    (string, required) Hash of the governance object.
+2. vote              (string, required) Vote, possible values: [funding|valid|delete|endorsed].
+3. voteOutome        (string, required) Vote outcome, possible values: [yes|no|abstain].
+4. protxHash         (string, required) Masternode's proTxHash.
+```
+
+## Examples
+
+```
+> syscoin-cli gobject_vote_alias 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "gobject_vote_alias", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/wallet/rpcgovernance.cpp](https://github.com/syscoin/syscoin/blob/master/src/wallet/rpcgovernance.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-21.*

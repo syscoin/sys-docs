@@ -1,0 +1,58 @@
+---
+title: logging
+sidebar_label: logging
+description: "Syscoin Core CLI reference: logging"
+---
+
+# `logging`
+
+Gets and sets the logging configuration.
+When called without an argument, returns the list of categories with status that are currently being debug logged or not.
+When called with arguments, adds or removes categories from debug logging and return the lists above.
+The arguments are evaluated in order "include", "exclude".
+If an item is both included and excluded, it will thus end up being excluded.
+The valid logging categories are: addrman, bench, blockstorage, chainlocks, cmpctblock, coindb, estimatefee, gobject, http, i2p, ipc, leveldb, libevent, llmq, llmq-dkg, llmq-sigs, mempool, mempoolrej, mnlist, mnpayments, mnsync, net, netconn, proxy, prune, qt, rand, reindex, rpc, scan, selectcoins, spork, syscoin, tor, txpackages, txreconciliation, util, validation, walletdb, zmq
+In addition, the following are available as category names with special meanings:
+  - "all",  "1" : represent all logging categories.
+  - "none", "0" : even if other logging categories are specified, ignore all of them.
+
+## Synopsis
+
+```
+logging ( ["include_category",...] ["exclude_category",...] )
+```
+
+## Arguments
+
+```
+1. include                    (json array, optional) The categories to add to debug logging
+     [
+       "include_category",    (string) the valid logging category
+       ...
+     ]
+2. exclude                    (json array, optional) The categories to remove from debug logging
+     [
+       "exclude_category",    (string) the valid logging category
+       ...
+     ]
+```
+
+## Result
+
+```
+{                             (json object) keys are the logging categories, and values indicates its status
+  "category" : true|false,    (boolean) if being debug logged or not. false:inactive, true:active
+  ...
+}
+```
+
+## Examples
+
+```
+> syscoin-cli logging "[\"all\"]" "[\"http\"]"
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "logging", "params": [["all"], ["libevent"]]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/node.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/node.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-21.*
