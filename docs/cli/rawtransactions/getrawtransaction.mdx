@@ -1,0 +1,47 @@
+---
+title: getrawtransaction
+sidebar_label: getrawtransaction
+description: "Syscoin Core CLI reference: getrawtransaction"
+---
+
+# `getrawtransaction`
+
+By default, this call only returns a transaction if it is in the mempool. If -txindex is enabled
+and no blockhash argument is passed, it will return the transaction if it is in the mempool or any block.
+If a blockhash argument is passed, it will return the transaction if
+the specified block is available and the transaction is in that block.
+
+Hint: Use gettransaction for wallet transactions.
+
+If verbosity is 0 or omitted, returns the serialized transaction as a hex-encoded string.
+If verbosity is 1, returns a JSON Object with information about the transaction.
+If verbosity is 2, returns a JSON Object with information about the transaction, including fee and prevout information.
+
+## Synopsis
+
+```
+getrawtransaction "txid" ( verbosity "blockhash" )
+```
+
+## Arguments
+
+```
+1. txid         (string, required) The transaction id
+2. verbosity    (numeric, optional, default=0) 0 for hex-encoded data, 1 for a JSON object, and 2 for JSON object with fee and prevout
+3. blockhash    (string, optional) The block in which to look for the transaction
+```
+
+## Examples
+
+```
+> syscoin-cli getrawtransaction "mytxid"
+> syscoin-cli getrawtransaction "mytxid" 1
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "getrawtransaction", "params": ["mytxid", 1]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+> syscoin-cli getrawtransaction "mytxid" 0 "myblockhash"
+> syscoin-cli getrawtransaction "mytxid" 1 "myblockhash"
+> syscoin-cli getrawtransaction "mytxid" 2 "myblockhash"
+```
+
+---
+
+*Auto-generated from Syscoin Core 5.0.5 on 2026-05-20.*
