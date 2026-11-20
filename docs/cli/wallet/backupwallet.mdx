@@ -1,0 +1,38 @@
+---
+title: backupwallet
+sidebar_label: backupwallet
+description: "Syscoin Core CLI reference: backupwallet"
+---
+
+# `backupwallet`
+
+Safely copies the current wallet file to the specified destination, which can either be a directory or a path with a filename.
+
+## Synopsis
+
+```
+backupwallet "destination"
+```
+
+## Arguments
+
+```
+1. destination    (string, required) The destination directory or file
+```
+
+## Result
+
+```
+null    (json null)
+```
+
+## Examples
+
+```
+> syscoin-cli backupwallet "backup.dat"
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "backupwallet", "params": ["backup.dat"]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/wallet/rpc/backup.cpp](https://github.com/syscoin/syscoin/blob/master/src/wallet/rpc/backup.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-15.*

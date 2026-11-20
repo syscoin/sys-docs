@@ -1,0 +1,36 @@
+---
+title: listwallets
+sidebar_label: listwallets
+description: "Syscoin Core CLI reference: listwallets"
+---
+
+# `listwallets`
+
+Returns a list of currently loaded wallets.
+For full information on the wallet, use "getwalletinfo"
+
+## Synopsis
+
+```
+listwallets
+```
+
+## Result
+
+```
+[           (json array)
+  "str",    (string) the wallet name
+  ...
+]
+```
+
+## Examples
+
+```
+> syscoin-cli listwallets 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "listwallets", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/wallet/rpc/wallet.cpp](https://github.com/syscoin/syscoin/blob/master/src/wallet/rpc/wallet.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-15.*

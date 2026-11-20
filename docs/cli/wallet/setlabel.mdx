@@ -1,0 +1,39 @@
+---
+title: setlabel
+sidebar_label: setlabel
+description: "Syscoin Core CLI reference: setlabel"
+---
+
+# `setlabel`
+
+Sets the label associated with the given address.
+
+## Synopsis
+
+```
+setlabel "address" "label"
+```
+
+## Arguments
+
+```
+1. address    (string, required) The syscoin address to be associated with a label.
+2. label      (string, required) The label to assign to the address.
+```
+
+## Result
+
+```
+null    (json null)
+```
+
+## Examples
+
+```
+> syscoin-cli setlabel "sys1q09vm5lfy0j5reeulh4x5752q25uqqvz34hufdl" "tabby"
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "setlabel", "params": ["sys1q09vm5lfy0j5reeulh4x5752q25uqqvz34hufdl", "tabby"]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/wallet/rpc/addresses.cpp](https://github.com/syscoin/syscoin/blob/master/src/wallet/rpc/addresses.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-15.*

@@ -1,0 +1,43 @@
+---
+title: walletlock
+sidebar_label: walletlock
+description: "Syscoin Core CLI reference: walletlock"
+---
+
+# `walletlock`
+
+Removes the wallet encryption key from memory, locking the wallet.
+After calling this method, you will need to call walletpassphrase again
+before being able to call any methods which require the wallet to be unlocked.
+
+## Synopsis
+
+```
+walletlock
+```
+
+## Result
+
+```
+null    (json null)
+```
+
+## Examples
+
+```
+Set the passphrase for 2 minutes to perform a transaction
+> syscoin-cli walletpassphrase "my pass phrase" 120
+
+Perform a send (requires passphrase set)
+> syscoin-cli sendtoaddress "sys1q09vm5lfy0j5reeulh4x5752q25uqqvz34hufdl" 1.0
+
+Clear the passphrase since we are done before 2 minutes is up
+> syscoin-cli walletlock 
+
+As a JSON-RPC call
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "walletlock", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/wallet/rpc/encrypt.cpp](https://github.com/syscoin/syscoin/blob/master/src/wallet/rpc/encrypt.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-15.*

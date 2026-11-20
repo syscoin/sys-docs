@@ -1,0 +1,39 @@
+---
+title: keypoolrefill
+sidebar_label: keypoolrefill
+description: "Syscoin Core CLI reference: keypoolrefill"
+---
+
+# `keypoolrefill`
+
+Fills the keypool.
+Requires wallet passphrase to be set with walletpassphrase call if wallet is encrypted.
+
+## Synopsis
+
+```
+keypoolrefill ( newsize )
+```
+
+## Arguments
+
+```
+1. newsize    (numeric, optional, default=1000, or as set by -keypool) The new keypool size
+```
+
+## Result
+
+```
+null    (json null)
+```
+
+## Examples
+
+```
+> syscoin-cli keypoolrefill 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "keypoolrefill", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/wallet/rpc/addresses.cpp](https://github.com/syscoin/syscoin/blob/master/src/wallet/rpc/addresses.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-15.*
