@@ -1,0 +1,32 @@
+---
+title: mnsync
+sidebar_label: mnsync
+description: "Syscoin Core CLI reference: mnsync"
+---
+
+# `mnsync`
+
+Returns the sync status, updates to the next step or resets it entirely.
+
+## Synopsis
+
+```
+mnsync "command"
+```
+
+## Arguments
+
+```
+1. command    (string, required) The command to issue (status|next|reset)
+```
+
+## Examples
+
+```
+> syscoin-cli mnsync status
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "mnsync", "params": [status]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/node.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/node.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*

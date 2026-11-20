@@ -1,0 +1,41 @@
+---
+title: syscoingettxroots
+sidebar_label: syscoingettxroots
+description: "Syscoin Core CLI reference: syscoingettxroots"
+---
+
+# `syscoingettxroots`
+
+Get NEVM transaction and receipt roots based on block hash.
+
+## Synopsis
+
+```
+syscoingettxroots "blockhash"
+```
+
+## Arguments
+
+```
+1. blockhash    (string, required) The block hash to lookup.
+```
+
+## Result
+
+```
+{                           (json object)
+  "txroot" : "hex",         (string) The transaction merkle root
+  "receiptroot" : "hex"     (string) The receipt merkle root
+}
+```
+
+## Examples
+
+```
+> syscoin-cli syscoingettxroots 0xd8ac75c7b4084c85a89d6e28219ff162661efb8b794d4b66e6e9ea52b4139b10
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "syscoingettxroots", "params": [0xd8ac75c7b4084c85a89d6e28219ff162661efb8b794d4b66e6e9ea52b4139b10]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/services/rpc/assetrpc.cpp](https://github.com/syscoin/syscoin/blob/master/src/services/rpc/assetrpc.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*

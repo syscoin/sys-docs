@@ -1,0 +1,45 @@
+---
+title: assetallocationverifyzdag
+sidebar_label: assetallocationverifyzdag
+description: "Syscoin Core CLI reference: assetallocationverifyzdag"
+---
+
+# `assetallocationverifyzdag`
+
+Show status as it pertains to any current Z-DAG conflicts or warnings related to a ZDAG transaction.
+Return value is in the status field and can represent 3 levels(0, 1 or 2)
+Level -1 means not found, not a ZDAG transaction, perhaps it is already confirmed.
+Level 0 means OK.
+Level 1 means warning (checked that in the mempool there are more spending balances than current POW sender balance). An active stance should be taken and perhaps a deeper analysis as to potential conflicts related to the sender.
+Level 2 means an active double spend was found and any depending asset allocation sends are also flagged as dangerous and should wait for POW confirmation before proceeding.
+
+## Synopsis
+
+```
+assetallocationverifyzdag "txid"
+```
+
+## Arguments
+
+```
+1. txid    (string, required) The transaction id of the ZDAG transaction.
+```
+
+## Result
+
+```
+{                  (json object)
+  "status" : n     (numeric) The status level of the transaction
+}
+```
+
+## Examples
+
+```
+> syscoin-cli assetallocationverifyzdag "txid"
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "assetallocationverifyzdag", "params": ["txid"]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/services/rpc/assetrpc.cpp](https://github.com/syscoin/syscoin/blob/master/src/services/rpc/assetrpc.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*

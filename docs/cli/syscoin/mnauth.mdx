@@ -1,0 +1,40 @@
+---
+title: mnauth
+sidebar_label: mnauth
+description: "Syscoin Core CLI reference: mnauth"
+---
+
+# `mnauth`
+
+Override MNAUTH processing results for the specified node with a user provided data (-regtest only).
+
+## Synopsis
+
+```
+mnauth nodeId "proTxHash" "publicKey"
+```
+
+## Arguments
+
+```
+1. nodeId       (numeric, required) Internal peer id of the node the mock data gets added to
+2. proTxHash    (string, required) The authenticated proTxHash as hex string
+3. publicKey    (string, required) The authenticated public key as hex string
+```
+
+## Result
+
+```
+true|false    (boolean) If MNAUTH was overridden or not.
+```
+
+## Examples
+
+```
+Override MNAUTH processing
+> syscoin-cli mnauth "nodeId "proTxHash" "publicKey""
+```
+
+---
+
+*Source: [src/rpc/node.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/node.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*
