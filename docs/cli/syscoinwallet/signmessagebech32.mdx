@@ -1,0 +1,46 @@
+---
+title: signmessagebech32
+sidebar_label: signmessagebech32
+description: "Syscoin Core CLI reference: signmessagebech32"
+---
+
+# `signmessagebech32`
+
+Sign a message with the private key of an address (p2pkh or p2wpkh)
+Requires wallet passphrase to be set with walletpassphrase call if wallet is encrypted.
+
+## Synopsis
+
+```
+signmessagebech32 "address" "message"
+```
+
+## Arguments
+
+```
+1. address    (string, required) The syscoin address to use for the private key.
+2. message    (string, required) Message to sign.
+```
+
+## Result
+
+```
+"str"    (string) The signature of the message encoded in base 64
+```
+
+## Examples
+
+```
+Unlock the wallet for 30 seconds
+> syscoin-cli walletpassphrase "mypassphrase" 30
+
+Create the signature
+> syscoin-cli signmessagebech32 "1D1ZrZNe3JUo7ZycKEYQQiQAWd9y54F4XX" "message"
+
+As a JSON-RPC signmessagebech32
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "signmessagebech32", "params": ["1D1ZrZNe3JUo7ZycKEYQQiQAWd9y54F4XX", "message"]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*
