@@ -1,0 +1,41 @@
+---
+title: protx_register_submit
+sidebar_label: protx_register_submit
+description: "Syscoin Core CLI reference: protx_register_submit"
+---
+
+# `protx_register_submit`
+
+Submits the specified ProTx to the network. This command will also sign the inputs of the transaction
+which were previously added by "protx_register_prepare" to cover transaction fees
+and outputs to cover fees.
+
+## Synopsis
+
+```
+protx_register_submit "tx" "sig"
+```
+
+## Arguments
+
+```
+1. tx     (string, required) The serialized transaction previously returned by "protx_register_prepare".
+2. sig    (string, required) The signature signed with the collateral key. Must be in base64 format.
+```
+
+## Result
+
+```
+"hex"    (string) The transaction hash in hex
+```
+
+## Examples
+
+```
+> syscoin-cli protx_register_submit 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "protx_register_submit", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/wallet/rpcevo.cpp](https://github.com/syscoin/syscoin/blob/master/src/wallet/rpcevo.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*

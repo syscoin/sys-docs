@@ -1,0 +1,34 @@
+---
+title: protx_list_wallet
+sidebar_label: protx_list_wallet
+description: "Syscoin Core CLI reference: protx_list_wallet"
+---
+
+# `protx_list_wallet`
+
+List only ProTx which are found in your wallet at the given chain height.
+This will also include ProTx which failed PoSe verification.
+
+## Synopsis
+
+```
+protx_list_wallet ( detailed height )
+```
+
+## Arguments
+
+```
+1. detailed    (numeric, optional, default=0) If 0, only the hashes of the ProTx will be returned. If 1 returns voting details for each DMN and keys and if 2 returns full details of each DMN
+2. height      (numeric, optional) Height to look for ProTx transactions, if not specified defaults to current chain-tip
+```
+
+## Examples
+
+```
+> syscoin-cli protx_list_wallet true
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "protx_list_wallet", "params": [true]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/wallet/rpcevo.cpp](https://github.com/syscoin/syscoin/blob/master/src/wallet/rpcevo.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*

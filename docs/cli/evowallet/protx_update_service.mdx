@@ -1,0 +1,53 @@
+---
+title: protx_update_service
+sidebar_label: protx_update_service
+description: "Syscoin Core CLI reference: protx_update_service"
+---
+
+# `protx_update_service`
+
+Creates and sends a ProUpServTx to the network. This will update the IP address
+of a masternode.
+If this is done for a masternode that got PoSe-banned, the ProUpServTx will also revive this masternode.
+
+## Synopsis
+
+```
+protx_update_service "proTxHash" "ipAndPort" "operatorKey" "nevmAddress" ( "operatorPayoutAddress" "feeSourceAddress" legacy )
+```
+
+## Arguments
+
+```
+1. proTxHash                (string, required) The hash of the initial ProRegTx.
+2. ipAndPort                (string, required) IP and port in the form "IP:PORT".
+                            Must be unique on the network. Can be set to 0, which will require a ProUpServTx afterwards.
+3. operatorKey              (string, required) The operator BLS private key associated with the
+                            registered operator public key.
+4. nevmAddress              (string, required) The NEVM address to associate with NEVM registry.
+                            If set to an empty string, any existing NEVM registry entry will be removed.
+5. operatorPayoutAddress    (string, optional, default="") The address used for operator reward payments.
+                            Only allowed when the ProRegTx had a non-zero operatorReward value.
+                            If set to an empty string, the currently active payout address is reused.
+6. feeSourceAddress         (string, optional, default="") If specified, the wallet will only use coins from this address to fund ProTx.
+                            If not specified, payoutAddress is the one that is going to be used.
+                            The private key belonging to this address must be known in your wallet.
+7. legacy                   (boolean, optional) Use Legacy BLS scheme (false by default)
+```
+
+## Result
+
+```
+"hex"    (string) The transaction hash in hex
+```
+
+## Examples
+
+```
+> syscoin-cli protx_update_service 1075db55d416d3ca199f55b6084e2115b9345e16c5cf302fc80e9d5fbf5d48d 173.249.49.9:18369 <NEVM address> 003bc97fcd6023996f8703b4da34dedd1641bd45ed12ac7a4d74a529dd533ecb99d4fb8ddb04853bb110f0d747ee8e63 tsys1qxh8am0c9w0q9kv7h7f9q2c4jrfjg63yawrgm0r
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "protx_update_service", "params": ["1075db55d416d3ca199f55b6084e2115b9345e16c5cf302fc80e9d5fbf5d48d", "173.249.49.9:18369", "<NEVM Address>", "003bc97fcd6023996f8703b4da34dedd1641bd45ed12ac7a4d74a529dd533ecb99d4fb8ddb04853bb110f0d747ee8e63", "tsys1qxh8am0c9w0q9kv7h7f9q2c4jrfjg63yawrgm0r")]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/wallet/rpcevo.cpp](https://github.com/syscoin/syscoin/blob/master/src/wallet/rpcevo.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*
