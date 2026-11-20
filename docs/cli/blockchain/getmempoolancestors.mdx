@@ -1,0 +1,33 @@
+---
+title: getmempoolancestors
+sidebar_label: getmempoolancestors
+description: "Syscoin Core CLI reference: getmempoolancestors"
+---
+
+# `getmempoolancestors`
+
+If txid is in the mempool, returns all in-mempool ancestors.
+
+## Synopsis
+
+```
+getmempoolancestors "txid" ( verbose )
+```
+
+## Arguments
+
+```
+1. txid       (string, required) The transaction id (must be in mempool)
+2. verbose    (boolean, optional, default=false) True for a json object, false for array of transaction ids
+```
+
+## Examples
+
+```
+> syscoin-cli getmempoolancestors "mytxid"
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "getmempoolancestors", "params": ["mytxid"]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/mempool.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/mempool.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*

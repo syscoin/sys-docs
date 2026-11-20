@@ -1,0 +1,37 @@
+---
+title: pruneblockchain
+sidebar_label: pruneblockchain
+description: "Syscoin Core CLI reference: pruneblockchain"
+---
+
+# `pruneblockchain`
+
+## Synopsis
+
+```
+pruneblockchain height
+```
+
+## Arguments
+
+```
+1. height    (numeric, required) The block height to prune up to. May be set to a discrete height, or to a UNIX epoch time
+             to prune blocks whose block time is at least 2 hours older than the provided timestamp.
+```
+
+## Result
+
+```
+n    (numeric) Height of the last block pruned
+```
+
+## Examples
+
+```
+> syscoin-cli pruneblockchain 1000
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "pruneblockchain", "params": [1000]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/blockchain.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/blockchain.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*

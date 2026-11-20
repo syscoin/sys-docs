@@ -1,0 +1,36 @@
+---
+title: getblock
+sidebar_label: getblock
+description: "Syscoin Core CLI reference: getblock"
+---
+
+# `getblock`
+
+If verbosity is 0, returns a string that is serialized, hex-encoded data for block 'hash'.
+If verbosity is 1, returns an Object with information about block `<hash>`.
+If verbosity is 2, returns an Object with information about block `<hash>` and information about each transaction.
+If verbosity is 3, returns an Object with information about block `<hash>` and information about each transaction, including prevout information for inputs (only for unpruned blocks in the current best chain).
+
+## Synopsis
+
+```
+getblock "blockhash" ( verbosity )
+```
+
+## Arguments
+
+```
+1. blockhash    (string, required) The block hash
+2. verbosity    (numeric, optional, default=1) 0 for hex-encoded data, 1 for a JSON object, 2 for JSON object with transaction data, and 3 for JSON object with transaction data including prevout information for inputs
+```
+
+## Examples
+
+```
+> syscoin-cli getblock "00000000c937983704a73af28acdec37b049d214adbda81d7e2a3dd146f6ed09"
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "getblock", "params": ["00000000c937983704a73af28acdec37b049d214adbda81d7e2a3dd146f6ed09"]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/blockchain.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/blockchain.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*

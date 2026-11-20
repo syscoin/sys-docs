@@ -1,0 +1,34 @@
+---
+title: savemempool
+sidebar_label: savemempool
+description: "Syscoin Core CLI reference: savemempool"
+---
+
+# `savemempool`
+
+Dumps the mempool to disk. It will fail until the previous dump is fully loaded.
+
+## Synopsis
+
+```
+savemempool
+```
+
+## Result
+
+```
+{                        (json object)
+  "filename" : "str"     (string) the directory and file where the mempool was saved
+}
+```
+
+## Examples
+
+```
+> syscoin-cli savemempool 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "savemempool", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/mempool.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/mempool.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*

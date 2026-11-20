@@ -1,0 +1,57 @@
+---
+title: scanblocks
+sidebar_label: scanblocks
+description: "Syscoin Core CLI reference: scanblocks"
+---
+
+# `scanblocks`
+
+Return relevant blockhashes for given descriptors (requires blockfilterindex).
+This call may take several minutes. Make sure to use no RPC timeout (syscoin-cli -rpcclienttimeout=0)
+
+## Synopsis
+
+```
+scanblocks "action" ( [scanobjects,...] start_height stop_height "filtertype" options )
+```
+
+## Arguments
+
+```
+1. action                                 (string, required) The action to execute
+                                          "start" for starting a scan
+                                          "abort" for aborting the current scan (returns true when abort was successful)
+                                          "status" for progress report (in %) of the current scan
+2. scanobjects                            (json array, optional) Array of scan objects. Required for "start" action
+                                          Every scan object is either a string descriptor or an object:
+     [
+       "descriptor",                      (string) An output descriptor
+       {                                  (json object) An object with output descriptor and metadata
+         "desc": "str",                   (string, required) An output descriptor
+         "range": n or [n,n],             (numeric or array, optional, default=1000) The range of HD chain indexes to explore (either end or [begin,end])
+       },
+       ...
+     ]
+3. start_height                           (numeric, optional, default=0) Height to start to scan from
+4. stop_height                            (numeric, optional, default=chain tip) Height to stop to scan
+5. filtertype                             (string, optional, default="basic") The type name of the filter
+6. options                                (json object, optional)
+     {
+       "filter_false_positives": bool,    (boolean, optional, default=false) Filter false positives (slower and may fail on pruned nodes). Otherwise they may occur at a rate of 1/M
+     }
+```
+
+## Examples
+
+```
+> syscoin-cli scanblocks start '["addr(bcrt1q4u4nsgk6ug0sqz7r3rj9tykjxrsl0yy4d0wwte)"]' 300000
+> syscoin-cli scanblocks start '["addr(bcrt1q4u4nsgk6ug0sqz7r3rj9tykjxrsl0yy4d0wwte)"]' 100 150 basic
+> syscoin-cli scanblocks status
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "scanblocks", "params": ["start", ["addr(bcrt1q4u4nsgk6ug0sqz7r3rj9tykjxrsl0yy4d0wwte)"], 300000]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "scanblocks", "params": ["start", ["addr(bcrt1q4u4nsgk6ug0sqz7r3rj9tykjxrsl0yy4d0wwte)"], 100, 150, "basic"]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "scanblocks", "params": ["status"]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/blockchain.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/blockchain.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*

@@ -1,0 +1,44 @@
+---
+title: getmempoolinfo
+sidebar_label: getmempoolinfo
+description: "Syscoin Core CLI reference: getmempoolinfo"
+---
+
+# `getmempoolinfo`
+
+Returns details on the active state of the TX memory pool.
+
+## Synopsis
+
+```
+getmempoolinfo
+```
+
+## Result
+
+```
+{                               (json object)
+  "loaded" : true|false,        (boolean) True if the initial load attempt of the persisted mempool finished
+  "size" : n,                   (numeric) Current tx count
+  "bytes" : n,                  (numeric) Sum of all virtual transaction sizes as defined in BIP 141. Differs from actual serialized size because witness data is discounted
+  "usage" : n,                  (numeric) Total memory usage for the mempool
+  "total_fee" : n,              (numeric) Total fees for the mempool in SYS, ignoring modified fees through prioritisetransaction
+  "maxmempool" : n,             (numeric) Maximum memory usage for the mempool
+  "mempoolminfee" : n,          (numeric) Minimum fee rate in SYS/kvB for tx to be accepted. Is the maximum of minrelaytxfee and minimum mempool fee
+  "minrelaytxfee" : n,          (numeric) Current minimum relay fee for transactions
+  "incrementalrelayfee" : n,    (numeric) minimum fee rate increment for mempool limiting or replacement in SYS/kvB
+  "unbroadcastcount" : n,       (numeric) Current number of transactions that haven't passed initial broadcast yet
+  "fullrbf" : true|false        (boolean) True if the mempool accepts RBF without replaceability signaling inspection
+}
+```
+
+## Examples
+
+```
+> syscoin-cli getmempoolinfo 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "getmempoolinfo", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/mempool.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/mempool.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*

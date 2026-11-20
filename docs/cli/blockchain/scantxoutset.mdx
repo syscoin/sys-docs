@@ -1,0 +1,49 @@
+---
+title: scantxoutset
+sidebar_label: scantxoutset
+description: "Syscoin Core CLI reference: scantxoutset"
+---
+
+# `scantxoutset`
+
+Scans the unspent transaction output set for entries that match certain output descriptors.
+
+## Synopsis
+
+```
+scantxoutset "action" ( [scanobjects,...] )
+```
+
+## Arguments
+
+```
+1. action                        (string, required) The action to execute
+                                 "start" for starting a scan
+                                 "abort" for aborting the current scan (returns true when abort was successful)
+                                 "status" for progress report (in %) of the current scan
+2. scanobjects                   (json array, optional) Array of scan objects. Required for "start" action
+                                 Every scan object is either a string descriptor or an object:
+     [
+       "descriptor",             (string) An output descriptor
+       {                         (json object) An object with output descriptor and metadata
+         "desc": "str",          (string, required) An output descriptor
+         "range": n or [n,n],    (numeric or array, optional, default=1000) The range of HD chain indexes to explore (either end or [begin,end])
+       },
+       ...
+     ]
+```
+
+## Examples
+
+```
+> syscoin-cli scantxoutset start '["raw(76a91411b366edfc0a8b66feebae5c2e25a7b6a5d1cf3188ac)#fm24fxxy"]'
+> syscoin-cli scantxoutset status
+> syscoin-cli scantxoutset abort
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "scantxoutset", "params": ["start", ["raw(76a91411b366edfc0a8b66feebae5c2e25a7b6a5d1cf3188ac)#fm24fxxy"]]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "scantxoutset", "params": ["status"]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "scantxoutset", "params": ["abort"]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/blockchain.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/blockchain.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*

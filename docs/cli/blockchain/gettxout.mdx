@@ -1,0 +1,40 @@
+---
+title: gettxout
+sidebar_label: gettxout
+description: "Syscoin Core CLI reference: gettxout"
+---
+
+# `gettxout`
+
+Returns details about an unspent transaction output.
+
+## Synopsis
+
+```
+gettxout "txid" n ( include_mempool )
+```
+
+## Arguments
+
+```
+1. txid               (string, required) The transaction id
+2. n                  (numeric, required) vout number
+3. include_mempool    (boolean, optional, default=true) Whether to include the mempool. Note that an unspent output that is spent in the mempool won't appear.
+```
+
+## Examples
+
+```
+Get unspent transactions
+> syscoin-cli listunspent 
+
+View the details
+> syscoin-cli gettxout "txid" 1
+
+As a JSON-RPC call
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "gettxout", "params": ["txid", 1]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/blockchain.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/blockchain.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*
