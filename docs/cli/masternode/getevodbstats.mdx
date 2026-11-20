@@ -1,0 +1,38 @@
+---
+title: getevodbstats
+sidebar_label: getevodbstats
+description: "Syscoin Core CLI reference: getevodbstats"
+---
+
+# `getevodbstats`
+
+Returns statistics about the deterministic masternode list database (DMN EvoDB).
+
+## Synopsis
+
+```
+getevodbstats
+```
+
+## Result
+
+```
+{                                     (json object)
+  "approx_persisted_entries" : n,     (numeric) Approximate number of list entries stored persistently on disk.
+  "estimated_disk_size_bytes" : n,    (numeric) Estimated total disk size occupied by the database files.
+  "cache_entries" : n,                (numeric) Number of list entries currently held in the in-memory write cache.
+  "erase_cache_entries" : n,          (numeric) Number of list entries currently marked for deletion in the in-memory erase cache.
+  "db_path" : "str"                   (string) Filesystem path to the database directory.
+}
+```
+
+## Examples
+
+```
+> syscoin-cli getevodbstats 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "getevodbstats", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/masternode.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/masternode.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-20.*

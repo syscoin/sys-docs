@@ -1,0 +1,26 @@
+---
+title: masternode_count
+sidebar_label: masternode_count
+description: "Syscoin Core CLI reference: masternode_count"
+---
+
+# `masternode_count`
+
+Get information about number of masternodes
+
+## Synopsis
+
+```
+masternode_count
+```
+
+## Examples
+
+```
+> syscoin-cli masternode_count 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "masternode_count", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/masternode.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/masternode.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-20.*

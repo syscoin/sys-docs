@@ -1,0 +1,53 @@
+---
+title: masternode_list
+sidebar_label: masternode_list
+description: "Syscoin Core CLI reference: masternode_list"
+---
+
+# `masternode_list`
+
+Get a list of masternodes in different modes. This call is identical to 'masternode list' call
+
+## Synopsis
+
+```
+masternode_list ( "mode" "filter" )
+```
+
+## Arguments
+
+```
+1. mode      (string, optional, default="json") The mode to run list in.
+             
+Available modes:
+             addr           - Print ip address associated with a masternode (can be additionally filtered, partial match)
+             full           - Print info in format 'status payee lastpaidtime lastpaidblock IP'
+             (can be additionally filtered, partial match)
+             info           - Print info in format 'status payee IP'
+             (can be additionally filtered, partial match)
+             json           - Print info in JSON format (can be additionally filtered, partial match)
+             lastpaidblock  - Print the last block height a node was paid on the network
+             lastpaidtime   - Print the last time a node was paid on the network
+             owneraddress   - Print the masternode owner Syscoin address
+             nevmaddress    - Print the masternode registered Syscoin NEVM address
+             payee          - Print the masternode payout Syscoin address (can be additionally filtered,
+             partial match)
+             pubKeyOperator - Print the masternode operator public key
+             status         - Print masternode status: ENABLED / POSE_BANNED
+             (can be additionally filtered, partial match)
+             votingaddress  - Print the masternode voting Syscoin address
+             
+2. filter    (string, optional) Filter results. Partial match by outpoint by default in all modes,
+             additional matches in some modes are also available.
+```
+
+## Examples
+
+```
+> syscoin-cli masternode_list 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "masternode_list", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/masternode.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/masternode.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-20.*

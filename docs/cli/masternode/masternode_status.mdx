@@ -1,0 +1,26 @@
+---
+title: masternode_status
+sidebar_label: masternode_status
+description: "Syscoin Core CLI reference: masternode_status"
+---
+
+# `masternode_status`
+
+Print masternode status outputs
+
+## Synopsis
+
+```
+masternode_status
+```
+
+## Examples
+
+```
+> syscoin-cli masternode_status 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "masternode_status", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/masternode.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/masternode.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-20.*
