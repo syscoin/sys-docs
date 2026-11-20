@@ -1,0 +1,38 @@
+---
+title: voteraw
+sidebar_label: voteraw
+description: "Syscoin Core CLI reference: voteraw"
+---
+
+# `voteraw`
+
+Compile and relay a governance vote with provided external signature instead of signing vote internally
+
+## Synopsis
+
+```
+voteraw "collateralTxHash" collateralTxIndex "governanceHash" "voteSignal" "voteOutcome" time "voteSig"
+```
+
+## Arguments
+
+```
+1. collateralTxHash     (string, required) Masternode collateral txid.
+2. collateralTxIndex    (numeric, required) Masternode collateral output index.
+3. governanceHash       (string, required) Governance proposal hash.
+4. voteSignal           (string, required) One of following (funding|valid|delete|endorsed).
+5. voteOutcome          (string, required) One of following (yes|no|abstain).
+6. time                 (numeric, required) Time of vote.
+7. voteSig              (string, required) Vote signature. Must be encoded in base64.
+```
+
+## Examples
+
+```
+> syscoin-cli voteraw 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "voteraw", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/governance.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/governance.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-20.*

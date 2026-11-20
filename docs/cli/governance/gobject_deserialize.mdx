@@ -1,0 +1,32 @@
+---
+title: gobject_deserialize
+sidebar_label: gobject_deserialize
+description: "Syscoin Core CLI reference: gobject_deserialize"
+---
+
+# `gobject_deserialize`
+
+Deserialize governance object from hex string to JSON
+
+## Synopsis
+
+```
+gobject_deserialize "hex_data"
+```
+
+## Arguments
+
+```
+1. hex_data    (string, required) Data in hex string form.
+```
+
+## Examples
+
+```
+> syscoin-cli gobject_deserialize 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "gobject_deserialize", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/governance.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/governance.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-20.*

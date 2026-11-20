@@ -1,0 +1,34 @@
+---
+title: gobject_getcurrentvotes
+sidebar_label: gobject_getcurrentvotes
+description: "Syscoin Core CLI reference: gobject_getcurrentvotes"
+---
+
+# `gobject_getcurrentvotes`
+
+Get only current (tallying) votes for a governance object hash (does not include old votes)
+
+## Synopsis
+
+```
+gobject_getcurrentvotes "governanceHash" ( "txid" vout )
+```
+
+## Arguments
+
+```
+1. governanceHash    (string, required) Object id.
+2. txid              (string, optional) Masternode collateral txid.
+3. vout              (numeric, optional) Masternode collateral output index, required if <txid> presents.
+```
+
+## Examples
+
+```
+> syscoin-cli gobject_getcurrentvotes 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "gobject_getcurrentvotes", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/governance.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/governance.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-20.*

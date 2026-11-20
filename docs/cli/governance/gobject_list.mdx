@@ -1,0 +1,33 @@
+---
+title: gobject_list
+sidebar_label: gobject_list
+description: "Syscoin Core CLI reference: gobject_list"
+---
+
+# `gobject_list`
+
+List governance objects (can be filtered by signal and/or object type)
+
+## Synopsis
+
+```
+gobject_list ( "signal" "type" )
+```
+
+## Arguments
+
+```
+1. signal    (string, optional, default="valid") Cached signal, possible values: [valid|funding|delete|endorsed|all].
+2. type      (string, optional, default="all") Object type, possible values: [proposals|triggers|all].
+```
+
+## Examples
+
+```
+> syscoin-cli gobject_list 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "gobject_list", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/governance.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/governance.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-20.*
