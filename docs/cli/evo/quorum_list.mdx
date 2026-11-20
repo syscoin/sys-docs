@@ -1,0 +1,33 @@
+---
+title: quorum_list
+sidebar_label: quorum_list
+description: "Syscoin Core CLI reference: quorum_list"
+---
+
+# `quorum_list`
+
+List of on-chain quorums
+
+## Synopsis
+
+```
+quorum_list ( count )
+```
+
+## Arguments
+
+```
+1. count    (numeric, optional, default=0) Number of quorums to list. Will list active quorums
+            if "count" is not specified.
+```
+
+## Examples
+
+```
+> syscoin-cli quorum_list 1
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "quorum_list", "params": [1]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/rpcquorums.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/rpcquorums.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*

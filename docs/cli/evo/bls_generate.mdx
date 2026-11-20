@@ -1,0 +1,32 @@
+---
+title: bls_generate
+sidebar_label: bls_generate
+description: "Syscoin Core CLI reference: bls_generate"
+---
+
+# `bls_generate`
+
+Returns a BLS secret/public key pair.
+
+## Synopsis
+
+```
+bls_generate ( legacy )
+```
+
+## Arguments
+
+```
+1. legacy    (boolean, optional, default=false) Use legacy BLS scheme
+```
+
+## Examples
+
+```
+> syscoin-cli bls_generate 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "bls_generate", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/rpcevo.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/rpcevo.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*

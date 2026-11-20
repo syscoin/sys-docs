@@ -1,0 +1,49 @@
+---
+title: gettxchainlocks
+sidebar_label: gettxchainlocks
+description: "Syscoin Core CLI reference: gettxchainlocks"
+---
+
+# `gettxchainlocks`
+
+Returns the block height at which each transaction was mined, and indicates whether it is in the mempool, ChainLocked, or neither.
+
+## Synopsis
+
+```
+gettxchainlocks ["txid",...]
+```
+
+## Arguments
+
+```
+1. txids          (json array, required) The transaction ids (no more than 100)
+     [
+       "txid",    (string) A transaction hash
+       ...
+     ]
+```
+
+## Result
+
+```
+[                                (json array) Response is an array with the same size as the input txids
+  {                              (json object)
+    "height" : n,                (numeric) The block height
+    "chainlock" : true|false,    (boolean) The state of the corresponding block ChainLock
+    "mempool" : true|false       (boolean) Mempool status for the transaction
+  },
+  ...
+]
+```
+
+## Examples
+
+```
+> syscoin-cli gettxchainlocks '["mytxid",...]'
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "gettxchainlocks", "params": [["mytxid",...]]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*
