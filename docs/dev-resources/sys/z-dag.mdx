@@ -1,8 +1,8 @@
 # Z-DAG Developer Guide
 
-Z-DAG gives integrations a status for unconfirmed SPT allocation transfers from a Core node. The node checks the transaction and its unconfirmed ancestors in the local mempool. Configure the waiting period and confirmation policy for the application. [Z-DAG design and whitepaper](../../tech/z-dag.mdx) · [Core architecture](../../architecture/core.mdx)
+Use Z-DAG to check an unconfirmed Syscoin Platform Token (SPT) transfer before it is mined. The result reflects the transaction and its unconfirmed ancestors in your node’s mempool. [Z-DAG design and whitepaper](../../tech/z-dag.mdx)
 
-The eligible format is allocation send, transaction version `142`. The queried transaction and its unconfirmed ancestors must meet the Z-DAG size policy of 1,100 serialized bytes. For example, an unconfirmed ordinary SYS transfer that funds a fee input can make the child ineligible even when the child is an SPT allocation send. [Policy size limit](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/policy/policy.h#L49-L51) · [Mempool ancestor checks](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/services/rpc/assetrpc.cpp#L27-L65)
+The eligible format is allocation send, transaction version `142`. The queried transaction and each unconfirmed ancestor must meet the 1,100-byte size limit. If a fee input comes from an unconfirmed native SYS transfer, the SPT transfer can be ineligible. [Size policy](https://github.com/syscoin/syscoin/blob/v5.1.3/src/policy/policy.h) · [Mempool ancestor checks](https://github.com/syscoin/syscoin/blob/v5.1.3/src/services/rpc/assetrpc.cpp#L26-L70)
 
 ## Understanding Z-DAG Statuses
 
@@ -16,11 +16,10 @@ The eligible format is allocation send, transaction version `142`. The queried t
 | `2` | The transaction or an unconfirmed ancestor is not a Z-DAG transaction. |
 | `3` | The transaction or an unconfirmed ancestor exceeds the Z-DAG size limit. |
 | `4` | The node detected a double-spend conflict involving the transaction or an unconfirmed ancestor. |
-| `5` | The node cannot complete conflict verification because it exhausted its budget for retaining conflict evidence. This warning replaces an otherwise OK result until the node restarts. |
 
-Statuses `2` and `4` already have these meanings in Syscoin Core 5.1.3. Status `5` is available in releases that include [Syscoin Core #609](https://github.com/syscoin/syscoin/pull/609).
+Core v5.1.3 returns the codes above. An update under development adds status `5` when the node exhausts its capacity for recording input conflicts. The warning replaces an otherwise passing result until restart. [Core v5.1.3 status enum](https://github.com/syscoin/syscoin/blob/v5.1.3/src/primitives/transaction.h#L79-L88) · [Updated status checks](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/services/rpc/assetrpc.cpp#L27-L110)
 
-After your configured Z-DAG waiting period, **accept only numeric `0` as Z-DAG OK**. That result applies to the node's view of the unconfirmed transaction. For any other status, including an unknown value, verify the transaction on the active chain and check that it meets your confirmation requirement before treating it as confirmed.
+After your Z-DAG waiting period, **only numeric `0` means the local checks passed**. For every other result or RPC error, verify the payment on the active chain and wait for the required confirmations.
 
 ## Using Z-DAG Balances
 

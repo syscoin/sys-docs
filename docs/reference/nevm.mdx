@@ -38,4 +38,4 @@ curl -fsS "$RPC" -H 'Content-Type: application/json' --data '[
 
 Replace the abbreviated addresses and hashes with their full hex values. A transaction receipt supplies `blockHash`, `status` and `logs` once the transaction is mined. For UTXO balances, outputs and SPT transfers use [Blockbook REST](../dev-resources/documentation/javascript-sdk-ref/blockbook.mdx) or [Syscoin Core RPC](./core.mdx).
 
-For deployment, use [Foundry](../dev-resources/nevm/foundry.mdx) or [Hardhat](../dev-resources/nevm/hardhat.mdx). For the managed client and its version pairing, see [Syscoin Geth](../guides/nevm/sysgeth.mdx). For general method semantics, see the [Ethereum JSON-RPC reference](https://ethereum.org/en/developers/docs/apis/json-rpc/).
+For contract deployment, see [Foundry](../dev-resources/nevm/foundry.mdx) or [Hardhat](../dev-resources/nevm/hardhat.mdx). For client setup, see [Run an NEVM node](../guides/nevm/sysgeth.mdx). The [Ethereum JSON-RPC reference](https://ethereum.org/en/developers/docs/apis/json-rpc/) describes the standard methods.

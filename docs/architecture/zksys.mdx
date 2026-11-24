@@ -5,29 +5,20 @@ description: How zkSYS scales Syscoin through Edgechain execution, collateral-li
 sidebar_position: 4
 ---
 
-zkSYS is Syscoin’s EVM-compatible execution chain. Send a payment and your wallet gets a receipt there. How can someone who never used your wallet check what happened? In the real-proof design, the Edgechain publishes batch data to Syscoin Core and a validity proof binds the execution result to the data commitment. **Gateway** is a shared settlement chain for Edgechains. Its contracts check the batch commitment and proof and record the accepted result in a Gateway block. The Gateway batch containing that block settles on Syscoin NEVM. Multiple Edgechains can share this path while setting their own execution and fee policies. [Syscoin's Edgechain design](https://syscoin.org/news/syscoin-5-faqs) · [Syscoin's ZKsync OS server](https://github.com/syscoin/zksync-os-server/tree/v0.24.4)
+zkSYS runs Ethereum-compatible applications on chains called Edgechains. An Edgechain executes transactions and publishes its batch data to Syscoin Core. **Gateway**, the shared settlement chain, checks a batch’s commitment and proof, then settles its own batches on NEVM. Edgechains can share that path while setting their own execution and fee policies. [zkSYS server](https://github.com/syscoin/zksync-os-server/tree/v0.24.4)
 
-<figure className="editorial-plate">
-
-![In an imagined cooperative workshop, one operator checks a storage drive while another tends a GPU server.](../../static/img/zksys-batch-paths.webp)
-
-<figcaption>In the real-proof zkSYS design, one operator can retrieve a blob and check its hash. Another can prove how the batch changed the ledger. Gateway checks the ordered blob references and the execution proof when settling that Edgechain batch.</figcaption>
-</figure>
-
-The V32 design supports real proofs. On the Genesis public testnet, the Gateway batch traced below settled on Tanenbaum NEVM with its test verifier. [Genesis public testnet](https://syscoin.org/news/zksys-genesis-public-testnet-is-live) · [V32 testnet configuration](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/docs/src/guides/reference-assets/v32-public-tanenbaum-20261006/INSTALLATION-GATES.md#L80-L86) · [Real and mock verifier modes](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/docs/src/design/prover_api.md#real-snark-readiness)
+The Genesis example below uses a test verifier on Tanenbaum NEVM. See [network and release status](../intro/status.mdx) for deployments and [verifier modes](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/docs/src/design/prover_api.md#real-snark-readiness) for the real-proof configuration.
 
 ## What zkSYS uses from each layer
 
 | Layer | What zkSYS uses it for |
 | --- | --- |
-| Core and PQ ChainLocks | Order and finalize publication so the settlement process can refer to a locked base-chain history. |
+| Core and ChainLocks | Order publications and finalize Core history. |
 | PoDA | Publish the complete encoded batch data. A reader can fetch and hash the blobs. The Edge commit on Gateway carries their ordered identifiers. |
-| NEVM and Gateway | Coordinate acceptance of Edgechain commitments and settle verified batches into a shared EVM state. |
+| Gateway | Accept Edgechain batch commitments and proofs. |
+| NEVM | Settle Gateway batches. |
 | Airbender and the settlement verifier | Prove execution in batches and verify succinct claims about the state changes. |
 | SYS-linked issuance and fees | Allocate a separate reward token using base-asset stake and eligible collateral. Use that token for eligible execution fees through the Gas Tank. |
-| Upgrade and operator rules | Set who can change contracts, order transactions, produce or attest proofs, and receive compensation for measured work. |
-
-Fast execution is an Edgechain property. Shared history, durable finality, and proof settlement have their own timing. The governance boundary matters because the users who rely on a proof also rely on rules about who can upgrade its verifier or change the operator and fee policies. Verify those authorities in each deployment. [Base and Edgechain cadence](./overview.mdx#why-core-and-zksys-run-at-different-speeds) · [Operator participation](#sequencing-proving-and-recovery) · [Enshrine or align?](./modular-alignment.mdx)
 
 ## Follow an application transaction
 
@@ -61,13 +52,11 @@ The separate SNARK stage aggregates and wraps proof work for an EVM-friendly ver
 
 ## What Gateway changes
 
-Gateway can coordinate settlement for multiple Edgechains. If each chain sends its full payload through Gateway, each added byte uses the shared ingestion, batching, and proving path. One busy Edgechain can slow the others. In our testnet runs, the full-data path backed up under load. We moved the payloads to Core so Gateway could carry compact references. A proof that checks an Edgechain's execution binds the batch to its DA commitment. Gateway checks that the ordered array of 32-byte hashes matches the committed value. Its own execution data, proof aggregation, and settlement capacity still matter. [Testnet update](https://syscoin.org/news/zksys-update) · [Batch publication](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/node/bin/src/batcher/mod.rs#L578-L605) · [Reference format and commitment](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/lib/batch_types/src/batch_info.rs#L430-L512)
+Gateway processes compact references from multiple Edgechains. Each chain publishes its full batch data on Core and puts an ordered list of 32-byte digests in its Gateway commit. The validity proof binds execution to the data commitment. Edgechains still share Gateway’s capacity for transaction processing, proving, and settlement. [Publication format](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/lib/batch_types/src/batch_info.rs#L430-L512) · [Testnet measurements](https://syscoin.org/news/zksys-update)
 
 1. **Admit a commitment.** In compact-reference mode, Gateway verifies the commitment format and checks availability through its configured Core DA node. The v0.24.4 admission path checks metadata in a bounded batch and can fall back to a configured archive for missing entries. A reader can obtain the full payload and verify its digest. Admission does not itself download and hash every blob or establish confirmation. [Availability check](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/lib/rpc/src/tx_handler.rs#L251-L328) · [DA client and archive lookup](https://github.com/syscoin/bitcoin_da_client/blob/1b6f11d3e538120759e062ca0a478973653c1038/src/lib.rs#L757-L820)
 2. **Recover outstanding publications.** If a publication stalls and the configured recovery policy allows another attempt, the finality gate can fetch the full blob, authenticate it against its digest, and republish it. Recovery depends on bytes still being available, a funded wallet, and the bounded recovery rules. [Authenticated recovery path](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/node/bin/src/batcher/bitcoin_da_finality_gate.rs#L392-L474)
 3. **Check finality before settling.** Gateway's commit path checks its own publications and forwarded Edge commitments against the configured policy. The NEVM `0x63` precompile exposes registered digest membership as a separate on-chain interface. An application that needs to prove historical availability, replay, or ChainLock ancestry needs the corresponding evidence. [Gateway commit gate](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/node/bin/src/batcher/bitcoin_da_finality_gate.rs#L580-L639) · [NEVM membership check](../reference/zksys.mdx#check-nevm-registration)
-
-This makes Gateway closer to a light client for the shared execution history it accepts. It processes commitments and proof results while relying on a DA path capable of serving full data. Faster root import can make messages usable sooner after Gateway accepts the source root. It cannot fix an ingress backlog that delays source acceptance. [PoDA capacity and retention](./data-availability.mdx#retention-and-replay) · [Cross-chain DA comparison](./comparison.mdx#whole-payload-verification-and-data-availability-sampling)
 
 ## SYS collateral, issuance, and gas
 
@@ -100,19 +89,19 @@ The reference configuration grants the issuer `MINTER_ROLE` and the Gas Tank `BU
 2. **Precharge.** The bootloader validates the sender's native SYS balance first. An ordinary transaction needs enough native balance for its value and maximum fee requirement even when it ultimately pays from the tank. Sufficient tank credit and execution resources allow the bootloader to precharge credit at the same numeric atomic-unit fee amount. Otherwise it can pay in native SYS. This native balance check is distinct from reward-eligible Sentry collateral and vault stake. [Native balance validation](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/lib/revm_consistency_checker/src/syscoin_gas_tank.rs#L120-L136) · [Bootloader fee selection](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/scripts/patches/zksync-os-syscoin-v0.4.0.patch#L1431-L1512)
 3. **Settle and burn.** The bootloader returns unused fee credit to the refund recipient and credits the operator's priority tip. The base fee and any applicable blob gas fee reduce the tank's aggregate credit obligation. The corresponding zkSYS stays in the tank as surplus until someone calls `burnSurplus()`. The charge and token burn are separate events. [Bootloader refunds and fee settlement](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/scripts/patches/zksync-os-syscoin-v0.4.0.patch#L1062-L1073) · [Priority tip and consumed credit](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/scripts/patches/zksync-os-syscoin-v0.4.0.patch#L1133-L1164) · [Surplus burn](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/contracts/src/zksys/ZkSysGasTank.sol#L167-L185)
 
-On an ETH-denominated rollup such as Arbitrum One, a user can bridge ETH to the rollup and pay fees with that native ETH balance. zkSYS joins two different mechanisms. Stake and collateral confer a share of independently scheduled issuance, and the gas tank lets users spend the resulting Edgechain asset on execution. The tank's 1:1 token-to-credit accounting sets a protocol fee rate in atomic units. It establishes no SYS-to-zkSYS market price or peg. [Arbitrum native tokens and deposits](https://docs.arbitrum.io/how-arbitrum-works/deep-dives/l1-to-l2-messaging)
+The Gas Tank’s 1:1 accounting is between deposited zkSYS and gas credit. SYS and zkSYS prices are independent.
 
 ## Sequencing, proving, and recovery
 
 - **Ordering and liveness.** A proof constrains the state transition that a verifier accepts. Timely inclusion still depends on the deployment's sequencer, DA publication, proving, and settlement paths.
 - **Recovery.** To inspect published batch data, retrieve the encoded blobs and check their digests. To re-execute the original blocks, a replacement operator also needs the prior state, transactions, block context, protocol version and forced preimages. zkSYS keeps those inputs in its block replay archive and checks the replay against an authenticated history. [Replay inputs and recovery checks](./data-availability.mdx#what-can-someone-verify-a-week-later)
 - **Cross-chain messages.** Verify the message against the receiving contract's protocol and accepted settlement root. A source transaction receipt alone is insufficient evidence of destination delivery.
-- **Progressively decentralizing operators.** Decentralized sequencing and proving are distinct objectives. Independently operated provers can share execution proof duties and endorse wrapping while a sequencer still determines transaction order. Our opt-in senior Sentry design shares proving work and pays bonuses by duty while using one shared sequencer. Decentralizing sequencing also requires a deployed ordering and handoff protocol. [Prover service design and rollout boundaries](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/docs/src/design/prover_service_v1.md#L1-L46)
+- **Sentry proving.** The opt-in service lets eligible senior Sentries produce execution proofs and endorse wrapping. It pays bonuses for accepted work. A shared sequencer continues to order transactions. [Prover service design and rollout boundaries](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/docs/src/design/prover_service_v1.md#L1-L46)
 
 Use the [public Genesis commands](../reference/zksys.mdx) to check the network, [inspect a deployment's issuance and gas contracts](../reference/zksys.mdx#inspect-issuance-and-gas-credit), or read the [DA lifecycle](data-availability.mdx) for retention, retrieval, and membership checks.
 
 ## Wallets and post-quantum account authorization
 
-We’re adding post-quantum signing for zkSYS smart accounts in **Pali v5**. Pali manages the SLH-DSA keys locally. The validator module checks each user operation against the account’s authorized signer. With ERC-4337 modules, the account can set its own signing and recovery policies. [SLH-DSA integration in Pali](https://docs.paliwallet.com/docs/developers/slh-dsa-smart-accounts) · [ERC-4337](https://eips.ethereum.org/EIPS/eip-4337)
+**Pali v5** supports experimental post-quantum signing for zkSYS smart accounts. Pali manages the SLH-DSA keys locally. The validator module checks each user operation against the account’s authorized signer. With ERC-4337 modules, the account can set its own signing and recovery policies. [SLH-DSA integration in Pali](https://docs.paliwallet.com/docs/developers/slh-dsa-smart-accounts) · [ERC-4337](https://eips.ethereum.org/EIPS/eip-4337)
 
 The native zkSYS verifier checks signatures under the experimental, limited-use `SLH-DSA-SHA2-128-24` profile. This puts the SHA-2 work on a path Airbender can prove efficiently. The signing policy must enforce the profile’s per-key limit. Core uses a different signature profile for long-lived Sentry identity. [Pali validation module](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/contracts/src/pali/PaliSLHDSAValidatorModule.sol) · [Native verifier implementation](https://github.com/syscoin/zksync-os-server/pull/305) · [Core identity and voting keys](./post-quantum.mdx#signing-roles-and-keys)

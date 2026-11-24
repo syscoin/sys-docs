@@ -1,35 +1,27 @@
 ---
 title: Governance
 image: /img/social/governing-shared-power.jpg
-description: Who sets the rules for shared resources, what agents may do, and how Syscoin funds public goods.
+description: How Syscoin funds public work and where authority sits across the network and its applications.
 sidebar_position: 1
 ---
 
-AI can find more ways to use the same water, power, and compute. Someone still has to decide who gets access, who can act on their behalf, and what happens when a decision is challenged. A shared ledger gives people a record they can check after an operator leaves or the people making the decision change. The community still has to agree on the rule and who can change it. [Follow the disputed reservation](../intro/human-and-ai.mdx#the-community-sets-the-rules)
+Syscoin's funding process pays for work such as wallet maintenance, network services, and research. Anyone who pays the submission fee can propose work. Sentry Node votes determine which proposals qualify, and Syscoin Core enforces the payment rules.
 
-<figure className="editorial-plate">
-
-![Community members review a wiring plan around a workshop table beside the battery cabinet they share.](../../static/img/governing-shared-power.webp)
-
-<figcaption>A power cooperative can let an agent propose a schedule. Its members decide who can approve the schedule, what counts as evidence, and how to handle an appeal.</figcaption>
-</figure>
+- [Submit a proposal, cast a vote, or inspect a payment](../guides/governance.mdx)
+- [See how the budget changes and verify a public payout](./dynamic-governance.mdx)
 
 ## Who can decide what?
 
-| Where the decision is made | Who has authority | What others can check |
+| Scope | Authority | What to inspect |
 | --- | --- | --- |
-| **Syscoin Core** · Mainnet public funding | Anyone can submit a proposal with the required fee. A valid Sentry Node’s registered voting key can vote on funding. Core enforces the rules for selecting and paying proposals. | Inspect the proposal and votes, then verify the actual payment in a superblock. [Proposals, votes, and commands](../guides/governance.mdx) |
-| **zkSYS** · Reference contracts | Reward eligibility draws on SYS stake or eligible Sentry collateral. The zkSYS token supports delegated voting. The issuer, role administrators, and proxy administrator have specific powers under the installed contracts. | Inspect the contracts and their role holders. Each deployment determines who can issue, delegate, operate, and upgrade. [Funding, issuance, and authority](../architecture/modular-alignment.mdx#who-gets-paid-for-a-proved-batch) |
-| **Applications** · Community design | A cooperative can set its own rules for membership, grants, revocation, and appeals. A wallet or application can enforce a grant limited to one resource, an amount, and an expiry. | Check who gave an agent authority, which rule the application applied, and what outcome it recorded. A meter reading needs an accountable source. [Grants, recovery, and appeals](../intro/human-and-ai.mdx#if-the-operator-stops-cooperating) |
+| **Syscoin Core funding** | Each valid Sentry Node can vote on funding proposals through its registered voting key. Core limits which proposals a superblock can pay. | Proposal details, net support, and coinbase outputs. [Governance commands](../guides/governance.mdx) |
+| **zkSYS reference contracts** | Each deployment grants specific powers to its issuers, role administrators, and proxy administrators. The zkSYS token supports delegated voting. | Deployed contracts, role holders, and upgrade permissions. [zkSYS rewards and authority](../architecture/modular-alignment.mdx#who-gets-paid-for-a-proved-batch) |
+| **Application rules** | The application defines who can act and who can change its rules. It can delegate limited actions to accounts or automated agents. | The grant, policy version, and recorded outcome. [Delegation and recovery](../intro/human-and-ai.mdx#if-the-operator-stops-cooperating) |
 
 ## A budget that adjusts to what gets funded
 
-Maintaining wallets, network services, and open-source software takes work even when markets are quiet. A fixed budget can be too small when several upgrades need funding at once. A single treasury also gives whoever controls it considerable influence over which work can continue. Syscoin relays public proposals and Sentry votes to participating nodes. It records the selected payouts on-chain, and the next budget responds to what was paid.
-
-**[Explore dynamic governance](./dynamic-governance.mdx)**
+Core adjusts the nominal funding budget within fixed bounds using the amount paid in a superblock. The next budget can rise, fall, or stay the same. A funding vote can pay for work on a protocol upgrade. Nodes enforce any new consensus rules once the upgrade activates. [Dynamic budget rules](./dynamic-governance.mdx)
 
 ## Authority when agents act
 
-An agent can search constraints, estimate costs, or draft a proposal. In the power cooperative, it could ask to reserve spare capacity for a member. To act on that request, it needs a grant the cooperative can revoke. If the meter was faulty or the rule omitted an emergency exception, people need a way to submit evidence and appeal. A proof can show which rule was applied to the recorded inputs. Resolving a disputed physical observation still takes an accountable process. [Truth states and remedies](../intro/human-and-ai.mdx#what-counts-as-a-truth-state) · [*Truth States* essay](https://jsidhu.medium.com/truth-states-consciousness-and-decentralized-intelligence-d5415da47dc6)
-
-These decisions can be local. Two cooperatives can each choose their own members, operators, and limits. They can agree on the rules for a shared resource and rely on common settlement for the outcomes that cross that boundary. That keeps application policy with the people living under it. [What the base should decide](../architecture/modular-alignment.mdx#what-the-base-should-be-able-to-decide-on-its-own)
+An application can limit an agent to a specific action, resource, amount, and expiry. Its governing rules determine who can revoke the grant, resolve disputes, and update the application. A proof can verify how the recorded inputs were processed. Resolving a disputed meter reading or equipment outage also takes evidence from people or devices. [Shared resources and delegated authority](../intro/human-and-ai.mdx)

@@ -33,6 +33,15 @@ Keep the returned `public` value for registration. Place the returned `secret` i
 
 Prepare and submit with the wallet holding your registration fee inputs. Sign the message using the collateral wallet or a device that supports Syscoin message signing. Variables below refer to values from your own infrastructure. A script that drives this flow should stop for review before signing and broadcasting.
 
+```mermaid
+flowchart TD
+    accTitle: Who signs a Sentry Node registration
+    accDescr: The operator supplies its public key and service endpoint. The fee wallet prepares the registration. The collateral signer signs the returned message, then the fee wallet signs the fee inputs and broadcasts the registration.
+    Operator["Sentry operator"] -->|"Public key and endpoint"| Prepare["Fee wallet prepares registration"]
+    Prepare -->|"Registration message"| Collateral["Collateral signer"]
+    Collateral -->|"Collateral signature"| Submit["Fee wallet signs and broadcasts"]
+```
+
 1. On the collateral wallet, list compatible outputs and identify the exact `txid` and `index`. Make sure its funding transaction is confirmed and this output belongs to your signer.
 
    ```bash

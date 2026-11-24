@@ -4,7 +4,7 @@ description: Inspect Syscoin Core synchronization, AuxPoW, ChainLocks, Z-DAG, an
 sidebar_position: 1
 ---
 
-These examples query a local Syscoin Core node. Use the matching CLI and daemon from the same release. Select one network for the whole session and use `syscoin-cli help` to check that release's argument list. [Core releases](https://github.com/syscoin/syscoin/releases) · [Core command registration](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/rpc)
+Run these commands against a local Syscoin Core node using `syscoin-cli` from the same release. Use `syscoin-cli help <command>` for the installed version’s argument list. [Core releases](https://github.com/syscoin/syscoin/releases) · [Core RPC source](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/rpc)
 
 | Network | Core CLI flag | Core default P2P port | Core default RPC port | NEVM chain ID |
 | --- | --- | --- | --- | --- |
@@ -24,7 +24,7 @@ syscoin-cli getbestblockhash
 syscoin-cli getblockheader "$(syscoin-cli getbestblockhash)"
 ```
 
-On Tanenbaum, add `-testnet` to every CLI call, including nested calls. Check `chain`, `initialblockdownload`, `blocks`, `headers`, `bestblockhash`, and `chainwork` in `getblockchaininfo`. A block height is meaningful together with its hash and network.
+On Tanenbaum, add `-testnet` to every CLI call, including nested calls. Check `chain` and `initialblockdownload` in `getblockchaininfo` before using the node for on-chain lookups.
 
 ```bash
 # Replace TXID with the 64-digit transaction ID.
@@ -46,9 +46,9 @@ syscoin-cli protx_capabilities
 syscoin-cli protx_info "PROREG_TXID"
 ```
 
-Use `masternode_status` on a configured Sentry Node. For payment or finality decisions, inspect the **active** accepted ChainLock. Resolve its height and hash against the active chain and check that the transaction's block is an ancestor. A recent report, a scheduled round, or an elapsed timer alone does not establish ChainLock finality. A node without an accepted certificate can return an error. [Released ChainLock RPC](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/rpc/blockchain.cpp#L290-L380) · [Sentry Node RPC](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/rpc/masternode.cpp)
+Use `masternode_status` on a configured Sentry Node. To check whether a transaction is ChainLocked, read `active_chainlock` and verify that the transaction is in the locked block or one of its ancestors. A node without an accepted ChainLock can return an error. [Mainnet ChainLock RPC](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/rpc/blockchain.cpp#L290-L380) · [Sentry Node RPC](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/rpc/masternode.cpp)
 
-Core #609 keeps the `recent_chainlock` and `active_chainlock` result names for compatibility. When enabled and a certificate is known, both describe the same accepted PQ certificate, with fields such as `logicalid`, `witnessid`, `signer_bitmaps`, and `signature_count`. The candidate public profile supplies no active PQ certificate. [Candidate ChainLock RPC](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/rpc/blockchain.cpp#L366-L432)
+In a test environment with post-quantum ChainLocks enabled, the RPC reports the accepted certificate with fields such as `logicalid`, `witnessid`, `signer_bitmaps`, and `signature_count`. [Post-quantum ChainLock RPC](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/rpc/blockchain.cpp#L366-L432)
 
 ## Merge-mining
 
@@ -66,25 +66,11 @@ syscoin-cli getblock "SYSCOIN_BLOCK_HASH" 1
 syscoin-cli assetallocationverifyzdag "TXID"
 ```
 
-The RPC reports the node's local mempool check. Only numeric status `0` is Z-DAG OK after your application’s configured waiting period. The other statuses require a separate active-chain confirmation check.
+After your application’s waiting period, only numeric status `0` means the node’s local Z-DAG checks passed. For other results or RPC errors, check active-chain confirmations. [Z-DAG status codes](../dev-resources/sys/z-dag.mdx#understanding-z-dag-statuses)
 
-| Status | Meaning |
-| --- | --- |
-| `-1` | Unavailable to the mempool check, including transactions that may already be confirmed. |
-| `0` | Local Z-DAG checks passed. |
-| `1` | The transaction or a mempool ancestor signals replace-by-fee. |
-| `2` | The transaction or a mempool ancestor is a non-Z-DAG transaction. |
-| `3` | The transaction or a mempool ancestor exceeds Z-DAG size policy. |
-| `4` | An input conflict was detected for the transaction or a mempool ancestor. |
-| `5` | The conflict-evidence budget was exhausted. On builds with Core #609, this warning replaces an otherwise OK result until the node restarts. |
+## Explore the post-quantum RPCs {#pq-candidate-rpc-discovery}
 
-Core 5.1.3 already uses codes `2` and `4` as shown above. Apply the same confirmation fallback to unknown values and RPC errors. [Released enum](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/primitives/transaction.h#L79-L88) · [Candidate RPC help and checks](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/services/rpc/assetrpc.cpp#L27-L110)
-
-Core #609 retains compact conflict records within the shared mempool memory budget, with a separate record cap sized to at most one tenth of that budget. A rejected, otherwise authenticated conflict that cannot be retained sets status `5` for otherwise passing checks. Observed conflicts and other specific warnings still take precedence. [Conflict evidence cap](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/txmempool.cpp#L540-L556) · [Admission and state change](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/validation.cpp#L853-L879)
-
-## PQ candidate RPC discovery
-
-Use a locally configured candidate regtest node. `protx_capabilities` reports the next block’s authorization era and the preparation and activation state. These `help` calls describe the candidate RPCs without changing wallet or chain state.
+Run these commands on a local regtest node that supports post-quantum ChainLocks. `protx_capabilities` reports which authorization rules apply to the next block.
 
 ```bash
 syscoin-cli -regtest protx_capabilities
@@ -95,7 +81,7 @@ syscoin-cli -regtest help protx_register_operator_prepare
 syscoin-cli -regtest help protx_decode_operator_request
 ```
 
-The operator-preparation workflow exchanges a funded public request and owner authorization, keeping the operator secret and ChainLock seed on the operator side. Check the candidate’s network profile before signing, since the public released workflow still uses BLS. [Candidate hosted-operator workflow](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/doc/pq-chainlocks.md#L297-L345)
+In the hosted-operator workflow, the operator keeps the operator secret and ChainLock seed private. The owner and operator exchange a funded registration request and owner authorization. For the current mainnet registration workflow, see the [Sentry Node setup guide](../guides/sentrynode_setup.mdx). [Hosted-operator protocol](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/doc/pq-chainlocks.md#L297-L345)
 
 ## NEVM and data inspection
 
@@ -106,9 +92,9 @@ syscoin-cli help listnevmblobdata
 syscoin-cli getnevmblobdata "VERSION_HASH_OR_TXID" false
 ```
 
-Check the Core-side NEVM hash and height, then compare them with the paired engine's `eth_getBlockByNumber` result. The Core RPC includes the local engine command line. Review its output before sharing. A metadata-only DA lookup with `false` does not fetch the payload. Data availability clients must check bytes and recompute the expected commitment when retrieving actual payloads. [Core NEVM RPCs](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/services/rpc/nevmrpc.cpp)
+Compare the NEVM height and block hash reported by Core with `eth_getBlockByNumber` on the same network. Review `getnevmblockchaininfo` output before sharing because it includes the local NEVM client’s command line. Passing `false` to `getnevmblobdata` requests metadata only. [Core NEVM RPC source](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/services/rpc/nevmrpc.cpp) · [Retrieve and verify a blob](./zksys.mdx#read-a-core-blob)
 
-For the paired Geth candidate, set `NEVM_RPC` to your local NEVM JSON-RPC URL and query the latest and finalized blocks independently.
+Set `NEVM_RPC` to your NEVM JSON-RPC URL to compare the latest and finalized blocks.
 
 ```bash
 curl -fsS "$NEVM_RPC" -H 'Content-Type: application/json' \
@@ -117,6 +103,6 @@ curl -fsS "$NEVM_RPC" -H 'Content-Type: application/json' \
   --data '{"jsonrpc":"2.0","id":2,"method":"eth_getBlockByNumber","params":["finalized",false]}'
 ```
 
-The paired implementation sets the finality tag from the executed canonical Core-bound block. It can report that finality is unavailable while the latest block remains readable. [Paired Geth finality behavior](https://github.com/syscoin/go-ethereum/blob/1c046ba92f8ea95be024a790e9444b80ccbf019a/eth/nevm_finality_test.go)
+The endpoint can have a `latest` block while `finalized` is unavailable. Check the response to the finalized query before using it in a settlement decision. [NEVM block selectors](https://github.com/syscoin/go-ethereum/blob/v5.1.0/eth/api_backend.go#L150-L182)
 
 For the model behind those checks, see [Syscoin Core and NEVM](../architecture/core.mdx) and [PQ ChainLocks](../architecture/post-quantum.mdx).

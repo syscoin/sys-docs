@@ -34,7 +34,7 @@ Under the released mainnet rules, the nominal SYS budget is a limit used to sele
 | Above 95% and below 105% | Keep the prior budget. |
 | At least 105% | Increase by 10%, with a ceiling of **5,000,000 SYS**. |
 
-For example, suppose the prior nominal budget is 2,000,000 SYS. A 1,900,000 SYS payment sets the next budget to 1,800,000 SYS. A 2,100,000 SYS payment sets it to 2,200,000 SYS. A cycle with no payout leaves the nominal budget at 2,000,000 SYS and mints no proposal payment. The released rules and the PQ candidate use the same budget arithmetic. The candidate changes how voting authority and eligibility are verified. [Budget constants](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/governance/governanceclasses.h#L96-L111) · [Released adjustment](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/masternode/masternodepayments.cpp#L19-L35) · [PQ candidate adjustment](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/masternode/masternodepayments.cpp#L66-L82) · [PQ signing roles](../architecture/post-quantum.mdx#signing-roles-and-keys)
+For a nominal budget of 2,000,000 SYS, a 1,900,000 SYS payout lowers the next budget to 1,800,000 SYS. A 2,100,000 SYS payout raises it to 2,200,000 SYS. A cycle with no payout leaves it at 2,000,000 SYS. [Budget constants](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/governance/governanceclasses.h#L96-L111) · [Budget adjustment](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/masternode/masternodepayments.cpp#L19-L35)
 
 ## Submit a proposal
 
@@ -54,4 +54,4 @@ syscoin-cli -rpcwallet="$VOTING_WALLET" gobject_vote_alias \
 syscoin-cli gobject_getcurrentvotes "$GOVERNANCE_HASH"
 ```
 
-The PQ candidate proposes an independent SLH-DSA key for proposal funding votes. The released v5.1.3 instructions above use the current voting key. [Released voting RPC](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/wallet/rpcgovernance.cpp#L324-L385) · [PQ signing roles](../architecture/post-quantum.mdx#signing-roles-and-keys)
+See the [Core v5.1.3 voting RPC](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/src/wallet/rpcgovernance.cpp#L324-L385) for parameters and the [post-quantum signing roles](../architecture/post-quantum.mdx#signing-roles-and-keys) for how governance keys are assigned under those rules.

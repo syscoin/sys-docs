@@ -1,79 +1,79 @@
 import React from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
-import useBaseUrl from '@docusaurus/useBaseUrl';
 import {PageMetadata} from '@docusaurus/theme-common';
 import styles from './index.module.css';
 
-const routes = [
-  {title: 'Design tradeoffs and measured results', description: 'See where a 2 MiB blob travels in full, where 32 bytes suffice, and how the choice of hash changes the work inside the prover.', href: '/docs/architecture/design-tradeoffs'},
-  {title: 'Governance and public funding', description: 'See who can set rules for shared resources, how Sentries vote on proposals, and why the budget adjusts to what gets paid.', href: '/docs/governance/overview'},
-  {title: 'Post-quantum finality', description: 'See how a full node checks the signatures that lock a Core block and why that takes bandwidth.', href: '/docs/architecture/post-quantum'},
-  {title: 'Command reference', description: 'Start with a public RPC call, build a UTXO transaction with SyscoinJS, or connect a wallet to NEVM or zkSYS.', href: '/docs/reference/overview'},
+const guides = [
+  {
+    title: 'Run a node',
+    description: 'Find Core releases, network settings, and the NEVM client setup.',
+    href: '/docs/guides/overview',
+  },
+  {
+    title: 'Build on NEVM',
+    description: 'Connect a wallet, call JSON-RPC, or deploy a Solidity contract.',
+    href: '/docs/reference/nevm',
+  },
+  {
+    title: 'Build with Core',
+    description: 'Read UTXOs, build transactions with SyscoinJS, and publish data.',
+    href: '/docs/reference/overview',
+  },
+  {
+    title: 'Try zkSYS Genesis',
+    description: 'Get test gas and follow a transaction from Genesis through Gateway to NEVM.',
+    href: '/docs/reference/zksys#start-on-zksys-genesis',
+  },
 ];
 
 export default function Home() {
-  const heroImage = '/img/compute-cooperative.webp';
-  const art = useBaseUrl(heroImage);
   return (
-    <Layout title="Syscoin engineering documentation" description="See how Syscoin uses Bitcoin mining, hash-based data availability and zkSYS to let independent applications share a verifiable record.">
-      <PageMetadata image="/img/social/compute-cooperative.jpg" />
+    <Layout title="Syscoin documentation" description="Architecture, node operation, and application development for Syscoin Core, NEVM, and zkSYS.">
+      <PageMetadata image="/img/social/syscoin-foundations.jpg" />
       <main className={styles.home}>
         <header className={styles.hero}>
           <div className={styles.heroText}>
-            <h1>What stays scarce when intelligence gets cheap?</h1>
-            <p>AI makes planning cheaper. People still decide who gets the water, power or compute. Syscoin gives them a shared record they can check. Bitcoin miners can reuse their work to mine it. <Link to="/docs/intro/nutshell#mission">Our mission</Link></p>
-            <p>In the zkSYS design, communities can act locally on rights they already hold, then publish data and proofs for others to verify.</p>
+            <h1>Syscoin documentation</h1>
+            <p>Syscoin Core is a Bitcoin-merge-mined blockchain for SYS, UTXO assets, and data publication. NEVM runs Ethereum-compatible contracts on the same network.</p>
             <div className={styles.actions}>
-              <Link className={`${styles.action} ${styles.primary}`} to="/docs/reference/zksys#trace-a-public-testnet-transaction">Trace a testnet payment <span aria-hidden="true">→</span></Link>
-              <Link className={styles.action} to="/docs/intro/nutshell#current-research--development">Current R&amp;D <span aria-hidden="true">→</span></Link>
+              <Link className={`${styles.action} ${styles.primary}`} to="/docs/architecture/overview">See the architecture</Link>
+              <Link className={styles.action} to="/docs/reference/overview">Developer reference</Link>
             </div>
-            <p className={styles.status}><Link to="/docs/intro/status">Network status</Link> · Core and NEVM run on mainnet. Post-quantum ChainLocks are a release candidate. zkSYS Genesis is a public testnet.</p>
+            <p className={styles.status}>zkSYS Genesis is a public testnet. <Link to="/docs/intro/status">Network and release status</Link></p>
           </div>
-          <figure className={styles.art}>
-            <img src={art} alt="Two cooperative members check a reservation ledger and a power meter beside their shared GPU rack." width="1344" height="756" fetchPriority="high" />
-            <figcaption><strong>The last GPU hour.</strong> Two agents request it. Members need to check who had permission, which request won, and who can hear an appeal. <Link to="/docs/intro/human-and-ai">Follow the disputed reservation</Link></figcaption>
+          <figure className={styles.map} aria-label="How Bitcoin mining, Syscoin Core, and NEVM relate">
+            <div className={styles.mining}>
+              <strong>Bitcoin mining pools</strong>
+              <span>Participating pools reuse SHA-256 work</span>
+            </div>
+            <div className={styles.miningLink} aria-hidden="true" />
+            <div className={styles.mainnet}>
+              <div className={styles.mapTitle}>Syscoin mainnet</div>
+              <div className={styles.layers}>
+                <div className={styles.layer}>
+                  <Link to="/docs/architecture/core">Core</Link>
+                  <span>UTXOs, data publication, and ChainLocks</span>
+                </div>
+                <div className={styles.blockLink}><span>Linked blocks</span></div>
+                <div className={styles.layer}>
+                  <Link to="/docs/reference/nevm">NEVM</Link>
+                  <span>Ethereum-compatible contracts</span>
+                </div>
+              </div>
+            </div>
           </figure>
         </header>
-        <nav className={styles.networks} aria-label="Architecture guides">
-          <Link to="/docs/architecture/overview"><small>System map</small><b>How the layers fit together</b></Link>
-          <Link to="/docs/architecture/comparison"><small>Other chains</small><b>Compare the tradeoffs</b></Link>
-          <Link to="/docs/architecture/bitcoin-bridge#inspect-a-tag-in-a-bitcoin-block"><small>Bitcoin bridge research</small><b>Inspect a real mining tag</b></Link>
-          <Link to="/docs/intro/nutshell#follow-the-payment"><small>Start here</small><b>See how a payment works</b></Link>
-        </nav>
-        <section className={styles.relay} aria-labelledby="gateway-relay">
-          <h2 id="gateway-relay">Three blobs on Core. Three hashes on Gateway.</h2>
-          <dl className={styles.relaySizes}>
-            <div>
-              <dt>Application data published on Core</dt>
-              <dd>5 MiB</dd>
-            </div>
-            <div>
-              <dt>Compact Gateway relay message</dt>
-              <dd>288 bytes</dd>
-            </div>
-          </dl>
-          <p>The <Link to="/docs/architecture/zksys#what-gateway-changes">Gateway settlement chain</Link> checks batches from application chains and settles its own batches on NEVM. The earlier relay sent the full payload to Gateway. The compact message carries three 32-byte BLAKE2s digests and the batch context. Independent readers can retrieve the full data from Core and check the digests.</p>
-          <Link className={styles.relayLink} to="/docs/architecture/data-availability#how-much-crosses-gateway">See the encoder and byte counts</Link>
-        </section>
         <section className={styles.reading} aria-labelledby="docs-topics">
-          <h2 id="docs-topics">Explore the stack</h2>
+          <h2 id="docs-topics">Start here</h2>
           <div className={styles.routes}>
-            {routes.map(({title, description, href}) => (
+            {guides.map(({title, description, href}) => (
               <Link to={href} className={styles.card} key={href}>
                 <h3>{title} <span aria-hidden="true">→</span></h3>
                 <p>{description}</p>
               </Link>
             ))}
           </div>
-          <aside className={styles.thesis}>
-            <h2>Start on zkSYS Genesis</h2>
-            <p>Connect a wallet in the portal, get test gas and follow a payment in the explorer. The worked example follows Genesis block 10,968 through Gateway to the mock proof accepted on Tanenbaum NEVM.</p>
-            <div className={styles.actions}>
-              <Link to="/docs/reference/zksys#start-on-zksys-genesis">Open the Genesis quickstart <span aria-hidden="true">→</span></Link>
-              <Link to="/docs/reference/zksys#trace-a-public-testnet-transaction">Trace the testnet transaction <span aria-hidden="true">→</span></Link>
-            </div>
-          </aside>
         </section>
       </main>
     </Layout>

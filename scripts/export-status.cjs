@@ -29,7 +29,10 @@ function renderPage({route, before}) {
       return line;
     }
     if (inCodeBlock) return line;
-    return line.replace(/^(#{1,5}) /, '#$1 ').replace(/\]\(((?:\.\.?\/|#)[^)\s]*)\)/g, (_, target) => {
+    const markdownLine = line
+      .replace(/^(#{1,5} .+?) \{#[^}]+\}$/, '$1')
+      .replace(/^(#{1,5}) /, '#$1 ');
+    return markdownLine.replace(/\]\(((?:\.\.?\/|#)[^)\s]*)\)/g, (_, target) => {
       const destination = new URL(target, page);
       const pathname = destination.pathname.slice(site.pathname.length);
       if (pathname.startsWith('static/')) {
