@@ -5,7 +5,7 @@ sidebar_position: 1
 description: How Syscoin balances independent validation, safe settlement, and scale by moving different kinds of work to different layers.
 ---
 
-An application can add execution capacity without asking every Syscoin node to run its program. zkSYS shows how. Its Edgechains order and execute transactions, Core publishes the data, and Gateway settles batches on NEVM. A separate operator can check the shared history with a full node. The bandwidth to receive recent data and the ability to recover older data are the two costs that matter most to that operator on the DA path. [Architecture assumptions and network status](../intro/status.mdx) · [Syscoin's original design rationale](https://jsidhu.medium.com/blockchain-idealisms-b61c5781ddc3)
+An Edgechain can add execution capacity without running its program on every Core node. The Edgechain orders and executes transactions, Core publishes the data, and Gateway settles batches on NEVM. This page uses concrete batch sizes to show what each layer has to store, relay, and verify. [System architecture](./overview.mdx) · [Network status](../intro/status.mdx)
 
 ## What happens when a second Edgechain joins?
 
@@ -23,7 +23,7 @@ flowchart TB
     GW --> NEVM["Gateway settles on NEVM"]
 ```
 
-**Illustrative v0.24.4 encoding.** The two publishers consume a combined 4 MiB of Core data capacity. Gateway carries their IDs, while the execution and proof work remains specific to each chain. A reader replaying both chains must obtain both payloads. The advantage is largest when batch payloads are large relative to their reference lists and Gateway ingress is the constraint. [Gateway admission and settlement](./zksys.mdx#what-gateway-changes)
+Gateway’s bandwidth savings are largest when batch payloads are large relative to their reference lists. A reader replaying both chains needs both payloads. [Gateway admission and settlement](./zksys.mdx#what-gateway-changes)
 
 ## Who pays for each design choice?
 
@@ -38,7 +38,7 @@ flowchart TB
 
 Compare two nodes hearing about a new block with a **2 MiB blob**. Both can check the chain of headers and the candidate’s mining evidence before deciding to request its body. The AuxPoW wrapper ties a qualifying parent header to the Syscoin header. The Syscoin header commits to a transaction Merkle root, and the publication transaction commits to the blob digest. A peer proposing a fresh competing block must supply valid mining work for that block. Adding more peer identities cannot manufacture that evidence. The work target is Syscoin’s, and Core applies its ChainLock rules to eligible history. [How Core screens a candidate history](./core.mdx#why-core-synchronizes-headers-first)
 
-The first node already has the publication transaction and its bytes. On the compact-block path it can recognize that transaction from a short ID and avoid receiving the 2 MiB again. The second node still needs the missing data to validate a fresh publication. Both benefit from **work-backed selection of which history to download**. The first also saves bandwidth because peers share data they have seen. An ordinary peer can relay someone else’s valid work, and unconfirmed transaction relay can happen before a miner includes the publication. That is where fee policy, validation, and resource limits still matter. [Compare the wire costs for a 32-blob block](./data-availability.mdx#how-pow-and-compact-relay-protect-the-data-path) · [Live sidecar rules](./data-availability.mdx#retention-and-replay)
+The first node already has the publication transaction and its bytes. On the compact-block path it can recognize that transaction from a short ID and avoid receiving the 2 MiB again. The second node still needs the missing data to validate a fresh publication. Peers can also relay valid blocks they did not mine. Mempool validation and fee policy apply to blobs relayed before a miner includes them. [Compare the wire costs for a 32-blob block](./data-availability.mdx#how-pow-and-compact-relay-protect-the-data-path) · [Live sidecar rules](./data-availability.mdx#retention-and-replay)
 
 ## What the DA budget looks like
 
@@ -58,21 +58,19 @@ For recent PoDA publications, Core requires the complete blob and checks its has
 
 ## Published measurements
 
-[![Cover of Jagdeep Sidhu’s proving-results video, reporting approximately nine dollars per million transactions and a 1,800-fold difference in DA commitment cycles.](../../static/img/proving-results-post.jpg)](https://x.com/realSidhuJag/status/2043835940322652453)
-
-The $9 estimate covers proving on three A5000 GPUs. The 1,800-fold difference counts guest cycles spent committing to the same nine blobs. [Original video and thread](https://x.com/realSidhuJag/status/2043835940322652453) · [Foundation report](https://syscoin.org/eco-update-260505)
+The figures below come from different workloads. Prover capacity, guest cycle counts, and pre-confirmation throughput measure separate operations.
 
 | Question | Published result | What was measured |
 | --- | --- | --- |
-| What can a small prover operator handle? | **77.8 million transactions/month** of estimated proving capacity on **three A5000 GPUs**. At **$700/month** for that setup, that is about **$9 per million transactions proved**. | We extrapolated monthly capacity from runs that proved over 120,000 transactions. DA publication and settlement incur separate charges. [April 13, 2026 hardware and workload report](https://x.com/realSidhuJag/status/2043835944558833769) · [May 5 Foundation report](https://syscoin.org/eco-update-260505) |
-| What does the DA commitment choice cost inside the guest? | **300,000 RISC-V cycles** for BLAKE2s, **154 million** for Keccak, **540 million** for the KZG path. | Our April nine-blob workload, estimated at **1.1 MiB**. BLAKE2s took **1/1,800** of the KZG path’s guest cycles. Proving the rest of the batch, relaying it, and waiting for settlement take additional work and time. [April 13 cycle counts](https://x.com/realSidhuJag/status/2043835947029316074) · [Nine-blob cycle comparison](./data-availability.mdx#why-blake2s-fits-the-prover) |
+| What can a small prover operator handle? | **77.8 million transactions/month** of estimated proving capacity on **three A5000 GPUs**. At **$700/month** for that setup, that is about **$9 per million transactions proved**. | The report extrapolated monthly capacity from runs that proved over 120,000 transactions. DA publication and settlement incur separate charges. [April 13, 2026 hardware and workload report](https://x.com/realSidhuJag/status/2043835944558833769) · [May 5 Foundation report](https://syscoin.org/eco-update-260505) |
+| What does the DA commitment choice cost inside the guest? | **300,000 RISC-V cycles** for BLAKE2s, **154 million** for Keccak, **540 million** for the KZG path. | The April nine-blob workload, estimated at **1.1 MiB**. BLAKE2s took **1/1,800** of the KZG path’s guest cycles. Proving the rest of the batch, relaying it, and waiting for settlement take additional work and time. [April 13 cycle counts](https://x.com/realSidhuJag/status/2043835947029316074) · [Nine-blob cycle comparison](./data-availability.mdx#why-blake2s-fits-the-prover) |
 | What did the zkSYS smart-account signature optimization buy? | **2,810,587 → 1,369,699 guest cycles**, a **51.3% reduction** for the direct call. The forwarded path went from **2,804,184 → 1,363,307**. | Portable SHA-2 verification of fixed counter-0 direct/forwarded vectors, v31/V7, upstream OS `b76084f3` with the Syscoin patch. The PR gives the program and verification-key digests. The metric is guest cycles. The charge remained **45,000 gas**. [Test, artifact hashes and V7 configuration](https://github.com/syscoin/zksync-os-server/pull/305) · [Merged revision](https://github.com/syscoin/zksync-os-server/commit/ed3c35b144a817eb9142fa1e21b8dc205449b49c) |
 | How sensitive were early Z-DAG asset payments to latency? | **15,328 transfers/s** at **50 ms** emulated latency and **8,677 transfers/s** at **100 ms**. The **150 ms** case produced no completed measurement. | Whiteblock’s Core 4 build `80da881`, Ubuntu 18.04, three Skylake vCPUs and 10 GB SSD in the test profile. Its 30-node pre-confirmation test used nine assets, 250 sends per asset and an 11-second wait. Block settlement has its own cadence. [System and test conditions, Tables I–III](https://syscoin.org/tps_whiteblock_syscoin_report.pdf#page=2) · [Latency results, Table VIII](https://syscoin.org/tps_whiteblock_syscoin_report.pdf#page=3) |
 
 <details>
 <summary>What the three-GPU proving estimate includes</summary>
 
-Our April 13 estimate used three A5000 GPUs and a monthly cost of $700. We have yet to publish the software commit, transaction mix, proof and security settings, runner, or a breakdown of that cost. [April hardware report](https://x.com/realSidhuJag/status/2043835944558833769) · [May Foundation update](https://syscoin.org/eco-update-260505)
+The estimate used three A5000 GPUs and a monthly cost of $700. The report gives no software commit, transaction mix, proof settings, benchmark runner, or cost breakdown. [April hardware report](https://x.com/realSidhuJag/status/2043835944558833769) · [May Foundation update](https://syscoin.org/eco-update-260505)
 
 </details>
 
@@ -82,6 +80,4 @@ At Gateway, the saving comes from carrying a fixed-size identifier for each Core
 
 ## What scales when a community adds an application?
 
-A community can run its own scheduler, choose how to allocate a resource, and authorize agents to act for its members. Its new program adds execution and proving work to its Edgechain. Other communities can rely on a settled result without making every Core node run the scheduler. They share the cost of publishing data and checking settlement. When two communities claim the same resource, they also need an agreed order and a rule for resolving the conflict. [Edgechain settlement](./zksys.mdx#follow-an-application-transaction) · [Governance across layers](./modular-alignment.mdx)
-
-If the scheduler disappears, a successor with the archived inputs can reproduce the decision. Who may take over, hear an appeal, or award a remedy follows from the community’s own rules. A proof therefore lets members verify what happened while leaving them in control of what happens next. [Human authority and recovery](../intro/human-and-ai.mdx#if-the-operator-stops-cooperating) · [Verification across distance](../intro/human-and-ai.mdx#verification-across-distance)
+Adding an Edgechain adds its own transaction execution and proving work. Core publication capacity and Gateway settlement capacity remain shared. Each operator also has to retain the inputs needed to replay its chain and designate who can replace a failed sequencer. [Edgechain settlement](./zksys.mdx#follow-an-application-transaction) · [Replay inputs](./data-availability.mdx#what-can-someone-verify-a-week-later)

@@ -9,7 +9,9 @@ To add Syscoin to a Bitcoin pool, the template server requests a candidate from 
 
 ## Prepare the template node
 
-Use the platform release of Core v5.1.3 with its matching managed sysgeth v5.1.0. Give the pool's template server private local RPC access. Wait until Core and NEVM have caught up, verify the network and current tip, and confirm that the pool's Syscoin payout address belongs to that network. Use the release's normal Core configuration. If the pool configures a distinct NEVM beneficiary, verify the configured recipient on an accepted NEVM block. With the bundled sysgeth v5.1.0, set `gethcommandline=--miner.etherbase=YOUR_NEVM_ADDRESS` in `syscoin.conf`, replacing `YOUR_NEVM_ADDRESS` with the pool’s NEVM address. The release still uses this flag for actual Syscoin block building even though the flag is marked deprecated. [Core release notes](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/doc/release-notes/release-notes-5.1.3.md) · [Managed client fee-recipient option](https://github.com/syscoin/go-ethereum/blob/73b431a9e695948ab6b2c483641e0b350a13972c/eth/backend.go#L355-L370)
+Install Core v5.1.3 and its bundled NEVM client, `sysgeth` v5.1.0. Give the template server private Core RPC access. Wait for Core and NEVM to sync, then check the network and the pool’s Syscoin payout address. [Core release notes](https://github.com/syscoin/syscoin/blob/ff8df9b44d603faf3cf78af28c633a066a8ec9a7/doc/release-notes/release-notes-5.1.3.md)
+
+To set the NEVM beneficiary for this client version, add `gethcommandline=--miner.etherbase=YOUR_NEVM_ADDRESS` to `syscoin.conf`. The bundled client still uses the deprecated flag to build Syscoin blocks. Check the beneficiary on the first accepted NEVM block. [NEVM fee-recipient option](https://github.com/syscoin/go-ethereum/blob/73b431a9e695948ab6b2c483641e0b350a13972c/eth/backend.go#L355-L370)
 
 ```bash
 syscoin-cli getblockchaininfo
@@ -19,6 +21,16 @@ syscoin-cli help submitauxblock
 ```
 
 ## Build and submit a job
+
+```mermaid
+flowchart TD
+    accTitle: One mining job can be submitted to two networks
+    accDescr: Core issues a Syscoin block template. The pool adds the Syscoin commitments to the parent coinbase and searches for a header. Work that meets the Syscoin target can be submitted to Core as AuxPoW. Work that meets the Bitcoin target can be submitted to Bitcoin as a full block.
+    Template["Request Syscoin template"] --> Job["Add commitments to the parent coinbase"]
+    Job --> Header["Mine the parent header"]
+    Header -->|"Syscoin target met"| Sys["Submit AuxPoW to Core"]
+    Header -->|"Bitcoin target met"| Btc["Submit block to Bitcoin"]
+```
 
 1. Request work with the pool's Syscoin payout address.
 

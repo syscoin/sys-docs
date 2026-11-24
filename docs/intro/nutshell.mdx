@@ -1,65 +1,38 @@
 ---
 title: Syscoin in a Nutshell
 sidebar_position: 1
-description: A practical overview of Syscoin's Bitcoin merge mining, post-quantum finality, hash-based data availability, NEVM, and zkSYS.
+description: What Syscoin Core and NEVM do, how Bitcoin merge mining works, and where zkSYS fits.
 ---
 
-Syscoin is a Bitcoin-merge-mined blockchain with its own rules for asset transfers, data publication, and programmable settlement. Its design lets people and autonomous agents act through independently operated applications while sharing a history they can verify for themselves. [Core and merge-mining](../architecture/core.mdx#what-bitcoin-merge-mining-contributes) · [System architecture](../architecture/overview.mdx)
+Syscoin is a Bitcoin-merge-mined blockchain. **Syscoin Core** processes SYS and UTXO asset transfers, accepts data publications, and enforces ChainLocks. **NEVM** runs Ethereum-compatible smart contracts. Core and NEVM run on mainnet. **zkSYS Genesis** is a public testnet for applications that execute on a separate chain and settle batches back to Syscoin. [Network status](./status.mdx) · [System architecture](../architecture/overview.mdx)
 
 ## Mission
 
 An open source community dedicated to scaling Bitcoin, especially its proof-of-work security, to meet global needs and emerging use-cases, while sticking as close as possible to Bitcoin's original ideals.
 
-As intelligence gets cheaper, people still have to decide how to share water, energy and computing power. We want communities to make those decisions on their own terms, give their agents limited authority, and leave a record others can verify across distance. [Human and AI coordination](./human-and-ai.mdx) · [Governance](../governance/overview.mdx)
+[Syscoin governance](../governance/overview.mdx) · [Humans, AI, and shared resources](./human-and-ai.mdx)
 
 ## Current Research & Development
 
-Core and its Ethereum-compatible settlement layer, NEVM, run on mainnet. As of **November 19, 2026**, four projects extend what a node, a wallet holder, or a Bitcoin bridge can verify. [Network and release status](./status.mdx)
-
-- **Post-quantum finality · Release candidate.** Core nodes verify the hash-based signatures that lock a block directly. SLH-DSA authenticates Sentry operators and their voting keys. WOTS+ signs the scheduled votes. The candidate exercises the handoff on regtest and has no mainnet activation height. [How a node verifies a ChainLock](../architecture/post-quantum.mdx#what-a-full-node-verifies)
-- **zkSYS scaling · Public Genesis testnet.** Applications run on execution chains called Edgechains. **Gateway** is their shared settlement chain. It checks Edgechain batches under its configured verifier rules and submits its own batches to NEVM for settlement. Core carries the full batch data, and Gateway carries a 32-byte BLAKE2s identifier per blob. You can follow one payment all the way to Tanenbaum NEVM, where Gateway batch 9,448 used a mock proof. Sharing proof work among independent operators and decentralizing transaction ordering are separate rollout steps. [What Gateway does](../architecture/zksys.mdx#what-gateway-changes) · [Trace the payment](../reference/zksys.mdx#trace-a-public-testnet-transaction) · [Sequencing and proving](../architecture/zksys.mdx#sequencing-proving-and-recovery)
-- **Post-quantum spending · Experimental smart accounts.** We’re adding hash-based signing to Pali v5 smart accounts on zkSYS. The account needs the SLH-DSA module, and the native zkSYS verifier checks the signature. Ordinary SYS outputs and NEVM accounts use separate spending rules. [Pali’s signing module and the zkSYS verifier](../architecture/zksys.mdx#wallets-and-post-quantum-account-authorization)
-- **Bitcoin withdrawals · Bridge research.** Participating miners already name Syscoin blocks in Bitcoin coinbases. The proposed BitVM2 bridge would let a challenger use a timely conflicting tag to veto a BTC withdrawal. Witness encryption is a separate line of research into releasing funds against verified evidence. [Inspect a miner’s tag](../architecture/bitcoin-bridge.mdx#inspect-a-tag-in-a-bitcoin-block) · [How a withdrawal would be enforced](../architecture/bitcoin-bridge.mdx#from-detection-to-enforcement-on-bitcoin)
+- **Post-quantum ChainLocks.** SLH-DSA authenticates Sentry operators, and WOTS+ keys sign scheduled ChainLock votes. [Certificate verification](../architecture/post-quantum.mdx#what-a-full-node-verifies)
+- **zkSYS.** An Edgechain executes application transactions and publishes batch data to Core. Gateway settles Edgechain batches and submits its own batches to NEVM. [zkSYS architecture](../architecture/zksys.mdx) · [Genesis quickstart](../reference/zksys.mdx#start-on-zksys-genesis)
+- **Post-quantum smart accounts.** An experimental SLH-DSA module authorizes operations for compatible zkSYS smart accounts. [Pali and zkSYS account signing](../architecture/zksys.mdx#wallets-and-post-quantum-account-authorization)
+- **Bitcoin bridge.** The proposed bridge uses Syscoin block references recorded in Bitcoin coinbases to detect conflicting histories during a withdrawal. [Bitcoin bridge research](../architecture/bitcoin-bridge.mdx)
 
 ## Why build on Bitcoin mining?
 
-A participating pool can use the same hash attempts to compete for BTC on Bitcoin and SYS on Syscoin. Bitcoin validates its own blocks. Syscoin’s nodes validate the additional transactions, data commitments, and settlement rules. SYS pays for using those services and helps fund the operators who provide them. zkSYS adds a separate reward token tied to SYS stake or eligible Sentry collateral. Whether the revenue attracts more independent operators depends on demand, costs, and who controls the equipment. [Follow the mining work and revenue](../architecture/core.mdx#why-bitcoin-and-syscoin-fit-together) · [Who pays whom](../architecture/modular-alignment.mdx#who-pays-for-the-shared-infrastructure) · [zkSYS issuance and fees](../architecture/zksys.mdx#sys-collateral-issuance-and-gas)
-
-Syscoin’s 2021 scaling proposal began with a wallet holder’s problem. Keeping control of your coins is one requirement. Being able to spend them when an operator goes offline is another. Moving execution off the shared chain makes room for more applications, but it also means someone else must be able to recover the data and check the result. The same reasoning applies to an agent acting for a community. Who gave it the right to act, and what can a member verify after the operator is gone? [How the design developed, from the wallet holder’s problem to *Truth States*](../reference/research.mdx#from-a-computational-court-to-authority-over-scarce-resources)
+A participating mining pool can reuse the same SHA-256 work to compete for rewards on Bitcoin and Syscoin. Core checks the parent work against Syscoin's target and validates Syscoin's transactions under its own rules. Sentry Nodes provide a separate finality mechanism by signing ChainLocks over Core blocks. [Merge mining and finality](../architecture/core.mdx)
 
 ## Follow the payment
 
-Suppose your wallet sends a payment on zkSYS. It gets a local receipt. Later, someone who never used your wallet wants to check the result after the original operator has gone offline. This example assumes the new finality rules are active and settlement enforces real execution proofs.
-
-```mermaid
-flowchart TD
-    accTitle: How one wallet payment reaches shared settlement
-    accDescr: The wallet authorizes a payment. The application executes it and issues a local receipt. After publication and proof checks under the active rules, shared settlement records the batch.
-    Wallet["Your wallet authorizes a payment"] --> App["The application executes it<br/>and issues a local receipt"]
-    App -->|"Publication and proof checks"| Settlement["Shared settlement records the batch"]
-```
-
-1. **Get a receipt.** An operator called a sequencer orders the payment on zkSYS and executes it. The receipt tells your wallet the local outcome. The batch containing the payment still has to reach shared settlement. [zkSYS transaction lifecycle](../architecture/zksys.mdx#follow-an-application-transaction)
-2. **Inspect the publication.** zkSYS groups transactions into a batch and publishes its encoded data on Syscoin Core. A reader can retrieve each blob and hash it to check the batch’s ordered identifiers. After Core’s serving window, the reader needs an archive that kept those bytes. [Data publication and retention](../architecture/data-availability.mdx)
-3. **Check which history counts.** Bitcoin miners can reuse their work to mine Core blocks. Under the post-quantum rules, a quorum of Sentry Nodes signs the block history, and Core nodes verify those signatures directly. A ChainLock gives readers a common finalized history in which to locate the batch publication. [Mining and finality](../architecture/core.mdx)
-4. **Check the result.** A prover supplies evidence that the batch obeyed the execution rules. Find the payment’s batch and its acceptance record on Gateway. Then find the Gateway batch that contains that record and follow it to settlement on NEVM. To re-execute the blocks yourself, start from authenticated state and restore the replay inputs, including transactions, block context, protocol version and required preimages. [Proof and settlement](../architecture/zksys.mdx) · [Replay inputs](../architecture/data-availability.mdx#what-can-someone-verify-a-week-later)
-
-The division of work lets zkSYS respond on its own schedule. Applications that join an Edgechain add execution work there. Their publications consume Core bandwidth and storage, and Core nodes validate blocks and check finality. [System map](../architecture/overview.mdx) · [Costs of independent validation](../architecture/design-tradeoffs.mdx)
-
-Try the settlement check on a public Genesis testnet transaction. Follow its receipt to the Edgechain batch on Gateway, then find the Gateway batch on Tanenbaum NEVM. [Trace a public testnet transaction](../reference/zksys.mdx#trace-a-public-testnet-transaction)
+A wallet sending a payment on zkSYS first gets a local execution receipt. The operator groups transactions into a batch, publishes its data on Core, and submits the batch for settlement. Gateway records the Edgechain batch, and NEVM settles the Gateway batch that contains that record. [Batch flow diagram](../architecture/overview.mdx#where-one-zksys-batch-goes) · [Trace a public testnet transaction](../reference/zksys.mdx#trace-a-public-testnet-transaction)
 
 ## Where the other pieces fit
 
-| Component | Purpose |
+| If you want to… | Use |
 | --- | --- |
-| [Core](../architecture/core.mdx) | Tracks balances as unspent transaction outputs (UTXOs). Accepts Bitcoin-compatible parent mining work through auxiliary proof of work (AuxPoW). |
-| [Syscoin Platform Tokens and Z-DAG](../tech/tokens.mdx) | Let applications transfer assets directly as Core outputs. For eligible payments, wallets can ask a node for an early mempool conflict signal. |
-| [Post-quantum ChainLocks](../architecture/post-quantum.mdx) | **Release candidate.** Authenticate Sentry operators with SLH-DSA hash-based signatures. Operators sign scheduled block votes with WOTS+ keys. |
-| [Proof of Data Availability](../architecture/data-availability.mdx) | Publishes payloads through Core. Gateway can carry compact identifiers while independent readers retrieve and check the larger payloads. |
-| [NEVM](../reference/nevm.mdx) | Runs Ethereum-compatible contracts, including verification and settlement contracts. |
-| [Gateway](../architecture/zksys.mdx#what-gateway-changes) | Checks and settles batches from Edgechains. NEVM settles the Gateway batches that record those results. |
-| [zkSYS](../architecture/zksys.mdx) | Runs applications on an Edgechain. Genesis is the public testnet. The reference contracts link reward eligibility to SYS and let users pay eligible fees in zkSYS. |
-
-Some of this history is visible from Bitcoin itself. Participating miners publish references to Syscoin ancestors in Bitcoin coinbases. Those references give the proposed BTC bridge a way to detect a withdrawal that points to a conflicting Syscoin history. [Two Bitcoin coinbases carrying the same Syscoin reference](../architecture/bitcoin-bridge.mdx#inspect-a-tag-in-a-bitcoin-block) · [How other chains handle settlement and data](../architecture/comparison.mdx) · [Core and NEVM commands](../reference/overview.mdx)
-
-A payment is one example of a state change. A grant to use a shared resource is another. The [human and AI design thesis](./human-and-ai.mdx) follows a community deciding who can reserve a scarce hour of compute.
+| Transfer SYS or a supported UTXO asset | [Core](../architecture/core.mdx) · [Syscoin Platform Tokens](../tech/tokens.mdx) |
+| Publish data and verify its digest | [Proof of Data Availability](../architecture/data-availability.mdx) |
+| Deploy a Solidity contract | [NEVM](../reference/nevm.mdx) |
+| Try an Edgechain application | [zkSYS Genesis testnet](../reference/zksys.mdx#start-on-zksys-genesis) |
+| Submit, vote on, or inspect a funding proposal | [Governance](../governance/overview.mdx) |

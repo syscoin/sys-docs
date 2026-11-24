@@ -4,11 +4,11 @@ sidebar_position: 0
 description: Make a first Syscoin API call, build a UTXO payment with SyscoinJS, or connect an EVM application to NEVM or zkSYS.
 ---
 
-**Reading UTXOs or building a SYS payment?** Blockbook gives a script public access to indexed blocks, transactions and unspent outputs. SyscoinJS (SJS) builds UTXO transactions in JavaScript. A local Core node exposes the consensus and mempool RPCs, including ChainLocks and Z-DAG. **Calling an EVM contract?** Use the NEVM or zkSYS JSON-RPC endpoint for the chain where the contract lives. Public reads work without a wallet. [SyscoinJS examples](../dev-resources/documentation/javascript-sdk-ref/syscoinjs.mdx) · [EVM RPC endpoints and ChainList](./nevm.mdx#endpoints-and-wallet-settings)
+Use Blockbook for public UTXO lookups, SyscoinJS to build UTXO transactions, and `syscoin-cli` to query a local Core node. For smart contracts, use the NEVM or zkSYS JSON-RPC endpoint for the network where the contract is deployed. [SyscoinJS examples](../dev-resources/documentation/javascript-sdk-ref/syscoinjs.mdx) · [EVM RPC endpoints](./nevm.mdx#endpoints-and-wallet-settings)
 
 ## Start on zkSYS Genesis
 
-Open the [zkSYS Portal](https://portal.tanenbaum.io) to connect a wallet and view balances. For a first transaction, get test gas from the [Genesis faucet](https://faucet-zk.tanenbaum.io) and look up the receipt in the [Genesis explorer](https://explorer-zk.tanenbaum.io). The [zkSYS Bridge](https://bridge-zk.tanenbaum.io) shows the available routes for moving supported assets. Scripts connect directly to `https://rpc-zk.tanenbaum.io` on chain ID `57057`. [Genesis quickstart, RPCs and settlement explorers](./zksys.mdx#start-on-zksys-genesis)
+Connect on chain ID `57057` at `https://rpc-zk.tanenbaum.io`. The Genesis quickstart includes wallet setup, the faucet and the explorers for following settlement. [Genesis quickstart](./zksys.mdx#start-on-zksys-genesis)
 
 ## Read a Syscoin block from a terminal
 
@@ -47,6 +47,5 @@ syscoin-cli getblockheader "$tip"
 | Follow an Edgechain payment to settlement | [Genesis, Gateway and NEVM transaction trace](./zksys.mdx#trace-a-public-testnet-transaction) |
 | Check which features are live on the selected network | [Network status](../intro/status.mdx) · [Protocol glossary](./glossary.mdx) · [Research and specifications](./research.mdx) |
 | Inspect a funding proposal, vote, or treasury payment | [Governance commands](../guides/governance.mdx#inspect-proposals-and-the-schedule) · [Dynamic budget and payout example](../governance/dynamic-governance.mdx) |
-| Understand the project’s purpose and current work | [Syscoin’s mission](../intro/nutshell.mdx#mission) · [Current research and development](../intro/nutshell.mdx#current-research--development) · [How the design developed](./research.mdx#from-a-computational-court-to-authority-over-scarce-resources) |
 
-For agents, the [plain-text developer reference](../../static/llms.txt) includes the first requests, SDK examples, and deployment status with canonical links.
+[Plain-text developer reference](../../static/llms.txt)

@@ -10,9 +10,9 @@ sidebar_position: 2
 Genesis is the public zkSYS Edgechain testnet. You can read it immediately over JSON-RPC. To try an application with a wallet, start at the [zkSYS Portal](https://portal.tanenbaum.io).
 
 1. **Choose the network.** In the Portal, select **zkSYS Tanenbaum** and connect your EVM wallet. For manual setup, use the Genesis RPC and chain ID **57057** below. Chainlist calls the same network *zkTanenbaum Testnet*. [Chainlist wallet settings](https://chainlist.org/chain/57057)
-2. **Get gas for a first transaction.** Give the Genesis faucet your public `0x` address to request native test SYS. The Portal and faucet label that balance **TSYS**. The separately issued **zkSYS** reward token has its own contract and Gas Tank. [Genesis faucet](https://faucet-zk.tanenbaum.io) · [Gas Tank and issuance](../architecture/zksys.mdx#sys-collateral-issuance-and-gas)
-3. **Bring existing testnet funds.** The Portal’s **Bridge** moves supported assets between Tanenbaum NEVM and zkSYS Genesis. The separate **zkSYS Bridge** also offers Ethereum Sepolia as a source. The Sepolia-to-Genesis route moves supported tokens through Tanenbaum NEVM before depositing them on Genesis. Choose the source, destination and token shown by the bridge to get the available route. [Portal bridge](https://portal.tanenbaum.io/bridge) · [zkSYS Bridge](https://bridge-zk.tanenbaum.io) · [Sepolia route](https://github.com/syscoin/zksys-bridge/blob/49e733e27504965fb1c871faae6058fcbe28a9a9/bridge-dapp/docs/HYPERLANE_TESTNET_LAUNCH.md#L16-L32)
-4. **Find the result.** The Portal’s **Assets** and **Transfers** views show activity for the connected wallet. Paste the Genesis transaction hash into the Genesis explorer to see the receipt and events. A bridge deposit can have a source transaction and a separate destination transaction. [Genesis explorer](https://explorer-zk.tanenbaum.io) · [Portal source](https://github.com/syscoin/dapp-portal/tree/b0bf31c73aaf338d627806d819df57d84b617428)
+2. **Get test gas.** Enter your public `0x` address in the faucet. It sends native test SYS, labeled **TSYS** in the Portal. [Genesis faucet](https://faucet-zk.tanenbaum.io)
+3. **Bridge funds if needed.** The Portal bridge supports transfers between Tanenbaum NEVM and Genesis. The zkSYS Bridge also offers a route from Ethereum Sepolia through Tanenbaum NEVM. Select the source, destination and token to see available routes. [Portal bridge](https://portal.tanenbaum.io/bridge) · [zkSYS Bridge](https://bridge-zk.tanenbaum.io)
+4. **Check the receipt.** Open **Transfers** in the Portal or paste the Genesis transaction hash into the explorer. For a bridge deposit, check the destination receipt to confirm the transfer arrived. [Genesis explorer](https://explorer-zk.tanenbaum.io)
 
 For a first read without a wallet, this request returns the Genesis chain ID (`0xdee1`), client version and sync status. Match the results by request ID.
 
@@ -54,7 +54,7 @@ curl --fail --silent --show-error "$zk_rpc" \
 
 ## Trace a public testnet transaction
 
-On November 18, 2026, a contract call on Genesis emitted token transfers. Its receipt is the first of five public records you can follow. Each chain has its own block and batch numbers. The link between them is the event or block range recorded by the next chain.
+This Genesis transaction from November 18, 2026 settled on Gateway, whose enclosing batch settled on Tanenbaum NEVM. Match the block ranges and event commitments below to follow it across the three chains. The NEVM verifier accepted a testnet mock proof for this batch.
 
 | Where to look | What to match |
 | --- | --- |
@@ -66,7 +66,7 @@ On November 18, 2026, a contract call on Genesis emitted token transfers. Its re
 
 [![Elapsed block time after the Genesis receipt. Edge batch executed on Gateway at 3 minutes 21 seconds. NEVM recorded Gateway batch commitment at 12 minutes 11 seconds, mock proof acceptance at 16 minutes 37 seconds and execution at 22 minutes 37 seconds.](../../static/img/genesis-settlement-trace.webp)](../../static/img/genesis-settlement-trace.webp)
 
-The five blocks span **22 minutes 37 seconds**. These timestamps describe one testnet transaction and include waiting between blocks. Measuring real proving time requires a batch that runs the production proof path and timing from its workers. [Full-size timing chart](../../static/img/genesis-settlement-trace.webp) · [V8 proof formats](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/lib/l1_sender/src/commands/prove.rs#L434-L465)
+The time from the Genesis receipt to NEVM execution was **22 minutes 37 seconds** for this batch. The chart measures elapsed block time for a testnet mock-proof submission. [V8 proof formats](https://github.com/syscoin/zksync-os-server/blob/v0.24.4/lib/l1_sender/src/commands/prove.rs#L434-L465)
 
 Reproduce the first link with `curl` and `jq`. Replace `tx_hash` to follow another mined transaction on the same deployment. The Ethereum receipt encodes its block number in hex. The zkSYS batch method takes that height as a JSON integer.
 
@@ -150,7 +150,7 @@ syscoin-cli listnevmblobdata 10 0
 syscoin-cli getnevmblobdata "$digest" false
 ```
 
-The metadata response includes `versionhash`, `txid`, `mtp`, and `datasize`. It can include the active block `height`, `blockhash`, and `chainlock` when Core can locate the publication and report its ChainLock state. Use the publication's block and configured policy to evaluate confirmations. Listing or retrieving a blob does not establish finality. [Core blob lookup and response](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/services/rpc/nevmrpc.cpp#L103-L216) · [Core list help](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/src/services/rpc/nevmrpc.cpp#L315-L351)
+The metadata response includes `versionhash`, `txid`, `mtp`, and `datasize`. When Core can locate the publication, it can also report `height`, `blockhash`, and `chainlock`. For inclusion and finality, check the publication transaction and its block on the active chain. [Core blob RPCs](https://github.com/syscoin/syscoin/blob/v5.1.3/src/services/rpc/nevmrpc.cpp#L98-L202)
 
 For a blob recorded as BLAKE2s, retrieve its bytes and check the digest locally. This example uses Python's BLAKE2s implementation. Use a Keccak-256 implementation for legacy blobs.
 
@@ -170,7 +170,7 @@ If Core no longer serves the blob, query the archive provided by your deployment
 
 ## Check NEVM registration
 
-Use the **NEVM** JSON-RPC endpoint for your deployment. Set `nevm_rpc` to that endpoint and `digest` as above. `0x0000000000000000000000000000000000000063` is the Syscoin DA membership precompile. In the paired sysgeth code, a member is returned as the exact digest. An empty successful response is `0x`. Treat RPC errors as unavailable observations.
+Set `nevm_rpc` to your [NEVM JSON-RPC endpoint](./nevm.mdx) and use the 32-byte `digest` from the previous section. The NEVM precompile at `0x0000000000000000000000000000000000000063` returns the digest if it is in the current data-hash index, or `0x` if it is absent. Treat an RPC error as an unavailable result. [NEVM precompile source](https://github.com/syscoin/go-ethereum/blob/v5.1.0/core/vm/contracts.go#L1212-L1226)
 
 ```bash
 jq -nc --arg data "0x$digest" \
@@ -181,4 +181,4 @@ jq -nc --arg data "0x$digest" \
     -H 'content-type: application/json' --data-binary @- | jq .
 ```
 
-The call reads sysgeth’s current 50,001-block canonical membership window. Passing an older block number to `eth_call` selects historical EVM state, while `0x63` still reads the current index. Retry if sysgeth reports that its metadata changed during the call. To establish a publication’s original inclusion and finality, verify the transaction in its Core block and apply your deployment’s finality policy. To inspect its contents, retrieve and hash the blob. [NEVM precompile](https://github.com/syscoin/go-ethereum/blob/1c046ba92f8ea95be024a790e9444b80ccbf019a/core/vm/contracts.go#L1212-L1226) · [Membership window](https://github.com/syscoin/go-ethereum/blob/1c046ba92f8ea95be024a790e9444b80ccbf019a/docs/syscoin-data-hash-index-upgrade.md#L3-L6) · [Retry and historical reads](https://github.com/syscoin/go-ethereum/blob/1c046ba92f8ea95be024a790e9444b80ccbf019a/docs/syscoin-data-hash-index-upgrade.md#L72-L96)
+The precompile is a current-index lookup, even if `eth_call` selects historical EVM state. To check when and where a digest was published, locate the original Core transaction. To check the data, retrieve and hash the blob. [NEVM index status](../intro/status.mdx#candidate-rules-design-targets-and-research)

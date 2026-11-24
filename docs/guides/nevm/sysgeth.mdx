@@ -1,6 +1,6 @@
-# Syscoin Geth
+# Run an NEVM node
 
-`sysgeth` is the EVM client paired with Syscoin Core. Install the Core release and its supported sysgeth artifact from the [release documentation](https://github.com/syscoin/syscoin/releases). When operating a separately managed sysgeth, verify the pairing against the release's instructions before joining a network.
+`sysgeth` is the NEVM execution client. It executes EVM transactions and serves Ethereum JSON-RPC. Syscoin Core manages it by default. If you run it as a separate service, use the client version supported by your Core release. [Syscoin Core releases](https://github.com/syscoin/syscoin/releases)
 
 ```bash
 syscoind --version
@@ -9,4 +9,4 @@ syscoind -help
 sysgeth --help
 ```
 
-For a locally managed RPC, bind administrative interfaces to trusted local transports. Expose only the read or submission APIs your clients need, and keep the Core-to-NEVM transport private. Wallets can confirm the selected network with `eth_chainId`. [NEVM JSON-RPC](../../reference/nevm.mdx) · [Supported networks and release status](../../intro/status.mdx) · [Syscoin Geth source](https://github.com/syscoin/go-ethereum)
+Keep the connection between Core and the NEVM client private. Expose only the JSON-RPC methods your applications need, and use `eth_chainId` to check which network the endpoint serves. [NEVM JSON-RPC](../../reference/nevm.mdx) · [NEVM client source](https://github.com/syscoin/go-ethereum)
