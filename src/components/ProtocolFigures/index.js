@@ -55,3 +55,24 @@ export function BlobRetentionFigure() {
     </figure>
   );
 }
+
+export function ChainLockVerificationFigure() {
+  return (
+    <figure className={styles.figure} aria-label="Post-quantum ChainLock verification">
+      <div className={styles.card}>
+        <strong>Find the eligible roster slots</strong>
+        <span>Use the Sentry registry snapshot for the target block.</span>
+      </div>
+      <div className={styles.flowArrow} aria-hidden="true"><span className={styles.arrow} /></div>
+      <div className={styles.card}>
+        <strong>Check each WOTS+ vote</strong>
+        <span>Authenticate the scheduled key, then verify its signature.</span>
+      </div>
+      <div className={styles.flowArrow} aria-hidden="true"><span className={styles.arrow} /></div>
+      <div className={styles.coreCard}>
+        <strong>Verify the certificate threshold</strong>
+        <span>267 valid votes in each of three selected rosters.</span>
+      </div>
+    </figure>
+  );
+}

@@ -5,6 +5,8 @@ description: How hash-based ChainLocks authenticate Sentries, finalize Core bloc
 sidebar_position: 5
 ---
 
+import {ChainLockVerificationFigure} from '@site/src/components/ProtocolFigures';
+
 Post-quantum (PQ) ChainLocks use hash-based keys for Sentry operators. Each Core node verifies the individual votes and checks whether the certificate’s target descends from the last locked block. [ChainLock design](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/doc/pq-chainlocks.md#L27-L45) · [Network and release status](../intro/status.mdx)
 
 ## Why Core verifies the votes directly
@@ -25,16 +27,7 @@ A full node can check the certificate using public keys and roster information f
 
 A Sentry operator uses a long-lived SLH-DSA identity to commit to its child keys. It signs each scheduled finality vote with its assigned WOTS+ leaf. The full node links that vote to the eligible operator and roster slot using its own chain state. [Signing roles](https://github.com/syscoin/syscoin/blob/b3b4f643383a2149807a25fe38d26b5f058daa60/doc/pq-chainlocks.md)
 
-```mermaid
-flowchart TB
-    accTitle: How a Core node verifies post-quantum Sentry votes
-    accDescr: A Sentry operator registers a root for its scheduled voting keys. The full node identifies eligible roster slots, verifies the assigned WOTS+ signatures, and accepts a certificate with 267 signatures each from three rosters.
-    Roster["Find eligible signers<br/>in the roster snapshot"]
-    Root["Authenticate each vote’s key<br/>against the registered root"]
-    Vote["Verify the WOTS+ signature<br/>for the target block"]
-    Lock["A complete certificate has<br/>267 votes in each of 3 rosters"]
-    Roster --> Root --> Vote --> Lock
-```
+<ChainLockVerificationFigure />
 
 | Layer | Selected profile | Purpose |
 | --- | --- | --- |

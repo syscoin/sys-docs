@@ -81,6 +81,10 @@
   transform: translateX(-50%) rotate(45deg);
 }
 
+.flowArrow {
+  display: grid;
+}
+
 .connection {
   position: relative;
   display: grid;
