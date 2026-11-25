@@ -1,0 +1,39 @@
+---
+title: listwalletdir
+sidebar_label: listwalletdir
+description: "Syscoin Core CLI reference: listwalletdir"
+---
+
+# `listwalletdir`
+
+Returns a list of wallets in the wallet directory.
+
+## Synopsis
+
+```
+listwalletdir
+```
+
+## Result
+
+```
+{                        (json object)
+  "wallets" : [          (json array)
+    {                    (json object)
+      "name" : "str"     (string) The wallet name
+    },
+    ...
+  ]
+}
+```
+
+## Examples
+
+```
+> syscoin-cli listwalletdir 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "listwalletdir", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/wallet/rpc/wallet.cpp](https://github.com/syscoin/syscoin/blob/master/src/wallet/rpc/wallet.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-15.*

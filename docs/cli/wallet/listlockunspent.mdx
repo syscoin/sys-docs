@@ -1,0 +1,51 @@
+---
+title: listlockunspent
+sidebar_label: listlockunspent
+description: "Syscoin Core CLI reference: listlockunspent"
+---
+
+# `listlockunspent`
+
+Returns list of temporarily unspendable outputs.
+See the lockunspent call to lock and unlock transactions for spending.
+
+## Synopsis
+
+```
+listlockunspent
+```
+
+## Result
+
+```
+[                      (json array)
+  {                    (json object)
+    "txid" : "hex",    (string) The transaction id locked
+    "vout" : n         (numeric) The vout value
+  },
+  ...
+]
+```
+
+## Examples
+
+```
+List the unspent transactions
+> syscoin-cli listunspent 
+
+Lock an unspent transaction
+> syscoin-cli lockunspent false "[{\"txid\":\"a08e6907dbbd3d809776dbfc5d82e371b764ed838b5655e72f463568df1aadf0\",\"vout\":1}]"
+
+List the locked transactions
+> syscoin-cli listlockunspent 
+
+Unlock the transaction again
+> syscoin-cli lockunspent true "[{\"txid\":\"a08e6907dbbd3d809776dbfc5d82e371b764ed838b5655e72f463568df1aadf0\",\"vout\":1}]"
+
+As a JSON-RPC call
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "listlockunspent", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/wallet/rpc/coins.cpp](https://github.com/syscoin/syscoin/blob/master/src/wallet/rpc/coins.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-15.*

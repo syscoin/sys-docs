@@ -1,0 +1,44 @@
+---
+title: listaddressgroupings
+sidebar_label: listaddressgroupings
+description: "Syscoin Core CLI reference: listaddressgroupings"
+---
+
+# `listaddressgroupings`
+
+Lists groups of addresses which have had their common ownership
+made public by common use as inputs or as the resulting change
+in past transactions
+
+## Synopsis
+
+```
+listaddressgroupings
+```
+
+## Result
+
+```
+[               (json array)
+  [             (json array)
+    [           (json array)
+      "str",    (string) The syscoin address
+      n,        (numeric) The amount in SYS
+      "str"     (string, optional) The label
+    ],
+    ...
+  ],
+  ...
+]
+```
+
+## Examples
+
+```
+> syscoin-cli listaddressgroupings 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "listaddressgroupings", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/wallet/rpc/addresses.cpp](https://github.com/syscoin/syscoin/blob/master/src/wallet/rpc/addresses.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-15.*
