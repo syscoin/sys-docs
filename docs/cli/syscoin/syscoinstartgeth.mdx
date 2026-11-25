@@ -1,0 +1,34 @@
+---
+title: syscoinstartgeth
+sidebar_label: syscoinstartgeth
+description: "Syscoin Core CLI reference: syscoinstartgeth"
+---
+
+# `syscoinstartgeth`
+
+Starts Geth.
+
+## Synopsis
+
+```
+syscoinstartgeth
+```
+
+## Result
+
+```
+{                      (json object)
+  "status" : "str"     (string) Result
+}
+```
+
+## Examples
+
+```
+> syscoin-cli syscoinstartgeth 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "syscoinstartgeth", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/services/rpc/nevmrpc.cpp](https://github.com/syscoin/syscoin/blob/master/src/services/rpc/nevmrpc.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*

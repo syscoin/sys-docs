@@ -1,0 +1,58 @@
+---
+title: listnevmblobdata
+sidebar_label: listnevmblobdata
+description: "Syscoin Core CLI reference: listnevmblobdata"
+---
+
+# `listnevmblobdata`
+
+Scan through all blobs or get blob statistics.
+
+## Synopsis
+
+```
+listnevmblobdata ( count from {"stats":bool} )
+```
+
+## Arguments
+
+```
+1. count                 (numeric, optional, default=10) The number of results to return.
+2. from                  (numeric, optional, default=0) The number of results to skip.
+3. options               (json object, optional) A json object with options to filter results.
+     {
+       "stats": bool,    (boolean, optional) Return statistics for all blobs (ignores count/from)
+     }
+```
+
+## Result
+
+```
+[                             (json array)
+  {                           (json object)
+    "versionhash" : "hex",    (string) The version hash of the NEVM blob
+    "datasize" : n,           (numeric) Size of data blob in bytes
+    "txid" : n,               (numeric) Transaction ID of the blob tx
+    "mtp" : n                 (numeric) Median timestamp of the blob
+  },
+  {                           (json object)
+    "total_blobs" : n,        (numeric) Total number of blobs
+    "total_size" : n,         (numeric) Total size of all blobs in bytes
+    "oldest_mpt" : n,         (numeric) Median timestamp of the oldest blob
+    "newest_mpt" : n          (numeric) Median timestamp of the newest blob
+  },
+  ...
+]
+```
+
+## Examples
+
+```
+> syscoin-cli listnevmblobdata 0
+> syscoin-cli listnevmblobdata 10 10
+> syscoin-cli listnevmblobdata 0 0 '{"stats":true}'
+```
+
+---
+
+*Source: [src/services/rpc/nevmrpc.cpp](https://github.com/syscoin/syscoin/blob/master/src/services/rpc/nevmrpc.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*

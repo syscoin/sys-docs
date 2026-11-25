@@ -1,0 +1,35 @@
+---
+title: spork
+sidebar_label: spork
+description: "Syscoin Core CLI reference: spork"
+---
+
+# `spork`
+
+Shows or updates the value of the specific spork. Requires "-sporkkey" to be set to sign the message for updating.
+
+## Synopsis
+
+```
+spork "command" ( value )
+```
+
+## Arguments
+
+```
+1. command    (string, required) "show" to show all current spork values, "active" to show which sporks are active or the name of the spork to update
+2. value      (numeric, optional) The new desired value of the spork if updating
+```
+
+## Examples
+
+```
+> syscoin-cli spork SPORK_9_NEW_SIGS 4070908800
+> syscoin-cli spork show
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "spork", "params": ["SPORK_9_NEW_SIGS", 4070908800]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "spork", "params": ["show"]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/node.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/node.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*

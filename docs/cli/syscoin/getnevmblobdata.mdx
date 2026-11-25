@@ -1,0 +1,33 @@
+---
+title: getnevmblobdata
+sidebar_label: getnevmblobdata
+description: "Syscoin Core CLI reference: getnevmblobdata"
+---
+
+# `getnevmblobdata`
+
+Return NEVM blob information and status from a version hash.
+
+## Synopsis
+
+```
+getnevmblobdata "versionhash_or_txid" ( getdata )
+```
+
+## Arguments
+
+```
+1. versionhash_or_txid    (string, required) The version hash or txid of the NEVM blob
+2. getdata                (boolean, optional) Optional, retrieve the blob data
+```
+
+## Examples
+
+```
+> syscoin-cli getnevmblobdata 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "getnevmblobdata", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/services/rpc/nevmrpc.cpp](https://github.com/syscoin/syscoin/blob/master/src/services/rpc/nevmrpc.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*

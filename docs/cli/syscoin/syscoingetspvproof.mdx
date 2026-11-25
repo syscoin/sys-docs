@@ -1,0 +1,26 @@
+---
+title: syscoingetspvproof
+sidebar_label: syscoingetspvproof
+description: "Syscoin Core CLI reference: syscoingetspvproof"
+---
+
+# `syscoingetspvproof`
+
+Returns SPV proof for use with inter-chain transfers.
+
+## Synopsis
+
+```
+syscoingetspvproof "txid" ( "blockhash" )
+```
+
+## Arguments
+
+```
+1. txid         (string, required) A transaction that is in the block
+2. blockhash    (string, optional) If specified, looks for txid in the block with this hash
+```
+
+---
+
+*Source: [src/services/rpc/nevmrpc.cpp](https://github.com/syscoin/syscoin/blob/master/src/services/rpc/nevmrpc.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*

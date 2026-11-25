@@ -1,0 +1,41 @@
+---
+title: getnevmblockchaininfo
+sidebar_label: getnevmblockchaininfo
+description: "Syscoin Core CLI reference: getnevmblockchaininfo"
+---
+
+# `getnevmblockchaininfo`
+
+Return NEVM blockchain information and status.
+
+## Synopsis
+
+```
+getnevmblockchaininfo
+```
+
+## Result
+
+```
+{                                 (json object)
+  "bestblockhash" : "hex",        (string) The tip of the NEVM blockchain
+  "previousblockhash" : "hex",    (string) The hash of the previous block
+  "txroot" : "hex",               (string) Transaction root of the current tip
+  "receiptroot" : "hex",          (string) Receipt root of the current tip
+  "blocksize" : n,                (numeric) Serialized NEVM block size. 0 means it has been pruned.
+  "height" : n,                   (numeric) The current NEVM blockchain height
+  "commandline" : "str",          (string) The NEVM command line parameters used to pass through to sysgeth
+  "status" : "str"                (string) The NEVM status, online or offline
+}
+```
+
+## Examples
+
+```
+> syscoin-cli getnevmblockchaininfo 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "getnevmblockchaininfo", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/services/rpc/nevmrpc.cpp](https://github.com/syscoin/syscoin/blob/master/src/services/rpc/nevmrpc.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*
