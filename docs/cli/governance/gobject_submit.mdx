@@ -1,0 +1,36 @@
+---
+title: gobject_submit
+sidebar_label: gobject_submit
+description: "Syscoin Core CLI reference: gobject_submit"
+---
+
+# `gobject_submit`
+
+Submit governance object to network
+
+## Synopsis
+
+```
+gobject_submit "parentHash" revision time "dataHex" ( "feeTxid" )
+```
+
+## Arguments
+
+```
+1. parentHash    (string, required) Hash of the parent object, "0" is root.
+2. revision      (numeric, required) Object revision in the system.
+3. time          (numeric, required) Time this object was created.
+4. dataHex       (string, required) Data in hex string form.
+5. feeTxid       (string, optional) Fee-tx id, required for all objects except triggers.
+```
+
+## Examples
+
+```
+> syscoin-cli gobject_submit 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "gobject_submit", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/governance.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/governance.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-20.*

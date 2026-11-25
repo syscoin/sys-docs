@@ -1,0 +1,49 @@
+---
+title: getgovernanceinfo
+sidebar_label: getgovernanceinfo
+description: "Syscoin Core CLI reference: getgovernanceinfo"
+---
+
+# `getgovernanceinfo`
+
+Returns an object containing governance parameters.
+
+## Synopsis
+
+```
+getgovernanceinfo
+```
+
+## Result
+
+```
+{                                    (json object)
+  "governanceminquorum" : n,         (numeric) The absolute minimum number of votes needed to trigger a governance action
+  "proposalfee" : n,                 (numeric) The collateral transaction fee which must be paid to create a proposal in SYS
+  "superblockcycle" : n,             (numeric) The number of blocks between superblocks
+  "superblockmaturitywindow" : n,    (numeric) the superblock trigger creation window
+  "lastsuperblock" : n,              (numeric) The block number of the last superblock
+  "nextsuperblock" : n,              (numeric) The block number of the next superblock
+  "fundingthreshold" : n,            (numeric) the number of absolute yes votes required for a proposal to be passing
+  "governancebudget" : n,            (numeric) the governance budget for the next superblock in SYS
+  "last10governancebudgets" : [      (json array)
+    {                                (json object) the last 10 governance budgets
+      "height" : n,                  (numeric) Superblock height
+      "blockhash" : "str",           (string) Superblock hash
+      "governancebudget" : n         (numeric) Superblock budget
+    },
+    ...
+  ]
+}
+```
+
+## Examples
+
+```
+> syscoin-cli getgovernanceinfo 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "getgovernanceinfo", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/governance.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/governance.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-20.*

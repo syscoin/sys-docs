@@ -1,0 +1,32 @@
+---
+title: gobject_count
+sidebar_label: gobject_count
+description: "Syscoin Core CLI reference: gobject_count"
+---
+
+# `gobject_count`
+
+Count governance objects and votes
+
+## Synopsis
+
+```
+gobject_count ( "mode" )
+```
+
+## Arguments
+
+```
+1. mode    (string, optional) Output format: json ("json") or string in free form ("all").
+```
+
+## Examples
+
+```
+> syscoin-cli gobject_count json
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "gobject_count", "params": [json]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/governance.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/governance.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-20.*
