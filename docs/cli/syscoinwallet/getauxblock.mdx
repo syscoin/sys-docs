@@ -1,0 +1,38 @@
+---
+title: getauxblock
+sidebar_label: getauxblock
+description: "Syscoin Core CLI reference: getauxblock"
+---
+
+# `getauxblock`
+
+Creates or submits a merge-mined block.
+
+Without arguments, creates a new block and returns information
+required to merge-mine it.  With arguments, submits a solved
+auxpow for a previously returned block.
+
+## Synopsis
+
+```
+getauxblock ( "hash" "auxpow" )
+```
+
+## Arguments
+
+```
+1. hash      (string, optional) Hash of the block to submit
+2. auxpow    (string, optional) Serialised auxpow found
+```
+
+## Examples
+
+```
+> syscoin-cli getauxblock 
+> syscoin-cli getauxblock "hash" "serialised auxpow"
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "getauxblock", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/services/rpc/wallet/nevmwalletrpc.cpp](https://github.com/syscoin/syscoin/blob/master/src/services/rpc/wallet/nevmwalletrpc.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*

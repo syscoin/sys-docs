@@ -1,0 +1,39 @@
+---
+title: syscoincreaterawnevmblob
+sidebar_label: syscoincreaterawnevmblob
+description: "Syscoin Core CLI reference: syscoincreaterawnevmblob"
+---
+
+# `syscoincreaterawnevmblob`
+
+Create NEVM blob data used by rollups via a custom raw parameters
+
+## Synopsis
+
+```
+syscoincreaterawnevmblob "versionhash" "data" ( conf_target "estimate_mode" fee_rate )
+```
+
+## Arguments
+
+```
+1. versionhash      (string, required) Version hash of the blob
+2. data             (string, required) data in hex
+3. conf_target      (numeric, optional, default=wallet -txconfirmtarget) Confirmation target in blocks
+4. estimate_mode    (string, optional, default="unset") The fee estimate mode, must be one of (case insensitive):
+                    "unset"
+                    "economical"
+                    "conservative"
+5. fee_rate         (numeric or string, optional, default=not set, fall back to wallet fee estimation) Specify a fee rate in sat/vB.
+```
+
+## Examples
+
+```
+> syscoin-cli syscoincreaterawnevmblob "versionhash" "data" 6 economical 25
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "syscoincreaterawnevmblob", "params": ["versionhash" "data" 6 economical 25]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/services/rpc/wallet/nevmwalletrpc.cpp](https://github.com/syscoin/syscoin/blob/master/src/services/rpc/wallet/nevmwalletrpc.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*
