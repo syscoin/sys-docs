@@ -1,0 +1,89 @@
+# Using SPTs in Pali Wallet
+
+This guide walks through receiving, sending, and managing Syscoin Platform Tokens (SPTs) using [Pali Wallet](https://paliwallet.com/) — the official browser-extension wallet that supports the post-Nexus SPT model.
+
+If you're new to SPTs, start with [the SPT concept page](/docs/tech/tokens) first to understand the NEVM-bridge model.
+
+## Before you start
+
+Install Pali Wallet from [paliwallet.com](https://paliwallet.com/) and set up a wallet. You can create a new seed phrase or import an existing one.
+
+Pali supports both Syscoin networks:
+
+- **Syscoin Mainnet** — UTXO-side SPTs use addresses starting with `sys1...` (bech32) or `S...` (legacy). NEVM-side tokens use standard `0x...` Ethereum-format addresses.
+- **Syscoin Tanenbaum (testnet)** — UTXO-side addresses start with `tsys1...`.
+
+The wallet switches between Syscoin (UTXO) and Syscoin NEVM modes from the network selector. SPT flows described below are on the UTXO side; for ERC-20/721/1155 tokens that haven't been bridged yet, switch to NEVM.
+
+## Add an SPT to your wallet
+
+By default, Pali shows your SYS balance. To see a specific SPT, you import it once and it stays visible from then on.
+
+1. Open Pali and make sure you're on **Syscoin (UTXO)** in the network selector.
+2. Navigate to the **Assets** tab.
+3. Choose **Import token** (or similar — wording varies by Pali version).
+4. Enter the SPT's **asset GUID** (the token's identifier on the UTXO chain). Pali looks up the name, symbol, and precision automatically.
+5. Confirm. The token now appears in your assets list with current balance.
+
+If you don't know the asset GUID, you can typically get it from the token issuer's documentation, a block explorer, or by querying the corresponding NEVM contract address through the bridge UI at [bridge.syscoin.org](https://bridge.syscoin.org).
+
+To remove a token from your view later, open it from the assets list and select **Delete**. The balance isn't touched — only the wallet's display of it.
+
+## Find your SPT receive address
+
+The receive address for SPTs is the **same address as your SYS receive address** on the UTXO side. SPTs ride on standard Syscoin transactions; the asset metadata is attached to specific outputs rather than living at a different address.
+
+1. From the wallet home screen, open **Receive**.
+2. Copy your address (or share the QR code) with the sender.
+
+Any SPT sent to that address will appear under the corresponding asset entry once the transaction confirms (or once Z-DAG status reports a safe state — see below).
+
+## Send an SPT
+
+1. Open the SPT from your assets list (or the **Send** screen).
+2. Enter the recipient's Syscoin address (`sys1...` / `tsys1...` for bech32, or legacy).
+3. Enter the amount.
+4. Choose your settlement option:
+   - **Z-DAG** (default) — broadcasts using Syscoin's fast-finality protocol. Recipient can see the transaction reach a safe-to-spend state in seconds, before block confirmation.
+   - **RBF** (Replace-by-Fee) — disables Z-DAG and lets you bump the fee on the same transaction later if it's stuck. Slower path; use when you want fee flexibility over speed.
+5. Confirm and sign.
+
+Pali signs the transaction with your wallet keys, broadcasts it via the configured Blockbook backend, and shows the resulting txid.
+
+## View transaction history and details
+
+The home screen lists recent transactions for the active network. Selecting one opens a detail view that shows:
+
+- The transaction hash
+- The amount sent or received (separated by SYS and any SPTs involved — Pali shows multiple asset lines if the transaction touches more than one)
+- The Z-DAG status (where applicable)
+- Block height and confirmation count
+- The Syscoin Blockbook URL for the same transaction (useful for sharing with support)
+
+## NFTs
+
+Pali recognizes SPT-side NFTs (tokens bridged from ERC-721 or ERC-1155 contracts on NEVM) and displays them in your asset list. Standard receive / send / view-history flows work for NFTs the same way they do for fungible SPTs.
+
+Pali itself doesn't include an NFT *minting* workflow. To create an NFT on Syscoin, deploy an ERC-721 or ERC-1155 contract on Syscoin NEVM using standard EVM tooling, then bridge it to the UTXO side — see the [issuing-tokens guide](/docs/guides/spts/issuing-tokens) (forthcoming).
+
+## Bridging SPTs between UTXO and NEVM
+
+Pali does not include a dedicated "Bridge" page. To move a token between the UTXO and NEVM sides, use **[bridge.syscoin.org](https://bridge.syscoin.org)** — the official bridge dapp, which connects to Pali for signing.
+
+- **NEVM → UTXO** (mints a fresh SPT): lock the token in [SyscoinVaultManager](https://explorer.syscoin.org/address/0x7904299b3D3dC1b03d1DdEb45E9fDF3576aCBd5f) via the dapp. The corresponding SPT appears on the UTXO side after the bridge proof is processed.
+- **UTXO → NEVM** (releases the original): burn the SPT via the dapp, and the underlying ERC token is released back to your NEVM address.
+
+For more detail on the bridge mechanics, see the [bridging guide](/docs/guides/spts/bridging-tokens) (forthcoming) and the [exchange integration page](/docs/dev-resources/sys/exchange-integration).
+
+## Troubleshooting
+
+- **My SPT balance is wrong / not updating.** Pali polls Blockbook for balance changes; very fresh transactions may take a moment to surface. If the issue persists, switch networks back and forth in the network selector to force a refresh.
+- **"Token not found" when importing.** Double-check the asset GUID is correct for the current network (mainnet GUIDs differ from testnet). Confirm with a block explorer that the SPT actually exists on the chain you've selected.
+- **Z-DAG status shows a warning.** If a transaction's Z-DAG status returns a warning or critical level, treat the funds as not-yet-safely-spendable and wait for the next block confirmation. See the [Z-DAG developer guide](/docs/dev-resources/sys/z-dag) for the meaning of each status level.
+
+## See also
+
+- [SPT concept page](/docs/tech/tokens) — what SPTs are and how the NEVM-bridge model works
+- [Z-DAG developer guide](/docs/dev-resources/sys/z-dag) — how fast settlement works under the hood
+- [Pali Wallet](https://paliwallet.com/) — official site and download
+- [syscoinjs-lib](https://github.com/syscoin/syscoinjs-lib) — programmatic alternative to wallet UI for the same operations
