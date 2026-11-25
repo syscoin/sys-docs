@@ -1,0 +1,32 @@
+---
+title: uptime
+sidebar_label: uptime
+description: "Syscoin Core CLI reference: uptime"
+---
+
+# `uptime`
+
+Returns the total uptime of the server.
+
+## Synopsis
+
+```
+uptime
+```
+
+## Result
+
+```
+n    (numeric) The number of seconds that the server has been running
+```
+
+## Examples
+
+```
+> syscoin-cli uptime 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "uptime", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/server.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/server.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-21.*

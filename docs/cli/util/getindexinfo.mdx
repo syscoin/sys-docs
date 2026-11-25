@@ -1,0 +1,46 @@
+---
+title: getindexinfo
+sidebar_label: getindexinfo
+description: "Syscoin Core CLI reference: getindexinfo"
+---
+
+# `getindexinfo`
+
+Returns the status of one or all available indices currently running in the node.
+
+## Synopsis
+
+```
+getindexinfo ( "index_name" )
+```
+
+## Arguments
+
+```
+1. index_name    (string, optional) Filter results for an index with a specific name.
+```
+
+## Result
+
+```
+{                               (json object)
+  "name" : {                    (json object) The name of the index
+    "synced" : true|false,      (boolean) Whether the index is synced or not
+    "best_block_height" : n     (numeric) The block height to which the index is synced
+  },
+  ...
+}
+```
+
+## Examples
+
+```
+> syscoin-cli getindexinfo 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "getindexinfo", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+> syscoin-cli getindexinfo txindex
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "getindexinfo", "params": [txindex]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/node.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/node.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-21.*

@@ -1,0 +1,34 @@
+---
+title: gobject_vote_many
+sidebar_label: gobject_vote_many
+description: "Syscoin Core CLI reference: gobject_vote_many"
+---
+
+# `gobject_vote_many`
+
+Vote on a governance object by all masternodes for which the voting key is present in the local wallet.
+
+## Synopsis
+
+```
+gobject_vote_many "governanceHash" "vote" "voteOutome"
+```
+
+## Arguments
+
+```
+1. governanceHash    (string, required) Hash of the governance object.
+2. vote              (string, required) Vote, possible values: [funding|valid|delete|endorsed].
+3. voteOutome        (string, required) Vote outcome, possible values: [yes|no|abstain].
+```
+
+## Examples
+
+```
+> syscoin-cli gobject_vote_many 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "gobject_vote_many", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/wallet/rpcgovernance.cpp](https://github.com/syscoin/syscoin/blob/master/src/wallet/rpcgovernance.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-21.*

@@ -1,0 +1,32 @@
+---
+title: gobject_list_prepared
+sidebar_label: gobject_list_prepared
+description: "Syscoin Core CLI reference: gobject_list_prepared"
+---
+
+# `gobject_list_prepared`
+
+Returns a list of governance objects prepared by this wallet with "gobject_prepare" sorted by their creation time.
+
+## Synopsis
+
+```
+gobject_list_prepared ( count )
+```
+
+## Arguments
+
+```
+1. count    (numeric, optional) Maximum number of objects to return.
+```
+
+## Examples
+
+```
+> syscoin-cli gobject_list_prepared 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "gobject_list_prepared", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/wallet/rpcgovernance.cpp](https://github.com/syscoin/syscoin/blob/master/src/wallet/rpcgovernance.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-21.*

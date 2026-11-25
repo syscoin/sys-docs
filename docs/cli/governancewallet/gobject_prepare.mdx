@@ -1,0 +1,43 @@
+---
+title: gobject_prepare
+sidebar_label: gobject_prepare
+description: "Syscoin Core CLI reference: gobject_prepare"
+---
+
+# `gobject_prepare`
+
+Prepare governance object by signing and creating tx.
+
+## Synopsis
+
+```
+gobject_prepare "parentHash" revision time "dataHex" ( "outputHash" outputIndex )
+```
+
+## Arguments
+
+```
+1. parentHash     (string, required) Hash of the parent object, "0" is root.
+2. revision       (numeric, required) Object revision in the system.
+3. time           (numeric, required) Time this object was created.
+4. dataHex        (string, required) Data in hex string form.
+5. outputHash     (string, optional) The single output to submit the proposal fee from.
+6. outputIndex    (numeric, optional) The output index.
+```
+
+## Result
+
+```
+"hex"    (string) txid
+```
+
+## Examples
+
+```
+> syscoin-cli gobject_prepare 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "gobject_prepare", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/wallet/rpcgovernance.cpp](https://github.com/syscoin/syscoin/blob/master/src/wallet/rpcgovernance.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-21.*
