@@ -1,0 +1,33 @@
+---
+title: quorum_dkgstatus
+sidebar_label: quorum_dkgstatus
+description: "Syscoin Core CLI reference: quorum_dkgstatus"
+---
+
+# `quorum_dkgstatus`
+
+Return the status of the current DKG process.
+
+## Synopsis
+
+```
+quorum_dkgstatus ( detail_level )
+```
+
+## Arguments
+
+```
+1. detail_level    (numeric, optional, default=0) Detail level of output.
+                   0=Only show counts. 1=Show member indexes. 2=Show member's ProTxHashes.
+```
+
+## Examples
+
+```
+> syscoin-cli quorum_dkgstatus 0
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "quorum_dkgstatus", "params": [0]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/rpcquorums.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/rpcquorums.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*

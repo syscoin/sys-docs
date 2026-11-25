@@ -1,0 +1,34 @@
+---
+title: quorum_info
+sidebar_label: quorum_info
+description: "Syscoin Core CLI reference: quorum_info"
+---
+
+# `quorum_info`
+
+Return information about a quorum
+
+## Synopsis
+
+```
+quorum_info "quorumHash" ( includeSkShare )
+```
+
+## Arguments
+
+```
+1. quorumHash        (string, required) Block hash of quorum.
+                     
+2. includeSkShare    (boolean, optional, default=false) Include secret key share in output.
+```
+
+## Examples
+
+```
+> syscoin-cli quorum_info 1075db55d416d3ca199f55b6084e2115b9345e16c5cf302fc80e9d5fbf5d48d
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "quorum_info", "params": ["1075db55d416d3ca199f55b6084e2115b9345e16c5cf302fc80e9d5fbf5d48d"]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/rpcquorums.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/rpcquorums.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*

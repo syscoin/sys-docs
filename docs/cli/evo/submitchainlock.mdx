@@ -1,0 +1,33 @@
+---
+title: submitchainlock
+sidebar_label: submitchainlock
+description: "Syscoin Core CLI reference: submitchainlock"
+---
+
+# `submitchainlock`
+
+Submit a ChainLock signature if needed
+
+## Synopsis
+
+```
+submitchainlock "blockHash" "signature" "signers"
+```
+
+## Arguments
+
+```
+1. blockHash    (string, required) The block hash of the ChainLock.
+2. signature    (string, required) The signature of the ChainLock.
+3. signers      (string, required) The quorum signers of the ChainLock.
+```
+
+## Result
+
+```
+n    (numeric) The height of the current best ChainLock
+```
+
+---
+
+*Source: [src/rpc/rpcquorums.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/rpcquorums.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*

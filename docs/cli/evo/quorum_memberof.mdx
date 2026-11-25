@@ -1,0 +1,35 @@
+---
+title: quorum_memberof
+sidebar_label: quorum_memberof
+description: "Syscoin Core CLI reference: quorum_memberof"
+---
+
+# `quorum_memberof`
+
+Checks which quorums the given masternode is a member of.
+
+## Synopsis
+
+```
+quorum_memberof "proTxHash" ( scanQuorumsCount )
+```
+
+## Arguments
+
+```
+1. proTxHash           (string, required) ProTxHash of the masternode.
+                       
+2. scanQuorumsCount    (numeric, optional, default=-1) Number of quorums to scan for. If not specified,
+                       the active quorum count for each specific quorum type is used.
+```
+
+## Examples
+
+```
+> syscoin-cli quorum_memberof 1075db55d416d3ca199f55b6084e2115b9345e16c5cf302fc80e9d5fbf5d48d
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "quorum_memberof", "params": ["1075db55d416d3ca199f55b6084e2115b9345e16c5cf302fc80e9d5fbf5d48d"]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/rpcquorums.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/rpcquorums.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*

@@ -1,0 +1,38 @@
+---
+title: getbestchainlock
+sidebar_label: getbestchainlock
+description: "Syscoin Core CLI reference: getbestchainlock"
+---
+
+# `getbestchainlock`
+
+Returns information about the best ChainLock. Throws an error if there is no known ChainLock yet.
+
+## Synopsis
+
+```
+getbestchainlock
+```
+
+## Result
+
+```
+{                                (json object)
+  "blockhash" : "hex",           (string) The block hash hex-encoded
+  "height" : n,                  (numeric) The block height or index
+  "signature" : "hex",           (string) The ChainLock's BLS signature
+  "signers" : "hex",             (string) The ChainLock's quorum signers
+  "known_block" : true|false     (boolean) True if the block is known by our node
+}
+```
+
+## Examples
+
+```
+> syscoin-cli getbestchainlock 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "getbestchainlock", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/rpcquorums.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/rpcquorums.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*

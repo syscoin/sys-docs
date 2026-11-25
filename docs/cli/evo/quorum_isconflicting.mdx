@@ -1,0 +1,34 @@
+---
+title: quorum_isconflicting
+sidebar_label: quorum_isconflicting
+description: "Syscoin Core CLI reference: quorum_isconflicting"
+---
+
+# `quorum_isconflicting`
+
+Test if a conflict exists.
+
+## Synopsis
+
+```
+quorum_isconflicting "id" "msgHash"
+```
+
+## Arguments
+
+```
+1. id         (string, required) Request id.
+              
+2. msgHash    (string, required) Message hash.
+```
+
+## Examples
+
+```
+> syscoin-cli quorum_isconflicting 1075db55d416d3ca199f55b6084e2115b9345e16c5cf302fc80e9d5fbf5d48d 1075db55d416d3ca199f55b6084e2115b9345e16c5cf302fc80e9d5fbf5d48d
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "quorum_isconflicting", "params": ["1075db55d416d3ca199f55b6084e2115b9345e16c5cf302fc80e9d5fbf5d48d", "1075db55d416d3ca199f55b6084e2115b9345e16c5cf302fc80e9d5fbf5d48d"]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/rpcquorums.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/rpcquorums.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*

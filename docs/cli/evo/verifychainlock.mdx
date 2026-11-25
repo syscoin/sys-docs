@@ -1,0 +1,34 @@
+---
+title: verifychainlock
+sidebar_label: verifychainlock
+description: "Syscoin Core CLI reference: verifychainlock"
+---
+
+# `verifychainlock`
+
+Test if a quorum signature is valid for a ChainLock.
+
+## Synopsis
+
+```
+verifychainlock "blockHash" "signature" "signers"
+```
+
+## Arguments
+
+```
+1. blockHash    (string, required) The block hash of the ChainLock.
+2. signature    (string, required) The signature of the ChainLock.
+3. signers      (string, required) The quorum signers of the ChainLock.
+```
+
+## Examples
+
+```
+> syscoin-cli verifychainlock 0x0 0x0 0x0
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "verifychainlock", "params": ["0x0", "0x0", "0x0"]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/rpcquorums.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/rpcquorums.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*
