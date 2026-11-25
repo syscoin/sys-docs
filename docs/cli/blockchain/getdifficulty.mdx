@@ -1,0 +1,32 @@
+---
+title: getdifficulty
+sidebar_label: getdifficulty
+description: "Syscoin Core CLI reference: getdifficulty"
+---
+
+# `getdifficulty`
+
+Returns the proof-of-work difficulty as a multiple of the minimum difficulty.
+
+## Synopsis
+
+```
+getdifficulty
+```
+
+## Result
+
+```
+n    (numeric) the proof-of-work difficulty as a multiple of the minimum difficulty.
+```
+
+## Examples
+
+```
+> syscoin-cli getdifficulty 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "getdifficulty", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/blockchain.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/blockchain.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*

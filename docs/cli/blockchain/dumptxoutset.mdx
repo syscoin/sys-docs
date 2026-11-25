@@ -1,0 +1,45 @@
+---
+title: dumptxoutset
+sidebar_label: dumptxoutset
+description: "Syscoin Core CLI reference: dumptxoutset"
+---
+
+# `dumptxoutset`
+
+Write the serialized UTXO set to disk.
+
+## Synopsis
+
+```
+dumptxoutset "path"
+```
+
+## Arguments
+
+```
+1. path    (string, required) Path to the output file. If relative, will be prefixed by datadir.
+```
+
+## Result
+
+```
+{                             (json object)
+  "coins_written" : n,        (numeric) the number of coins written in the snapshot
+  "base_hash" : "hex",        (string) the hash of the base of the snapshot
+  "base_height" : n,          (numeric) the height of the base of the snapshot
+  "path" : "str",             (string) the absolute path that the snapshot was written to
+  "pathjson" : "str",         (string) the absolute path that the json snapshot was written to
+  "txoutset_hash" : "hex",    (string) the hash of the UTXO set contents
+  "nchaintx" : n              (numeric) the number of transactions in the chain up to and including the base block
+}
+```
+
+## Examples
+
+```
+> syscoin-cli dumptxoutset utxo.dat
+```
+
+---
+
+*Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*

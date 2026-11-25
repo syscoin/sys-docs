@@ -1,0 +1,35 @@
+---
+title: getrawmempool
+sidebar_label: getrawmempool
+description: "Syscoin Core CLI reference: getrawmempool"
+---
+
+# `getrawmempool`
+
+Returns all transaction ids in memory pool as a json array of string transaction ids.
+
+Hint: use getmempoolentry to fetch a specific transaction from the mempool.
+
+## Synopsis
+
+```
+getrawmempool ( verbose mempool_sequence )
+```
+
+## Arguments
+
+```
+1. verbose             (boolean, optional, default=false) True for a json object, false for array of transaction ids
+2. mempool_sequence    (boolean, optional, default=false) If verbose=false, returns a json object with transaction list and mempool sequence number attached.
+```
+
+## Examples
+
+```
+> syscoin-cli getrawmempool true
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "getrawmempool", "params": [true]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/mempool.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/mempool.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*
