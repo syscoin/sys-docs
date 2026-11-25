@@ -1,0 +1,32 @@
+---
+title: protx_info_wallet
+sidebar_label: protx_info_wallet
+description: "Syscoin Core CLI reference: protx_info_wallet"
+---
+
+# `protx_info_wallet`
+
+Returns detailed information about a deterministic masternode in current wallet.
+
+## Synopsis
+
+```
+protx_info_wallet "proTxHash"
+```
+
+## Arguments
+
+```
+1. proTxHash    (string, required) The hash of the initial ProRegTx.
+```
+
+## Examples
+
+```
+> syscoin-cli protx_info_wallet 1075db55d416d3ca199f55b6084e2115b9345e16c5cf302fc80e9d5fbf5d48d
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "protx_info_wallet", "params": ["1075db55d416d3ca199f55b6084e2115b9345e16c5cf302fc80e9d5fbf5d48d"]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/wallet/rpcevo.cpp](https://github.com/syscoin/syscoin/blob/master/src/wallet/rpcevo.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*

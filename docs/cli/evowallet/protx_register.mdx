@@ -1,0 +1,60 @@
+---
+title: protx_register
+sidebar_label: protx_register
+description: "Syscoin Core CLI reference: protx_register"
+---
+
+# `protx_register`
+
+Same as "protx_register_fund", but with an externally referenced collateral.
+The collateral is specified through "collateralHash" and "collateralIndex" and must be an unspent
+transaction output spendable by this wallet. It must also not be used by any other masternode.
+
+## Synopsis
+
+```
+protx_register "collateralHash" collateralIndex "ipAndPort" "ownerAddress" "operatorPubKey" "votingAddress" operatorReward "payoutAddress" ( "fundAddress" submit legacy )
+```
+
+## Arguments
+
+```
+1. collateralHash     (string, required) The collateral transaction hash.
+2. collateralIndex    (numeric, required) The collateral transaction output index.
+3. ipAndPort          (string, required) IP and port in the form "IP:PORT".
+                      Must be unique on the network. Can be set to 0, which will require a ProUpServTx afterwards.
+4. ownerAddress       (string, required) The Syscoin address to use for payee updates and proposal voting.
+                      The corresponding private key does not have to be known by your wallet.
+                      The address must be unused and must differ from the collateralAddress.
+5. operatorPubKey     (string, required) The operator BLS public key. The BLS private key does not have to be known.
+                      It has to match the BLS private key which is later used when operating the masternode.
+6. votingAddress      (string, required) The voting key address. The private key does not have to be known by your wallet.
+                      It has to match the private key which is later used when voting on proposals.
+                      If set to an empty string, ownerAddress will be used.
+                      
+7. operatorReward     (numeric, required) The fraction in %% to share with the operator. The value must be
+                      between 0.00 and 100.00.
+8. payoutAddress      (string, required) The Syscoin address to use for masternode reward payments.
+9. fundAddress        (string, optional, default="") If specified wallet will only use coins from this address to fund ProTx.
+                      If not specified, payoutAddress is the one that is going to be used.
+                      The private key belonging to this address must be known in your wallet.
+10. submit            (boolean, optional) If true, the resulting transaction is sent to the network.
+11. legacy            (boolean, optional) Use Legacy BLS scheme (false by default
+```
+
+## Result
+
+```
+"hex"    (string) The transaction hash in hex
+```
+
+## Examples
+
+```
+> syscoin-cli protx_register 1075db55d416d3ca199f55b6084e2115b9345e16c5cf302fc80e9d5fbf5d48d 0 173.249.49.9:18369 tsys1q2j57a4rtserh9022a63pvk3jqmg7un55stux0v 003bc97fcd6023996f8703b4da34dedd1641bd45ed12ac7a4d74a529dd533ecb99d4fb8ddb04853bb110f0d747ee8e63 tsys1qxh8am0c9w0q9kv7h7f9q2c4jrfjg63yawrgm0r 5 tsys1qxh8am0c9w0q9kv7h7f9q2c4jrfjg63yawrgm0r
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "protx_register", "params": ["1075db55d416d3ca199f55b6084e2115b9345e16c5cf302fc80e9d5fbf5d48d", 0, "173.249.49.9:18369", "tsys1q2j57a4rtserh9022a63pvk3jqmg7un55stux0v", "003bc97fcd6023996f8703b4da34dedd1641bd45ed12ac7a4d74a529dd533ecb99d4fb8ddb04853bb110f0d747ee8e63", "tsys1qxh8am0c9w0q9kv7h7f9q2c4jrfjg63yawrgm0r", 5, "tsys1qxh8am0c9w0q9kv7h7f9q2c4jrfjg63yawrgm0r"]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/wallet/rpcevo.cpp](https://github.com/syscoin/syscoin/blob/master/src/wallet/rpcevo.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*

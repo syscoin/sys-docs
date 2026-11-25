@@ -1,0 +1,48 @@
+---
+title: protx_revoke
+sidebar_label: protx_revoke
+description: "Syscoin Core CLI reference: protx_revoke"
+---
+
+# `protx_revoke`
+
+Creates and sends a ProUpRevTx to the network. This will revoke the operator key of the masternode and
+put it into the PoSe-banned state. It will also set the service field of the masternode
+to zero. Use this in case your operator key got compromised or you want to stop providing your service
+to the masternode owner.
+
+## Synopsis
+
+```
+protx_revoke "proTxHash" "operatorKey" ( reason "feeSourceAddress" legacy )
+```
+
+## Arguments
+
+```
+1. proTxHash           (string, required) The hash of the initial ProRegTx.
+2. operatorKey         (string, required) The operator BLS private key associated with the
+                       registered operator public key.
+3. reason              (numeric, optional, default=0) The reason for masternode service revocation.
+4. feeSourceAddress    (string, optional) If specified wallet will only use coins from this address to fund ProTx.
+                       If not specified, payoutAddress is the one that is going to be used.
+                       The private key belonging to this address must be known in your wallet.
+5. legacy              (boolean, optional) Use Legacy BLS scheme (false by default
+```
+
+## Result
+
+```
+"hex"    (string) The transaction hash in hex
+```
+
+## Examples
+
+```
+> syscoin-cli protx_revoke 1075db55d416d3ca199f55b6084e2115b9345e16c5cf302fc80e9d5fbf5d48d 003bc97fcd6023996f8703b4da34dedd1641bd45ed12ac7a4d74a529dd533ecb99d4fb8ddb04853bb110f0d747ee8e63 0 tsys1qxh8am0c9w0q9kv7h7f9q2c4jrfjg63yawrgm0r
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "protx_revoke", "params": ["1075db55d416d3ca199f55b6084e2115b9345e16c5cf302fc80e9d5fbf5d48d", "003bc97fcd6023996f8703b4da34dedd1641bd45ed12ac7a4d74a529dd533ecb99d4fb8ddb04853bb110f0d747ee8e63", 0, "tsys1qxh8am0c9w0q9kv7h7f9q2c4jrfjg63yawrgm0r"]}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/wallet/rpcevo.cpp](https://github.com/syscoin/syscoin/blob/master/src/wallet/rpcevo.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-19.*
