@@ -1,0 +1,35 @@
+---
+title: masternode_payments
+sidebar_label: masternode_payments
+description: "Syscoin Core CLI reference: masternode_payments"
+---
+
+# `masternode_payments`
+
+Returns an array of deterministic masternodes and their payments for the specified block
+
+## Synopsis
+
+```
+masternode_payments ( "blockhash" count )
+```
+
+## Arguments
+
+```
+1. blockhash    (string, optional) The hash of the starting block.
+2. count        (numeric, optional) The number of blocks to return.
+                Will return <count> previous blocks if <count> is negative.
+                Both 1 and -1 correspond to the chain tip.
+```
+
+## Examples
+
+```
+> syscoin-cli masternode_payments 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "masternode_payments", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/masternode.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/masternode.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-20.*

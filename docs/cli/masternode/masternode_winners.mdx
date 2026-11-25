@@ -1,0 +1,33 @@
+---
+title: masternode_winners
+sidebar_label: masternode_winners
+description: "Syscoin Core CLI reference: masternode_winners"
+---
+
+# `masternode_winners`
+
+Print list of masternode winners
+
+## Synopsis
+
+```
+masternode_winners ( count "filter" )
+```
+
+## Arguments
+
+```
+1. count     (numeric, optional) Number of last winners to return.
+2. filter    (string, optional) Filter for returned winners.
+```
+
+## Examples
+
+```
+> syscoin-cli masternode_winners 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "masternode_winners", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/masternode.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/masternode.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-20.*
