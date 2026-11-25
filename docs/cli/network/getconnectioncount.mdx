@@ -1,0 +1,32 @@
+---
+title: getconnectioncount
+sidebar_label: getconnectioncount
+description: "Syscoin Core CLI reference: getconnectioncount"
+---
+
+# `getconnectioncount`
+
+Returns the number of connections to other nodes.
+
+## Synopsis
+
+```
+getconnectioncount
+```
+
+## Result
+
+```
+n    (numeric) The connection count
+```
+
+## Examples
+
+```
+> syscoin-cli getconnectioncount 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "getconnectioncount", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/net.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/net.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-20.*

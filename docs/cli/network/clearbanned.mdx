@@ -1,0 +1,32 @@
+---
+title: clearbanned
+sidebar_label: clearbanned
+description: "Syscoin Core CLI reference: clearbanned"
+---
+
+# `clearbanned`
+
+Clear all banned IPs.
+
+## Synopsis
+
+```
+clearbanned
+```
+
+## Result
+
+```
+null    (json null)
+```
+
+## Examples
+
+```
+> syscoin-cli clearbanned 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "clearbanned", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8370/
+```
+
+---
+
+*Source: [src/rpc/net.cpp](https://github.com/syscoin/syscoin/blob/master/src/rpc/net.cpp). Auto-generated from Syscoin Core 5.0.5 on 2026-05-20.*
